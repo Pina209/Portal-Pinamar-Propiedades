@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chalet Cariló — Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#ddd0b8;
+  --ocre:#D69B2D;--ocre2:#c08a22;--white:#fff;--dark:#0e1a15;
+  --gray:#6b7280;--gray-light:#f8f6f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--gray-light);color:#1a1a1a}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;height:68px;
+  background:rgba(242,233,215,.97);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(13,91,72,.1);
+  display:flex;align-items:center;justify-content:space-between;padding:0 40px;
+}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-svg{width:40px;height:40px}
+.logo-txt .lp{display:block;font-size:16px;font-weight:800;color:var(--verde);letter-spacing:.06em}
+.logo-txt .lpp{display:block;font-size:9px;font-weight:500;color:var(--verde);letter-spacing:.2em;text-transform:uppercase;border-top:1.5px solid var(--turquesa);padding-top:2px}
+.nav-r{display:flex;align-items:center;gap:10px}
+.btn-back{text-decoration:none;font-size:13px;font-weight:600;color:var(--verde);display:flex;align-items:center;gap:6px;padding:7px 14px;border:1.5px solid var(--beige3);border-radius:7px;transition:all .2s}
+.btn-back:hover{background:var(--beige);border-color:var(--verde)}
+.btn-pub-nav{text-decoration:none;font-size:12.5px;font-weight:700;color:#fff;padding:8px 18px;background:var(--ocre);border-radius:7px;transition:all .2s}
+
+/* BREADCRUMB */
+.breadcrumb{
+  margin-top:68px;background:#fff;border-bottom:1px solid var(--beige2);
+  padding:12px 40px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gray);
+}
+.breadcrumb a{color:var(--turquesa);text-decoration:none;font-weight:500}
+.breadcrumb a:hover{text-decoration:underline}
+.bc-sep{color:var(--beige3)}
+
+/* MAIN LAYOUT */
+.main{max-width:1280px;margin:0 auto;padding:28px 40px 60px;display:grid;grid-template-columns:1fr 360px;gap:28px}
+
+/* COLUMNA IZQUIERDA */
+/* GALERÍA */
+.gallery{border-radius:18px;overflow:hidden;background:#000;margin-bottom:24px;position:relative}
+.gallery-main{height:460px;position:relative;overflow:hidden}
+.gallery-main-img{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#1a5a3a 0%,#2d8a5a 40%,#5ab08a 70%,#16A39C 100%);
+  display:flex;align-items:center;justify-content:center;font-size:80px;
+}
+.gallery-counter{
+  position:absolute;bottom:16px;right:16px;
+  background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:600;
+  padding:5px 12px;border-radius:6px;
+}
+.gallery-fotos-btn{
+  position:absolute;bottom:16px;left:16px;
+  background:rgba(255,255,255,.9);color:var(--verde);font-size:12px;font-weight:700;
+  padding:7px 14px;border-radius:7px;border:none;cursor:pointer;transition:all .2s;
+}
+.gallery-fotos-btn:hover{background:#fff}
+.gallery-thumbs{
+  display:flex;gap:4px;padding:4px;background:#1a1a1a;
+}
+.thumb{
+  flex:1;height:72px;cursor:pointer;overflow:hidden;position:relative;
+  border-radius:4px;
+}
+.thumb-bg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .3s}
+.thumb:hover .thumb-bg{transform:scale(1.1)}
+.thumb.active::after{content:'';position:absolute;inset:0;border:2.5px solid var(--turquesa);border-radius:4px}
+.thumb-more{
+  position:absolute;inset:0;background:rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:15px;font-weight:700;
+}
+
+/* HEADER PROPIEDAD */
+.prop-header{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px}
+.ph-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.ph-badges{display:flex;gap:7px;flex-wrap:wrap}
+.badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.b-v{background:var(--verde);color:#fff}
+.b-f{background:var(--ocre);color:#fff}
+.b-p{background:#6c5ce7;color:#fff}
+.b-n{background:#e53935;color:#fff}
+.ph-actions{display:flex;gap:8px}
+.btn-fav,.btn-share,.btn-rep{
+  width:38px;height:38px;border-radius:8px;border:1.5px solid var(--beige2);
+  background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:all .2s;color:var(--gray);
+}
+.btn-fav:hover{border-color:var(--ocre);color:var(--ocre)}
+.btn-share:hover{border-color:var(--turquesa);color:var(--turquesa)}
+.prop-tipo{font-size:11.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.prop-title{font-size:26px;font-weight:800;color:var(--verde);line-height:1.2;margin-bottom:10px}
+.prop-loc{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--gray);margin-bottom:20px}
+.prop-loc strong{color:var(--verde);font-weight:600}
+
+.prop-stats{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  padding:18px 0;border-top:1px solid var(--beige2);border-bottom:1px solid var(--beige2);
+  margin-bottom:18px;
+}
+.stat{text-align:center}
+.stat-val{font-size:19px;font-weight:800;color:var(--verde);display:block}
+.stat-lbl{font-size:10.5px;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+.prop-price-row{display:flex;justify-content:space-between;align-items:flex-end}
+.prop-price{font-size:32px;font-weight:800;color:var(--verde)}
+.prop-price span{font-size:14px;font-weight:400;color:var(--gray)}
+.prop-m2-box{text-align:right}
+.prop-m2{font-size:13.5px;font-weight:700;color:var(--gray)}
+.prop-m2-comp{font-size:11.5px;color:var(--gray);margin-top:3px}
+.prop-m2-comp strong{color:var(--verde)}
+
+/* DESCRIPCIÓN */
+.section-card{background:#fff;border-radius:16px;padding:28px;margin-bottom:20px}
+.sc-title{font-size:16px;font-weight:700;color:var(--verde);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.prop-desc{font-size:14px;color:#444;line-height:1.75}
+.prop-desc p{margin-bottom:12px}
+.show-more{background:none;border:none;color:var(--turquesa);font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-top:4px}
+
+/* CARACTERÍSTICAS */
+.chars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.char-item{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;background:var(--beige);border-radius:10px;
+}
+.char-ico{font-size:18px}
+.char-label{font-size:11px;color:var(--gray);display:block}
+.char-val{font-size:13px;font-weight:700;color:var(--verde)}
+
+/* SERVICIOS PROPIEDAD */
+.servs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.serv-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 10px;background:var(--beige);border-radius:10px;text-align:center;
+}
+.serv-item.ok{background:rgba(46,125,50,.08);border:1px solid rgba(46,125,50,.2)}
+.serv-item.no{background:rgba(198,40,40,.06);border:1px solid rgba(198,40,40,.15);opacity:.7}
+.serv-ico{font-size:20px}
+.serv-nm{font-size:11px;font-weight:600;color:var(--verde)}
+.serv-st{font-size:10px;color:var(--gray)}
+
+/* MAPA */
+.mapa-box{border-radius:12px;overflow:hidden;height:300px;position:relative;margin-top:16px}
+.mapa-iframe{width:100%;height:100%;border:none}
+.mapa-badge{
+  position:absolute;top:12px;left:12px;background:#fff;
+  border-radius:8px;padding:8px 12px;font-size:11.5px;font-weight:600;color:var(--verde);
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+}
+.dist-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dist-badge{
+  display:flex;align-items:center;gap:6px;
+  background:#fff;border:1.5px solid var(--beige2);
+  border-radius:8px;padding:8px 12px;font-size:12px;font-weight:500;color:#444;
+}
+.dist-badge strong{color:var(--verde)}
+
+/* ═══ FICHA TÉCNICA — EL DIFERENCIAL ═══ */
+.ficha-wrap{
+  background:linear-gradient(135deg,var(--verde2),var(--verde));
+  border-radius:16px;padding:0;margin-bottom:20px;overflow:hidden;
+}
+.ficha-header{
+  padding:22px 28px;display:flex;justify-content:space-between;align-items:center;
+}
+.fh-left h3{font-size:17px;font-weight:800;color:#fff;margin-bottom:4px}
+.fh-left p{font-size:12px;color:rgba(255,255,255,.65)}
+.fh-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.cert-badge{
+  background:var(--ocre);color:#fff;font-size:11px;font-weight:700;
+  padding:5px 12px;border-radius:6px;display:flex;align-items:center;gap:5px;
+}
+.cert-prof{font-size:11px;color:rgba(255,255,255,.7)}
+
+.ficha-body{background:#fff;margin:0 3px 3px;border-radius:13px;padding:24px}
+
+/* Estado general */
+.estado-general{
+  display:flex;align-items:center;gap:20px;
+  background:var(--beige);border-radius:12px;padding:18px 20px;margin-bottom:22px;
+}
+.estado-score{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--turquesa) 0% 78%,var(--beige2) 78% 100%);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.estado-score::before{
+  content:'';position:absolute;width:52px;height:52px;
+  border-radius:50%;background:var(--beige);
+}
+.estado-score-val{position:relative;z-index:1;font-size:16px;font-weight:800;color:var(--verde)}
+.estado-texto h4{font-size:15px;font-weight:700;color:var(--verde);margin-bottom:3px}
+.estado-texto p{font-size:12.5px;color:var(--gray);line-height:1.5}
+
+/* Tabla de items */
+.ficha-items{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.fi{
+  border-radius:10px;padding:13px 15px;
+  border:1.5px solid var(--beige2);
+}
+.fi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.fi-name{font-size:12.5px;font-weight:700;color:var(--verde)}
+.fi-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+.st-mb{background:rgba(46,125,50,.1);color:#2e7d32}
+.st-b{background:rgba(100,160,100,.1);color:#388e3c}
+.st-r{background:rgba(230,81,0,.1);color:#e65100}
+.st-m{background:rgba(198,40,40,.1);color:#c62828}
+.fi-bar{height:5px;background:#e0e0e0;border-radius:3px;overflow:hidden}
+.fi-fill{height:100%;border-radius:3px}
+.fill-mb{background:var(--verde);width:92%}
+.fill-b{background:var(--turquesa);width:75%}
+.fill-r{background:#e65100;width:45%}
+.fill-m{background:#c62828;width:25%}
+.fi-nota{font-size:11px;color:var(--gray);margin-top:5px}
+
+/* Reparaciones */
+.rep-box{
+  background:rgba(214,155,45,.08);border:1px solid rgba(214,155,45,.3);
+  border-radius:12px;padding:18px;margin-bottom:16px;
+}
+.rep-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.rep-title{font-size:13px;font-weight:700;color:var(--ocre);text-transform:uppercase;letter-spacing:.06em}
+.rep-fecha{font-size:10.5px;color:var(--gray)}
+.rep-valor{font-size:26px;font-weight:800;color:#1a1a1a;margin-bottom:4px}
+.rep-sub{font-size:11.5px;color:var(--gray)}
+.rep-detail{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(214,155,45,.2)}
+.rd-item label{font-size:10px;color:var(--gray);display:block}
+.rd-item strong{font-size:13px;font-weight:700;color:#1a1a1a}
+
+/* Catastro */
+.cat-box{
+  background:rgba(22,163,156,.07);border:1px solid rgba(22,163,156,.25);
+  border-radius:12px;padding:18px;
+}
+.cat-title{font-size:12px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.ci label{font-size:10.5px;color:var(--gray);display:block;margin-bottom:2px}
+.ci strong{font-size:13px;font-weight:700;color:var(--verde)}
+.cat-fuentes{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.cat-src{
+  font-size:11px;color:var(--turquesa);text-decoration:none;
+  padding:4px 10px;border:1px solid rgba(22,163,156,.3);border-radius:6px;
+  transition:all .2s;
+}
+.cat-src:hover{background:var(--turquesa);color:#fff}
+
+/* PERMUTA */
+.permuta-card{
+  background:linear-gradient(135deg,#6c5ce7,#a855f7);
+  border-radius:16px;padding:24px;margin-bottom:20px;
+}
+.permuta-card h3{font-size:16px;font-weight:800;color:#fff;margin-bottom:8px}
+.permuta-card p{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:18px}
+.btn-permuta{
+  display:block;width:100%;padding:13px;text-align:center;
+  background:#fff;color:#6c5ce7;border:none;border-radius:9px;
+  font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+}
+.btn-permuta:hover{background:rgba(255,255,255,.9)}
+
+/* COLUMNA DERECHA — STICKY */
+.sidebar{position:sticky;top:88px;height:fit-content;display:flex;flex-direction:column;gap:20px}
+
+/* CONTACTO */
+.contact-card{background:#fff;border-radius:18px;padding:26px;box-shadow:0 4px 24px rgba(13,91,72,.1)}
+.cc-price{font-size:28px;font-weight:800;color:var(--verde);margin-bottom:4px}
+.cc-price span{font-size:13px;font-weight:400;color:var(--gray)}
+.cc-m2{font-size:12px;color:var(--gray);margin-bottom:20px}
+.inmob-box{
+  display:flex;align-items:center;gap:12px;padding:14px;
+  background:var(--beige);border-radius:11px;margin-bottom:18px;
+}
+.inmob-logo{
+  width:46px;height:46px;border-radius:10px;
+  background:var(--verde);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:13px;font-weight:800;flex-shrink:0;
+}
+.inmob-info h4{font-size:14px;font-weight:700;color:var(--verde)}
+.inmob-info p{font-size:11.5px;color:var(--gray)}
+.inmob-info a{font-size:11.5px;color:var(--turquesa);text-decoration:none;font-weight:600}
+
+.cc-buttons{display:flex;flex-direction:column;gap:9px}
+.btn-wsp-big{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px;background:#25D366;color:#fff;
+  border:none;border-radius:10px;font-family:'Poppins',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none;
+}
+.btn-wsp-big:hover{background:#1db954}
+.btn-tel{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px;background:var(--beige);color:var(--verde);
+  border:2px solid var(--verde);border-radius:10px;font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.btn-tel:hover{background:var(--verde);color:#fff}
+.btn-msg{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px;background:var(--beige);color:var(--gray);
+  border:1.5px solid var(--beige2);border-radius:10px;font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.btn-msg:hover{border-color:var(--turquesa);color:var(--turquesa)}
+.cc-nota{font-size:11px;color:var(--gray);text-align:center;margin-top:12px;line-height:1.5}
+
+/* INDICADORES ZONA sidebar */
+.zona-card{background:#fff;border-radius:18px;padding:22px}
+.zc-title{font-size:13px;font-weight:700;color:var(--verde);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.zona-stats{display:flex;flex-direction:column;gap:10px}
+.zs-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--beige2)}
+.zs-item:last-child{border-bottom:none}
+.zs-lbl{font-size:12px;color:var(--gray)}
+.zs-val{font-size:13px;font-weight:700;color:var(--verde)}
+.zs-trend{font-size:11px;color:#2e7d32;font-weight:600}
+
+/* FORM CONSULTA */
+.consulta-form{background:#fff;border-radius:18px;padding:22px}
+.cf-title{font-size:13px;font-weight:700;color:var(--verde);margin-bottom:16px}
+.cf-field{margin-bottom:13px}
+.cf-field label{display:block;font-size:10.5px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.cf-field input,.cf-field textarea,.cf-field select{
+  width:100%;padding:10px 13px;border:1.5px solid var(--beige2);border-radius:8px;
+  font-family:'Poppins',sans-serif;font-size:13px;color:#1a1a1a;outline:none;
+  transition:border-color .2s;background:#fff;
+}
+.cf-field textarea{height:80px;resize:vertical}
+.cf-field input:focus,.cf-field textarea:focus,.cf-field select:focus{border-color:var(--turquesa)}
+.btn-enviar{
+  width:100%;padding:12px;background:var(--verde);color:#fff;border:none;
+  border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+}
+.btn-enviar:hover{background:var(--verde-light)}
+
+/* PROPIEDADES SIMILARES */
+.similares{max-width:1280px;margin:0 auto;padding:0 40px 60px}
+.similares h2{font-size:22px;font-weight:800;color:var(--verde);margin-bottom:22px}
+.sim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sim-card{
+  background:#fff;border-radius:14px;overflow:hidden;
+  box-shadow:0 3px 16px rgba(0,0,0,.07);cursor:pointer;
+  transition:all .3s;text-decoration:none;display:block;
+}
+.sim-card:hover{transform:translateY(-5px)}
+.sim-img{height:175px;background-size:cover;background-position:center;position:relative}
+.sim-body{padding:16px 18px}
+.sim-tipo{font-size:10.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.sim-title{font-size:13.5px;font-weight:700;color:var(--verde);line-height:1.3;margin-bottom:6px}
+.sim-price{font-size:17px;font-weight:800;color:var(--verde)}
+.sim-m2{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .main{grid-template-columns:1fr}
+  .sidebar{position:static}
+}
+@media(max-width:768px){
+  .main,.similares,.breadcrumb{padding-left:16px;padding-right:16px}
+  .prop-stats{grid-template-columns:repeat(3,1fr)}
+  .chars-grid{grid-template-columns:repeat(2,1fr)}
+  .ficha-items{grid-template-columns:1fr}
+  .sim-grid{grid-template-columns:1fr}
+}
+
+/* KYC Badge */
+.b-kyc{background:linear-gradient(135deg,#1a6b9a,#16A39C);color:#fff}
+.kyc-shield{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,#1a6b9a,#16A39C);
+  color:#fff;font-size:11px;font-weight:700;padding:5px 13px;
+  border-radius:6px;letter-spacing:.04em;
+}
+.kyc-shield svg{width:13px;height:13px;flex-shrink:0}
+
+/* Panel KYC en ficha */
+.kyc-panel{
+  background:linear-gradient(135deg,rgba(26,107,154,.07),rgba(22,163,156,.07));
+  border:1.5px solid rgba(22,163,156,.3);border-radius:14px;padding:22px;
+  margin-top:20px;
+}
+.kyc-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.kyc-title{font-size:14px;font-weight:700;color:#1a6b9a;margin-bottom:3px}
+.kyc-sub{font-size:12px;color:var(--gray);line-height:1.5}
+.kyc-status{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;
+  background:linear-gradient(135deg,#1a6b9a,var(--turquesa));color:#fff;
+  white-space:nowrap;
+}
+.kyc-status svg{width:14px;height:14px}
+.kyc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kyc-item{background:rgba(255,255,255,.7);border-radius:9px;padding:12px 14px;border:1px solid rgba(22,163,156,.15)}
+.kyc-item-label{font-size:10.5px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.kyc-item-val{font-size:13px;font-weight:700;color:#1a1a1a;display:flex;align-items:center;gap:6px}
+.kyc-item-val .ok{color:var(--turquesa)}
+.kyc-item-val .warn{color:var(--ocre)}
+.kyc-item-val .na{color:var(--gray)}
+.kyc-note{font-size:11.5px;color:var(--gray);line-height:1.6;margin-top:14px;padding-top:12px;border-top:1px solid rgba(22,163,156,.15)}
+.kyc-date{font-size:11px;color:var(--turquesa);font-weight:600;margin-top:4px}
+
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+      <path d="M96 66 Q106 58 108 68 Q110 76 100 74 Q96 72 96 66Z" fill="#16A39C"/>
+      <circle cx="60" cy="52" r="46" stroke="#0D5B48" stroke-width="2.5" fill="none" opacity=".15"/>
+    </svg>
+    <div class="logo-txt"><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
+  </a>
+  <div class="nav-r">
+    <a href="pinamar-propiedades-v2.html" class="btn-back">← Volver al listado</a>
+    <a href="login-registro.html" class="btn-pub-nav">+ Publicar</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="pinamar-propiedades-v2.html">Inicio</a><span class="bc-sep">›</span>
+  <a href="listado-propiedades.html?operacion=venta">Venta</a><span class="bc-sep">›</span>
+  <a href="zona-carilo.html">Cariló</a><span class="bc-sep">›</span>
+  <span>Chalet premium en el bosque con piscina climatizada</span>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- COLUMNA IZQUIERDA -->
+  <div>
+
+    <!-- GALERÍA -->
+    <div class="gallery">
+      <div class="gallery-main">
+        <div class="gallery-main-img">🌲</div>
+        <span class="gallery-counter">1 / 24 fotos</span>
+        <button class="gallery-fotos-btn">📷 Ver todas las fotos</button>
+      </div>
+      <div class="gallery-thumbs">
+        <div class="thumb active"><div class="thumb-bg" style="background:linear-gradient(135deg,#1a5a3a,#5ab08a)"></div></div>
+        <div class="thumb"><div class="thumb-bg" style="background:linear-gradient(135deg,#0a4535,#16A39C)"></div></div>
+        <div class="thumb"><div class="thumb-bg" style="background:linear-gradient(135deg,#D69B2D,#8a5a1a)"></div></div>
+        <div class="thumb"><div class="thumb-bg" style="background:linear-gradient(135deg,#3a2a6a,#6c5ce7)"></div></div>
+        <div class="thumb" onclick="this.querySelector('.thumb-more').style.display='flex'">
+          <div class="thumb-bg" style="background:linear-gradient(135deg,#1a1a1a,#444)"></div>
+          <div class="thumb-more">+20</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER PROPIEDAD -->
+    <div class="prop-header">
+      <div class="ph-top">
+        <div class="ph-badges">
+          <span class="badge b-v">Venta</span>
+          <span class="badge b-f">📋 Ficha técnica</span>
+          <span class="badge b-p">🔄 Permuta</span>
+          <span class="badge b-n">⭐ Destacada</span>
+          <span class="badge b-kyc">🛡️ KYC · Títulos verificados</span>
+        </div>
+        <div class="ph-actions">
+          <button class="btn-fav" onclick="this.textContent=this.textContent==='♡'?'♥':'♡';this.style.color=this.textContent==='♥'?'#e53935':''">♡</button>
+          <button class="btn-share">↗</button>
+          <button class="btn-rep" title="Reportar">⚑</button>
+        </div>
+      </div>
+
+      <div class="prop-tipo">Casa / Chalet · Cariló</div>
+      <h1 class="prop-title">Chalet premium integrado al bosque con piscina climatizada y quincho</h1>
+      <div class="prop-loc">
+        📍 <strong>Cariló</strong> — Barrio Bosque · A 650m del mar · Partido de Pinamar, Buenos Aires
+      </div>
+
+      <div class="prop-stats">
+        <div class="stat"><span class="stat-val">4</span><span class="stat-lbl">Dormitorios</span></div>
+        <div class="stat"><span class="stat-val">3</span><span class="stat-lbl">Baños</span></div>
+        <div class="stat"><span class="stat-val">285</span><span class="stat-lbl">m² cubiertos</span></div>
+        <div class="stat"><span class="stat-val">900</span><span class="stat-lbl">m² totales</span></div>
+        <div class="stat"><span class="stat-val">2</span><span class="stat-lbl">Cocheras</span></div>
+      </div>
+
+      <div class="prop-price-row">
+        <div>
+          <div class="prop-price">USD 620.000 <span>+ gastos escrituración</span></div>
+          <div style="font-size:12px;color:var(--gray);margin-top:4px">Publicado: 12/04/2026 · Ref: PP-2026-0847</div>
+        </div>
+        <div class="prop-m2-box">
+          <div class="prop-m2">USD 2.175 / m²</div>
+          <div class="prop-m2-comp">Precio de zona: <strong>USD 5.500/m²</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPCIÓN -->
+    <div class="section-card">
+      <div class="sc-title">📝 Descripción</div>
+      <div class="prop-desc">
+        <p>Espectacular chalet en pleno bosque de Cariló, con diseño arquitectónico premium completamente integrado al entorno natural. La propiedad combina materiales nobles —madera, piedra y vidrio— con una distribución que maximiza la luz y la conexión con los pinos centenarios.</p>
+        <p>Planta baja cuenta con living-comedor de doble altura, cocina de diseño con isla, dependencia de servicio completa y toilette. En planta alta: suite principal con vestidor y baño en suite, dos dormitorios adicionales y baño compartido.</p>
+        <p>El exterior ofrece una terraza de madera, quincho totalmente equipado con parrilla y horno de barro, piscina climatizada y jardín de bajo mantenimiento integrado al bosque.</p>
+        <p style="display:none" id="desc-more">La propiedad cuenta con todos los servicios: gas natural, agua corriente, cloacas, internet de fibra óptica, sistema de riego automático y alarma monitoreada. La calidad constructiva es excepcional y el estado de conservación es muy bueno, tal como certifica la ficha técnica profesional adjunta.</p>
+      </div>
+      <button class="show-more" onclick="toggleDesc(this)">Leer más ↓</button>
+    </div>
+
+    <!-- CARACTERÍSTICAS -->
+    <div class="section-card">
+      <div class="sc-title">🏠 Características del inmueble</div>
+      <div class="chars-grid">
+        <div class="char-item"><span class="char-ico">🛏️</span><div><span class="char-label">Dormitorios</span><span class="char-val">4 (1 en suite)</span></div></div>
+        <div class="char-item"><span class="char-ico">🚿</span><div><span class="char-label">Baños</span><span class="char-val">3 completos + toilette</span></div></div>
+        <div class="char-item"><span class="char-ico">📐</span><div><span class="char-label">Sup. cubierta</span><span class="char-val">285 m²</span></div></div>
+        <div class="char-item"><span class="char-ico">🌳</span><div><span class="char-label">Sup. total</span><span class="char-val">900 m²</span></div></div>
+        <div class="char-item"><span class="char-ico">🚗</span><div><span class="char-label">Cocheras</span><span class="char-val">2 cubiertas</span></div></div>
+        <div class="char-item"><span class="char-ico">🏊</span><div><span class="char-label">Piscina</span><span class="char-val">Climatizada 8x4m</span></div></div>
+        <div class="char-item"><span class="char-ico">🔥</span><div><span class="char-label">Calefacción</span><span class="char-val">Central + hogar</span></div></div>
+        <div class="char-item"><span class="char-ico">❄️</span><div><span class="char-label">A/C</span><span class="char-val">Split en todos</span></div></div>
+        <div class="char-item"><span class="char-ico">🏗️</span><div><span class="char-label">Antigüedad</span><span class="char-val">8 años</span></div></div>
+        <div class="char-item"><span class="char-ico">🪟</span><div><span class="char-label">Orientación</span><span class="char-val">Norte / Este</span></div></div>
+        <div class="char-item"><span class="char-ico">🌿</span><div><span class="char-label">Entorno</span><span class="char-val">Bosque de pinos</span></div></div>
+        <div class="char-item"><span class="char-ico">🔒</span><div><span class="char-label">Seguridad</span><span class="char-val">Alarma monitoreada</span></div></div>
+      </div>
+    </div>
+
+    <!-- SERVICIOS -->
+    <div class="section-card">
+      <div class="sc-title">⚡ Servicios</div>
+      <div class="servs-grid">
+        <div class="serv-item ok"><span class="serv-ico">🔥</span><span class="serv-nm">Gas natural</span><span class="serv-st">✓ Disponible</span></div>
+        <div class="serv-item ok"><span class="serv-ico">💧</span><span class="serv-nm">Agua corriente</span><span class="serv-st">✓ Disponible</span></div>
+        <div class="serv-item ok"><span class="serv-ico">🚿</span><span class="serv-nm">Cloacas</span><span class="serv-st">✓ Disponible</span></div>
+        <div class="serv-item ok"><span class="serv-ico">⚡</span><span class="serv-nm">Electricidad</span><span class="serv-st">✓ Trifásica</span></div>
+        <div class="serv-item ok"><span class="serv-ico">📡</span><span class="serv-nm">Fibra óptica</span><span class="serv-st">✓ Disponible</span></div>
+        <div class="serv-item ok"><span class="serv-ico">📺</span><span class="serv-nm">Cable TV</span><span class="serv-st">✓ Disponible</span></div>
+        <div class="serv-item no"><span class="serv-ico">🏊</span><span class="serv-nm">Gas central</span><span class="serv-st">No disponible</span></div>
+        <div class="serv-item ok"><span class="serv-ico">🌿</span><span class="serv-nm">Riego aut.</span><span class="serv-st">✓ Instalado</span></div>
+      </div>
+    </div>
+
+    <!-- UBICACIÓN -->
+    <div class="section-card">
+      <div class="sc-title">📍 Ubicación</div>
+      <div class="dist-badges">
+        <div class="dist-badge">🌊 Mar: <strong>650m</strong></div>
+        <div class="dist-badge">🛒 Comercios: <strong>400m</strong></div>
+        <div class="dist-badge">⛽ Acceso: <strong>Ruta 11 · 3km</strong></div>
+        <div class="dist-badge">🏥 Hospital Pinamar: <strong>12km</strong></div>
+      </div>
+      <div class="mapa-box">
+        <iframe class="mapa-iframe"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-57.05%2C-37.16%2C-56.95%2C-37.10&layer=mapnik&marker=-37.129%2C-57.0"
+          title="Ubicación Cariló">
+        </iframe>
+        <div class="mapa-badge">📍 Cariló — Bosque</div>
+      </div>
+      <p style="font-size:11.5px;color:var(--gray);margin-top:10px">* La ubicación exacta se revela al solicitar una visita o consulta.</p>
+    </div>
+
+    <!-- ═══ FICHA TÉCNICA CERTIFICADA ═══ -->
+    <div class="ficha-wrap" id="ficha">
+      <div class="ficha-header">
+        <div class="fh-left">
+          <h3>📋 Ficha Técnica Certificada del Inmueble</h3>
+          <p>Relevamiento profesional · Pinamar Propiedades</p>
+        </div>
+        <div class="fh-right">
+          <span class="cert-badge">✓ Certificado · Válido hasta 10/2026</span>
+          <span class="cert-prof">Arq. Marcela González · MP 12345 · Colegio PBA</span>
+        </div>
+      </div>
+      <div class="ficha-body">
+
+        <div class="estado-general">
+          <div class="estado-score"><span class="estado-score-val">78%</span></div>
+          <div class="estado-texto">
+            <h4>Estado general: Bueno</h4>
+            <p>El inmueble presenta buen estado de conservación en su estructura principal. Se identificaron observaciones menores en la instalación eléctrica y las terminaciones exteriores.</p>
+          </div>
+        </div>
+
+        <div class="ficha-items">
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🏗️ Estructura</span><span class="fi-status st-mb">Muy bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-mb"></div></div>
+            <div class="fi-nota">Sin fisuras estructurales. Cimentación sólida.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">⚡ Inst. eléctrica</span><span class="fi-status st-r">Requiere revisión</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-r"></div></div>
+            <div class="fi-nota">Tablero principal desactualizado. Recomendado actualizar a norma vigente.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🚿 Inst. sanitaria</span><span class="fi-status st-b">Bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-b"></div></div>
+            <div class="fi-nota">Cañerías en buen estado. Sin pérdidas detectadas.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🪟 Carpinterías</span><span class="fi-status st-mb">Muy bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-mb"></div></div>
+            <div class="fi-nota">DVH aluminio anodizado. Excelente aislación.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🎨 Terminaciones int.</span><span class="fi-status st-b">Bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-b"></div></div>
+            <div class="fi-nota">Pintura en buen estado. Pisos de madera sin deformaciones.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🌧️ Terminaciones ext.</span><span class="fi-status st-r">Con desgaste</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-r"></div></div>
+            <div class="fi-nota">Revoque exterior con eflorescencias. Requiere hidrofugado.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🔥 Gas / calefacción</span><span class="fi-status st-mb">Muy bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-mb"></div></div>
+            <div class="fi-nota">Caldera de alta eficiencia. Última revisión: mar 2026.</div>
+          </div>
+          <div class="fi">
+            <div class="fi-header"><span class="fi-name">🏊 Piscina</span><span class="fi-status st-b">Bueno</span></div>
+            <div class="fi-bar"><div class="fi-fill fill-b"></div></div>
+            <div class="fi-nota">Sistema de climatización operativo. Membranas en buen estado.</div>
+          </div>
+        </div>
+
+        <div class="rep-box">
+          <div class="rep-header">
+            <div>
+              <div class="rep-title">💰 Costo estimado de reparaciones</div>
+              <div style="font-size:12px;color:var(--gray);margin-top:3px">Según Índice CAC · Cámara Argentina de la Construcción</div>
+            </div>
+            <div class="rep-fecha">Actualizado: Abril 2026<br><span style="font-size:10px">Índice CAC: 1.245,3</span></div>
+          </div>
+          <div class="rep-valor">$3.780.000</div>
+          <div class="rep-sub">Estimación de materiales y mano de obra para subsanar las observaciones</div>
+          <div class="rep-detail">
+            <div class="rd-item"><label>Instalación eléctrica</label><strong>$1.850.000</strong></div>
+            <div class="rd-item"><label>Terminaciones ext.</label><strong>$1.420.000</strong></div>
+            <div class="rd-item"><label>Otros menores</label><strong>$510.000</strong></div>
+          </div>
+        </div>
+
+        <div class="cat-box">
+          <div class="cat-title">🗺️ Datos Catastrales Oficiales</div>
+          <div class="cat-grid">
+            <div class="ci"><label>Partida Municipal</label><strong>3-123-0456-0</strong></div>
+            <div class="ci"><label>Zonificación COU</label><strong>R2 — Residencial</strong></div>
+            <div class="ci"><label>Circunscripción</label><strong>I — Cariló</strong></div>
+            <div class="ci"><label>Sección</label><strong>D</strong></div>
+            <div class="ci"><label>Manzana</label><strong>045</strong></div>
+            <div class="ci"><label>Parcela</label><strong>012</strong></div>
+            <div class="ci"><label>Sup. terreno oficial</label><strong>900 m²</strong></div>
+            <div class="ci"><label>Sup. edificada</label><strong>285 m²</strong></div>
+          </div>
+          <div class="cat-fuentes">
+            <a href="https://carto.arba.gov.ar" target="_blank" class="cat-src">🗺️ CARTO ARBA</a>
+            <a href="https://www.mapaspinamar.gob.ar" target="_blank" class="cat-src">📍 Mapa COU Pinamar</a>
+            <a href="https://pinamar.gob.ar/catastro/" target="_blank" class="cat-src">🏛️ Catastro Municipal</a>
+          </div>
+        </div>
+
+        <!-- KYC PANEL -->
+        <div class="kyc-panel" id="kyc">
+          <div class="kyc-header">
+            <div>
+              <div class="kyc-title">🛡️ Verificación de Títulos (KYC)</div>
+              <div class="kyc-sub">Proceso de validación documental realizado por Pinamar Propiedades en conjunto con escribano local habilitado.</div>
+            </div>
+            <div class="kyc-status">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Verificado · Activo
+            </div>
+          </div>
+          <div class="kyc-grid">
+            <div class="kyc-item">
+              <div class="kyc-item-label">Dominio ARBA / Registro</div>
+              <div class="kyc-item-val"><span class="ok">✓</span> Sin gravámenes</div>
+            </div>
+            <div class="kyc-item">
+              <div class="kyc-item-label">Deudas municipales</div>
+              <div class="kyc-item-val"><span class="ok">✓</span> Al día · Período 2026</div>
+            </div>
+            <div class="kyc-item">
+              <div class="kyc-item-label">Inhibiciones del vendedor</div>
+              <div class="kyc-item-val"><span class="ok">✓</span> Sin inhibiciones</div>
+            </div>
+            <div class="kyc-item">
+              <div class="kyc-item-label">Superficie catastral vs escritura</div>
+              <div class="kyc-item-val"><span class="ok">✓</span> Coincidente · 900 m²</div>
+            </div>
+            <div class="kyc-item">
+              <div class="kyc-item-label">Declaración de mejoras</div>
+              <div class="kyc-item-val"><span class="warn">⚠</span> Pendiente actualización</div>
+            </div>
+            <div class="kyc-item">
+              <div class="kyc-item-label">Situación sucesoria</div>
+              <div class="kyc-item-val"><span class="ok">✓</span> Titularidad simple</div>
+            </div>
+          </div>
+          <div class="kyc-note">
+            La verificación de títulos es un proceso orientativo y no reemplaza la escrituración ante escribano público. Pinamar Propiedades valida los puntos indicados con base en la documentación aportada por el vendedor y consultas a registros públicos.
+          </div>
+          <div class="kyc-date">Verificado el 15/04/2026 · Escribano: Dr. Roberto Páez · Mat. 4821 · Col. Not. PBA</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PERMUTA -->
+    <div class="permuta-card">
+      <h3>🔄 Esta propiedad acepta permuta</h3>
+      <p>El vendedor está abierto a considerar propuestas de permuta con propiedades de similares características en Pinamar, Cariló, Valeria del Mar, Ostende o Buenos Aires (GBA / CABA). También considera permutas parciales con diferencia en efectivo.</p>
+      <button class="btn-permuta" onclick="document.getElementById('consulta-form').scrollIntoView({behavior:'smooth'})">
+        📤 Enviar mi propuesta de permuta
+      </button>
+    </div>
+
+  </div>
+
+  <!-- COLUMNA DERECHA — SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- CONTACTO -->
+    <div class="contact-card">
+      <div class="cc-price">USD 620.000 <span>+ gastos</span></div>
+      <div class="cc-m2">USD 2.175/m² · Precio zona: USD 5.500/m²</div>
+      <div class="inmob-box">
+        <div class="inmob-logo">RC</div>
+        <div class="inmob-info">
+          <h4>Rodríguez &amp; Cía Inmobiliaria</h4>
+          <p>Corredor: Lucas Rodríguez · CMCPD 4892</p>
+          <a href="listado-propiedades.html">Ver perfil de la inmobiliaria →</a>
+        </div>
+      </div>
+      <div class="cc-buttons">
+        <a href="https://wa.me/5492254000000?text=Hola!%20Vi%20la%20propiedad%20en%20Pinamar%20Propiedades" class="btn-wsp-big" id="btn-wsp-main" target="_blank" rel="noopener">
+          💬 Consultar por WhatsApp
+        </a>
+        <button class="btn-tel" onclick="this.textContent='📞 (02254) 4XX-XXX'">
+          📞 Ver teléfono
+        </button>
+        <button class="btn-msg" onclick="document.getElementById('consulta-form').scrollIntoView({behavior:'smooth'})">
+          ✉️ Enviar mensaje
+        </button>
+      </div>
+      <p class="cc-nota">Al contactar aceptás los términos del portal. Tu consulta es confidencial.</p>
+    </div>
+
+    <!-- INDICADORES DE ZONA -->
+    <div class="zona-card">
+      <div class="zc-title">📊 Mercado en Cariló</div>
+      <div class="zona-stats">
+        <div class="zs-item"><span class="zs-lbl">Precio promedio</span><div><span class="zs-val">USD 5.500/m²</span><span class="zs-trend">▲ +3,2% / mes</span></div></div>
+        <div class="zs-item"><span class="zs-lbl">Precio esta prop.</span><span class="zs-val" style="color:var(--ocre)">USD 2.175/m² 🔽</span></div>
+        <div class="zs-item"><span class="zs-lbl">Propiedades activas</span><span class="zs-val">142</span></div>
+        <div class="zs-item"><span class="zs-lbl">Días en mercado (prom.)</span><span class="zs-val">38 días</span></div>
+        <div class="zs-item"><span class="zs-lbl">Esta propiedad</span><span class="zs-val">10 días</span></div>
+      </div>
+      <a href="zona-carilo.html" style="display:block;text-align:center;margin-top:14px;font-size:12.5px;font-weight:600;color:var(--turquesa);text-decoration:none">Ver informe completo de Cariló →</a>
+    </div>
+
+    <!-- FORM CONSULTA -->
+    <div class="consulta-form" id="consulta-form">
+      <div class="cf-title">✉️ Enviá tu consulta o propuesta de permuta</div>
+      <div class="cf-field"><label>Nombre y apellido</label><input type="text" placeholder="Tu nombre completo"></div>
+      <div class="cf-field"><label>Email</label><input type="email" placeholder="tu@email.com"></div>
+      <div class="cf-field"><label>Teléfono / WhatsApp</label><input type="tel" placeholder="+54 9 ..."></div>
+      <div class="cf-field">
+        <label>Tipo de consulta</label>
+        <select>
+          <option>Quiero una visita</option>
+          <option>Consulta general</option>
+          <option>🔄 Propuesta de permuta</option>
+          <option>Información sobre financiación</option>
+        </select>
+      </div>
+      <div class="cf-field"><label>Mensaje</label><textarea placeholder="Escribí tu consulta o detallá tu propuesta de permuta..."></textarea></div>
+      <button class="btn-enviar" onclick="alert('✅ Consulta enviada. La inmobiliaria te contactará en breve.')">Enviar consulta</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- PROPIEDADES SIMILARES -->
+<div class="similares">
+  <h2>Propiedades similares en Cariló</h2>
+  <div class="sim-grid">
+    <a href="ficha-propiedad.html" class="sim-card">
+      <div class="sim-img" style="background:linear-gradient(135deg,#1a5a3a,#3d8a5a);"></div>
+      <div class="sim-body">
+        <div class="sim-tipo">Casa · Cariló Bosque</div>
+        <div class="sim-title">Chalet 3 dormitorios con jardín y deck en el bosque</div>
+        <div class="sim-price">USD 380.000</div>
+        <div class="sim-m2">USD 2.533/m² · 150m² cub.</div>
+      </div>
+    </a>
+    <a href="ficha-propiedad.html" class="sim-card">
+      <div class="sim-img" style="background:linear-gradient(135deg,#0a4535,#1a8a6a);"></div>
+      <div class="sim-body">
+        <div class="sim-tipo">Casa · Cariló Centro</div>
+        <div class="sim-title">Casa moderna 4 ambientes, a 400m del mar, con piscina</div>
+        <div class="sim-price">USD 520.000</div>
+        <div class="sim-m2">USD 2.167/m² · 240m² cub.</div>
+      </div>
+    </a>
+    <a href="ficha-propiedad.html" class="sim-card">
+      <div class="sim-img" style="background:linear-gradient(135deg,#2a3a1a,#5a8a2a);"></div>
+      <div class="sim-body">
+        <div class="sim-tipo">Casa · Cariló Bosque</div>
+        <div class="sim-title">Propiedad de madera premium, 5 dorm., quincho y golf</div>
+        <div class="sim-price">USD 1.200.000</div>
+        <div class="sim-m2">USD 3.000/m² · 400m² cub.</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<script>
+function toggleDesc(btn){
+  const m=document.getElementById('desc-more')
+  if(m.style.display==='none'||!m.style.display){
+    m.style.display='block';btn.textContent='Leer menos ↑'
+  } else {
+    m.style.display='none';btn.textContent='Leer más ↓'
+  }
+}
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.boxShadow=window.scrollY>40?'0 4px 24px rgba(0,0,0,.1)':''
+})
+</script>
+<script src="nav.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const id = new URLSearchParams(location.search).get('id');
+  if (!id || typeof Propiedades === 'undefined') return;
+
+  try {
+    const { data: prop, error } = await Propiedades.getById(id);
+    if (error || !prop) return;
+
+    // Título y zona
+    const titleEl = document.querySelector('.ph-title, h1.prop-title');
+    if (titleEl) titleEl.textContent = prop.titulo;
+
+    const zonaEl = document.querySelector('.ph-zona, .prop-zona');
+    if (zonaEl) zonaEl.textContent = prop.zona?.replace('-',' ') + (prop.barrio ? ' · ' + prop.barrio : '');
+
+    // Precio
+    const precioEl = document.querySelector('.ph-price, .prop-price');
+    if (precioEl) precioEl.textContent = 'USD ' + prop.precio_usd?.toLocaleString('es-AR');
+
+    // WhatsApp dinámico — texto diferente según operación
+    const tel = prop.publicante_tel?.replace(/\D/g,'') || prop.inmobiliaria_tel?.replace(/\D/g,'');
+    const nombreProp = encodeURIComponent(prop.titulo || 'la propiedad');
+    const codigoProp = encodeURIComponent(prop.codigo || '');
+
+    let textoWA;
+    if (prop.operacion === 'alquiler_temp') {
+      textoWA = `Hola! Consulto por la *disponibilidad* de ${nombreProp} (${codigoProp}) en Pinamar Propiedades para alquiler temporal. ¿Podría indicarme las fechas disponibles y el precio por quincena?`;
+    } else if (prop.operacion === 'alquiler') {
+      textoWA = `Hola! Me interesa consultar por ${nombreProp} (${codigoProp}) publicada en Pinamar Propiedades. ¿Podría darme información sobre condiciones de alquiler?`;
+    } else if (prop.operacion === 'permuta') {
+      textoWA = `Hola! Vi la propiedad ${nombreProp} (${codigoProp}) en Pinamar Propiedades y tengo interés en explorar una permuta. ¿Podemos hablar?`;
+    } else {
+      textoWA = `Hola! Me interesa la propiedad ${nombreProp} (${codigoProp}) publicada en Pinamar Propiedades. ¿Podría darme más información?`;
+    }
+
+    const urlWA = tel ? `https://wa.me/${tel}?text=${encodeURIComponent(textoWA)}` : '#';
+
+    // Actualizar todos los botones WA de la página
+    document.querySelectorAll('.btn-wsp, .btn-wsp-full, .btn-wsp-big, #btn-wsp-main').forEach(btn => {
+      btn.href = urlWA;
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+    });
+
+    // Actualizar texto del botón principal según operación
+    const btnMain = document.getElementById('btn-wsp-main');
+    if (btnMain) {
+      if (prop.operacion === 'alquiler_temp') {
+        btnMain.innerHTML = '💬 Consultar disponibilidad';
+      } else if (prop.operacion === 'alquiler') {
+        btnMain.innerHTML = '💬 Consultar condiciones';
+      } else if (prop.operacion === 'permuta') {
+        btnMain.innerHTML = '💬 Hablar de permuta';
+      } else {
+        btnMain.innerHTML = '💬 Consultar por WhatsApp';
+      }
+    }
+
+    // Imagen principal
+    if (prop.imagen_url) {
+      document.querySelectorAll('.prop-img, .ph-img').forEach(img => {
+        img.style.backgroundImage = `url('${prop.imagen_url}')`;
+      });
+    }
+
+    // Ficha técnica semáforo
+    if (prop.fichas_tecnicas) {
+      const ft = prop.fichas_tecnicas;
+      const semMap = { excelente:'🟢', bueno:'🟢', regular:'🟡', malo:'🔴' };
+      ['estructura','instalacion_electrica','instalacion_sanitaria',
+       'instalacion_gas','carpinterias','terminaciones_ext'].forEach(campo => {
+        const el = document.querySelector(`[data-ft="${campo}"]`);
+        if (el && ft[campo]) el.textContent = semMap[ft[campo]] + ' ' + ft[campo];
+      });
+      const cacEl = document.querySelector('[data-cac]');
+      if (cacEl && ft.costo_reparaciones_usd)
+        cacEl.textContent = 'USD ' + ft.costo_reparaciones_usd?.toLocaleString('es-AR');
+    }
+
+    // Propiedades similares
+    if (prop.zona && prop.tipo) {
+      const { data: similares } = await Propiedades.similares(id, prop.zona, prop.tipo);
+      const simGrid = document.querySelector('.similares-grid, #similares');
+      if (simGrid && similares?.length) {
+        simGrid.innerHTML = similares.map(p => UI.renderCard(p)).join('');
+      }
+    }
+
+    // Favorito
+    if (typeof Favoritos !== 'undefined') {
+      const guardado = await Favoritos.estuvoGuardado(id);
+      const btnFav = document.querySelector('.btn-save');
+      if (btnFav) {
+        btnFav.textContent = guardado ? '❤️ Guardado' : '🤍 Guardar';
+        btnFav.onclick = async (e) => {
+          e.preventDefault();
+          if (guardado) { await Favoritos.quitar(id); btnFav.textContent = '🤍 Guardar'; }
+          else          { await Favoritos.agregar(id); btnFav.textContent = '❤️ Guardado'; }
+        };
+      }
+    }
+
+    // Formulario de consulta inline
+    const consultaForm = document.getElementById('consulta-form');
+    if (consultaForm) {
+      consultaForm.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const datos = {
+          propiedad_id: id,
+          nombre:   consultaForm.querySelector('[name="nombre"]')?.value,
+          email:    consultaForm.querySelector('[name="email"]')?.value,
+          telefono: consultaForm.querySelector('[name="telefono"]')?.value,
+          mensaje:  consultaForm.querySelector('[name="mensaje"]')?.value,
+          canal:    'web'
+        };
+        const { error } = await Consultas.crear(datos);
+        if (error) { UI.toast('Error al enviar: ' + error.message, 'error'); }
+        else       { UI.toast('¡Consulta enviada! Te contactamos pronto.'); consultaForm.reset(); }
+      });
+    }
+
+  } catch(e) { console.info('Ficha: usando datos demo', e.message); }
+});
+</script>
+</body>
+</html>

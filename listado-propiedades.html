@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propiedades en Venta — Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#ddd0b8;
+  --ocre:#D69B2D;--ocre2:#c08a22;--gray:#6b7280;--gray-light:#f8f6f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--gray-light);color:#1a1a1a}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:999;height:68px;
+  background:rgba(242,233,215,.97);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(13,91,72,.1);
+  display:flex;align-items:center;justify-content:space-between;padding:0 32px;
+}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-svg{width:40px;height:40px}
+.lp{display:block;font-size:16px;font-weight:800;color:var(--verde);letter-spacing:.06em}
+.lpp{display:block;font-size:9px;font-weight:500;color:var(--verde);letter-spacing:.2em;text-transform:uppercase;border-top:1.5px solid var(--turquesa);padding-top:2px}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-sm{text-decoration:none;font-size:12.5px;font-weight:600;color:var(--verde);padding:7px 14px;border:1.5px solid var(--beige3);border-radius:7px;transition:all .2s;cursor:pointer;background:#fff;font-family:'Poppins',sans-serif}
+.btn-sm:hover{border-color:var(--verde)}
+.btn-pub{text-decoration:none;font-size:12.5px;font-weight:700;color:#fff;padding:8px 18px;background:var(--ocre);border-radius:7px;transition:all .2s}
+.btn-pub:hover{background:var(--ocre2)}
+
+/* SEARCH BAR TOP */
+.search-bar{
+  background:#fff;border-bottom:1px solid var(--beige2);
+  padding:14px 32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.sb-op{display:flex;gap:4px;background:var(--beige);border-radius:8px;padding:3px}
+.sb-op button{
+  padding:7px 14px;border:none;background:none;border-radius:6px;
+  font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;
+}
+.sb-op button.on{background:#fff;color:var(--verde);box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.sb-field{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 13px;border:1.5px solid var(--beige2);border-radius:8px;
+  background:#fff;cursor:pointer;transition:all .2s;min-width:140px;
+}
+.sb-field:hover{border-color:var(--turquesa)}
+.sb-field label{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:1px;cursor:pointer}
+.sb-field select,.sb-field input{border:none;background:transparent;font-family:'Poppins',sans-serif;font-size:13px;font-weight:500;color:#1a1a1a;outline:none;cursor:pointer;min-width:100px}
+.btn-search{
+  padding:10px 22px;background:var(--verde);color:#fff;border:none;
+  border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.btn-search:hover{background:var(--verde-light)}
+
+/* CHIPS */
+.chips-bar{
+  background:#fff;border-bottom:1px solid var(--beige2);
+  padding:10px 32px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+}
+.chip{
+  padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:500;
+  border:1.5px solid var(--beige3);color:var(--gray);cursor:pointer;
+  background:#fff;transition:all .18s;font-family:'Poppins',sans-serif;
+  display:flex;align-items:center;gap:5px;
+}
+.chip:hover,.chip.on{border-color:var(--turquesa);color:var(--turquesa);background:rgba(22,163,156,.07)}
+.chip.perm{border-color:var(--ocre);color:var(--ocre)}
+.chip.perm.on{background:rgba(214,155,45,.08)}
+.chip-x{font-size:10px;background:var(--turquesa);color:#fff;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;line-height:1}
+
+/* RESULTADOS BAR */
+.results-bar{
+  background:var(--gray-light);padding:12px 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--beige2);
+}
+.res-count{font-size:14px;font-weight:700;color:var(--verde)}
+.res-count span{font-size:13px;font-weight:400;color:var(--gray)}
+.res-right{display:flex;align-items:center;gap:10px}
+.sort-sel{
+  padding:7px 12px;border:1.5px solid var(--beige2);border-radius:7px;
+  font-family:'Poppins',sans-serif;font-size:12.5px;background:#fff;outline:none;color:var(--gray);
+}
+.view-btns{display:flex;gap:3px}
+.view-btn{
+  width:32px;height:32px;border:1.5px solid var(--beige2);border-radius:6px;
+  background:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.view-btn.on{border-color:var(--verde);color:var(--verde);background:rgba(13,91,72,.06)}
+
+/* MAIN LAYOUT */
+.main-layout{display:flex;min-height:calc(100vh - 200px)}
+
+/* FILTROS SIDEBAR */
+.filtros{
+  width:290px;flex-shrink:0;background:#fff;
+  border-right:1px solid var(--beige2);
+  overflow-y:auto;position:sticky;top:68px;
+  height:calc(100vh - 200px);
+}
+.f-header{
+  padding:18px 20px;border-bottom:1px solid var(--beige2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.f-header h3{font-size:14px;font-weight:700;color:var(--verde)}
+.f-reset{font-size:12px;font-weight:600;color:var(--turquesa);background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif}
+.f-group{border-bottom:1px solid var(--beige2)}
+.f-group-header{
+  padding:14px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+  transition:background .2s;
+}
+.f-group-header:hover{background:var(--gray-light)}
+.f-group-title{font-size:13px;font-weight:700;color:var(--verde)}
+.f-arrow{font-size:10px;color:var(--gray);transition:transform .2s}
+.f-arrow.open{transform:rotate(180deg)}
+.f-body{padding:4px 20px 16px;display:none}
+.f-body.open{display:block}
+
+/* Range slider */
+.range-wrap{padding:8px 0}
+.range-labels{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;color:var(--verde);margin-bottom:8px}
+.range-input{width:100%;accent-color:var(--turquesa);cursor:pointer}
+
+/* Checkboxes */
+.f-check{display:flex;align-items:center;gap:9px;padding:7px 0;cursor:pointer}
+.f-check input[type=checkbox]{width:16px;height:16px;accent-color:var(--turquesa);cursor:pointer;flex-shrink:0}
+.f-check-label{font-size:13px;color:#444;cursor:pointer;flex:1;display:flex;justify-content:space-between;align-items:center}
+.f-count{font-size:11px;color:var(--gray);background:var(--beige);padding:2px 7px;border-radius:10px}
+
+/* Botones de cantidad */
+.qty-btns{display:flex;gap:6px;flex-wrap:wrap}
+.qty-btn{
+  padding:6px 14px;border-radius:7px;border:1.5px solid var(--beige2);
+  font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:var(--gray);
+  cursor:pointer;background:#fff;transition:all .2s;
+}
+.qty-btn.on{border-color:var(--turquesa);color:var(--turquesa);background:rgba(22,163,156,.08)}
+
+/* Distancia al mar */
+.dist-opts{display:flex;flex-direction:column;gap:6px}
+.dist-opt{display:flex;align-items:center;gap:8px;cursor:pointer}
+.dist-opt input{width:15px;height:15px;accent-color:var(--turquesa)}
+.dist-opt label{font-size:13px;color:#444;cursor:pointer}
+
+.btn-aplicar{
+  width:100%;padding:12px;background:var(--verde);color:#fff;border:none;
+  border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:700;
+  cursor:pointer;transition:all .2s;margin-top:16px;
+}
+.btn-aplicar:hover{background:var(--verde-light)}
+
+/* GRID PROPIEDADES */
+.props-area{flex:1;padding:24px;overflow-y:auto}
+
+/* VISTA SPLIT (mapa + lista) */
+.split-view{display:none}
+.split-view.on{display:grid;grid-template-columns:1fr 1fr;height:calc(100vh - 200px)}
+.split-map{position:sticky;top:0;overflow:hidden}
+.split-map iframe{width:100%;height:100%;border:none}
+
+.props-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.props-grid.list-view{grid-template-columns:1fr}
+
+/* CARD */
+.pc{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 16px rgba(0,0,0,.07);border:1px solid rgba(0,0,0,.05);
+  transition:all .3s;cursor:pointer;
+}
+.pc:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(13,91,72,.14)}
+.pc-img{height:200px;position:relative;overflow:hidden}
+.pc-img-bg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s}
+.pc:hover .pc-img-bg{transform:scale(1.07)}
+.pc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.28) 0%,transparent 55%)}
+.pc-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}
+.badge{padding:3.5px 9px;border-radius:5px;font-size:10.5px;font-weight:700;text-transform:uppercase}
+.b-v{background:var(--verde);color:#fff}
+.b-a{background:var(--turquesa);color:#fff}
+.b-f{background:var(--ocre);color:#fff}
+.b-p{background:#6c5ce7;color:#fff}
+.b-new{background:#e53935;color:#fff}
+.pc-fav{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.88);border-radius:50%;border:none;cursor:pointer;font-size:14px;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.pc-fav:hover{background:#fff;transform:scale(1.1)}
+.pc-dist{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.6);color:#fff;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:5px}
+.pc-body{padding:16px 18px}
+.pc-tipo{font-size:10.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.pc-title{font-size:14px;font-weight:700;color:var(--verde);line-height:1.3;margin-bottom:5px}
+.pc-zona{font-size:11.5px;color:var(--gray);margin-bottom:11px;display:flex;align-items:center;gap:4px}
+.pc-feats{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--beige2);border-bottom:1px solid var(--beige2);margin-bottom:11px}
+.pf{font-size:11.5px;color:var(--gray);display:flex;align-items:center;gap:3px}
+.pf strong{color:#1a1a1a;font-weight:600}
+.pc-price{font-size:18px;font-weight:800;color:var(--verde)}
+.pc-m2{font-size:11.5px;color:var(--gray);margin-top:2px}
+.pc-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--beige2)}
+.pc-inmob{display:flex;align-items:center;gap:6px}
+.pc-inmob-ico{width:24px;height:24px;border-radius:50%;background:var(--verde);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.pc-inmob-nm{font-size:11px;color:var(--gray)}
+.pc-btns{display:flex;gap:5px}
+.btn-wsp{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;background:#25D366;color:#fff;border:none;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:3px;transition:all .2s}
+.btn-wsp:hover{background:#1db954}
+.btn-ver{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;background:var(--beige);color:var(--verde);border:1.5px solid var(--verde);cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-ver:hover{background:var(--verde);color:#fff}
+
+/* CARD LISTA (horizontal) */
+.props-grid.list-view .pc{display:flex}
+.props-grid.list-view .pc-img{width:240px;flex-shrink:0;height:auto}
+.props-grid.list-view .pc-body{flex:1}
+
+/* PAGINACIÓN */
+.pagination{display:flex;justify-content:center;gap:6px;margin-top:32px;padding-bottom:20px}
+.page-btn{
+  width:38px;height:38px;border-radius:8px;border:1.5px solid var(--beige2);
+  background:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;
+  color:var(--gray);cursor:pointer;transition:all .2s;
+}
+.page-btn:hover{border-color:var(--turquesa);color:var(--turquesa)}
+.page-btn.on{background:var(--verde);color:#fff;border-color:var(--verde)}
+
+/* SIN RESULTADOS */
+.no-results{text-align:center;padding:60px 20px;color:var(--gray)}
+.no-results-ico{font-size:60px;margin-bottom:16px}
+.no-results h3{font-size:18px;font-weight:700;color:var(--verde);margin-bottom:8px}
+
+/* VISTA MAPA full */
+.mapa-full{display:none}
+.mapa-full.on{display:block;height:calc(100vh - 200px);flex:1}
+.mapa-full iframe{width:100%;height:100%;border:none}
+
+@media(max-width:1024px){
+  .filtros{width:240px}
+  .props-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .filtros{display:none}
+  .props-grid{grid-template-columns:1fr}
+  .search-bar,.chips-bar,.results-bar{padding-left:16px;padding-right:16px}
+  .props-area{padding:16px}
+}
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+      <path d="M96 66 Q106 58 108 68 Q110 76 100 74 Q96 72 96 66Z" fill="#16A39C"/>
+    </svg>
+    <div><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
+  </a>
+  <div class="nav-r">
+    <a href="pinamar-propiedades-v2.html" class="btn-sm">← Inicio</a>
+    <a href="login-registro.html" class="btn-sm">Iniciar sesión</a>
+    <a href="login-registro.html" class="btn-pub">+ Publicar</a>
+  </div>
+</nav>
+
+<!-- SEARCH BAR -->
+<div class="search-bar">
+  <div class="sb-op">
+    <button class="on" onclick="setOp(this)">Venta</button>
+    <button onclick="setOp(this)">Alquiler</button>
+    <button onclick="setOp(this)">Temporal</button>
+    <button onclick="setOp(this)">🔄 Permuta</button>
+  </div>
+  <div class="sb-field">
+    <label>Zona</label>
+    <select onchange="updateResults()">
+      <option>Todas las zonas</option>
+      <optgroup label="🌲 Cariló"><option>Cariló Centro</option><option>Cariló Bosque</option></optgroup>
+      <optgroup label="🌊 Pinamar"><option>Pinamar Centro</option><option>Pinamar Norte</option><option>B. Las Gaviotas</option><option>B. La Herradura</option><option>B. Las Hortensias</option></optgroup>
+      <optgroup label="🌿 Valeria del Mar"><option>Valeria del Mar</option></optgroup>
+      <optgroup label="⚓ Ostende"><option>Ostende</option></optgroup>
+    </select>
+  </div>
+  <div class="sb-field">
+    <label>Tipo</label>
+    <select>
+      <option>Todos</option><option>Casa/Chalet</option><option>Departamento</option>
+      <option>Terreno</option><option>Duplex</option><option>Local</option>
+    </select>
+  </div>
+  <div class="sb-field">
+    <label>Precio USD</label>
+    <select><option>Cualquier precio</option><option>Hasta USD 80k</option><option>USD 80k–200k</option><option>USD 200k–500k</option><option>USD 500k+</option></select>
+  </div>
+  <div class="sb-field">
+    <label>Dist. al mar</label>
+    <select><option>Sin límite</option><option>Frente mar</option><option>Hasta 200m</option><option>Hasta 500m</option><option>Hasta 1km</option></select>
+  </div>
+  <button class="btn-search">
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    Buscar
+  </button>
+</div>
+
+<!-- CHIPS -->
+<div class="chips-bar">
+  <span style="font-size:11px;color:#aaa;font-weight:500">Filtros activos:</span>
+  <div class="chip on">Pinamar <span class="chip-x">✕</span></div>
+  <div class="chip on">Venta <span class="chip-x">✕</span></div>
+  <div class="chip" onclick="tc(this)">🌊 Frente al mar</div>
+  <div class="chip" onclick="tc(this)">🌲 En el bosque</div>
+  <div class="chip" onclick="tc(this)">🏊 Con piscina</div>
+  <div class="chip" onclick="tc(this)">🔒 B. cerrado</div>
+  <div class="chip perm" onclick="tc(this)">🔄 Acepta permuta</div>
+  <div class="chip" onclick="tc(this)">📋 Ficha técnica</div>
+  <div class="chip" onclick="tc(this)">🚗 Con cochera</div>
+</div>
+
+<!-- RESULTS BAR -->
+<div class="results-bar">
+  <div class="res-count">
+    <span id="res-n">1.258</span> propiedades en venta en Pinamar
+  </div>
+  <div class="res-right">
+    <select class="sort-sel">
+      <option>Ordenar: Más relevantes</option>
+      <option>Precio: menor a mayor</option>
+      <option>Precio: mayor a menor</option>
+      <option>Más recientes</option>
+      <option>Más consultas</option>
+      <option>USD/m² menor a mayor</option>
+    </select>
+    <div class="view-btns">
+      <button class="view-btn on" title="Grilla" onclick="setView('grid',this)">⊞</button>
+      <button class="view-btn" title="Lista" onclick="setView('list',this)">☰</button>
+      <button class="view-btn" title="Mapa" onclick="setView('map',this)">🗺️</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout" id="main-layout">
+
+  <!-- FILTROS -->
+  <div class="filtros" id="filtros">
+    <div class="f-header">
+      <h3>🔍 Filtros</h3>
+      <button class="f-reset" onclick="resetFiltros()">Limpiar todo</button>
+    </div>
+
+    <!-- PRECIO -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">💰 Precio (USD)</span>
+        <span class="f-arrow open">▼</span>
+      </div>
+      <div class="f-body open">
+        <div class="range-wrap">
+          <div class="range-labels">
+            <span id="pr-min">USD 0</span>
+            <span id="pr-max">USD 2.000.000</span>
+          </div>
+          <input type="range" class="range-input" min="0" max="2000000" step="10000" value="0" oninput="updatePrMin(this.value)">
+          <input type="range" class="range-input" min="0" max="2000000" step="10000" value="2000000" style="margin-top:6px" oninput="updatePrMax(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- ZONA -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">📍 Localidad / Zona</span>
+        <span class="f-arrow open">▼</span>
+      </div>
+      <div class="f-body open">
+        <label class="f-check"><input type="checkbox" id="zona-carilo" data-zona="carilo" onchange="aplicarFiltros()"> <span class="f-check-label">Cariló <span class="f-count" id="cnt-carilo">142</span></span></label>
+        <label class="f-check"><input type="checkbox" id="zona-pinamar-centro" data-zona="pinamar-centro" checked onchange="aplicarFiltros()"> <span class="f-check-label">Pinamar Centro <span class="f-count" id="cnt-pinamar-centro">583</span></span></label>
+        <label class="f-check"><input type="checkbox" id="zona-pinamar-norte" data-zona="pinamar-norte" onchange="aplicarFiltros()"> <span class="f-check-label">Pinamar Norte <span class="f-count" id="cnt-pinamar-norte">208</span></span></label>
+        <label class="f-check"><input type="checkbox" id="zona-valeria" data-zona="valeria" onchange="aplicarFiltros()"> <span class="f-check-label">Valeria del Mar <span class="f-count" id="cnt-valeria">198</span></span></label>
+        <label class="f-check"><input type="checkbox" id="zona-ostende" data-zona="ostende" onchange="aplicarFiltros()"> <span class="f-check-label">Ostende <span class="f-count" id="cnt-ostende">127</span></span></label>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--beige2)">
+          <div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Barrios destacados</div>
+          <label class="f-check"><input type="checkbox"> <span class="f-check-label">B. Las Gaviotas <span class="f-count">34</span></span></label>
+          <label class="f-check"><input type="checkbox"> <span class="f-check-label">B. La Herradura <span class="f-count">28</span></span></label>
+          <label class="f-check"><input type="checkbox"> <span class="f-check-label">B. Las Hortensias <span class="f-count">19</span></span></label>
+          <label class="f-check"><input type="checkbox"> <span class="f-check-label">B. Golf <span class="f-count">41</span></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPO -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">🏠 Tipo de propiedad</span>
+        <span class="f-arrow">▼</span>
+      </div>
+      <div class="f-body">
+        <label class="f-check"><input type="checkbox" checked> <span class="f-check-label">Casa / Chalet <span class="f-count">485</span></span></label>
+        <label class="f-check"><input type="checkbox" checked> <span class="f-check-label">Departamento <span class="f-count">312</span></span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Terreno / Lote <span class="f-count">198</span></span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Duplex <span class="f-count">87</span></span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Local Comercial <span class="f-count">44</span></span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">PH <span class="f-count">132</span></span></label>
+      </div>
+    </div>
+
+    <!-- AMBIENTES -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">🛏️ Dormitorios</span>
+        <span class="f-arrow">▼</span>
+      </div>
+      <div class="f-body">
+        <div class="qty-btns">
+          <button class="qty-btn" onclick="toggleQty(this)">1</button>
+          <button class="qty-btn" onclick="toggleQty(this)">2</button>
+          <button class="qty-btn on" onclick="toggleQty(this)">3</button>
+          <button class="qty-btn on" onclick="toggleQty(this)">4</button>
+          <button class="qty-btn" onclick="toggleQty(this)">5+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUPERFICIE -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">📐 Superficie cubierta</span>
+        <span class="f-arrow">▼</span>
+      </div>
+      <div class="f-body">
+        <div class="range-wrap">
+          <div class="range-labels"><span>50 m²</span><span id="sup-max">500+ m²</span></div>
+          <input type="range" class="range-input" min="50" max="500" step="10" value="500" oninput="document.getElementById('sup-max').textContent=this.value+'m²'">
+        </div>
+      </div>
+    </div>
+
+    <!-- DISTANCIA AL MAR -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">🌊 Distancia al mar</span>
+        <span class="f-arrow open">▼</span>
+      </div>
+      <div class="f-body open">
+        <div class="dist-opts">
+          <label class="dist-opt"><input type="radio" name="dist" value="0"> <label>Frente al mar</label></label>
+          <label class="dist-opt"><input type="radio" name="dist" value="200"> <label>Hasta 200m</label></label>
+          <label class="dist-opt"><input type="radio" name="dist" value="500"> <label>Hasta 500m</label></label>
+          <label class="dist-opt"><input type="radio" name="dist" value="1000" checked> <label>Hasta 1km</label></label>
+          <label class="dist-opt"><input type="radio" name="dist" value="any"> <label>Sin importar</label></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMENITIES -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">✨ Características</span>
+        <span class="f-arrow">▼</span>
+      </div>
+      <div class="f-body">
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Piscina 🏊</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Cochera 🚗</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Quincho / Parrilla 🔥</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Barrio cerrado 🔒</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">En el bosque 🌲</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Frente al mar 🌊</span></label>
+        <label class="f-check"><input type="checkbox" id="filtro-ficha" checked onchange="aplicarFiltros()"> <span class="f-check-label">Con ficha técnica 📋</span></label>
+        <label class="f-check"><input type="checkbox" id="filtro-kyc" onchange="aplicarFiltros()"> <span class="f-check-label">KYC · Títulos verificados 🛡️</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Acepta permuta 🔄</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Gas natural 🔥</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Fibra óptica 📡</span></label>
+      </div>
+    </div>
+
+    <!-- INMOBILIARIA -->
+    <div class="f-group">
+      <div class="f-group-header" onclick="toggleGroup(this)">
+        <span class="f-group-title">🏢 Publicado por</span>
+        <span class="f-arrow">▼</span>
+      </div>
+      <div class="f-body">
+        <label class="f-check"><input type="checkbox" checked> <span class="f-check-label">Inmobiliarias</span></label>
+        <label class="f-check"><input type="checkbox" checked> <span class="f-check-label">Propietarios</span></label>
+        <label class="f-check"><input type="checkbox"> <span class="f-check-label">Desarrolladores</span></label>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px">
+      <button class="btn-aplicar" onclick="alert('✅ Filtros aplicados. Mostrando resultados...')">Aplicar filtros</button>
+    </div>
+  </div>
+
+  <!-- PROPIEDADES -->
+  <div class="props-area" id="props-area">
+
+    <!-- AI BANNER -->
+    <div style="background:linear-gradient(135deg,var(--verde2),var(--verde));border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px">✨ Nuevo</div>
+        <div style="font-size:14px;font-weight:700;color:#fff">Buscá con lenguaje natural usando Pinamar AI</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">"Casa en Cariló para inversión, bosque, que no necesite obras"</div>
+      </div>
+      <a href="pinamar-ai.html" style="text-decoration:none;padding:10px 20px;background:var(--turquesa);color:#fff;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='#1a7a62'" onmouseout="this.style.background='var(--turquesa)'">Probar Pinamar AI →</a>
+    </div>
+    <!-- MAPA FULL (oculto por defecto) -->
+    <div class="mapa-full" id="mapa-full">
+      <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-57.05%2C-37.22%2C-56.80%2C-37.05&layer=mapnik" title="Mapa propiedades Pinamar"></iframe>
+    </div>
+
+    <!-- GRID -->
+    <div class="props-grid" id="props-grid">
+      <!-- Las propiedades se cargan dinámicamente desde Supabase -->
+    </div><!-- /props-grid -->
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination">
+      <button class="page-btn on">1</button>
+      <button class="page-btn" onclick="setPage(this)">2</button>
+      <button class="page-btn" onclick="setPage(this)">3</button>
+      <button class="page-btn" onclick="setPage(this)">4</button>
+      <button class="page-btn">…</button>
+      <button class="page-btn" onclick="setPage(this)">42</button>
+      <button class="page-btn" onclick="setPage(this)">→</button>
+    </div>
+
+  </div><!-- /props-area -->
+</div><!-- /main-layout -->
+
+<script>
+// ── Helpers UI ──────────────────────────────────────────────────────────
+function setOp(el){
+  el.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  aplicarFiltros();
+}
+function tc(el){el.classList.toggle('on')}
+function toggleGroup(header){
+  const body=header.nextElementSibling;
+  const arr=header.querySelector('.f-arrow');
+  body.classList.toggle('open');
+  arr.classList.toggle('open');
+}
+function toggleQty(el){el.classList.toggle('on');aplicarFiltros()}
+function updatePrMin(v){document.getElementById('pr-min').textContent='USD '+parseInt(v).toLocaleString('es-AR');aplicarFiltros()}
+function updatePrMax(v){document.getElementById('pr-max').textContent='USD '+parseInt(v).toLocaleString('es-AR');aplicarFiltros()}
+function setPage(el){
+  document.querySelectorAll('.page-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setView(v,el){
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const grid=document.getElementById('props-grid');
+  const mapa=document.getElementById('mapa-full');
+  if(v==='grid'){grid.style.display='grid';grid.className='props-grid';mapa.className='mapa-full'}
+  else if(v==='list'){grid.style.display='grid';grid.className='props-grid list-view';mapa.className='mapa-full'}
+  else if(v==='map'){grid.style.display='none';mapa.className='mapa-full on'}
+}
+function resetFiltros(){
+  document.querySelectorAll('.filtros input[type=checkbox]').forEach(c=>c.checked=false);
+  document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('on'));
+  aplicarFiltros();
+}
+
+// ── Motor de filtros ─────────────────────────────────────────────────────
+function aplicarFiltros(){
+  const cards = document.querySelectorAll('.pc[data-zona]');
+  
+  // Leer estado de filtros
+  const soloFicha = document.getElementById('filtro-ficha')?.checked;
+  const soloKYC   = document.getElementById('filtro-kyc')?.checked;
+  
+  // Zonas activas
+  const zonasActivas = [];
+  document.querySelectorAll('[data-zona][id^="zona-"]').forEach(cb => {
+    if(cb.checked) zonasActivas.push(cb.getAttribute('data-zona'));
+  });
+  
+  // Distancia al mar activa
+  let distMax = Infinity;
+  const distChecked = document.querySelector('input[name="dist"]:checked');
+  if(distChecked && distChecked.value !== 'any'){
+    distMax = parseInt(distChecked.value);
+  }
+  
+  // Rangos de precio (sliders)
+  const prMin = parseInt(document.querySelector('input[oninput*="updatePrMin"]')?.value || 0);
+  const prMax = parseInt(document.querySelector('input[oninput*="updatePrMax"]')?.value || 99999999);
+
+  let visible = 0;
+  cards.forEach(card => {
+    const zona   = card.dataset.zona;
+    const dist   = parseInt(card.dataset.dist || 9999);
+    const ficha  = card.dataset.ficha === '1';
+    const precio = parseInt(card.dataset.precio || 0);
+
+    let show = true;
+
+    // Filtro zona
+    if(zonasActivas.length > 0 && !zonasActivas.includes(zona)) show = false;
+
+    // Filtro ficha técnica
+    if(soloFicha && !ficha) show = false;
+
+    // Filtro KYC
+    const kyc = card.dataset.kyc === '1';
+    if(soloKYC && !kyc) show = false;
+
+    // Filtro distancia al mar
+    if(dist > distMax) show = false;
+
+    // Filtro precio
+    if(precio < prMin || precio > prMax) show = false;
+
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+
+  // Actualizar contador de resultados
+  const resEl = document.getElementById('res-n');
+  if(resEl) resEl.textContent = visible.toLocaleString('es-AR');
+  
+  // Mostrar estado vacío si no hay resultados
+  let noResults = document.getElementById('no-results-msg');
+  const grid = document.getElementById('props-grid');
+  if(visible === 0){
+    if(!noResults){
+      noResults = document.createElement('div');
+      noResults.id = 'no-results-msg';
+      noResults.className = 'no-results';
+      noResults.innerHTML = '<div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
+      grid.parentNode.insertBefore(noResults, grid);
+    }
+    noResults.style.display = 'flex';
+    grid.style.display = 'none';
+  } else {
+    if(noResults) noResults.style.display = 'none';
+    grid.style.display = 'grid';
+  }
+}
+
+// ── Leer query params al cargar ──────────────────────────────────────────
+function leerQueryParams(){
+  const p = new URLSearchParams(location.search);
+
+  // Zona
+  const zona = p.get('zona');
+  if(zona){
+    // Desmarcar todas
+    document.querySelectorAll('[id^="zona-"]').forEach(cb => cb.checked = false);
+    const target = document.getElementById('zona-'+zona);
+    if(target) target.checked = true;
+  }
+
+  // Ficha
+  if(p.get('ficha') === '1'){
+    const cb = document.getElementById('filtro-ficha');
+    if(cb) cb.checked = true;
+  }
+
+  // Permuta: activar chip visual si corresponde
+  if(p.get('operacion') === 'permuta' || p.get('permuta') === '1'){
+    // Marcar el botón de operación Permuta
+    document.querySelectorAll('.op-btn, .btn-op').forEach(btn => {
+      if(btn.textContent.includes('Permuta')) btn.classList.add('on');
+    });
+  }
+
+  // Distancia al mar
+  const dist = p.get('dist');
+  if(dist){
+    const radio = document.querySelector(`input[name="dist"][value="${dist}"]`);
+    if(radio) radio.checked = true;
+  }
+
+  // Estilo de vida chips → amenities
+  const amenity = p.get('amenity');
+  if(amenity){
+    // Activar chip correspondiente visualmente
+    document.querySelectorAll('.chip[data-filter]').forEach(chip => {
+      const [k, v] = chip.getAttribute('data-filter').split(':');
+      if(k === 'amenity' && v === amenity) chip.classList.add('on');
+    });
+  }
+
+  // Aplicar todos los filtros leídos
+  aplicarFiltros();
+  
+  // Mostrar toast informativo si vinieron params
+  if(p.toString()){
+    const zonaLabel = zona ? document.getElementById('zona-'+zona)?.closest('.f-check')?.querySelector('.f-check-label')?.textContent?.split('<')[0]?.trim() : null;
+    mostrarToast(zonaLabel ? `Filtrando por: ${zonaLabel}` : 'Filtros aplicados desde la búsqueda');
+  }
+}
+
+function mostrarToast(msg){
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--verde);color:#fff;padding:10px 22px;border-radius:24px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:opacity .4s;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent = '✓ ' + msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+// ── SUPABASE INTEGRATION ────────────────────────────────────────────────
+// Cuando supabase.js esté disponible, reemplaza el motor de filtros local
+// con datos reales de la BD. Si no está disponible (demo offline), usa
+// el motor local con data-* attributes.
+
+let _supabaseActivo = false;
+let _paginaActual   = 1;
+const _porPagina    = 12;
+
+async function cargarDesdeSupabase(filtros = {}) {
+  if (typeof Propiedades === 'undefined') return false; // supabase.js no cargado
+  _supabaseActivo = true;
+
+  const grid = document.getElementById('props-grid');
+  if (!grid) return;
+
+  // Mostrar skeletons mientras carga
+  grid.style.display = 'grid';
+  grid.innerHTML = UI.renderSkeletons(_porPagina);
+
+  const { data, count, error } = await Propiedades.listar({
+    ...filtros,
+    page: _paginaActual,
+    per_page: _porPagina
+  });
+
+  if (error) {
+    grid.innerHTML = '<div class="no-results"><div class="no-results-ico">⚠️</div><h3>Error al cargar propiedades</h3><p>' + error.message + '</p></div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    grid.innerHTML = '<div class="no-results"><div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button></div>';
+    grid.style.display = 'block';
+    return;
+  }
+
+  grid.innerHTML = data.map(p => UI.renderCard(p)).join('');
+
+  // Actualizar contador
+  const resEl = document.getElementById('res-n');
+  if (resEl) resEl.textContent = count?.toLocaleString('es-AR') ?? data.length;
+
+  // Paginación
+  actualizarPaginacion(count);
+
+  return true;
+}
+
+function actualizarPaginacion(total) {
+  const totalPags = Math.ceil(total / _porPagina);
+  const pag = document.querySelector('.paginacion, .pagination');
+  if (!pag || totalPags <= 1) return;
+
+  let html = '';
+  for (let i = 1; i <= Math.min(totalPags, 8); i++) {
+    html += `<button class="page-btn${i === _paginaActual ? ' on' : ''}" onclick="irAPagina(${i})">${i}</button>`;
+  }
+  if (totalPags > 8) html += `<span style="padding:0 8px;color:var(--gray)">...</span><button class="page-btn" onclick="irAPagina(${totalPags})">${totalPags}</button>`;
+  pag.innerHTML = html;
+}
+
+async function irAPagina(n) {
+  _paginaActual = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  await cargarDesdeSupabase(Propiedades.filtrosDesdeURL());
+}
+
+// ── Filtros → recarga desde Supabase si está activo, sino DOM local ───────
+async function aplicarFiltros() {
+  if (_supabaseActivo) {
+    _paginaActual = 1;
+    const filtros = leerFiltrosDOM();
+    await cargarDesdeSupabase(filtros);
+    return;
+  }
+
+  // Fallback: motor DOM local (cuando supabase.js no está cargado)
+  const cards = document.querySelectorAll('.pc[data-zona]');
+  const soloFicha = document.getElementById('filtro-ficha')?.checked;
+  const soloKYC   = document.getElementById('filtro-kyc')?.checked;
+  const zonasActivas = [];
+  document.querySelectorAll('[data-zona][id^="zona-"]').forEach(cb => {
+    if (cb.checked) zonasActivas.push(cb.getAttribute('data-zona'));
+  });
+  let distMax = Infinity;
+  const distChecked = document.querySelector('input[name="dist"]:checked');
+  if (distChecked && distChecked.value !== 'any') distMax = parseInt(distChecked.value);
+
+  let visible = 0;
+  cards.forEach(card => {
+    const zona  = card.dataset.zona;
+    const dist  = parseInt(card.dataset.dist || 9999);
+    const ficha = card.dataset.ficha === '1';
+    const kyc   = card.dataset.kyc === '1';
+    let show = true;
+    if (zonasActivas.length > 0 && !zonasActivas.includes(zona)) show = false;
+    if (soloFicha && !ficha) show = false;
+    if (soloKYC   && !kyc)   show = false;
+    if (dist > distMax) show = false;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  const resEl = document.getElementById('res-n');
+  if (resEl) resEl.textContent = visible.toLocaleString('es-AR');
+
+  let noResults = document.getElementById('no-results-msg');
+  const grid = document.getElementById('props-grid');
+  if (visible === 0) {
+    if (!noResults) {
+      noResults = document.createElement('div');
+      noResults.id = 'no-results-msg';
+      noResults.className = 'no-results';
+      noResults.innerHTML = '<div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
+      grid.parentNode.insertBefore(noResults, grid);
+    }
+    noResults.style.display = 'flex';
+    grid.style.display = 'none';
+  } else {
+    if (noResults) noResults.style.display = 'none';
+    grid.style.display = 'grid';
+  }
+}
+
+function leerFiltrosDOM() {
+  const filtros = {};
+  document.querySelectorAll('[id^="zona-"]').forEach(cb => {
+    if (cb.checked) filtros.zona = cb.dataset.zona;
+  });
+  if (document.getElementById('filtro-ficha')?.checked) filtros.ficha = true;
+  if (document.getElementById('filtro-kyc')?.checked)   filtros.kyc   = true;
+  const distChecked = document.querySelector('input[name="dist"]:checked');
+  if (distChecked && distChecked.value !== 'any') filtros.dist_max = parseInt(distChecked.value);
+  return filtros;
+}
+
+// ── Inicializar al cargar ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  leerQueryParams();
+
+  // Intentar cargar desde Supabase; si falla, usa el DOM estático
+  try {
+    const filtros = typeof Propiedades !== 'undefined'
+      ? Propiedades.filtrosDesdeURL()
+      : {};
+    await cargarDesdeSupabase(filtros);
+  } catch(e) {
+    console.info('Supabase no disponible, usando modo estático:', e.message);
+  }
+});
+</script>
+<script src="nav.js"></script>
+
+<script>
+// Cargar barrios dinámicamente en el sidebar de filtros
+async function cargarBarriosFiltro(zona) {
+  const container = document.getElementById('filtro-barrios-container');
+  if(!container) return;
+  if(!zona){ container.style.display='none'; return; }
+
+  let barrios = [];
+  if(typeof db !== 'undefined'){
+    try{
+      const {data} = await db.from('barrios')
+        .select('slug,nombre,total_propiedades')
+        .eq('zona', zona).eq('activo',true).order('orden');
+      if(data) barrios = data;
+    }catch(e){}
+  }
+
+  if(barrios.length === 0){ container.style.display='none'; return; }
+  container.style.display = '';
+  document.getElementById('filtro-barrios-list').innerHTML = barrios.map(b =>
+    `<label class="f-check">
+      <input type="checkbox" data-barrio="${b.slug}" onchange="aplicarFiltros()">
+      <span class="f-check-label">${b.nombre} <span class="f-count">${b.total_propiedades||0}</span></span>
+    </label>`
+  ).join('');
+}
+
+// Escuchar cambios en el filtro de zona para cargar barrios correspondientes
+document.querySelectorAll('[id^="zona-"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const zonaActiva = [...document.querySelectorAll('[id^="zona-"]:checked')];
+    if(zonaActiva.length === 1) cargarBarriosFiltro(zonaActiva[0].dataset.zona);
+    else document.getElementById('filtro-barrios-container')?.style && (document.getElementById('filtro-barrios-container').style.display='none');
+  });
+});
+
+// Leer barrio desde query param
+const barrioParam = new URLSearchParams(location.search).get('barrio');
+if(barrioParam){
+  const zonaParam = new URLSearchParams(location.search).get('zona');
+  if(zonaParam) cargarBarriosFiltro(zonaParam).then(()=>{
+    const cb = document.querySelector(`[data-barrio="${barrioParam}"]`);
+    if(cb){ cb.checked = true; aplicarFiltros(); }
+  });
+}
+</script>
+</body>
+</html>

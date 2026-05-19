@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;
+  --ocre:#D69B2D;--ocre2:#c08a22;--gray:#6b7280;
+  --red:#e53935;--green:#2e7d32;--sidebar-w:260px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:#f0f0f0;color:#1a1a1a;display:flex;min-height:100vh}
+
+.sidebar{width:var(--sidebar-w);background:#0e1a15;position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;overflow-y:auto}
+.sb-header{padding:20px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sb-logo-icon{width:36px;height:36px;border-radius:8px;background:var(--verde);display:flex;align-items:center;justify-content:center;font-size:16px}
+.sb-logo-txt{font-size:13px;font-weight:800;color:#fff;letter-spacing:.04em}
+.sb-logo-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase}
+.admin-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:5px;display:inline-block}
+
+.sb-nav{padding:16px 0;flex:1}
+.sb-section{font-size:9px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.12em;padding:12px 20px 6px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;transition:all .18s;border:none;background:none;width:100%;text-align:left;font-family:'Poppins',sans-serif}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-item.active{background:rgba(22,163,156,.2);color:#fff;border-right:3px solid var(--turquesa)}
+.sb-item .ico{font-size:15px;width:20px;text-align:center}
+.sb-count{margin-left:auto;background:var(--red);color:#fff;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:10px}
+.sb-count.ok{background:var(--green)}
+.sb-count.warn{background:var(--ocre)}
+
+.sb-user{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px}
+.sb-ava{width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-uinfo span:first-child{display:block;font-size:12px;font-weight:600;color:#fff}
+.sb-uinfo span:last-child{display:block;font-size:10.5px;color:rgba(255,255,255,.4)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.tb-title{font-size:16px;font-weight:700;color:var(--verde)}
+.tb-r{display:flex;align-items:center;gap:8px}
+.tb-btn{padding:7px 14px;border-radius:7px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.tb-sec{background:#f0f0f0;color:var(--verde)}
+.tb-sec:hover{background:#e0e0e0}
+.tb-pri{background:var(--verde);color:#fff}
+.tb-pri:hover{background:var(--verde-light)}
+.tb-red{background:var(--red);color:#fff}
+.notif-btn{width:34px;height:34px;border-radius:8px;background:#f0f0f0;border:none;cursor:pointer;font-size:15px;position:relative;display:flex;align-items:center;justify-content:center}
+.ndot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:var(--red);border-radius:50%;border:1.5px solid #fff}
+.alert-banner{background:rgba(229,57,53,.1);border-left:4px solid var(--red);padding:10px 28px;font-size:13px;color:#b71c1c;display:flex;align-items:center;gap:10px}
+
+/* CONTENT */
+.content{padding:24px 28px;flex:1}
+.panel{display:none}
+.panel.show{display:block}
+
+/* KPIs GLOBAL */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+.kpi{background:#fff;border-radius:12px;padding:18px 16px;border:1px solid #e8e8e8;transition:all .3s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.kpi-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.kpi-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ico-g{background:rgba(13,91,72,.1)}
+.ico-t{background:rgba(22,163,156,.1)}
+.ico-o{background:rgba(214,155,45,.1)}
+.ico-r{background:rgba(229,57,53,.1)}
+.ico-b{background:rgba(60,100,200,.1)}
+.kpi-trend{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px}
+.t-up{background:rgba(46,125,50,.1);color:#2e7d32}
+.t-dn{background:rgba(198,40,40,.1);color:#c62828}
+.kpi-val{font-size:24px;font-weight:800;color:var(--verde)}
+.kpi-lbl{font-size:11px;color:var(--gray);margin-top:3px}
+
+/* CARDS */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.grid-2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:20px}
+.card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;overflow:hidden;margin-bottom:16px}
+.card-h{padding:14px 18px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.card-h h3{font-size:13.5px;font-weight:700;color:var(--verde)}
+.card-b{padding:16px 18px}
+
+/* MINI CHART */
+.mini-chart{display:flex;align-items:flex-end;gap:6px;height:80px;padding:0 4px}
+.mc-bar{flex:1;border-radius:4px 4px 0 0;background:var(--turquesa);opacity:.7;transition:opacity .2s;cursor:pointer}
+.mc-bar:hover{opacity:1}
+
+/* TABLA GENÉRICA */
+.gt{width:100%;border-collapse:collapse}
+.gt th{padding:9px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;background:#f8f8f8;border-bottom:1px solid #e8e8e8}
+.gt td{padding:11px 12px;font-size:12px;border-bottom:1px solid #f5f5f5}
+.gt tr:last-child td{border-bottom:none}
+.gt tr:hover td{background:#fafafa}
+
+/* BADGES */
+.badge{padding:3px 8px;border-radius:5px;font-size:10.5px;font-weight:700;display:inline-block;text-transform:uppercase}
+.b-ok{background:rgba(46,125,50,.1);color:#2e7d32}
+.b-warn{background:rgba(230,126,34,.1);color:#e67e22}
+.b-pend{background:rgba(22,163,156,.1);color:var(--turquesa)}
+.b-red{background:rgba(229,57,53,.1);color:var(--red)}
+.b-gray{background:#f0f0f0;color:var(--gray)}
+
+/* ACCIÓN BUTTONS */
+.act-row{display:flex;gap:5px}
+.act{padding:4px 9px;border-radius:5px;border:none;cursor:pointer;font-size:11px;font-weight:600;transition:all .2s;font-family:'Poppins',sans-serif}
+.act-ok{background:#e8f5e9;color:#2e7d32}
+.act-ok:hover{background:#2e7d32;color:#fff}
+.act-warn{background:#fff3e0;color:#e67e22}
+.act-del{background:#fde8e8;color:var(--red)}
+.act-del:hover{background:var(--red);color:#fff}
+.act-view{background:#e8f0ee;color:var(--verde)}
+.act-view:hover{background:var(--verde);color:#fff}
+
+/* PROGRESS */
+.progress-bar{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--turquesa),var(--verde))}
+
+/* ALERTAS */
+.alert-item{display:flex;align-items:flex-start;gap:12px;padding:13px;background:#fafafa;border-radius:10px;border:1px solid #e8e8e8;margin-bottom:10px}
+.alert-item.high{border-color:rgba(229,57,53,.3);background:rgba(229,57,53,.04)}
+.alert-item.med{border-color:rgba(230,126,34,.3);background:rgba(230,126,34,.04)}
+.alert-ico{font-size:20px;flex-shrink:0}
+.alert-txt h4{font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.alert-txt p{font-size:12px;color:var(--gray);line-height:1.5}
+.alert-time{font-size:10.5px;color:var(--gray);white-space:nowrap;flex-shrink:0;margin-top:2px}
+
+/* AJUSTES DE MERCADO */
+.mercado-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.mcard{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:18px}
+.mcard-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mcard-title{font-size:13px;font-weight:700;color:var(--verde)}
+.mcard-edit{padding:5px 12px;background:var(--beige);color:var(--verde);border:none;border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+.mcard-edit:hover{background:var(--verde);color:#fff}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:12.5px}
+.mrow:last-child{border-bottom:none}
+.mrow label{color:var(--gray)}
+.mrow input{border:1.5px solid #e0e0e0;border-radius:6px;padding:5px 10px;font-family:'Poppins',sans-serif;font-size:12.5px;width:130px;outline:none;text-align:right}
+.mrow input:focus{border-color:var(--turquesa)}
+.btn-guardar-mercado{width:100%;padding:11px;margin-top:14px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-guardar-mercado:hover{background:var(--verde-light)}
+
+/* STATS RING */
+.stat-ring{display:flex;align-items:center;gap:16px}
+.ring-wrap{position:relative;width:70px;height:70px;flex-shrink:0}
+.ring-wrap svg{width:70px;height:70px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#e0e0e0;stroke-width:6}
+.ring-fill{fill:none;stroke:var(--turquesa);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .6s}
+.ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:800;color:var(--verde);text-align:center;line-height:1}
+.ring-info h4{font-size:13.5px;font-weight:700;color:var(--verde)}
+.ring-info p{font-size:12px;color:var(--gray);margin-top:3px}
+
+/* USUARIOS */
+.user-card{display:flex;align-items:center;gap:12px;padding:11px;background:#fafafa;border-radius:10px;margin-bottom:8px;border:1px solid #e8e8e8}
+.user-ava{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.u-prop{background:var(--verde);color:#fff}
+.u-inm{background:var(--turquesa);color:#fff}
+.u-dev{background:#6c5ce7;color:#fff}
+.u-admin{background:var(--red);color:#fff}
+.user-info{flex:1}
+.user-info h4{font-size:12.5px;font-weight:700;color:#1a1a1a}
+.user-info p{font-size:11px;color:var(--gray)}
+.user-actions{display:flex;gap:5px}
+
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1024px){.grid-3{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.content{padding:14px}}
+
+/* ── Tabs de formulario barrio ── */
+.ftab{padding:8px 16px;border-radius:7px 7px 0 0;font-size:12px;font-weight:600;
+  border:none;background:none;color:var(--gray);cursor:pointer;font-family:'Poppins',sans-serif;
+  border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .2s}
+.ftab.on{color:var(--verde);border-bottom-color:var(--verde);background:rgba(13,91,72,.06)}
+.ftab-content{display:none}.ftab-content.on{display:block}
+.fl{font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px}
+.fi{width:100%;padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;
+  font-family:'Poppins',sans-serif;font-size:13px;outline:none;transition:border-color .2s;background:#fff}
+.fi:focus{border-color:var(--turquesa)}
+.svc-check{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--beige);
+  border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all .2s}
+.svc-check:hover{background:var(--beige2)}
+.svc-check input{accent-color:var(--verde);width:16px;height:16px;cursor:pointer}
+/* ── Tab zona filtro ── */
+.tab-zona{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1.5px solid var(--beige3);background:#fff;color:var(--gray);cursor:pointer;
+  font-family:'Poppins',sans-serif;transition:all .2s}
+.tab-zona.on{background:var(--verde);color:#fff;border-color:var(--verde)}
+/* ── Card de barrio en el grid ── */
+.barrio-admin-card{background:var(--beige);border:1.5px solid var(--beige2);border-radius:12px;
+  padding:16px;transition:all .2s}
+.barrio-admin-card:hover{border-color:var(--turquesa);box-shadow:0 4px 16px rgba(13,91,72,.1)}
+.bac-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+.bac-nombre{font-size:14px;font-weight:700;color:var(--verde)}
+.bac-zona{font-size:11px;color:var(--gray);margin-top:2px}
+.bac-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.bac-tag{font-size:10px;padding:2px 8px;border-radius:4px;background:#fff;border:1px solid var(--beige3);color:var(--gray)}
+.bac-tag.ok{background:rgba(22,163,156,.1);color:var(--turquesa);border-color:rgba(22,163,156,.2)}
+.bac-precio{font-size:13px;font-weight:700;color:var(--ocre);margin-bottom:10px}
+.bac-actions{display:flex;gap:6px}
+/* ── Card indicador zona ── */
+.ind-card{background:#fff;border:1.5px solid var(--beige2);border-radius:12px;padding:18px}
+.ind-zona{font-size:13px;font-weight:700;color:var(--verde);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px}
+.ind-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ind-field label{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;
+  letter-spacing:.06em;display:block;margin-bottom:4px}
+.ind-field input,.ind-field select{width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;
+  border-radius:7px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;
+  outline:none;background:#fff;transition:border-color .2s}
+.ind-field input:focus,.ind-field select:focus{border-color:var(--turquesa)}
+.sent-preview{display:flex;gap:4px;margin-top:8px;height:6px;border-radius:3px;overflow:hidden}
+
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">🌊</div>
+      <div><div class="sb-logo-txt">PINAMAR PROP.</div><div class="sb-logo-sub">Administración</div></div>
+    </div>
+    <span class="admin-badge">⚙️ PANEL ADMIN</span>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section">Dashboard</div>
+    <button class="sb-item active" onclick="show('dashboard',this)"><span class="ico">📊</span>Overview global</button>
+    <button class="sb-item" onclick="show('alertas',this)"><span class="ico">🚨</span>Alertas<span class="sb-count">4</span></button>
+
+    <div class="sb-section">Contenido</div>
+    <button class="sb-item" onclick="show('propiedades',this)"><span class="ico">🏠</span>Propiedades<span class="sb-count warn">12</span></button>
+    <button class="sb-item" onclick="show('usuarios',this)"><span class="ico">👥</span>Usuarios<span class="sb-count ok">3</span></button>
+    <button class="sb-item" onclick="show('inmobiliarias',this)"><span class="ico">🏢</span>Inmobiliarias</button>
+    <button class="sb-item" onclick="show('noticias',this)"><span class="ico">📰</span>Noticias / Blog</button>
+    <button class="sb-item" onclick="show('zonas',this)"><span class="ico">📍</span>Zonas y barrios</button>
+
+    <div class="sb-section">Datos del mercado</div>
+    <button class="sb-item" onclick="show('mercado',this)"><span class="ico">📈</span>Precios por zona</button>
+    <button class="sb-item" onclick="show('cac',this)"><span class="ico">🏗️</span>Índice CAC</button>
+    <button class="sb-item" onclick="show('indicadores',this)"><span class="ico">📉</span>Indicadores</button>
+
+    <div class="sb-section">Operaciones</div>
+    <button class="sb-item" onclick="show('consultas',this)"><span class="ico">💬</span>Todas las consultas<span class="sb-count">28</span></button>
+    <button class="sb-item" onclick="show('permutas',this)"><span class="ico">🔄</span>Permutas</button>
+    <button class="sb-item" onclick="show('garantias',this)"><span class="ico">🔒</span>Garantías alquiler</button>
+    <button class="sb-item" onclick="show('fichas',this)"><span class="ico">📋</span>Fichas técnicas</button>
+
+    <div class="sb-section">Sistema</div>
+    <button class="sb-item" onclick="show('config',this)"><span class="ico">⚙️</span>Configuración</button>
+    <button class="sb-item" onclick="show('api',this)"><span class="ico">🔗</span>API & Integraciones</button>
+    <a href="pinamar-propiedades-v2.html" class="sb-item" style="color:rgba(255,255,255,.6)"><span class="ico">🌐</span>Ver portal →</a>
+  </nav>
+
+  <div class="sb-user">
+    <div class="sb-ava">AD</div>
+    <div class="sb-uinfo"><span>Admin Principal</span><span>admin@pinamarpropiedades.ar</span></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tb-title" id="tb-title">Dashboard Global</div>
+    <div class="tb-r">
+      <button class="tb-btn tb-sec">📤 Exportar reporte</button>
+      <button class="tb-btn tb-pri" onclick="show('propiedades',null)">🏠 Revisar pendientes</button>
+      <button class="notif-btn">🔔<div class="ndot"></div></button>
+    </div>
+  </div>
+
+  <!-- ALERTA BANNER -->
+  <div class="alert-banner">
+    ⚠️ <strong>4 propiedades</strong> esperan aprobación · <strong>3 nuevas inmobiliarias</strong> pendientes de verificación de matrícula ·
+    <a href="#" onclick="show('propiedades',null)" style="color:var(--red);font-weight:700;margin-left:8px;text-decoration:none">Revisar ahora →</a>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="panel show" id="panel-dashboard">
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-g">🏠</div><span class="kpi-trend t-up">+8 hoy</span></div><div class="kpi-val">1.258</div><div class="kpi-lbl">Propiedades activas</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-t">🏢</div><span class="kpi-trend t-up">+3</span></div><div class="kpi-val">94</div><div class="kpi-lbl">Inmobiliarias registradas</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-o">👤</div><span class="kpi-trend t-up">+12</span></div><div class="kpi-val">3.847</div><div class="kpi-lbl">Usuarios totales</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-b">👁️</div><span class="kpi-trend t-up">+24%</span></div><div class="kpi-val">48.230</div><div class="kpi-lbl">Visitas este mes</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-r">💬</div><span class="kpi-trend t-up">+18%</span></div><div class="kpi-val">2.147</div><div class="kpi-lbl">Consultas este mes</div></div>
+      </div>
+
+      <div class="grid-3">
+        <!-- VISITAS CHART -->
+        <div class="card" style="grid-column:1/3">
+          <div class="card-h"><h3>📈 Visitas al portal — últimos 14 días</h3><select style="font-size:12px;border:1px solid #e0e0e0;border-radius:6px;padding:4px 8px;font-family:'Poppins',sans-serif;color:var(--gray);outline:none"><option>14 días</option><option>30 días</option><option>3 meses</option></select></div>
+          <div class="card-b">
+            <div class="mini-chart" style="height:120px;gap:8px">
+              <div class="mc-bar" style="height:45%"></div>
+              <div class="mc-bar" style="height:60%"></div>
+              <div class="mc-bar" style="height:52%"></div>
+              <div class="mc-bar" style="height:78%"></div>
+              <div class="mc-bar" style="height:65%"></div>
+              <div class="mc-bar" style="height:88%"></div>
+              <div class="mc-bar" style="height:72%"></div>
+              <div class="mc-bar" style="height:95%"></div>
+              <div class="mc-bar" style="height:80%"></div>
+              <div class="mc-bar" style="height:100%;background:var(--verde)"></div>
+              <div class="mc-bar" style="height:88%"></div>
+              <div class="mc-bar" style="height:92%"></div>
+              <div class="mc-bar" style="height:85%"></div>
+              <div class="mc-bar" style="height:78%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--gray);margin-top:8px;padding:0 4px">
+              <span>15 abr</span><span>17</span><span>19</span><span>21</span><span>23</span><span>25</span><span>27</span><span>28 abr</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DISTRIBUCIÓN ZONAS -->
+        <div class="card">
+          <div class="card-h"><h3>📍 Prop. por zona</h3></div>
+          <div class="card-b">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Pinamar Centro</span><span>583 (46%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:46%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Pinamar Norte</span><span>208 (17%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Valeria del Mar</span><span>198 (16%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:16%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Cariló</span><span>142 (11%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:11%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Ostende</span><span>127 (10%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- PENDIENTES -->
+        <div class="card">
+          <div class="card-h"><h3>⏳ Propiedades pendientes de aprobación</h3><span style="font-size:12px;font-weight:700;color:var(--red)">12 pendientes</span></div>
+          <div class="card-b" style="padding:0">
+            <table class="gt">
+              <thead><tr><th>Propiedad</th><th>Inmobiliaria</th><th>Zona</th><th>Precio</th><th>Enviada</th><th>Acciones</th></tr></thead>
+              <tbody>
+                <tr><td><strong style="color:var(--verde)">Casa Cariló 4 dorm.</strong><br><small style="color:var(--gray)">Con ficha técnica</small></td><td>Rodríguez & Cía</td><td>Cariló</td><td>USD 620.000</td><td>hace 2h</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-warn">✏️ Editar</button><button class="act act-del">✕ Rechazar</button></div></td></tr>
+                <tr><td><strong style="color:var(--verde)">Depto 2 amb. Pinamar</strong><br><small style="color:var(--gray)">Sin ficha</small></td><td>Pinamar Brokers</td><td>Pinamar</td><td>USD 98.000</td><td>hace 5h</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
+                <tr><td><strong style="color:var(--verde)">Lote Valeria 600m²</strong><br><small style="color:var(--gray)">Propietario directo</small></td><td>Propietario</td><td>Valeria</td><td>USD 45.000</td><td>ayer</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
+                <tr><td><strong style="color:var(--verde)">Casa Ostende frente mar</strong></td><td>Costa Atlántica</td><td>Ostende</td><td>USD 520.000</td><td>ayer</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- INMOBILIARIAS NUEVAS -->
+        <div class="card">
+          <div class="card-h"><h3>🏢 Inmobiliarias a verificar</h3><span style="font-size:12px;font-weight:700;color:var(--ocre)">3 pendientes</span></div>
+          <div class="card-b">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="background:#fafafa;border-radius:10px;padding:13px;border:1px solid #e8e8e8">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                  <div><div style="font-size:13px;font-weight:700;color:#1a1a1a">Mar &amp; Arena Inmobiliaria</div><div style="font-size:11.5px;color:var(--gray)">Matrícula CMCPD: 7.234 · Lucas Bianchi</div></div>
+                  <span class="badge b-warn">Verificar</span>
+                </div>
+                <div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Matrícula válida — Aprobar</button><button class="act act-del">✕ Rechazar</button></div>
+              </div>
+              <div style="background:#fafafa;border-radius:10px;padding:13px;border:1px solid #e8e8e8">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+                  <div><div style="font-size:13px;font-weight:700;color:#1a1a1a">Duna Sur Propiedades</div><div style="font-size:11.5px;color:var(--gray)">Matrícula CMCPD: 4.891 · Carolina Pérez</div></div>
+                  <span class="badge b-warn">Verificar</span>
+                </div>
+                <div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕ Rechazar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS ANILLO -->
+      <div class="grid-3">
+        <div class="card"><div class="card-h"><h3>👥 Distribución de usuarios</h3></div><div class="card-b">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="stat-ring"><div class="ring-wrap"><svg viewBox="0 0 70 70"><circle class="ring-bg" cx="35" cy="35" r="28"/><circle class="ring-fill" cx="35" cy="35" r="28" stroke-dasharray="175.9" stroke-dashoffset="44"/></svg><div class="ring-label">75%</div></div><div class="ring-info"><h4>Propietarios</h4><p>2.885 usuarios</p></div></div>
+            <div class="stat-ring"><div class="ring-wrap"><svg viewBox="0 0 70 70"><circle class="ring-bg" cx="35" cy="35" r="28"/><circle class="ring-fill" cx="35" cy="35" r="28" stroke-dasharray="175.9" stroke-dashoffset="132" stroke="var(--ocre)"/></svg><div class="ring-label" style="color:var(--ocre)">25%</div></div><div class="ring-info"><h4>Inmobiliarias</h4><p>962 usuarios</p></div></div>
+          </div>
+        </div></div>
+        <div class="card"><div class="card-h"><h3>🔄 Permutas activas</h3></div><div class="card-b">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Ofertas enviadas</span><strong style="color:var(--verde)">47</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">En negociación</span><strong style="color:var(--ocre)">12</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Concretadas</span><strong style="color:#2e7d32">3</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Rechazadas</span><strong style="color:var(--red)">18</strong></div>
+          </div>
+        </div></div>
+        <div class="card"><div class="card-h"><h3>📋 Fichas técnicas</h3></div><div class="card-b">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(46,125,50,.08);border-radius:8px;border:1px solid rgba(46,125,50,.2)"><span style="font-size:12.5px;font-weight:600">Certificadas</span><strong style="color:#2e7d32">284</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(230,126,34,.08);border-radius:8px;border:1px solid rgba(230,126,34,.2)"><span style="font-size:12.5px;font-weight:600">En proceso</span><strong style="color:#e67e22">18</strong></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(22,163,156,.07);border-radius:8px;border:1px solid rgba(22,163,156,.2)"><span style="font-size:12.5px;font-weight:600">Solicitadas</span><strong style="color:var(--turquesa)">7</strong></div>
+            <div style="font-size:12px;color:var(--gray);text-align:center;margin-top:4px">Próximo profesional disponible: Arq. González · 30/04</div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ MERCADO ═══ -->
+    <div class="panel" id="panel-mercado">
+      <p style="font-size:13.5px;color:var(--gray);margin-bottom:20px;line-height:1.7">Actualizá los precios de referencia que se muestran en el portal, la tabla de mercado y los indicadores del home. Los cambios se publican de forma inmediata.</p>
+      <div class="mercado-grid">
+        <div class="mcard">
+          <div class="mcard-header"><span class="mcard-title">🌲 Cariló — Precio promedio USD/m²</span></div>
+          <div class="mrow"><label>Bosque frente al mar</label><input type="text" value="USD 9.000"></div>
+          <div class="mrow"><label>Centro Cariló</label><input type="text" value="USD 5.200"></div>
+          <div class="mrow"><label>Golf (country)</label><input type="text" value="USD 4.800"></div>
+          <div class="mrow"><label>Bosque interior</label><input type="text" value="USD 4.200"></div>
+          <div class="mrow"><label>Ruta 11 / ingreso</label><input type="text" value="USD 3.100"></div>
+          <button class="btn-guardar-mercado" onclick="alert('✅ Precios de Cariló actualizados en el portal.')">Guardar cambios</button>
+        </div>
+        <div class="mcard">
+          <div class="mcard-header"><span class="mcard-title">🌊 Pinamar — Precio promedio USD/m²</span></div>
+          <div class="mrow"><label>Pinamar Centro</label><input type="text" value="USD 2.200"></div>
+          <div class="mrow"><label>Pinamar Norte</label><input type="text" value="USD 3.200"></div>
+          <div class="mrow"><label>B. Las Gaviotas</label><input type="text" value="USD 2.800"></div>
+          <div class="mrow"><label>B. La Herradura</label><input type="text" value="USD 3.500"></div>
+          <div class="mrow"><label>B. Las Hortensias</label><input type="text" value="USD 2.600"></div>
+          <button class="btn-guardar-mercado" onclick="alert('✅ Precios de Pinamar actualizados.')">Guardar cambios</button>
+        </div>
+        <div class="mcard">
+          <div class="mcard-header"><span class="mcard-title">🌿 Valeria del Mar / ⚓ Ostende</span></div>
+          <div class="mrow"><label>Valeria del Mar</label><input type="text" value="USD 1.900"></div>
+          <div class="mrow"><label>Valeria — Frente al mar</label><input type="text" value="USD 2.800"></div>
+          <div class="mrow"><label>Ostende Centro</label><input type="text" value="USD 1.500"></div>
+          <div class="mrow"><label>Ostende — Frente al mar</label><input type="text" value="USD 2.200"></div>
+          <button class="btn-guardar-mercado" onclick="alert('✅ Precios actualizados.')">Guardar cambios</button>
+        </div>
+        <div class="mcard">
+          <div class="mcard-header"><span class="mcard-title">🏗️ Índice CAC y otros indicadores</span></div>
+          <div class="mrow"><label>Índice CAC actual</label><input type="text" value="1.245,3"></div>
+          <div class="mrow"><label>Costo const. estándar $/m²</label><input type="text" value="$1.245.000"></div>
+          <div class="mrow"><label>Costo const. alta gama $/m²</label><input type="text" value="$2.100.000"></div>
+          <div class="mrow"><label>Escrituraciones trim. 2026</label><input type="text" value="347"></div>
+          <div class="mrow"><label>Mes de actualización</label><input type="text" value="Abril 2026"></div>
+          <button class="btn-guardar-mercado" onclick="alert('✅ Indicadores actualizados en el portal.')">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ALERTAS ═══ -->
+    <div class="panel" id="panel-alertas">
+      <div class="alert-item high"><div class="alert-ico">🚨</div><div class="alert-txt"><h4>Propiedad con contenido inadecuado detectado</h4><p>La publicación PP-2026-0901 fue marcada por 2 usuarios por contenido engañoso. Requiere revisión inmediata.</p></div><div class="alert-time">hace 1h</div></div>
+      <div class="alert-item high"><div class="alert-ico">⚠️</div><div class="alert-txt"><h4>Inmobiliaria con matrícula vencida</h4><p>"Playas Inmobiliaria" (CMCPD 3.102) tiene la matrícula vencida desde el 15/03/2026. Sus 8 publicaciones están activas.</p></div><div class="alert-time">hace 3h</div></div>
+      <div class="alert-item med"><div class="alert-ico">📋</div><div class="alert-txt"><h4>7 fichas técnicas vencen este mes</h4><p>Las fichas técnicas tienen validez de 6 meses. 7 propiedades activas tienen fichas que vencen en abril 2026.</p></div><div class="alert-time">hoy</div></div>
+      <div class="alert-item med"><div class="alert-ico">💬</div><div class="alert-txt"><h4>Pico de consultas sin responder</h4><p>La inmobiliaria "Mar Austral" tiene 28 consultas sin responder en los últimos 7 días. Impacta en la calidad del portal.</p></div><div class="alert-time">ayer</div></div>
+    </div>
+
+    <!-- ═══ USUARIOS ═══ -->
+    <div class="panel" id="panel-usuarios">
+      <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+        <input type="text" placeholder="🔍 Buscar usuario..." style="flex:1;min-width:200px;padding:9px 13px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;outline:none">
+        <select style="padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;outline:none"><option>Todos los tipos</option><option>Propietarios</option><option>Inmobiliarias</option><option>Desarrolladores</option></select>
+        <select style="padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;outline:none"><option>Todos los estados</option><option>Activos</option><option>Suspendidos</option><option>Pendientes</option></select>
+      </div>
+      <div class="card">
+        <div class="card-b" style="padding:0">
+          <table class="gt">
+            <thead><tr><th>Usuario</th><th>Tipo</th><th>Email</th><th>Publicaciones</th><th>Registro</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-inm" style="width:28px;height:28px;font-size:10px">RC</div><strong style="color:var(--verde)">Lucas Rodríguez</strong></div></td><td>Inmobiliaria</td><td>lucas@rc.com</td><td>24</td><td>12/01/2026</td><td><span class="badge b-ok">Activo</span></td><td><div class="act-row"><button class="act act-view">Ver</button><button class="act act-warn">Suspender</button></div></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-prop" style="width:28px;height:28px;font-size:10px">MG</div><strong style="color:var(--verde)">Martín García</strong></div></td><td>Propietario</td><td>martin@gmail.com</td><td>1</td><td>20/04/2026</td><td><span class="badge b-ok">Activo</span></td><td><div class="act-row"><button class="act act-view">Ver</button></div></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-dev" style="width:28px;height:28px;font-size:10px">DS</div><strong style="color:var(--verde)">Desarrollos Sur</strong></div></td><td>Desarrollador</td><td>info@dunasur.com</td><td>3</td><td>05/03/2026</td><td><span class="badge b-pend">Verificar</span></td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Verificar</button><button class="act act-del">✕</button></div></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava" style="width:28px;height:28px;font-size:10px;background:#e0e0e0;color:var(--gray)">??</div><strong style="color:var(--gray)">Playas Inmo.</strong></div></td><td>Inmobiliaria</td><td>playas@inmo.com</td><td>8</td><td>10/10/2025</td><td><span class="badge b-red">Matrícula vencida</span></td><td><div class="act-row"><button class="act act-warn">Notificar</button><button class="act act-del">Suspender</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANELES VACÍOS -->
+    <div class="panel" id="panel-propiedades"><div class="card"><div class="card-h"><h3>🏠 Gestión de propiedades</h3><span class="badge b-red">12 pendientes</span></div><div class="card-b" style="padding:0"><table class="gt"><thead><tr><th>Propiedad</th><th>Publicante</th><th>Zona</th><th>Precio</th><th>Estado</th><th>Ficha</th><th>KYC</th><th>Acciones</th></tr></thead><tbody><tr><td><strong style="color:var(--verde)">Casa Cariló — chalet 4 dorm.</strong><br><small style="color:var(--gray)">PP-2026-0847</small></td><td>Rodríguez & Cía</td><td>Cariló</td><td>USD 620.000</td><td><span class="badge b-warn">Pendiente</span></td><td><span class="badge b-ok">✓</span></td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-view">Ver</button><button class="act act-del">✕</button></div></td></tr><tr><td><strong style="color:var(--verde)">Depto 2 amb. Av. Bunge</strong><br><small style="color:var(--gray)">PP-2026-0901</small></td><td>Pinamar Brokers</td><td>Pinamar</td><td>USD 98.000</td><td><span class="badge b-red">Reportada</span></td><td><span class="badge b-gray">✕</span></td><td><div class="act-row"><button class="act act-view">Revisar</button><button class="act act-del">Eliminar</button></div></td></tr></tbody></table></div></div></div>
+    <div class="panel" id="panel-alertas-v2"><div style="padding:20px;text-align:center;color:var(--gray)">Panel de alertas</div></div>
+    <div class="panel" id="panel-inmobiliarias"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde);margin-bottom:8px">🏢 Gestión de Inmobiliarias</div><p style="color:var(--gray)">Verificación de matrículas, planes de suscripción y gestión de cuenta. En construcción.</p></div></div></div>
+    <div class="panel" id="panel-noticias">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:var(--verde)">📰 Reportes e Informes de Mercado</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:3px">Publicá artículos y PDFs accesibles para cualquier visitante del portal</div>
+    </div>
+    <button onclick="abrirFormReporte()" style="padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">+ Nuevo reporte</button>
+  </div>
+
+  <!-- Tabs tipo / categoría -->
+  <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="tab-rep on" onclick="filtrarRep('todos',this)" style="padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--verde);background:var(--verde);color:#fff;cursor:pointer;font-family:inherit">Todos</button>
+    <button class="tab-rep" onclick="filtrarRep('reporte',this)" style="padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--beige3);background:#fff;color:var(--gray);cursor:pointer;font-family:inherit">📊 Reportes</button>
+    <button class="tab-rep" onclick="filtrarRep('articulo',this)" style="padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--beige3);background:#fff;color:var(--gray);cursor:pointer;font-family:inherit">📝 Artículos</button>
+    <button class="tab-rep" onclick="filtrarRep('informe',this)" style="padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--beige3);background:#fff;color:var(--gray);cursor:pointer;font-family:inherit">📋 Informes</button>
+  </div>
+
+  <!-- Lista de reportes -->
+  <div class="card" style="margin-bottom:16px">
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:1.5px solid var(--beige2)">
+          <th style="padding:12px 16px;font-size:11px;font-weight:600;color:var(--gray);text-align:left;text-transform:uppercase;letter-spacing:.06em">Título</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Tipo</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Categoría</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">PDF</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Vistas</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Descargas</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Estado</th>
+          <th style="padding:12px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:left;text-transform:uppercase;letter-spacing:.06em">Publicado</th>
+          <th style="padding:12px 8px"></th>
+        </tr>
+      </thead>
+      <tbody id="rep-tbody">
+        <!-- Demo rows -->
+        <tr class="rep-row" data-tipo="reporte" style="border-bottom:1px solid var(--beige2)">
+          <td style="padding:13px 16px">
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">Informe de mercado Cariló Q1 2026</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px">Por: Admin · Pinamar Propiedades</div>
+          </td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;padding:3px 8px;background:rgba(13,91,72,.1);color:var(--verde);border-radius:5px;font-weight:600">📊 Reporte</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;color:var(--gray)">mercado</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="color:var(--turquesa);font-size:13px" title="PDF adjunto">📎</span></td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">1.240</td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">387</td>
+          <td style="padding:13px 8px;text-align:center"><span class="td-badge tb-ok">✓ Publicado</span></td>
+          <td style="padding:13px 8px;font-size:12px;color:var(--gray)">12/04/2026</td>
+          <td style="padding:13px 8px">
+            <div style="display:flex;gap:6px">
+              <button class="tb-btn tb-btn-sec" onclick="editarReporte(this)">Editar</button>
+              <button class="tb-btn" style="background:#fde8e8;color:#c53030;border:none" onclick="despublicarReporte(this)">Bajar</button>
+            </div>
+          </td>
+        </tr>
+        <tr class="rep-row" data-tipo="articulo" style="border-bottom:1px solid var(--beige2)">
+          <td style="padding:13px 16px">
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">¿Conviene comprar en Ostende en 2026?</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px">Por: Admin · Pinamar Propiedades</div>
+          </td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;padding:3px 8px;background:rgba(22,163,156,.1);color:var(--turquesa);border-radius:5px;font-weight:600">📝 Artículo</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;color:var(--gray)">inversión</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="color:var(--beige3);font-size:13px" title="Sin PDF">—</span></td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">892</td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">—</td>
+          <td style="padding:13px 8px;text-align:center"><span class="td-badge tb-ok">✓ Publicado</span></td>
+          <td style="padding:13px 8px;font-size:12px;color:var(--gray)">03/05/2026</td>
+          <td style="padding:13px 8px">
+            <div style="display:flex;gap:6px">
+              <button class="tb-btn tb-btn-sec" onclick="editarReporte(this)">Editar</button>
+              <button class="tb-btn" style="background:#fde8e8;color:#c53030;border:none" onclick="despublicarReporte(this)">Bajar</button>
+            </div>
+          </td>
+        </tr>
+        <tr class="rep-row" data-tipo="informe" style="border-bottom:1px solid var(--beige2)">
+          <td style="padding:13px 16px">
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">Índice CAC aplicado a refacciones en zona costera</div>
+            <div style="font-size:11px;color:var(--ocre);margin-top:2px">⏳ Borrador — no publicado</div>
+          </td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;padding:3px 8px;background:rgba(214,155,45,.1);color:var(--ocre);border-radius:5px;font-weight:600">📋 Informe</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="font-size:11px;color:var(--gray)">legal</span></td>
+          <td style="padding:13px 8px;text-align:center"><span style="color:var(--turquesa);font-size:13px">📎</span></td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">—</td>
+          <td style="padding:13px 8px;text-align:center;font-size:13px;color:var(--gray)">—</td>
+          <td style="padding:13px 8px;text-align:center"><span class="td-badge tb-pend">⏳ Borrador</span></td>
+          <td style="padding:13px 8px;font-size:12px;color:var(--gray)">—</td>
+          <td style="padding:13px 8px">
+            <div style="display:flex;gap:6px">
+              <button class="tb-btn tb-btn-sec" onclick="editarReporte(this)">Editar</button>
+              <button class="tb-btn tb-btn-ok" onclick="publicarReporte(this)">Publicar</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Permisos de inmobiliarias -->
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;color:var(--verde);margin-bottom:4px">🏢 Inmobiliarias autorizadas para publicar reportes</div>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:16px">Solo las inmobiliarias habilitadas acá pueden ver y usar el módulo de reportes en su panel.</div>
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:1.5px solid var(--beige2)">
+          <th style="padding:10px 0;font-size:11px;font-weight:600;color:var(--gray);text-align:left;text-transform:uppercase;letter-spacing:.06em">Inmobiliaria</th>
+          <th style="padding:10px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Verificada</th>
+          <th style="padding:10px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Puede publicar reportes</th>
+          <th style="padding:10px 8px;font-size:11px;font-weight:600;color:var(--gray);text-align:center;text-transform:uppercase;letter-spacing:.06em">Reportes publicados</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--beige2)">
+          <td style="padding:12px 0"><div style="font-size:13px;font-weight:600">Rodríguez & Cía</div><div style="font-size:11px;color:var(--gray)">info@rodriguezcia.com.ar</div></td>
+          <td style="padding:12px 8px;text-align:center"><span class="td-badge tb-ok">✓</span></td>
+          <td style="padding:12px 8px;text-align:center">
+            <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" checked onchange="togglePermisoReporte(this,'rod-cia')" style="width:16px;height:16px;accent-color:var(--verde);cursor:pointer">
+              <span style="font-size:12px;color:var(--gray)">Habilitada</span>
+            </label>
+          </td>
+          <td style="padding:12px 8px;text-align:center;font-size:13px;color:var(--gray)">3</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--beige2)">
+          <td style="padding:12px 0"><div style="font-size:13px;font-weight:600">Pinamar Brokers</div><div style="font-size:11px;color:var(--gray)">ventas@pinamarbrokers.com.ar</div></td>
+          <td style="padding:12px 8px;text-align:center"><span class="td-badge tb-ok">✓</span></td>
+          <td style="padding:12px 8px;text-align:center">
+            <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" onchange="togglePermisoReporte(this,'pinamar-brokers')" style="width:16px;height:16px;accent-color:var(--verde);cursor:pointer">
+              <span style="font-size:12px;color:var(--gray)">No habilitada</span>
+            </label>
+          </td>
+          <td style="padding:12px 8px;text-align:center;font-size:13px;color:var(--gray)">0</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 0"><div style="font-size:13px;font-weight:600">Cariló Premium Properties</div><div style="font-size:11px;color:var(--gray)">hola@carilopremium.com.ar</div></td>
+          <td style="padding:12px 8px;text-align:center"><span class="td-badge tb-pend">⏳ Pendiente</span></td>
+          <td style="padding:12px 8px;text-align:center">
+            <label style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" disabled style="width:16px;height:16px;cursor:not-allowed;opacity:.4">
+              <span style="font-size:12px;color:var(--beige3)">Verificar primero</span>
+            </label>
+          </td>
+          <td style="padding:12px 8px;text-align:center;font-size:13px;color:var(--gray)">0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal form nuevo reporte (oculto) -->
+  <div id="modal-reporte" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;overflow-y:auto;padding:32px 16px">
+    <div style="max-width:640px;margin:0 auto;background:#fff;border-radius:16px;padding:32px;position:relative">
+      <button onclick="cerrarFormReporte()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--gray)">✕</button>
+      <div style="font-size:18px;font-weight:700;color:var(--verde);margin-bottom:20px">📰 Nuevo reporte / artículo</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Título <span style="color:#e53935">*</span></label>
+          <input id="rep-titulo" type="text" placeholder="Ej: Informe de mercado Cariló Q2 2026" style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Tipo <span style="color:#e53935">*</span></label>
+            <select id="rep-tipo" style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none;appearance:none;background:#fff">
+              <option value="reporte">📊 Reporte de mercado</option>
+              <option value="articulo">📝 Artículo</option>
+              <option value="informe">📋 Informe técnico</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Categoría</label>
+            <select id="rep-cat" style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none;appearance:none;background:#fff">
+              <option value="mercado">mercado</option>
+              <option value="inversion">inversión</option>
+              <option value="legal">legal</option>
+              <option value="zona">zona</option>
+              <option value="tendencias">tendencias</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Bajada / resumen</label>
+          <textarea id="rep-bajada" rows="2" placeholder="Breve descripción que aparece en la lista..." style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none;resize:vertical"></textarea>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Contenido del artículo</label>
+          <textarea id="rep-contenido" rows="8" placeholder="Escribí el artículo acá. Podés usar HTML básico: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;..." style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none;resize:vertical"></textarea>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">📎 Adjuntar PDF</label>
+          <div id="pdf-drop" style="border:2px dashed #ddd;border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;position:relative">
+            <input type="file" id="rep-pdf" accept="application/pdf" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+            <div style="font-size:13px;color:var(--gray)">Arrastrá el PDF acá o hacé click · Máx. 20 MB</div>
+            <div id="pdf-nombre" style="font-size:12px;color:var(--turquesa);font-weight:600;margin-top:6px"></div>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:5px">Imagen de portada</label>
+          <input type="url" id="rep-img" placeholder="URL de imagen (o subí en Storage)" style="width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:13px;outline:none">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <input type="checkbox" id="rep-publicar" checked style="width:16px;height:16px;accent-color:var(--verde);cursor:pointer">
+          <label for="rep-publicar" style="font-size:13px;font-weight:500;cursor:pointer">Publicar inmediatamente (visible para todos sin necesidad de registro)</label>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+          <button onclick="cerrarFormReporte()" style="padding:10px 20px;background:#f5f5f5;color:var(--gray);border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit">Cancelar</button>
+          <button onclick="guardarReporte()" style="padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit" id="btn-guardar-rep">💾 Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+    <div class="panel" id="panel-zonas">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:var(--verde)">📍 Barrios del Partido de Pinamar</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:3px">Cargá y editá cada barrio con sus características, valores y restricciones COU</div>
+    </div>
+    <button onclick="abrirFormBarrio()" style="padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">+ Nuevo barrio</button>
+  </div>
+
+  <!-- Filtro por zona -->
+  <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">
+    <button class="tab-zona on" onclick="filtrarZona('todas',this)">Todas las zonas</button>
+    <button class="tab-zona" onclick="filtrarZona('carilo',this)">🌲 Cariló</button>
+    <button class="tab-zona" onclick="filtrarZona('pinamar-centro',this)">🌊 Pinamar Centro</button>
+    <button class="tab-zona" onclick="filtrarZona('pinamar-norte',this)">⛳ Pinamar Norte</button>
+    <button class="tab-zona" onclick="filtrarZona('valeria',this)">🌿 Valeria</button>
+    <button class="tab-zona" onclick="filtrarZona('ostende',this)">⚓ Ostende</button>
+    <button class="tab-zona" onclick="filtrarZona('costa-esmeralda',this)">💎 Costa Esmeralda</button>
+  </div>
+
+  <!-- Grid de barrios -->
+  <div id="barrios-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:24px">
+    <!-- Se cargan desde Supabase o demo -->
+  </div>
+
+  <!-- Modal nuevo/editar barrio -->
+  <div id="modal-barrio" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;overflow-y:auto;padding:20px">
+    <div style="max-width:680px;margin:0 auto;background:#fff;border-radius:16px;padding:28px;position:relative">
+      <button onclick="cerrarFormBarrio()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray)">✕</button>
+      <div id="modal-barrio-title" style="font-size:17px;font-weight:700;color:var(--verde);margin-bottom:18px">📍 Nuevo barrio</div>
+
+      <!-- Tabs del form -->
+      <div style="display:flex;gap:4px;margin-bottom:18px;border-bottom:1.5px solid var(--beige2);padding-bottom:0">
+        <button class="ftab on" onclick="mostrarFTab('ft-basico',this)">Básico</button>
+        <button class="ftab" onclick="mostrarFTab('ft-precios',this)">Precios</button>
+        <button class="ftab" onclick="mostrarFTab('ft-servicios',this)">Servicios</button>
+        <button class="ftab" onclick="mostrarFTab('ft-cou',this)">COU</button>
+        <button class="ftab" onclick="mostrarFTab('ft-geo',this)">Mapa</button>
+        <button class="ftab" onclick="mostrarFTab('ft-fotos',this)">Fotos</button>
+      </div>
+
+      <!-- Tab: Básico -->
+      <div class="ftab-content on" id="ft-basico">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Nombre del barrio *</label><input id="b-nombre" type="text" placeholder="Ej: Cariló Bosque" class="fi"></div>
+          <div><label class="fl">Slug (URL) *</label><input id="b-slug" type="text" placeholder="carilo-bosque" class="fi"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Zona *</label>
+            <select id="b-zona" class="fi">
+              <option value="carilo">🌲 Cariló</option>
+              <option value="pinamar-centro">🌊 Pinamar Centro</option>
+              <option value="pinamar-norte">⛳ Pinamar Norte</option>
+              <option value="valeria">🌿 Valeria del Mar</option>
+              <option value="ostende">⚓ Ostende</option>
+              <option value="costa-esmeralda">💎 Costa Esmeralda</option>
+            </select></div>
+          <div><label class="fl">Perfil psicográfico</label>
+            <select id="b-perfil" class="fi">
+              <option value="refugio">Refugio Inmaculado</option>
+              <option value="vidriera">La Vidriera</option>
+              <option value="pueblo">El Pueblo del Mar</option>
+              <option value="horizonte">El Horizonte Tranquilo</option>
+              <option value="silvestre">El Club Silvestre</option>
+            </select></div>
+        </div>
+        <div style="margin-bottom:12px"><label class="fl">Descripción corta (para cards)</label><input id="b-desc-corta" type="text" placeholder="1-2 frases que aparecen en el listado" class="fi"></div>
+        <div style="margin-bottom:12px"><label class="fl">Descripción larga (acepta HTML básico)</label><textarea id="b-desc-larga" rows="4" placeholder="&lt;p&gt;Texto completo del barrio...&lt;/p&gt;" class="fi" style="resize:vertical"></textarea></div>
+        <div style="margin-bottom:12px"><label class="fl">Historia y origen del barrio</label><textarea id="b-historia" rows="3" placeholder="Historia, fundación, datos históricos..." class="fi" style="resize:vertical"></textarea></div>
+        <div style="display:flex;gap:16px;align-items:center">
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" id="b-activo" checked style="accent-color:var(--verde)"> Activo (visible en el portal)</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="checkbox" id="b-destacado" style="accent-color:var(--verde)"> Destacado</label>
+        </div>
+      </div>
+
+      <!-- Tab: Precios -->
+      <div class="ftab-content" id="ft-precios">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Precio m² lote promedio (USD)</label><input id="b-p-lote" type="number" placeholder="5500" class="fi"></div>
+          <div><label class="fl">Precio m² construcción (USD)</label><input id="b-p-constr" type="number" placeholder="7200" class="fi"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Precio m² lote mínimo (USD)</label><input id="b-p-min" type="number" placeholder="4800" class="fi"></div>
+          <div><label class="fl">Precio m² lote máximo (USD)</label><input id="b-p-max" type="number" placeholder="7200" class="fi"></div>
+        </div>
+        <div><label class="fl">Fecha de actualización de precios</label><input id="b-fecha-precios" type="date" class="fi"></div>
+        <div style="margin-top:14px;padding:12px 14px;background:var(--beige);border-radius:8px;font-size:12px;color:var(--gray);line-height:1.6">
+          💡 Estos valores se muestran en la página del barrio y en el comparador. Se actualizan independientemente de los indicadores de zona.
+        </div>
+      </div>
+
+      <!-- Tab: Servicios -->
+      <div class="ftab-content" id="ft-servicios">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <label class="svc-check"><input type="checkbox" id="svc-gas"> <span>🔥 Gas natural de red</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-agua" checked> <span>💧 Agua corriente</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-cloacas"> <span>🚰 Cloacas</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-fibra"> <span>📡 Fibra óptica</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-asfalto"> <span>🛣️ Calles asfaltadas</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-seguridad"> <span>🔒 Seguridad privada 24hs</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-alumbrado" checked> <span>💡 Alumbrado público</span></label>
+          <label class="svc-check"><input type="checkbox" id="svc-residuos" checked> <span>♻️ Recolección de residuos</span></label>
+        </div>
+      </div>
+
+      <!-- Tab: COU -->
+      <div class="ftab-content" id="ft-cou">
+        <div style="margin-bottom:12px;padding:12px 14px;background:rgba(22,163,156,.07);border-radius:8px;font-size:12px;color:var(--verde);line-height:1.6">
+          📋 Datos del Código de Ordenamiento Urbano de la Municipalidad de Pinamar. Fuente: <a href="https://www.pinamar.gob.ar" target="_blank" style="color:var(--turquesa);font-weight:600">pinamar.gob.ar</a>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Zonificación COU</label><input id="cou-zon" type="text" placeholder="R1, R2, Bosque..." class="fi"></div>
+          <div><label class="fl">Altura máxima (metros)</label><input id="cou-alt" type="number" step="0.5" placeholder="7.0" class="fi"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">FOS (0.00 – 1.00)</label><input id="cou-fos" type="number" step="0.01" placeholder="0.25" class="fi"></div>
+          <div><label class="fl">FOT (0.00 – 2.00)</label><input id="cou-fot" type="number" step="0.01" placeholder="0.50" class="fi"></div>
+          <div><label class="fl">Sup. mínima parcela (m²)</label><input id="cou-sup" type="number" placeholder="800" class="fi"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Retiro frente (m)</label><input id="cou-frente" type="number" step="0.5" placeholder="5" class="fi"></div>
+          <div><label class="fl">Retiro lateral (m)</label><input id="cou-lateral" type="number" step="0.5" placeholder="3" class="fi"></div>
+          <div><label class="fl">Retiro fondo (m)</label><input id="cou-fondo" type="number" step="0.5" placeholder="5" class="fi"></div>
+        </div>
+        <div><label class="fl">Notas y restricciones especiales</label><textarea id="cou-notas" rows="3" placeholder="Ej: Prohibido talar árboles sin autorización. Materiales deben integrarse al entorno." class="fi" style="resize:vertical"></textarea></div>
+      </div>
+
+      <!-- Tab: Mapa -->
+      <div class="ftab-content" id="ft-geo">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div><label class="fl">Latitud centro</label><input id="geo-lat" type="number" step="0.0001" placeholder="-37.163" class="fi"></div>
+          <div><label class="fl">Longitud centro</label><input id="geo-lng" type="number" step="0.0001" placeholder="-56.951" class="fi"></div>
+          <div><label class="fl">Zoom del mapa (1-20)</label><input id="geo-zoom" type="number" min="10" max="18" value="15" class="fi"></div>
+        </div>
+        <div><label class="fl">Polígono del barrio (JSON)</label>
+          <textarea id="geo-poligono" rows="5" placeholder='[{"lat":-37.160,"lng":-56.955},{"lat":-37.165,"lng":-56.948},...]' class="fi" style="resize:vertical;font-family:monospace;font-size:12px"></textarea>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px">Array de coordenadas {lat, lng} que definen el perímetro del barrio. Podés obtenerlo dibujando el polígono en <a href="https://geojson.io" target="_blank" style="color:var(--turquesa)">geojson.io</a> y pegando las coordenadas acá.</div>
+        </div>
+      </div>
+
+      <!-- Tab: Fotos -->
+      <div class="ftab-content" id="ft-fotos">
+        <div style="margin-bottom:14px"><label class="fl">URL de imagen de portada</label><input id="foto-portada" type="url" placeholder="https://..." class="fi"></div>
+        <div>
+          <label class="fl">Galería de fotos (URLs, una por línea)</label>
+          <textarea id="foto-galeria" rows="5" placeholder="https://ejemplo.com/foto1.jpg&#10;https://ejemplo.com/foto2.jpg" class="fi" style="resize:vertical"></textarea>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px">En producción las fotos se suben al bucket <strong>barrio-fotos</strong> en Supabase Storage y se copian las URLs acá.</div>
+        </div>
+        <div style="margin-top:14px">
+          <label class="fl">Subir fotos al Storage</label>
+          <div style="border:2px dashed var(--beige3);border-radius:8px;padding:20px;text-align:center;position:relative;cursor:pointer" id="foto-drop">
+            <input type="file" id="foto-files" multiple accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+            <div style="font-size:13px;color:var(--gray)">📸 Arrastrá las fotos o hacé click · JPG/PNG/WEBP · Máx. 8MB c/u</div>
+            <div id="foto-lista" style="margin-top:8px;font-size:12px;color:var(--turquesa)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones del modal -->
+      <div style="display:flex;gap:10px;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1.5px solid var(--beige2)">
+        <button onclick="cerrarFormBarrio()" style="padding:10px 20px;background:#f5f5f5;color:var(--gray);border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit">Cancelar</button>
+        <div style="display:flex;gap:8px">
+          <button onclick="guardarBarrioBorrador()" style="padding:10px 20px;background:var(--beige);color:var(--verde);border:1.5px solid var(--beige3);border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit">Guardar borrador</button>
+          <button onclick="guardarBarrio()" id="btn-guardar-barrio" style="padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">✓ Guardar y publicar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="panel" id="panel-cac"><div class="card"><div class="card-h"><h3>🏗️ Actualizar índice CAC</h3></div><div class="card-b"><div style="max-width:400px"><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Índice CAC vigente</label><input type="text" value="1.245,3" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;outline:none"></div><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Mes de referencia</label><input type="text" value="Abril 2026" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;outline:none"></div><button class="btn-guardar-mercado" onclick="alert('✅ Índice CAC actualizado. Se recalcularon los costos estimados de reparación en todas las fichas técnicas.')">Actualizar índice CAC en todo el portal</button></div></div></div></div>
+    <div class="panel" id="panel-indicadores">
+  <div style="font-size:18px;font-weight:700;color:var(--verde);margin-bottom:6px">📉 Indicadores de mercado por zona</div>
+  <div style="font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6">Estos valores alimentan <strong>perfiles-zona.html</strong>, el <strong>comparador</strong> y el contexto de <strong>Pinamar AI</strong>. Actualizalos mensualmente.</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px" id="indicadores-grid">
+  </div>
+  <div style="margin-top:16px;text-align:right">
+    <button onclick="guardarTodosIndicadores()" style="padding:11px 28px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">💾 Guardar todos los cambios</button>
+  </div>
+</div>
+    <div class="panel" id="panel-consultas"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde)">💬 Monitor global de consultas</div><p style="color:var(--gray);margin-top:8px">2.147 consultas este mes. Vista global de todas las conversaciones entre compradores e inmobiliarias.</p></div></div></div>
+    <div class="panel" id="panel-permutas"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde)">🔄 Monitor de permutas</div><p style="color:var(--gray);margin-top:8px">47 propuestas activas. 3 concretadas este mes.</p></div></div></div>
+    <div class="panel" id="panel-garantias"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde)">🔒 Módulo de garantías de alquiler</div><p style="color:var(--gray);margin-top:8px">Integración con aseguradora. Gestión de solicitudes, aprobaciones y emisión de pólizas.</p></div></div></div>
+    <div class="panel" id="panel-fichas"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde)">📋 Gestión de fichas técnicas</div><p style="color:var(--gray);margin-top:8px">284 fichas certificadas · 18 en proceso · 7 solicitadas. Asignación de profesionales y seguimiento.</p></div></div></div>
+    <div class="panel" id="panel-config"><div class="card"><div class="card-b" style="text-align:center;padding:48px"><div style="font-size:16px;font-weight:700;color:var(--verde)">⚙️ Configuración del portal</div><p style="color:var(--gray);margin-top:8px">SEO, emails automáticos, planes de suscripción, términos y condiciones, datos de contacto.</p></div></div></div>
+    <div class="panel" id="panel-api"><div class="card"><div class="card-h"><h3>🔗 API & Integraciones</h3></div><div class="card-b"><div style="background:#1a1a2e;border-radius:10px;padding:18px;font-family:monospace;font-size:12.5px;color:#a8e6cf;line-height:1.8;margin-bottom:14px"><span style="color:#6c5ce7">BASE URL:</span> https://api.pinamarpropiedades.ar/v1<br><span style="color:#ffd93d">ARBA WMS:</span> https://geo.arba.gov.ar/geoserver/wms<br><span style="color:#ffd93d">Catastro:</span> https://carto.arba.gov.ar<br><span style="color:#ffd93d">Mapa COU:</span> https://www.mapaspinamar.gob.ar<br><span style="color:#888">// Docs: https://docs.pinamarpropiedades.ar</span></div><p style="font-size:13px;color:var(--gray);line-height:1.7">Integraciones activas: ARBA geoservicios WMS · Municipalidad Pinamar COU · WhatsApp Business API · Sendgrid (emails) · Cloudinary (imágenes)</p></div></div></div>
+
+  </div>
+</div>
+
+<script>
+function show(id, el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'))
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'))
+  const p=document.getElementById('panel-'+id)
+  if(p) p.classList.add('show')
+  if(el) el.classList.add('active')
+  const titles={dashboard:'Dashboard Global',alertas:'Alertas del sistema',propiedades:'Gestión de propiedades',usuarios:'Gestión de usuarios',inmobiliarias:'Inmobiliarias',noticias:'Noticias y Blog',zonas:'Zonas y barrios',mercado:'Precios de mercado',cac:'Índice CAC',indicadores:'Indicadores',consultas:'Consultas globales',permutas:'Permutas',garantias:'Garantías de alquiler',fichas:'Fichas técnicas',config:'Configuración',api:'API & Integraciones'}
+  document.getElementById('tb-title').textContent=titles[id]||id
+}
+function approveItem(btn){
+  const row=btn.closest('tr')||btn.closest('div[style*=background]')
+  btn.textContent='✅ Aprobado'
+  btn.style.background='#e8f5e9'
+  btn.style.color='#2e7d32'
+  btn.disabled=true
+}
+</script>
+<script src="nav.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CMS BARRIOS
+// ══════════════════════════════════════════════════════
+
+const ZONAS_EMOJI = {
+  'carilo':'🌲','pinamar-centro':'🌊','pinamar-norte':'⛳',
+  'valeria':'🌿','ostende':'⚓','costa-esmeralda':'💎'
+};
+
+// Barrios demo (en producción vienen de Supabase)
+const BARRIOS_DEMO = [
+  {id:'b1',slug:'carilo-bosque',nombre:'Cariló Bosque',zona:'carilo',perfil_psico:'refugio',
+   descripcion_corta:'El corazón del bosque. Máxima privacidad y menor densidad del Partido.',
+   precio_m2_lote_usd:5800,precio_m2_constr_usd:7500,
+   gas_natural:false,fibra_optica:true,asfalto:false,seguridad_privada:false,cloacas:false,
+   cou_zonificacion:'Bosque Residencial',cou_altura_max_m:7,cou_fos:0.20,cou_fot:0.40,
+   total_propiedades:24,activo:true,destacado:true},
+  {id:'b2',slug:'carilo-golf',nombre:'Cariló Golf',zona:'carilo',perfil_psico:'refugio',
+   descripcion_corta:'Lotes grandes adyacentes al campo de golf.',
+   precio_m2_lote_usd:5200,precio_m2_constr_usd:7000,
+   gas_natural:false,fibra_optica:true,asfalto:false,seguridad_privada:true,cloacas:false,
+   cou_zonificacion:'Residencial Golf',cou_altura_max_m:7,cou_fos:0.20,cou_fot:0.40,
+   total_propiedades:18,activo:true,destacado:false},
+  {id:'b3',slug:'pinamar-la-herradura',nombre:'Barrio La Herradura',zona:'pinamar-norte',perfil_psico:'silvestre',
+   descripcion_corta:'Barrio privado con golf de 18 hoyos. El más exclusivo de Pinamar Norte.',
+   precio_m2_lote_usd:3200,precio_m2_constr_usd:4000,
+   gas_natural:false,fibra_optica:true,asfalto:true,seguridad_privada:true,cloacas:true,
+   cou_zonificacion:'Residencial Privado',cou_altura_max_m:8.5,cou_fos:0.25,cou_fot:0.50,
+   total_propiedades:31,activo:true,destacado:true},
+  {id:'b4',slug:'pinamar-bunge',nombre:'Av. Bunge y Centro',zona:'pinamar-centro',perfil_psico:'pueblo',
+   descripcion_corta:'El corazón comercial de Pinamar. Alta demanda de alquiler temporal.',
+   precio_m2_lote_usd:2400,precio_m2_constr_usd:3000,
+   gas_natural:true,fibra_optica:true,asfalto:true,seguridad_privada:false,cloacas:true,
+   cou_zonificacion:'Comercial Mixto',cou_altura_max_m:12,cou_fos:0.60,cou_fot:1.20,
+   total_propiedades:86,activo:true,destacado:false},
+  {id:'b5',slug:'valeria-centro',nombre:'Valeria del Mar Centro',zona:'valeria',perfil_psico:'horizonte',
+   descripcion_corta:'Playa tranquila y ambiente íntimo. Zona en revalorización.',
+   precio_m2_lote_usd:1900,precio_m2_constr_usd:2700,
+   gas_natural:true,fibra_optica:false,asfalto:true,seguridad_privada:false,cloacas:false,
+   cou_zonificacion:'Residencial R1',cou_altura_max_m:7,cou_fos:0.35,cou_fot:0.70,
+   total_propiedades:42,activo:true,destacado:false},
+  {id:'b6',slug:'costa-esmeralda-nautico',nombre:'CE Náutico',zona:'costa-esmeralda',perfil_psico:'vidriera',
+   descripcion_corta:'Playa privada y seguridad 24hs. El más exclusivo de Costa Esmeralda.',
+   precio_m2_lote_usd:3800,precio_m2_constr_usd:5200,
+   gas_natural:false,fibra_optica:true,asfalto:true,seguridad_privada:true,cloacas:true,
+   cou_zonificacion:'Residencial Privado',cou_altura_max_m:10,cou_fos:0.25,cou_fot:0.50,
+   total_propiedades:55,activo:true,destacado:true},
+];
+
+let _editandoBarrio = null;
+let _filtroZona = 'todas';
+
+function renderBarriosGrid(barrios) {
+  const grid = document.getElementById('barrios-grid');
+  if(!grid) return;
+  const filtrados = _filtroZona === 'todas' ? barrios : barrios.filter(b => b.zona === _filtroZona);
+  if(filtrados.length === 0){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--gray)">No hay barrios en esta zona todavía. <button onclick="abrirFormBarrio()" style="color:var(--turquesa);font-weight:700;background:none;border:none;cursor:pointer">+ Agregar uno</button></div>';
+    return;
+  }
+  grid.innerHTML = filtrados.map(b => `
+    <div class="barrio-admin-card" data-zona="${b.zona}">
+      <div class="bac-header">
+        <div>
+          <div class="bac-nombre">${ZONAS_EMOJI[b.zona]||'📍'} ${b.nombre}</div>
+          <div class="bac-zona">${b.zona.replace('-',' ')} · ${b.total_propiedades || 0} propiedades</div>
+        </div>
+        <span style="font-size:11px;padding:3px 8px;border-radius:5px;font-weight:700;${b.activo?'background:rgba(22,163,156,.1);color:var(--turquesa)':'background:#fde8e8;color:#c53030'}">${b.activo?'Activo':'Inactivo'}</span>
+      </div>
+      <div class="bac-tags">
+        ${b.gas_natural?'<span class="bac-tag ok">🔥 Gas</span>':'<span class="bac-tag">🔥 Sin gas</span>'}
+        ${b.fibra_optica?'<span class="bac-tag ok">📡 Fibra</span>':'<span class="bac-tag">📡 Sin fibra</span>'}
+        ${b.asfalto?'<span class="bac-tag ok">🛣️ Asfalto</span>':'<span class="bac-tag">🛣️ Sin asfalto</span>'}
+        ${b.seguridad_privada?'<span class="bac-tag ok">🔒 Seguridad</span>':''}
+        ${b.cloacas?'<span class="bac-tag ok">🚰 Cloacas</span>':'<span class="bac-tag">🚰 Sin cloacas</span>'}
+      </div>
+      ${b.cou_zonificacion?`<div style="font-size:11px;color:var(--gray);margin-bottom:8px">COU: ${b.cou_zonificacion} · FOS ${b.cou_fos||'—'} · FOT ${b.cou_fot||'—'} · Altura máx. ${b.cou_altura_max_m||'—'}m</div>`:''}
+      <div class="bac-precio">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m² lote · USD ${b.precio_m2_constr_usd?.toLocaleString()}/m² construcción</div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:12px;line-height:1.5">${b.descripcion_corta||''}</div>
+      <div class="bac-actions">
+        <button class="act act-view" onclick="editarBarrio('${b.id}')">✏️ Editar</button>
+        <button class="act" style="background:#fde8e8;color:#c53030" onclick="toggleBarrio('${b.id}',${!b.activo})">${b.activo?'Desactivar':'Activar'}</button>
+      </div>
+    </div>`).join('');
+}
+
+function filtrarZona(zona, btn){
+  _filtroZona = zona;
+  document.querySelectorAll('.tab-zona').forEach(t=>{t.classList.remove('on')});
+  btn.classList.add('on');
+  cargarBarrios();
+}
+
+async function cargarBarrios(){
+  let barrios = BARRIOS_DEMO;
+  if(typeof db !== 'undefined'){
+    try{
+      const {data} = await db.from('barrios').select('*').order('zona').order('orden');
+      if(data && data.length > 0) barrios = data;
+    }catch(e){}
+  }
+  renderBarriosGrid(barrios);
+}
+
+function abrirFormBarrio(barrio=null){
+  _editandoBarrio = barrio;
+  document.getElementById('modal-barrio').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-barrio-title').textContent = barrio ? '✏️ Editar barrio' : '📍 Nuevo barrio';
+  if(barrio){
+    document.getElementById('b-nombre').value = barrio.nombre||'';
+    document.getElementById('b-slug').value = barrio.slug||'';
+    document.getElementById('b-zona').value = barrio.zona||'carilo';
+    document.getElementById('b-perfil').value = barrio.perfil_psico||'refugio';
+    document.getElementById('b-desc-corta').value = barrio.descripcion_corta||'';
+    document.getElementById('b-desc-larga').value = barrio.descripcion_larga||'';
+    document.getElementById('b-historia').value = barrio.historia||'';
+    document.getElementById('b-activo').checked = barrio.activo !== false;
+    document.getElementById('b-destacado').checked = !!barrio.destacado;
+    document.getElementById('b-p-lote').value = barrio.precio_m2_lote_usd||'';
+    document.getElementById('b-p-constr').value = barrio.precio_m2_constr_usd||'';
+    document.getElementById('b-p-min').value = barrio.precio_m2_lote_min||'';
+    document.getElementById('b-p-max').value = barrio.precio_m2_lote_max||'';
+    ['gas','agua','cloacas','fibra','asfalto','seguridad','alumbrado','residuos'].forEach(s=>{
+      const k = s==='gas'?'gas_natural':s==='fibra'?'fibra_optica':s==='seguridad'?'seguridad_privada':
+                s==='alumbrado'?'alumbrado':s==='residuos'?'recoleccion_residuos':s;
+      const el = document.getElementById('svc-'+s);
+      if(el) el.checked = !!barrio[k];
+    });
+    document.getElementById('cou-zon').value = barrio.cou_zonificacion||'';
+    document.getElementById('cou-alt').value = barrio.cou_altura_max_m||'';
+    document.getElementById('cou-fos').value = barrio.cou_fos||'';
+    document.getElementById('cou-fot').value = barrio.cou_fot||'';
+    document.getElementById('cou-sup').value = barrio.cou_superficie_min_m2||'';
+    document.getElementById('cou-frente').value = barrio.cou_retiro_frente_m||'';
+    document.getElementById('cou-lateral').value = barrio.cou_retiro_lateral_m||'';
+    document.getElementById('cou-fondo').value = barrio.cou_retiro_fondo_m||'';
+    document.getElementById('cou-notas').value = barrio.cou_notas||'';
+    document.getElementById('geo-lat').value = barrio.lat_centro||'';
+    document.getElementById('geo-lng').value = barrio.lng_centro||'';
+    document.getElementById('geo-zoom').value = barrio.zoom_mapa||15;
+    document.getElementById('geo-poligono').value = barrio.poligono ? JSON.stringify(barrio.poligono, null, 2) : '';
+    document.getElementById('foto-portada').value = barrio.imagen_portada_url||'';
+  }
+  mostrarFTab('ft-basico', document.querySelector('.ftab'));
+}
+
+function cerrarFormBarrio(){
+  document.getElementById('modal-barrio').style.display='none';
+  document.body.style.overflow='';
+  _editandoBarrio = null;
+}
+
+function mostrarFTab(id, btn){
+  document.querySelectorAll('.ftab-content').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id)?.classList.add('on');
+  btn?.classList.add('on');
+}
+
+function editarBarrio(id){
+  const b = BARRIOS_DEMO.find(x=>x.id===id);
+  if(b) abrirFormBarrio(b);
+}
+
+function toggleBarrio(id, activar){
+  const b = BARRIOS_DEMO.find(x=>x.id===id);
+  if(b){ b.activo = activar; cargarBarrios(); }
+  if(typeof UI !== 'undefined') UI.toast(activar?'Barrio activado':'Barrio desactivado');
+}
+
+function recopilarDatosBarrio(){
+  let poligono = null;
+  try{ poligono = JSON.parse(document.getElementById('geo-poligono').value||'null'); }catch(e){}
+  return {
+    nombre:         document.getElementById('b-nombre').value.trim(),
+    slug:           document.getElementById('b-slug').value.trim().toLowerCase().replace(/\s+/g,'-'),
+    zona:           document.getElementById('b-zona').value,
+    perfil_psico:   document.getElementById('b-perfil').value,
+    descripcion_corta: document.getElementById('b-desc-corta').value.trim(),
+    descripcion_larga: document.getElementById('b-desc-larga').value.trim(),
+    historia:       document.getElementById('b-historia').value.trim(),
+    activo:         document.getElementById('b-activo').checked,
+    destacado:      document.getElementById('b-destacado').checked,
+    precio_m2_lote_usd:   parseFloat(document.getElementById('b-p-lote').value)||null,
+    precio_m2_constr_usd: parseFloat(document.getElementById('b-p-constr').value)||null,
+    precio_m2_lote_min:   parseFloat(document.getElementById('b-p-min').value)||null,
+    precio_m2_lote_max:   parseFloat(document.getElementById('b-p-max').value)||null,
+    fecha_actualizacion_precios: document.getElementById('b-fecha-precios').value||null,
+    gas_natural:        document.getElementById('svc-gas')?.checked||false,
+    agua_corriente:     document.getElementById('svc-agua')?.checked||true,
+    cloacas:            document.getElementById('svc-cloacas')?.checked||false,
+    fibra_optica:       document.getElementById('svc-fibra')?.checked||false,
+    asfalto:            document.getElementById('svc-asfalto')?.checked||false,
+    seguridad_privada:  document.getElementById('svc-seguridad')?.checked||false,
+    alumbrado:          document.getElementById('svc-alumbrado')?.checked||true,
+    recoleccion_residuos: document.getElementById('svc-residuos')?.checked||true,
+    cou_zonificacion:   document.getElementById('cou-zon').value.trim()||null,
+    cou_altura_max_m:   parseFloat(document.getElementById('cou-alt').value)||null,
+    cou_fos:            parseFloat(document.getElementById('cou-fos').value)||null,
+    cou_fot:            parseFloat(document.getElementById('cou-fot').value)||null,
+    cou_superficie_min_m2: parseFloat(document.getElementById('cou-sup').value)||null,
+    cou_retiro_frente_m:   parseFloat(document.getElementById('cou-frente').value)||null,
+    cou_retiro_lateral_m:  parseFloat(document.getElementById('cou-lateral').value)||null,
+    cou_retiro_fondo_m:    parseFloat(document.getElementById('cou-fondo').value)||null,
+    cou_notas:          document.getElementById('cou-notas').value.trim()||null,
+    lat_centro:         parseFloat(document.getElementById('geo-lat').value)||null,
+    lng_centro:         parseFloat(document.getElementById('geo-lng').value)||null,
+    zoom_mapa:          parseInt(document.getElementById('geo-zoom').value)||15,
+    poligono,
+    imagen_portada_url: document.getElementById('foto-portada').value.trim()||null,
+  };
+}
+
+async function guardarBarrio(){
+  const datos = recopilarDatosBarrio();
+  if(!datos.nombre||!datos.slug){ alert('Nombre y slug son obligatorios'); return; }
+  const btn = document.getElementById('btn-guardar-barrio');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  if(typeof db !== 'undefined'){
+    const { error } = _editandoBarrio
+      ? await db.from('barrios').update(datos).eq('id', _editandoBarrio.id)
+      : await db.from('barrios').insert(datos);
+    if(error){ btn.disabled=false; btn.textContent='✓ Guardar y publicar'; alert('Error: '+error.message); return; }
+  }
+  btn.disabled=false; btn.textContent='✓ Guardar y publicar';
+  cerrarFormBarrio();
+  cargarBarrios();
+  if(typeof UI !== 'undefined') UI.toast(_editandoBarrio?'Barrio actualizado ✓':'Barrio creado y publicado ✓');
+}
+
+async function guardarBarrioBorrador(){
+  const datos = {...recopilarDatosBarrio(), activo: false};
+  if(!datos.nombre||!datos.slug){ alert('Nombre y slug son obligatorios'); return; }
+  if(typeof db !== 'undefined'){
+    const {error} = await db.from('barrios').insert(datos);
+    if(error){ alert('Error: '+error.message); return; }
+  }
+  cerrarFormBarrio();
+  cargarBarrios();
+  if(typeof UI !== 'undefined') UI.toast('Guardado como borrador (no visible)', 'warn');
+}
+
+// Auto-generar slug desde el nombre
+document.getElementById('b-nombre')?.addEventListener('input', function(){
+  const slugEl = document.getElementById('b-slug');
+  if(!slugEl.dataset.manual){
+    slugEl.value = this.value.toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g,'')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+});
+document.getElementById('b-slug')?.addEventListener('input', function(){ this.dataset.manual = '1'; });
+
+// Foto drag & drop
+document.getElementById('foto-files')?.addEventListener('change', function(){
+  const lista = document.getElementById('foto-lista');
+  lista.textContent = [...this.files].map(f=>'📸 '+f.name).join(' · ');
+});
+
+// ══════════════════════════════════════════════════════
+// EDITOR DE INDICADORES DE ZONA
+// ══════════════════════════════════════════════════════
+const ZONAS_CONFIG = [
+  {zona:'carilo',       emoji:'🌲', label:'Cariló'},
+  {zona:'pinamar-centro', emoji:'🌊', label:'Pinamar Centro'},
+  {zona:'pinamar-norte',  emoji:'⛳', label:'Pinamar Norte'},
+  {zona:'valeria',      emoji:'🌿', label:'Valeria del Mar'},
+  {zona:'ostende',      emoji:'⚓', label:'Ostende'},
+  {zona:'costa-esmeralda', emoji:'💎', label:'Costa Esmeralda'},
+];
+
+async function cargarIndicadores(){
+  const grid = document.getElementById('indicadores-grid');
+  if(!grid) return;
+  let datos = {};
+  if(typeof db !== 'undefined'){
+    try{
+      const {data} = await db.from('indicadores_zona').select('*');
+      if(data) data.forEach(d => datos[d.zona] = d);
+    }catch(e){}
+  }
+  // Defaults de demo si no hay BD
+  const defaults = {
+    'carilo':           {precio_m2_lote_usd:5500,precio_m2_constr_usd:7200,precio_ticket_prom_usd:620000,apreciacion_pct_anual:18,tendencia:'sube',sentimiento_positivo_pct:91,sentimiento_negativo_pct:4,polarizacion:'baja'},
+    'pinamar-centro':   {precio_m2_lote_usd:2200,precio_m2_constr_usd:2800,precio_ticket_prom_usd:110000,apreciacion_pct_anual:8,tendencia:'sube',sentimiento_positivo_pct:78,sentimiento_negativo_pct:12,polarizacion:'media'},
+    'pinamar-norte':    {precio_m2_lote_usd:2800,precio_m2_constr_usd:3400,precio_ticket_prom_usd:390000,apreciacion_pct_anual:9,tendencia:'sube',sentimiento_positivo_pct:81,sentimiento_negativo_pct:11,polarizacion:'media'},
+    'valeria':          {precio_m2_lote_usd:1800,precio_m2_constr_usd:2600,precio_ticket_prom_usd:240000,apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
+    'ostende':          {precio_m2_lote_usd:1800,precio_m2_constr_usd:2600,precio_ticket_prom_usd:240000,apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
+    'costa-esmeralda':  {precio_m2_lote_usd:3200,precio_m2_constr_usd:4800,precio_ticket_prom_usd:320000,apreciacion_pct_anual:11,tendencia:'sube',sentimiento_positivo_pct:68,sentimiento_negativo_pct:24,polarizacion:'alta'},
+  };
+
+  grid.innerHTML = ZONAS_CONFIG.map(z => {
+    const d = datos[z.zona] || defaults[z.zona] || {};
+    const pos = d.sentimiento_positivo_pct||0;
+    const neg = d.sentimiento_negativo_pct||0;
+    const neu = Math.max(0,100-pos-neg);
+    return `
+    <div class="ind-card" data-zona="${z.zona}">
+      <div class="ind-zona">${z.emoji} ${z.label}</div>
+      <div class="ind-grid">
+        <div class="ind-field"><label>m² Lote (USD)</label><input type="number" name="precio_m2_lote_usd" value="${d.precio_m2_lote_usd||''}" placeholder="5500"></div>
+        <div class="ind-field"><label>m² Construcción (USD)</label><input type="number" name="precio_m2_constr_usd" value="${d.precio_m2_constr_usd||''}" placeholder="7200"></div>
+        <div class="ind-field"><label>Ticket promedio (USD)</label><input type="number" name="precio_ticket_prom_usd" value="${d.precio_ticket_prom_usd||''}" placeholder="620000"></div>
+        <div class="ind-field"><label>Apreciación anual %</label><input type="number" step="0.1" name="apreciacion_pct_anual" value="${d.apreciacion_pct_anual||''}" placeholder="18"></div>
+        <div class="ind-field"><label>Tendencia</label>
+          <select name="tendencia">
+            <option value="sube" ${d.tendencia==='sube'?'selected':''}>↑ Sube</option>
+            <option value="estable" ${d.tendencia==='estable'?'selected':''}>→ Estable</option>
+            <option value="baja" ${d.tendencia==='baja'?'selected':''}>↓ Baja</option>
+          </select></div>
+        <div class="ind-field"><label>Polarización</label>
+          <select name="polarizacion">
+            <option value="baja" ${d.polarizacion==='baja'?'selected':''}>Baja</option>
+            <option value="media" ${d.polarizacion==='media'?'selected':''}>Media</option>
+            <option value="media-baja" ${d.polarizacion==='media-baja'?'selected':''}>Media-baja</option>
+            <option value="alta" ${d.polarizacion==='alta'?'selected':''}>Alta</option>
+          </select></div>
+        <div class="ind-field"><label>Sentimiento positivo %</label><input type="number" min="0" max="100" name="sentimiento_positivo_pct" value="${pos}" oninput="actualizarSent(this)"></div>
+        <div class="ind-field"><label>Sentimiento negativo %</label><input type="number" min="0" max="100" name="sentimiento_negativo_pct" value="${neg}" oninput="actualizarSent(this)"></div>
+      </div>
+      <div class="sent-preview" title="Positivo / Neutro / Negativo">
+        <div style="width:${pos}%;background:var(--turquesa)"></div>
+        <div style="width:${neu}%;background:var(--ocre)"></div>
+        <div style="width:${neg}%;background:#e05555"></div>
+      </div>
+      <div style="font-size:10px;color:var(--gray);margin-top:4px">Sentimiento: ${pos}% positivo · ${neu}% neutro · ${neg}% negativo</div>
+    </div>`;
+  }).join('');
+}
+
+function actualizarSent(input){
+  const card = input.closest('.ind-card');
+  const pos = parseInt(card.querySelector('[name="sentimiento_positivo_pct"]').value)||0;
+  const neg = parseInt(card.querySelector('[name="sentimiento_negativo_pct"]').value)||0;
+  const neu = Math.max(0,100-pos-neg);
+  const preview = card.querySelector('.sent-preview');
+  if(preview){
+    preview.children[0].style.width = pos+'%';
+    preview.children[1].style.width = neu+'%';
+    preview.children[2].style.width = neg+'%';
+  }
+  card.querySelector('.sent-preview + div').textContent =
+    `Sentimiento: ${pos}% positivo · ${neu}% neutro · ${neg}% negativo`;
+}
+
+async function guardarTodosIndicadores(){
+  if(typeof db === 'undefined'){
+    if(typeof UI !== 'undefined') UI.toast('Supabase no configurado — valores actualizados en demo', 'warn');
+    return;
+  }
+  const cards = document.querySelectorAll('.ind-card[data-zona]');
+  let ok = 0; let errores = 0;
+  for(const card of cards){
+    const zona = card.dataset.zona;
+    const vals = {};
+    card.querySelectorAll('input[name],select[name]').forEach(el => {
+      vals[el.name] = el.type==='number' ? (parseFloat(el.value)||null) : el.value;
+    });
+    const { error } = await db.from('indicadores_zona')
+      .upsert({ zona, ...vals, fecha_datos: new Date().toISOString().split('T')[0] },
+               { onConflict: 'zona' });
+    if(error) errores++; else ok++;
+  }
+  if(typeof UI !== 'undefined'){
+    if(errores === 0) UI.toast(`✓ ${ok} zonas actualizadas — visible en el portal inmediatamente`);
+    else UI.toast(`${ok} OK · ${errores} con error`, 'warn');
+  }
+}
+
+// Inicializar al cargar el panel
+document.addEventListener('DOMContentLoaded', () => {
+  cargarBarrios();
+  cargarIndicadores();
+});
+</script>
+
+</body>
+</html>
