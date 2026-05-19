@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/pinamar-propiedades-v2.html" }
+  ]
+}
