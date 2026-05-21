@@ -241,11 +241,11 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
     <!-- FORMULARIO GENÉRICO -->
     <div id="reg-propietario">
       <div class="ff-row">
-        <div class="ff"><label>Nombre</label><input type="text" placeholder="Juan"></div>
-        <div class="ff"><label>Apellido</label><input type="text" placeholder="García"></div>
+        <div class="ff"><label>Nombre</label><input type="text" placeholder="Juan" id="prop-nombre"></div>
+        <div class="ff"><label>Apellido</label><input type="text" placeholder="García" id="prop-apellido"></div>
       </div>
-      <div class="ff"><label>Email</label><input type="email" placeholder="tu@email.com"></div>
-      <div class="ff"><label>Teléfono / WhatsApp</label><input type="tel" placeholder="+54 9 2254 ..."></div>
+      <div class="ff"><label>Email</label><input type="email" placeholder="tu@email.com" id="prop-email"></div>
+      <div class="ff"><label>Teléfono / WhatsApp</label><input type="tel" placeholder="+54 9 2254 ..." id="prop-tel"></div>
       <div class="ff"><label>Contraseña</label>
         <div class="ff-pass">
           <input type="password" placeholder="Mínimo 8 caracteres" id="reg-pass">
@@ -275,17 +275,17 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
         </div>
       </div>
       <div class="check-row">
-        <input type="checkbox" checked>
-        <label>Acepto los <a href="terminos.html">términos</a>. Al registrarme como inmobiliaria acepto que se verificará mi matrícula CMCPD.</label>
+        <input type="checkbox" id="terms-inm" checked>
+        <label for="terms-inm">Acepto los <a href="terminos.html">términos</a>. Al registrarme como inmobiliaria acepto que se verificará mi matrícula CMCPD.</label>
       </div>
       <button class="btn-submit ocre" style="margin-top:18px" onclick="doRegistro('inmobiliaria')">Registrar inmobiliaria →</button>
     </div>
 
     <div id="reg-desarrollador" style="display:none">
-      <div class="ff"><label>Nombre del desarrollador / empresa</label><input type="text" placeholder="Desarrollos del Sur S.A."></div>
-      <div class="ff"><label>CUIT</label><input type="text" placeholder="30-XXXXXXXX-X"></div>
-      <div class="ff"><label>Email</label><input type="email" placeholder="info@empresa.com"></div>
-      <div class="ff"><label>Teléfono</label><input type="tel" placeholder="+54 ..."></div>
+      <div class="ff"><label>Nombre del desarrollador / empresa</label><input type="text" placeholder="Desarrollos del Sur S.A." id="dev-nombre"></div>
+      <div class="ff"><label>CUIT</label><input type="text" placeholder="30-XXXXXXXX-X" id="dev-cuit"></div>
+      <div class="ff"><label>Email</label><input type="email" placeholder="info@empresa.com" id="dev-email"></div>
+      <div class="ff"><label>Teléfono</label><input type="tel" placeholder="+54 ..." id="dev-tel"></div>
       <div class="ff"><label>Proyectos activos en Pinamar</label>
         <select><option>1 proyecto</option><option>2-5 proyectos</option><option>5+ proyectos</option></select>
       </div>
@@ -306,7 +306,7 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
   <div id="panel-recuperar" style="display:none">
     <div class="form-title">Recuperar contraseña</div>
     <div class="form-sub">Ingresá tu email y te enviaremos un enlace para restablecer tu contraseña.</div>
-    <div class="ff"><label>Email registrado</label><input type="email" placeholder="tu@email.com"></div>
+    <div class="ff"><label>Email registrado</label><input type="email" placeholder="tu@email.com" id="recuperar-email"></div>
     <button class="btn-submit" onclick="doRecuperar()">Enviar enlace de recuperación</button>
     <div class="form-footer" style="margin-top:20px"><a href="#" onclick="setMode('login',null)">← Volver al inicio de sesión</a></div>
   </div>
@@ -323,139 +323,193 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
 </div>
 
 <script>
+// ── Navegación entre paneles ─────────────────────────────────────────────
 function setMode(mode, el){
   ['panel-login','panel-registro','panel-recuperar','success'].forEach(id=>{
-    document.getElementById(id).style.display='none'
-  })
-  const map={login:'panel-login',registro:'panel-registro',recuperar:'panel-recuperar'}
-  if(map[mode]) document.getElementById(map[mode]).style.display='block'
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  const map = {login:'panel-login', registro:'panel-registro', recuperar:'panel-recuperar'};
+  if(map[mode]) document.getElementById(map[mode]).style.display = 'block';
   if(el){
-    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'))
-    el.classList.add('on')
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
+    el.classList.add('on');
+  } else {
+    // Activar tab correcto sin botón
+    document.querySelectorAll('.mode-btn').forEach(b => {
+      if(b.getAttribute('onclick')?.includes(mode)) b.classList.add('on');
+    });
   }
 }
 
+// ── Selector de tipo de usuario ──────────────────────────────────────────
 function selectUT(el, tipo){
-  document.querySelectorAll('.ut').forEach(u=>u.classList.remove('on'))
-  el.classList.add('on')
-  document.querySelectorAll('[id^=reg-]').forEach(p=>p.style.display='none')
-  document.getElementById('reg-'+tipo).style.display='block'
+  document.querySelectorAll('.ut').forEach(u => u.classList.remove('on'));
+  el.classList.add('on');
+  ['propietario','inmobiliaria','desarrollador'].forEach(t => {
+    const p = document.getElementById('reg-'+t);
+    if(p) p.style.display = t === tipo ? 'block' : 'none';
+  });
 }
 
+// ── Toggle de contraseña visible ─────────────────────────────────────────
 function togglePass(id, btn){
-  const inp=document.getElementById(id)
-  inp.type=inp.type==='password'?'text':'password'
-  btn.textContent=inp.type==='password'?'👁️':'🔒'
+  const inp = document.getElementById(id);
+  if(!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁️' : '🔒';
 }
 
-function doLogin(){
-  const em=document.getElementById('login-email').value
-  const ps=document.getElementById('login-pass').value
-  if(!em||!ps){alert('Por favor completá todos los campos.');return}
-  // Simular login
-  showSuccess(
-    '👋','¡Bienvenido de vuelta!',
-    'Estás ingresando a tu panel. Redirigiendo...',
-    'Ir a mi panel →',
-    'panel-inmobiliaria.html'
-  )
+// ── Mostrar pantalla de éxito ────────────────────────────────────────────
+function showSuccess(ico, h, p, btnTxt, url){
+  ['panel-login','panel-registro','panel-recuperar'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  document.getElementById('success-ico').textContent = ico;
+  document.getElementById('success-h').textContent = h;
+  document.getElementById('success-p').innerHTML = p;
+  const btn = document.getElementById('success-btn1');
+  btn.textContent = btnTxt;
+  btn.onclick = url ? () => window.location.href = url : () => setMode('login', null);
+  document.getElementById('success').style.display = 'block';
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
 }
 
-function doRegistro(tipo){
-  const labels={propietario:'Propietario',inmobiliaria:'Inmobiliaria',desarrollador:'Desarrollador'}
-  showSuccess(
-    '🎉','¡Cuenta creada con éxito!',
-    `Tu cuenta como <strong>${labels[tipo]}</strong> fue creada. ${tipo==='inmobiliaria'?'Verificaremos tu matrícula CMCPD en las próximas 24hs hábiles.':'Ya podés publicar tu primera propiedad.'}`,
-    tipo==='inmobiliaria'?'Ir al panel de inmobiliaria →':'Publicar mi primera propiedad →',
-    tipo==='inmobiliaria'?'panel-inmobiliaria.html':'pinamar-propiedades-v2.html'
-  )
+// ── Validaciones ─────────────────────────────────────────────────────────
+function validarEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+function validarPass(pass){ return pass && pass.length >= 8; }
+
+function mostrarError(msg){
+  let el = document.getElementById('form-error');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'form-error';
+    el.style.cssText = 'background:#fde8e8;color:#c53030;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:12px';
+    const panel = document.getElementById('panel-login') || document.getElementById('panel-registro');
+    panel?.insertBefore(el, panel.querySelector('.btn-submit'));
+  }
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
 }
 
-function doRecuperar(){
-  showSuccess(
-    '📧','¡Email enviado!',
-    'Te enviamos un enlace a tu email para restablecer tu contraseña. Revisá también tu carpeta de spam.',
-    'Volver al inicio de sesión',
-    null
-  )
-  document.getElementById('success-btn1').onclick=()=>setMode('login',null)
+// ── LOGIN ─────────────────────────────────────────────────────────────────
+async function doLogin(){
+  const email = document.getElementById('login-email')?.value?.trim();
+  const pass  = document.getElementById('login-pass')?.value;
+  const btn   = document.querySelector('#panel-login .btn-submit');
+
+  if(!email || !pass){ mostrarError('Completá email y contraseña.'); return; }
+  if(!validarEmail(email)){ mostrarError('El email no es válido.'); return; }
+
+  if(typeof Auth !== 'undefined'){
+    // Con Supabase configurado
+    btn.disabled = true; btn.textContent = 'Ingresando...';
+    const { error } = await Auth.login(email, pass);
+    btn.disabled = false; btn.textContent = 'Iniciar sesión';
+    if(error){
+      mostrarError('Email o contraseña incorrectos. Verificá tus datos.');
+    } else {
+      showSuccess('👋','¡Bienvenido de vuelta!','Estás ingresando a tu panel...','Ir a mi panel →','panel-inmobiliaria.html');
+    }
+  } else {
+    // Modo demo (sin Supabase configurado aún)
+    showSuccess('👋','¡Bienvenido de vuelta!',
+      'El portal está en modo demo. Configurá Supabase para activar el login real.',
+      'Ir al panel (demo)','panel-inmobiliaria.html');
+  }
 }
 
-function showSuccess(ico,h,p,btn1,url){
-  ['panel-login','panel-registro','panel-recuperar'].forEach(id=>{
-    document.getElementById(id).style.display='none'
-  })
-  document.getElementById('success-ico').textContent=ico
-  document.getElementById('success-h').textContent=h
-  document.getElementById('success-p').innerHTML=p
-  document.getElementById('success-btn1').textContent=btn1
-  if(url) document.getElementById('success-btn1').onclick=()=>window.location.href=url
-  document.getElementById('success').style.display='block'
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'))
+// ── REGISTRO ──────────────────────────────────────────────────────────────
+async function doRegistro(tipo){
+  const emails  = {propietario:'prop-email', inmobiliaria:'inm-email', desarrollador:'dev-email'};
+  const passes  = {propietario:'reg-pass',   inmobiliaria:'reg-pass-inm', desarrollador:'reg-pass-dev'};
+  const nombres = {propietario:'prop-nombre', inmobiliaria:'inm-nombre', desarrollador:'dev-nombre'};
+  const terms   = {propietario:'terms',       inmobiliaria:'terms-inm',   desarrollador:'terms-dev'};
+
+  const email  = document.getElementById(emails[tipo])?.value?.trim();
+  const pass   = document.getElementById(passes[tipo])?.value;
+  const nombre = document.getElementById(nombres[tipo])?.value?.trim();
+  const termsOk= document.getElementById(terms[tipo])?.checked;
+
+  // Validaciones
+  if(!nombre){ mostrarError('Ingresá tu nombre.'); return; }
+  if(!email || !validarEmail(email)){ mostrarError('Ingresá un email válido.'); return; }
+  if(!validarPass(pass)){ mostrarError('La contraseña debe tener al menos 8 caracteres.'); return; }
+  if(!termsOk){ mostrarError('Debés aceptar los términos y condiciones.'); return; }
+
+  const btn = document.querySelector('#reg-'+tipo+' .btn-submit');
+  const labels = {propietario:'Propietario', inmobiliaria:'Inmobiliaria', desarrollador:'Desarrollador'};
+
+  if(typeof Auth !== 'undefined'){
+    if(btn){ btn.disabled = true; btn.textContent = 'Creando cuenta...'; }
+    const { error } = await Auth.registro(email, pass, nombre);
+    if(btn){ btn.disabled = false; btn.textContent = 'Crear cuenta'; }
+    if(error){
+      if(error.message?.includes('already registered')){
+        mostrarError('Este email ya tiene una cuenta. ¿Querés iniciar sesión?');
+      } else {
+        mostrarError(error.message || 'Error al crear la cuenta. Intentá de nuevo.');
+      }
+    } else {
+      showSuccess('🎉','¡Cuenta creada!',
+        `Revisá tu email <strong>${email}</strong> para confirmar tu cuenta. ${tipo==='inmobiliaria'?'Verificaremos tu matrícula CMCPD en 24hs hábiles.':''}`,
+        'Volver al inicio de sesión', null);
+    }
+  } else {
+    // Modo demo
+    showSuccess('🎉','¡Cuenta creada! (demo)',
+      `Tu cuenta como <strong>${labels[tipo]}</strong> fue creada. Configurá Supabase para activar el registro real.`,
+      tipo==='inmobiliaria'?'Ir al panel de inmobiliaria →':'Ver el portal →',
+      tipo==='inmobiliaria'?'panel-inmobiliaria.html':'pinamar-propiedades-v2.html');
+  }
 }
+
+// ── RECUPERAR CONTRASEÑA ──────────────────────────────────────────────────
+async function doRecuperar(){
+  const email = document.getElementById('recuperar-email')?.value?.trim();
+  const btn   = document.querySelector('#panel-recuperar .btn-submit');
+
+  if(!email || !validarEmail(email)){
+    mostrarError('Ingresá tu email registrado.');
+    return;
+  }
+
+  if(typeof Auth !== 'undefined'){
+    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+    const { error } = await Auth.db.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/login-registro.html'
+    });
+    if(btn){ btn.disabled = false; btn.textContent = 'Enviar enlace de recuperación'; }
+    if(error){
+      mostrarError('No pudimos enviar el email. Verificá que el email esté registrado.');
+    } else {
+      showSuccess('📧','¡Email enviado!',
+        `Te enviamos un enlace a <strong>${email}</strong> para restablecer tu contraseña. Revisá también la carpeta de spam.`,
+        'Volver al inicio de sesión', null);
+    }
+  } else {
+    // Modo demo
+    showSuccess('📧','¡Email enviado! (demo)',
+      `En el portal real te enviaríamos un enlace a <strong>${email}</strong>. Configurá Supabase para activar esta función.`,
+      'Volver al inicio de sesión', null);
+  }
+}
+
+// ── Leer query params (ej: ?tipo=inmobiliaria desde proveedores) ──────────
+document.addEventListener('DOMContentLoaded', () => {
+  const p = new URLSearchParams(location.search);
+  const tipo = p.get('tipo');
+  if(tipo === 'inmobiliaria' || tipo === 'propietario' || tipo === 'desarrollador'){
+    setMode('registro', null);
+    const btn = document.querySelector(`.ut[onclick*="${tipo}"]`);
+    if(btn) selectUT(btn, tipo);
+  }
+  if(p.get('servicio')) setMode('registro', null);
+});
 </script>
 <script src="nav.js"></script>
 
-<script>
-// ── Integración Supabase Auth ────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  // Detectar si hay sesión activa → redirigir al panel
-  if (typeof Auth !== 'undefined') {
-    Auth.getUser().then(user => {
-      if (user) window.location.href = 'panel-inmobiliaria.html';
-    });
-  }
-
-  // Login form
-  const loginForm = document.getElementById('login-form') || document.querySelector('form[data-action="login"]');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (typeof Auth === 'undefined') { UI.toast('Supabase no configurado aún', 'warn'); return; }
-      const email    = loginForm.querySelector('[name="email"], [type="email"]')?.value;
-      const password = loginForm.querySelector('[name="password"], [type="password"]')?.value;
-      const btn      = loginForm.querySelector('[type="submit"], .btn-submit');
-      if (btn) { btn.disabled = true; btn.textContent = 'Ingresando...'; }
-      const { error } = await Auth.login(email, password);
-      if (error) {
-        if (btn) { btn.disabled = false; btn.textContent = 'Ingresar'; }
-        UI.toast('Email o contraseña incorrectos', 'error');
-      } else {
-        window.location.href = 'panel-inmobiliaria.html';
-      }
-    });
-  }
-
-  // Registro form
-  const regForm = document.getElementById('registro-form') || document.querySelector('form[data-action="registro"]');
-  if (regForm) {
-    regForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (typeof Auth === 'undefined') { UI.toast('Supabase no configurado aún', 'warn'); return; }
-      const nombre   = regForm.querySelector('[name="nombre"]')?.value;
-      const email    = regForm.querySelector('[name="email"]')?.value;
-      const password = regForm.querySelector('[name="password"]')?.value;
-      const btn      = regForm.querySelector('[type="submit"], .btn-submit');
-      if (btn) { btn.disabled = true; btn.textContent = 'Registrando...'; }
-      const { error } = await Auth.registro(email, password, nombre);
-      if (error) {
-        if (btn) { btn.disabled = false; btn.textContent = 'Registrarme'; }
-        UI.toast(error.message, 'error');
-      } else {
-        UI.toast('¡Cuenta creada! Revisá tu email para confirmar.');
-        setTimeout(() => window.location.href = 'panel-inmobiliaria.html', 2000);
-      }
-    });
-  }
-
-  // Google OAuth
-  document.querySelectorAll('.btn-google, [data-action="google"]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      if (typeof Auth === 'undefined') { UI.toast('Supabase no configurado aún', 'warn'); return; }
-      await Auth.loginGoogle();
-    });
-  });
-});
-</script>
 </body>
 </html>
