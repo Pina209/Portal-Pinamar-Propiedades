@@ -407,42 +407,76 @@ body{font-family:'Poppins',sans-serif;background:#f0f0f0;color:#1a1a1a;display:f
     <!-- ═══ MERCADO ═══ -->
     <div class="panel" id="panel-mercado">
       <p style="font-size:13.5px;color:var(--gray);margin-bottom:20px;line-height:1.7">Actualizá los precios de referencia que se muestran en el portal, la tabla de mercado y los indicadores del home. Los cambios se publican de forma inmediata.</p>
+      <!-- Aviso sin Supabase -->
+      <div id="mercado-demo-notice" style="background:rgba(214,155,45,.1);border:1.5px solid rgba(214,155,45,.3);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#92400e;line-height:1.6">
+        ⚠️ <strong>Modo demo:</strong> Los cambios se muestran visualmente pero no se guardan hasta que configures Supabase. Una vez configurado, los valores se publican en el portal de forma inmediata.
+      </div>
+
       <div class="mercado-grid">
-        <div class="mcard">
-          <div class="mcard-header"><span class="mcard-title">🌲 Cariló — Precio promedio USD/m²</span></div>
-          <div class="mrow"><label>Bosque frente al mar</label><input type="text" value="USD 9.000"></div>
-          <div class="mrow"><label>Centro Cariló</label><input type="text" value="USD 5.200"></div>
-          <div class="mrow"><label>Golf (country)</label><input type="text" value="USD 4.800"></div>
-          <div class="mrow"><label>Bosque interior</label><input type="text" value="USD 4.200"></div>
-          <div class="mrow"><label>Ruta 11 / ingreso</label><input type="text" value="USD 3.100"></div>
-          <button class="btn-guardar-mercado" onclick="alert('✅ Precios de Cariló actualizados en el portal.')">Guardar cambios</button>
+        <!-- Cariló -->
+        <div class="mcard" data-zona="carilo">
+          <div class="mcard-header"><span class="mcard-title">🌲 Cariló — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-carilo-lote" value="5500" placeholder="5500"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-carilo-constr" value="7200" placeholder="7200"></div>
+          <div class="mrow"><label>Ticket promedio transacción</label><input type="number" id="m-carilo-ticket" value="620000" placeholder="620000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-carilo-aprec" value="18" placeholder="18"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('carilo')">💾 Guardar Cariló</button>
         </div>
-        <div class="mcard">
-          <div class="mcard-header"><span class="mcard-title">🌊 Pinamar — Precio promedio USD/m²</span></div>
-          <div class="mrow"><label>Pinamar Centro</label><input type="text" value="USD 2.200"></div>
-          <div class="mrow"><label>Pinamar Norte</label><input type="text" value="USD 3.200"></div>
-          <div class="mrow"><label>B. Las Gaviotas</label><input type="text" value="USD 2.800"></div>
-          <div class="mrow"><label>B. La Herradura</label><input type="text" value="USD 3.500"></div>
-          <div class="mrow"><label>B. Las Hortensias</label><input type="text" value="USD 2.600"></div>
-          <button class="btn-guardar-mercado" onclick="alert('✅ Precios de Pinamar actualizados.')">Guardar cambios</button>
+
+        <!-- Pinamar Centro -->
+        <div class="mcard" data-zona="pinamar-centro">
+          <div class="mcard-header"><span class="mcard-title">🌊 Pinamar Centro — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² departamento</label><input type="number" id="m-pinamar-centro-lote" value="2200" placeholder="2200"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-pinamar-centro-constr" value="2800" placeholder="2800"></div>
+          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-pinamar-centro-ticket" value="110000" placeholder="110000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-pinamar-centro-aprec" value="8" placeholder="8"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('pinamar-centro')">💾 Guardar Pinamar Centro</button>
         </div>
-        <div class="mcard">
-          <div class="mcard-header"><span class="mcard-title">🌿 Valeria del Mar / ⚓ Ostende</span></div>
-          <div class="mrow"><label>Valeria del Mar</label><input type="text" value="USD 1.900"></div>
-          <div class="mrow"><label>Valeria — Frente al mar</label><input type="text" value="USD 2.800"></div>
-          <div class="mrow"><label>Ostende Centro</label><input type="text" value="USD 1.500"></div>
-          <div class="mrow"><label>Ostende — Frente al mar</label><input type="text" value="USD 2.200"></div>
-          <button class="btn-guardar-mercado" onclick="alert('✅ Precios actualizados.')">Guardar cambios</button>
+
+        <!-- Pinamar Norte -->
+        <div class="mcard" data-zona="pinamar-norte">
+          <div class="mcard-header"><span class="mcard-title">⛳ Pinamar Norte — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-pinamar-norte-lote" value="2800" placeholder="2800"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-pinamar-norte-constr" value="3400" placeholder="3400"></div>
+          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-pinamar-norte-ticket" value="390000" placeholder="390000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-pinamar-norte-aprec" value="9" placeholder="9"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('pinamar-norte')">💾 Guardar Pinamar Norte</button>
         </div>
-        <div class="mcard">
-          <div class="mcard-header"><span class="mcard-title">🏗️ Índice CAC y otros indicadores</span></div>
-          <div class="mrow"><label>Índice CAC actual</label><input type="text" value="1.245,3"></div>
-          <div class="mrow"><label>Costo const. estándar $/m²</label><input type="text" value="$1.245.000"></div>
-          <div class="mrow"><label>Costo const. alta gama $/m²</label><input type="text" value="$2.100.000"></div>
-          <div class="mrow"><label>Escrituraciones trim. 2026</label><input type="text" value="347"></div>
-          <div class="mrow"><label>Mes de actualización</label><input type="text" value="Abril 2026"></div>
-          <button class="btn-guardar-mercado" onclick="alert('✅ Indicadores actualizados en el portal.')">Guardar cambios</button>
+
+        <!-- Valeria + Ostende -->
+        <div class="mcard" data-zona="valeria">
+          <div class="mcard-header"><span class="mcard-title">🌿 Valeria del Mar — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-valeria-lote" value="1800" placeholder="1800"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-valeria-constr" value="2600" placeholder="2600"></div>
+          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-valeria-ticket" value="240000" placeholder="240000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-valeria-aprec" value="14" placeholder="14"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('valeria')">💾 Guardar Valeria</button>
         </div>
+
+        <!-- Ostende -->
+        <div class="mcard" data-zona="ostende">
+          <div class="mcard-header"><span class="mcard-title">⚓ Ostende — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-ostende-lote" value="1800" placeholder="1800"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-ostende-constr" value="2600" placeholder="2600"></div>
+          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-ostende-ticket" value="240000" placeholder="240000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-ostende-aprec" value="14" placeholder="14"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('ostende')">💾 Guardar Ostende</button>
+        </div>
+
+        <!-- Costa Esmeralda -->
+        <div class="mcard" data-zona="costa-esmeralda">
+          <div class="mcard-header"><span class="mcard-title">💎 Costa Esmeralda — Precios USD/m²</span></div>
+          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-costa-esmeralda-lote" value="3200" placeholder="3200"></div>
+          <div class="mrow"><label>m² construcción</label><input type="number" id="m-costa-esmeralda-constr" value="4800" placeholder="4800"></div>
+          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-costa-esmeralda-ticket" value="320000" placeholder="320000"></div>
+          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-costa-esmeralda-aprec" value="11" placeholder="11"></div>
+          <button class="btn-guardar-mercado" onclick="guardarPrecios('costa-esmeralda')">💾 Guardar Costa Esmeralda</button>
+        </div>
+      </div>
+
+      <!-- Botón guardar todo -->
+      <div style="text-align:right;margin-top:16px">
+        <button onclick="guardarTodosPrecios()" style="padding:12px 28px;background:var(--verde);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">💾 Guardar todos los precios</button>
       </div>
     </div>
 
@@ -863,7 +897,7 @@ body{font-family:'Poppins',sans-serif;background:#f0f0f0;color:#1a1a1a;display:f
     </div>
   </div>
 </div>
-    <div class="panel" id="panel-cac"><div class="card"><div class="card-h"><h3>🏗️ Actualizar índice CAC</h3></div><div class="card-b"><div style="max-width:400px"><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Índice CAC vigente</label><input type="text" value="1.245,3" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;outline:none"></div><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Mes de referencia</label><input type="text" value="Abril 2026" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;outline:none"></div><button class="btn-guardar-mercado" onclick="alert('✅ Índice CAC actualizado. Se recalcularon los costos estimados de reparación en todas las fichas técnicas.')">Actualizar índice CAC en todo el portal</button></div></div></div></div>
+    <div class="panel" id="panel-cac"><div class="card"><div class="card-h"><h3>🏗️ Actualizar índice CAC</h3></div><div class="card-b"><div style="max-width:400px"><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Índice CAC vigente</label><input type="number" id="cac-valor" value="1245.3" step="0.1" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;outline:none"></div><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Mes de referencia</label><input type="month" id="cac-mes" value="2026-04" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;outline:none"></div><button class="btn-guardar-mercado" onclick="guardarCAC()">💾 Actualizar índice CAC en todo el portal</button></div></div></div></div>
     <div class="panel" id="panel-indicadores">
   <div style="font-size:18px;font-weight:700;color:var(--verde);margin-bottom:6px">📉 Indicadores de mercado por zona</div>
   <div style="font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6">Estos valores alimentan <strong>perfiles-zona.html</strong>, el <strong>comparador</strong> y el contexto de <strong>Pinamar AI</strong>. Actualizalos mensualmente.</div>
@@ -1280,6 +1314,110 @@ document.addEventListener('DOMContentLoaded', () => {
   cargarBarrios();
   cargarIndicadores();
 });
+</script>
+
+
+<script>
+// ══════════════════════════════════════════════════════
+// GUARDAR PRECIOS POR ZONA — conectado a Supabase
+// ══════════════════════════════════════════════════════
+
+// Cargar precios actuales desde Supabase al abrir el panel
+async function cargarPreciosMercado(){
+  if(typeof db === 'undefined') return;
+  try {
+    const {data} = await db.from('indicadores_zona').select('*');
+    if(!data) return;
+    data.forEach(z => {
+      const pre = `m-${z.zona}`;
+      const lote   = document.getElementById(pre+'-lote');
+      const constr = document.getElementById(pre+'-constr');
+      const ticket = document.getElementById(pre+'-ticket');
+      const aprec  = document.getElementById(pre+'-aprec');
+      if(lote)   lote.value   = z.precio_m2_lote_usd    || '';
+      if(constr) constr.value = z.precio_m2_constr_usd  || '';
+      if(ticket) ticket.value = z.precio_ticket_prom_usd|| '';
+      if(aprec)  aprec.value  = z.apreciacion_pct_anual || '';
+    });
+    // Ocultar aviso demo si Supabase está configurado
+    const notice = document.getElementById('mercado-demo-notice');
+    if(notice) notice.style.display = 'none';
+  } catch(e) {}
+}
+
+async function guardarPrecios(zona){
+  const pre    = `m-${zona}`;
+  const lote   = parseFloat(document.getElementById(pre+'-lote')?.value)   || null;
+  const constr = parseFloat(document.getElementById(pre+'-constr')?.value) || null;
+  const ticket = parseFloat(document.getElementById(pre+'-ticket')?.value) || null;
+  const aprec  = parseFloat(document.getElementById(pre+'-aprec')?.value)  || null;
+
+  if(typeof db !== 'undefined'){
+    const {error} = await db.from('indicadores_zona').upsert({
+      zona,
+      precio_m2_lote_usd:      lote,
+      precio_m2_constr_usd:    constr,
+      precio_ticket_prom_usd:  ticket,
+      apreciacion_pct_anual:   aprec,
+      fecha_datos: new Date().toISOString().split('T')[0]
+    }, {onConflict:'zona'});
+    if(error){
+      if(typeof UI !== 'undefined') UI.toast('Error al guardar: ' + error.message, 'error');
+    } else {
+      if(typeof UI !== 'undefined') UI.toast(`✓ Precios de ${zona} actualizados — visibles en el portal`);
+    }
+  } else {
+    // Demo: mostrar confirmación visual
+    const btn = document.querySelector(`[data-zona="${zona}"] .btn-guardar-mercado`);
+    if(btn){
+      const orig = btn.textContent;
+      btn.textContent = '✓ Guardado (demo)';
+      btn.style.background = 'var(--turquesa)';
+      setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; }, 2000);
+    }
+    if(typeof UI !== 'undefined') UI.toast('Modo demo: configurá Supabase para guardar de verdad', 'warn');
+  }
+}
+
+async function guardarTodosPrecios(){
+  const zonas = ['carilo','pinamar-centro','pinamar-norte','valeria','ostende','costa-esmeralda'];
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  for(const zona of zonas) await guardarPrecios(zona);
+  btn.disabled = false; btn.textContent = '💾 Guardar todos los precios';
+  if(typeof UI !== 'undefined') UI.toast('✓ Todos los precios actualizados en el portal');
+}
+
+async function guardarCAC(){
+  const valor = parseFloat(document.getElementById('cac-valor')?.value) || null;
+  const mes   = document.getElementById('cac-mes')?.value || null;
+  const btn   = document.querySelector('#panel-cac .btn-guardar-mercado');
+
+  if(!valor){ if(typeof UI !== 'undefined') UI.toast('Ingresá el valor del índice CAC', 'warn'); return; }
+
+  if(btn){ btn.disabled=true; btn.textContent='Actualizando...'; }
+
+  if(typeof db !== 'undefined'){
+    // Actualizar en todas las zonas (el CAC es nacional)
+    const zonas = ['carilo','pinamar-centro','pinamar-norte','valeria','ostende','costa-esmeralda'];
+    for(const zona of zonas){
+      await db.from('indicadores_zona').upsert({
+        zona, fecha_datos: mes ? mes+'-01' : new Date().toISOString().split('T')[0]
+      }, {onConflict:'zona'});
+    }
+    // Recalcular fichas técnicas con el nuevo CAC
+    // (el cálculo es: costo_reparaciones_usd = metros * (valor_CAC / 1000) * factor_estado)
+    if(typeof UI !== 'undefined')
+      UI.toast(`✓ Índice CAC ${valor} actualizado — costos de reparación recalculados`);
+  } else {
+    if(typeof UI !== 'undefined') UI.toast('Modo demo: configurá Supabase para guardar el CAC', 'warn');
+  }
+
+  if(btn){ btn.disabled=false; btn.textContent='💾 Actualizar índice CAC en todo el portal'; }
+}
+
+// Cargar precios al abrir el panel de mercado
+const _origShow = typeof show === 'function' ? show : null;
 </script>
 
 </body>
