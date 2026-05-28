@@ -1,3 +1,21 @@
+
+// ── Configuración del portal ─────────────────────────────────────────────
+// IMPORTANTE: Reemplazar estos valores con los datos reales antes del lanzamiento
+const CONFIG = {
+  whatsapp:        '5492254000000',   // ← reemplazar con número real (sin + ni espacios)
+  whatsapp_display:'${CONFIG?.whatsapp_display||"+54 9 2254 000000"}', // ← para mostrar al usuario
+  instagram:       'pinamarpropiedades', // ← usuario de Instagram real
+  facebook:        'pinamarpropiedades', // ← usuario de Facebook real
+  linkedin:        'pinamar-propiedades', // ← usuario de LinkedIn real
+  email_contacto:  'info@pinamarpropiedades.com.ar', // ← email real
+  dominio:         'https://portal-pinamar-propiedades.vercel.app', // ← cambiar al dominio final
+};
+
+// Función helper para links de WA con mensaje predefinido
+function linkWA(mensaje) {
+  return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+}
+
 /**
  * nav.js — Pinamar Propiedades
  * Navegación central del portal. Incluir en todas las páginas.

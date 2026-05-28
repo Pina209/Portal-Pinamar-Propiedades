@@ -1,0 +1,29 @@
+User-agent: *
+
+# Páginas públicas — indexar
+Allow: /pinamar-propiedades-v2.html
+Allow: /listado-propiedades.html
+Allow: /ficha-propiedad.html
+Allow: /comparador.html
+Allow: /zona-carilo.html
+Allow: /perfiles-zona.html
+Allow: /barrio.html
+Allow: /guia-invertir.html
+Allow: /noticias.html
+Allow: /proveedores-certificados.html
+Allow: /terminos.html
+Allow: /pinamar-ai.html
+
+# Paneles privados — NO indexar
+Disallow: /panel-admin.html
+Disallow: /panel-inmobiliaria.html
+Disallow: /login-registro.html
+Disallow: /index-portal.html
+
+# Archivos de configuración — NO indexar
+Disallow: /supabase.js
+Disallow: /vercel.json
+Disallow: /.gitignore
+Disallow: /supabase/
+
+Sitemap: https://portal-pinamar-propiedades.vercel.app/sitemap.xml

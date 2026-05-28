@@ -300,8 +300,45 @@ body{font-family:'Poppins',sans-serif;background:#f0f2f0;color:#1a1a1a;display:f
 }
 </style>
   <!-- Supabase JS v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.0/dist/umd/supabase.min.js"></script>
   <script src="supabase.js"></script>
+
+<script>
+// ── Auth Guard — panel-inmobiliaria ─────────────────────────────────────
+(function() {
+  document.documentElement.style.visibility = 'hidden';
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    if (typeof Auth === 'undefined' || typeof db === 'undefined') {
+      document.documentElement.style.visibility = 'visible';
+      const notice = document.createElement('div');
+      notice.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#D69B2D;color:#fff;padding:10px 20px;font-size:13px;font-weight:600;z-index:9999;text-align:center';
+      notice.innerHTML = '⚠️ Modo demo — Configurá Supabase para activar la autenticación real. <a href="pinamar-propiedades-v2.html" style="color:#fff;font-weight:800">← Volver al portal</a>';
+      document.body.prepend(notice);
+      return;
+    }
+
+    try {
+      const user = await Auth.getUser();
+      if (!user) {
+        window.location.href = 'login-registro.html?redirect=panel-inmobiliaria';
+        return;
+      }
+      const { data: perfil } = await db.from('perfiles')
+        .select('rol').eq('id', user.id).single();
+
+      const rolesPermitidos = ['admin', 'inmobiliaria', 'vendedor'];
+      if (!perfil || !rolesPermitidos.includes(perfil.rol)) {
+        window.location.href = 'pinamar-propiedades-v2.html';
+        return;
+      }
+      document.documentElement.style.visibility = 'visible';
+    } catch(e) {
+      document.documentElement.style.visibility = 'visible';
+    }
+  });
+})();
+</script>
 </head>
 <body>
 

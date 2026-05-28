@@ -2,8 +2,28 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+  <meta name="description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/pinamar-ai.html">
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
+  <meta property="og:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/pinamar-ai.html">
+  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:site_name"   content="Pinamar Propiedades">
+  <meta property="og:locale"      content="es_AR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
+  <meta name="twitter:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pinamar AI — Buscador Conversacional · Pinamar Propiedades</title>
+<title>Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -202,7 +222,7 @@ nav{
 }
 </style>
   <!-- Supabase JS v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.0/dist/umd/supabase.min.js"></script>
   <script src="supabase.js"></script>
 </head>
 <body>
@@ -285,8 +305,10 @@ nav{
 
 <script>
 // ── Configuración Supabase (leer de supabase.js si está cargado) ─────────
-const SUPABASE_URL      = typeof window.SUPABASE_URL      !== 'undefined' ? window.SUPABASE_URL      : 'https://TU-PROYECTO.supabase.co';
-const SUPABASE_ANON_KEY = typeof window.SUPABASE_ANON_KEY !== 'undefined' ? window.SUPABASE_ANON_KEY : '';
+// URL del proyecto (no es secreta — es pública por diseño de Supabase)
+const SUPABASE_URL      = typeof window._SUPABASE_URL !== 'undefined' ? window._SUPABASE_URL : 'https://TU-PROYECTO.supabase.co';
+// La anon key se lee desde el cliente de Supabase ya inicializado
+const SUPABASE_ANON_KEY = typeof db !== 'undefined' ? db.supabaseKey : '';
 
 // ── Estado del chat ───────────────────────────────────────────────────────
 const history = [];
@@ -353,6 +375,8 @@ PERFILES PSICOGRÁFICOS DEL PARTIDO DE PINAMAR:
 4. "El Horizonte Tranquilo" (Valeria del Mar / Ostende): Tranquilidad, horizonte abierto, revalorización. Negatividad 8%. USD/m² lote: 1.800.
 5. "El Club Silvestre" (Pinamar Norte): Barrios golf, lote grande, familia activa. Negatividad 11%. USD/m² lote: 2.800.
 
+{{PROPIEDADES_CONTEXT}}
+
 PROPIEDADES DISPONIBLES (datos simplificados):
 ${PROPIEDADES.map(p => `- [${p.id}] ${p.titulo} en ${p.zonaLabel} | USD ${p.precio.toLocaleString()} | Dist mar: ${p.dist}m | Ficha: ${p.ficha?'SÍ':'NO'} | KYC: ${p.kyc?'SÍ':'NO'} | Estado: ${p.estado} | CAC estimado: USD ${p.cac.toLocaleString()} | Acepta permuta: ${p.permuta?'SÍ':'NO'}`).join('\n')}
 
@@ -360,7 +384,10 @@ ${PROPIEDADES.map(p => `- [${p.id}] ${p.titulo} en ${p.zonaLabel} | USD ${p.prec
 `;
 
 // ── Prompt de sistema ─────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `Sos el asistente de búsqueda inmobiliaria de Pinamar Propiedades. Te llamás "Pinamar AI".
+// Marcador para inyección dinámica de contexto de BD
+const SYSTEM_PROMPT = `{{PROPIEDADES_CONTEXT}}
+
+Sos el asistente de búsqueda inmobiliaria de Pinamar Propiedades. Te llamás "Pinamar AI".
 
 Tu objetivo es ayudar al usuario a encontrar la propiedad ideal en el Partido de Pinamar combinando:
 1. Su perfil psicográfico (estilo de vida deseado, zona emocional)
@@ -415,13 +442,10 @@ async function enviar(){
     } catch(e) { /* usa contexto mock si falla */ }
   }
 
-  // Construir system prompt con datos actualizados
-  const systemPromptFinal = SYSTEM_PROMPT.replace(
-    /PROPIEDADES DISPONIBLES[\s\S]*?Permuta: .*?
-
-/,
-    propsContext + '\n\n'
-  );
+  // Inyección limpia de contexto — marcador {{PROPIEDADES_CONTEXT}} en lugar de regex frágil
+  const systemPromptFinal = SYSTEM_PROMPT.includes('{{PROPIEDADES_CONTEXT}}')
+    ? SYSTEM_PROMPT.replace('{{PROPIEDADES_CONTEXT}}', propsContext)
+    : SYSTEM_PROMPT + '\n\n' + propsContext;
 
     // ── Llamar a la Edge Function (proxy seguro) ──────────────────────────
     // La API key de Anthropic vive en el servidor, nunca en el navegador.
@@ -437,7 +461,8 @@ async function enviar(){
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
+          // La apikey la provee el CDN de Supabase JS automáticamente via el cliente db
+          ...(typeof db !== 'undefined' && db.supabaseKey ? {'apikey': db.supabaseKey} : {}),
         },
         body: JSON.stringify({
           messages: history,

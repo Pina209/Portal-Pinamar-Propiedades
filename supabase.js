@@ -16,9 +16,9 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6...'; // ← reemplazar
 // Requiere en el HTML: <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 const { createClient } = supabase;
 
-// Exponer al window para que pinamar-ai.html pueda leerlas
-window.SUPABASE_URL      = SUPABASE_URL;
-window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
+// Exponer solo URL (no la key) para uso interno de páginas
+// La anon key NO se expone al window — se usa solo dentro de este módulo
+window._SUPABASE_URL = SUPABASE_URL;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── Auth helper ───────────────────────────────────────────────────────────
@@ -401,6 +401,7 @@ const UI = {
   const urlWA     = telLimpio ? `https://wa.me/${telLimpio}?text=${encodeURIComponent(mensajeWA)}` : '#';
 
   const imgUrl = p.imagen_url || 'https://placehold.co/400x260/0D5B48/F2E9D7?text=Sin+foto';
+  const isAboveFold = false; // las cards se cargan dinámicamente siempre = lazy
     const distLabel   = p.dist_mar_m === 0 ? 'Frente al mar'
                       : p.dist_mar_m <= 300 ? `${p.dist_mar_m}m del mar`
                       : p.dist_mar_m <= 1000 ? `${p.dist_mar_m}m del mar`
@@ -414,7 +415,7 @@ const UI = {
         data-piscina="${p.piscina ? 1 : 0}" data-cochera="${p.cochera ? 1 : 0}"
         data-cerrado="${p.barrio_cerrado ? 1 : 0}"
         onclick="window.location.href='ficha-propiedad.html?id=${p.id}'">
-        <div class="pc-img" style="background-image:url('${imgUrl}')">
+        <div class="pc-img" data-lazy-src="${imgUrl}" style="background-color:var(--beige2)">
           <div class="pc-badges">
             <span class="badge b-v">${p.operacion === 'venta' ? 'Venta' : p.operacion === 'alquiler_temp' ? 'Alquiler temp.' : 'Alquiler'}</span>
             ${badgeFicha}${badgeKYC}${badgePerm}${badgeDest}
@@ -484,6 +485,20 @@ const UI = {
 // ── Inicializar al cargar ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   UI.initShimmer();
+  // Lazy loading para imágenes de propiedades vía IntersectionObserver
+  if ('IntersectionObserver' in window) {
+    const imgObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const src = el.dataset.lazySrc;
+          if (src) { el.style.backgroundImage = `url('${src}')`; el.removeAttribute('data-lazy-src'); }
+          imgObs.unobserve(el);
+        }
+      });
+    }, { rootMargin: '200px' });
+    document.querySelectorAll('[data-lazy-src]').forEach(el => imgObs.observe(el));
+  }
 
   // Mostrar nombre del usuario en el nav si hay sesión
   Auth.getUser().then(user => {
