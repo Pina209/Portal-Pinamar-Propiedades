@@ -9,9 +9,8 @@
  */
 
 // ── Configuración ─────────────────────────────────────────────────────────
-const SUPABASE_URL     = 'https://TU-PROYECTO.supabase.co';   // ← reemplazar
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6...'; // ← reemplazar
-
+const SUPABASE_URL     = 'https://lyugffmltlvqirmmzhar.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_xeY8RDN-wYnxFHhEpGoeOw_qgZ8c3C_'
 // ── Inicialización (usando CDN de Supabase JS v2) ─────────────────────────
 // Requiere en el HTML: <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 const { createClient } = supabase;
