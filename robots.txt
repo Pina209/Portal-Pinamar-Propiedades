@@ -28,4 +28,5 @@ Disallow: /vercel.json
 Disallow: /.gitignore
 Disallow: /supabase/
 
+
 Sitemap: https://portal-pinamar-propiedades.vercel.app/sitemap.xml
