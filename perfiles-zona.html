@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="Análisis de sentimiento, polarización y perfil de inversor para cada zona: Refugio Inmaculado, La Vidriera, El Pueblo del Mar y más.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/perfiles-zona.html">
+  <!-- Open Graph -->
+  <meta property="og:type"        content="article">
+  <meta property="og:title"       content="Perfiles psicográficos del Partido de Pinamar | Pinamar Propiedades">
+  <meta property="og:description" content="Análisis de sentimiento, polarización y perfil de inversor para cada zona: Refugio Inmaculado, La Vidriera, El Pueblo del Mar y más.">
+  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/perfiles-zona.html">
+  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:site_name"   content="Pinamar Propiedades">
+  <meta property="og:locale"      content="es_AR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Perfiles psicográficos del Partido de Pinamar | Pinamar Propiedades">
+  <meta name="twitter:description" content="Análisis de sentimiento, polarización y perfil de inversor para cada zona: Refugio Inmaculado, La Vidriera, El Pueblo del Mar y más.">
+  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Perfiles psicográficos del Partido de Pinamar | Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#d4c9b0;
+  --ocre:#D69B2D;--ocre2:#c08a22;--gray:#6b7280;--gray-light:#f8f6f2;
+
+  /* Paleta de perfiles psicográficos */
+  --p-refugio:#1B4D3E;       /* Cariló – verde bosque oscuro */
+  --p-refugio-l:#E8F5F0;
+  --p-vidriera:#1a2a4a;      /* Costa Esmeralda – azul noche */
+  --p-vidriera-l:#E8EEF8;
+  --p-pueblo:#6B4C1E;        /* Pinamar Centro – ocre tierra */
+  --p-pueblo-l:#FBF3E4;
+  --p-horizonte:#1E4A5A;     /* Valeria/Ostende – azul horizonte */
+  --p-horizonte-l:#E6EFF4;
+  --p-silvestre:#3A5A2A;     /* Pinamar Norte – verde campo */
+  --p-silvestre-l:#EDF4E8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:#fff;color:#1a1a1a;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:999;height:68px;background:rgba(242,233,215,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(13,91,72,.1);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-svg{width:40px;height:40px}
+.lp{display:block;font-size:16px;font-weight:800;color:var(--verde);letter-spacing:.06em}
+.lpp{display:block;font-size:9px;font-weight:500;color:var(--verde);letter-spacing:.2em;text-transform:uppercase;border-top:1.5px solid var(--turquesa);padding-top:2px}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-sm{text-decoration:none;font-size:12.5px;font-weight:600;color:var(--verde);padding:7px 14px;border:1.5px solid var(--beige3);border-radius:7px;background:#fff;transition:all .2s}
+.btn-sm:hover{border-color:var(--verde)}
+.btn-pub{text-decoration:none;font-size:12.5px;font-weight:700;color:#fff;padding:8px 18px;background:var(--ocre);border-radius:7px;transition:background .2s}
+.btn-pub:hover{background:var(--ocre2)}
+
+/* ── HERO ── */
+.hero{
+  background:var(--verde2);
+  padding:80px 40px 72px;position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.04) 40px),
+                   repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.04) 40px);
+}
+.hero-inner{max-width:940px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--turquesa);margin-bottom:20px}
+.hero-eyebrow::before{content:'';width:24px;height:1.5px;background:var(--turquesa);display:inline-block}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,5.5vw,60px);color:#fff;line-height:1.05;margin-bottom:20px}
+.hero h1 em{color:var(--ocre);font-style:italic}
+.hero-lead{font-size:15.5px;color:rgba(255,255,255,.72);max-width:580px;line-height:1.75;margin-bottom:40px}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{
+  padding:8px 18px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1.5px solid;cursor:pointer;transition:all .2s;text-decoration:none;
+}
+.pill:hover{transform:translateY(-2px)}
+.pill-refugio{color:#7CCFB8;border-color:rgba(124,207,184,.35);background:rgba(124,207,184,.08)}
+.pill-refugio:hover{background:rgba(124,207,184,.18)}
+.pill-vidriera{color:#A0C0F0;border-color:rgba(160,192,240,.35);background:rgba(160,192,240,.08)}
+.pill-vidriera:hover{background:rgba(160,192,240,.18)}
+.pill-pueblo{color:#F0C878;border-color:rgba(240,200,120,.35);background:rgba(240,200,120,.08)}
+.pill-pueblo:hover{background:rgba(240,200,120,.18)}
+.pill-horizonte{color:#90D0E0;border-color:rgba(144,208,224,.35);background:rgba(144,208,224,.08)}
+.pill-horizonte:hover{background:rgba(144,208,224,.18)}
+.pill-silvestre{color:#A8D890;border-color:rgba(168,216,144,.35);background:rgba(168,216,144,.08)}
+.pill-silvestre:hover{background:rgba(168,216,144,.18)}
+
+/* ── INTRO ── */
+.intro-sec{max-width:940px;margin:0 auto;padding:64px 40px 0}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.intro-txt h2{font-family:'DM Serif Display',serif;font-size:clamp(26px,3vw,36px);color:var(--verde);line-height:1.2;margin-bottom:16px}
+.intro-txt p{font-size:14px;color:var(--gray);line-height:1.8;margin-bottom:14px}
+.intro-callout{
+  background:var(--verde2);color:#fff;border-radius:16px;padding:28px 28px 24px;
+  position:relative;overflow:hidden;
+}
+.intro-callout::before{content:'"';font-family:'DM Serif Display',serif;font-size:120px;color:rgba(255,255,255,.06);position:absolute;top:-20px;left:12px;line-height:1}
+.intro-callout p{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.85);position:relative;z-index:1;font-style:italic}
+.intro-callout .attr{font-size:11px;font-weight:700;color:var(--turquesa);margin-top:14px;letter-spacing:.06em;text-transform:uppercase;font-style:normal;display:block;position:relative;z-index:1}
+
+/* ── PERFILES ── */
+.perfiles-sec{padding:72px 40px;max-width:940px;margin:0 auto}
+.sec-label{font-size:10.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px}
+.sec-h2{font-family:'DM Serif Display',serif;font-size:clamp(26px,3.5vw,38px);color:var(--verde);margin-bottom:6px;line-height:1.15}
+.sec-sub{font-size:14px;color:var(--gray);line-height:1.7;max-width:540px;margin-bottom:48px}
+.matriz-sec{max-width:1100px;margin:0 auto;padding:80px 48px}
+.matriz-table{width:100%;border-collapse:collapse;font-size:13px}
+.matriz-table th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid #e8e8e8;white-space:nowrap}
+.matriz-table td{padding:14px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+.matriz-table tr:last-child td{border-bottom:none}
+.matriz-table tr:hover td{background:#fafafa}
+.mz-zona{font-weight:700;color:var(--verde);display:block;font-size:13px}
+.mz-perfil{font-size:11px;color:var(--gray);margin-top:2px}
+.mz-pct{font-weight:700;font-size:14px}
+.mz-pos{color:var(--turquesa)}
+.mz-neg{color:#e05555}
+.mz-bar-wrap{height:4px;background:#e8e8e8;border-radius:2px;margin-top:4px;width:80px}
+.mz-bar{height:4px;border-radius:2px;background:var(--turquesa)}
+.mz-precio{font-weight:700;color:var(--verde);font-size:13px}
+.mz-perfil-ideal{font-size:12px;color:var(--gray);line-height:1.5}
+@media(max-width:768px){.matriz-sec{padding:48px 16px}.matriz-table{font-size:12px}.matriz-table th,.matriz-table td{padding:10px 8px}}
+
+.perfiles-stack{display:flex;flex-direction:column;gap:3px}
+
+.perfil{
+  border-radius:14px;overflow:hidden;cursor:pointer;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  border:1.5px solid transparent;
+}
+.perfil.open{border-color:rgba(0,0,0,.08);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+
+.perfil-header{
+  display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:20px;
+  padding:20px 24px;transition:background .2s;
+  background:var(--gray-light);
+}
+.perfil.open .perfil-header{background:#fff}
+.perfil-num{
+  width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:20px;font-weight:700;flex-shrink:0;color:#fff;
+}
+.perfil-meta{}
+.perfil-nombre{font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+.perfil-zona{font-size:12px;color:var(--gray);font-weight:500}
+.perfil-arrow{font-size:18px;color:var(--gray);transition:transform .3s;user-select:none}
+.perfil.open .perfil-arrow{transform:rotate(180deg)}
+
+.perfil-body{
+  display:none;background:#fff;padding:0 24px;
+}
+.perfil.open .perfil-body{display:block;padding:0 24px 28px}
+
+.perfil-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px}
+.perfil-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--turquesa);margin-bottom:14px}
+
+.perfil-desc{font-size:13.5px;color:#333;line-height:1.8;margin-bottom:20px;padding-top:20px;border-top:1.5px solid var(--beige2)}
+
+/* Sentimiento bar */
+.sent-bars{display:flex;flex-direction:column;gap:10px}
+.sent-item{}
+.sent-label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#333;margin-bottom:5px}
+.sent-track{height:7px;background:var(--beige2);border-radius:4px;overflow:hidden}
+.sent-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.sent-pos .sent-fill{background:var(--turquesa)}
+.sent-neg .sent-fill{background:#e05555}
+.sent-neu .sent-fill{background:var(--ocre)}
+
+/* Inversor tags */
+.inv-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.inv-tag{padding:5px 13px;border-radius:6px;font-size:11.5px;font-weight:600}
+
+/* Metricas */
+.metricas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.met{background:var(--gray-light);border-radius:10px;padding:14px 16px}
+.met-val{font-size:20px;font-weight:800;color:var(--verde);line-height:1}
+.met-label{font-size:11px;color:var(--gray);margin-top:4px;line-height:1.4}
+
+/* Precio benchmark */
+.precio-bench{margin-top:16px;padding:14px 16px;background:var(--verde2);border-radius:10px;color:#fff}
+.precio-bench .pb-val{font-size:22px;font-weight:800;color:var(--ocre);line-height:1}
+.precio-bench .pb-label{font-size:11px;color:rgba(255,255,255,.6);margin-top:3px}
+.precio-bench .pb-sub{font-size:11.5px;color:rgba(255,255,255,.75);margin-top:6px;line-height:1.5}
+
+/* CTA perfil */
+.perfil-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;padding-top:20px;border-top:1.5px solid var(--beige2);flex-wrap:wrap;gap:12px;
+}
+.btn-ver-zona{
+  text-decoration:none;font-size:13px;font-weight:700;color:#fff;
+  padding:10px 22px;border-radius:8px;transition:all .2s;display:inline-block;
+}
+.btn-ver-zona:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ver-props{
+  text-decoration:none;font-size:13px;font-weight:600;color:var(--verde);
+  padding:10px 22px;border-radius:8px;border:1.5px solid var(--beige3);background:#fff;
+  transition:all .2s;
+}
+.btn-ver-props:hover{border-color:var(--verde)}
+.perfil-polarizacion{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:6px}
+.pol-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+
+.vent-card{
+  background:#fff;border-radius:14px;padding:28px 24px;
+  border:1.5px solid var(--beige2);
+  position:relative;overflow:hidden;transition:all .25s;
+}
+.vent-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(13,91,72,.1);border-color:var(--turquesa)}
+.vent-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--verde),var(--turquesa));
+}
+.vent-ico{font-size:32px;margin-bottom:16px}
+.vent-title{font-size:15px;font-weight:700;color:var(--verde);margin-bottom:8px;line-height:1.3}
+.vent-desc{font-size:13px;color:var(--gray);line-height:1.7}
+.vent-badge{
+  display:inline-block;margin-top:14px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  padding:4px 10px;border-radius:5px;
+  background:rgba(13,91,72,.08);color:var(--verde);
+}
+
+/* ── CTA FINAL ── */
+.cta-sec{padding:80px 40px;text-align:center;background:#fff}
+.cta-inner{max-width:640px;margin:0 auto}
+.cta-h{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);color:var(--verde);margin-bottom:16px;line-height:1.15}
+.cta-p{font-size:15px;color:var(--gray);line-height:1.7;margin-bottom:36px}
+.cta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn-cta-main{
+  text-decoration:none;padding:15px 36px;background:var(--verde);
+  color:#fff;border-radius:10px;font-size:15px;font-weight:700;
+  transition:all .25s;display:inline-block;
+}
+.btn-cta-main:hover{background:var(--verde2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,91,72,.3)}
+.btn-cta-sec{
+  text-decoration:none;padding:15px 36px;background:transparent;
+  color:var(--verde);border-radius:10px;font-size:15px;font-weight:600;
+  border:1.5px solid var(--beige3);transition:all .2s;display:inline-block;
+}
+.btn-cta-sec:hover{border-color:var(--verde)}
+
+/* ── FOOTER ── */
+footer{background:var(--verde2);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:#fff}
+.foot-copy{font-size:12px;color:rgba(255,255,255,.3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  nav{padding:0 16px}
+  .hero,.perfiles-sec,.matriz-sec,.ventaja-sec,.cta-sec,.foda-sec,.intro-sec{padding-left:16px;padding-right:16px}
+  .intro-grid,.perfil-grid,.foda-grid,.ventaja-grid{grid-template-columns:1fr}
+  .metricas{grid-template-columns:1fr 1fr}
+  .hero-pills{gap:7px}
+}
+
+/* ── ANIMACIONES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .6s ease both}
+.fade-up-2{animation:fadeUp .6s .12s ease both}
+.fade-up-3{animation:fadeUp .6s .24s ease both}
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+    </svg>
+    <div><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
+  </a>
+  <div class="nav-r">
+    <a href="pinamar-propiedades-v2.html" class="btn-sm">← Inicio</a>
+    <a href="guia-invertir.html" class="btn-sm">Guía de inversión</a>
+    <a href="listado-propiedades.html" class="btn-pub">Ver propiedades</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow fade-up">Inteligencia de mercado · Partido de Pinamar</div>
+    <h1 class="fade-up-2">Cada zona tiene<br><em>su propio carácter.</em></h1>
+    <p class="hero-lead fade-up-3">Mapeamos la psicografía del Partido de Pinamar: cómo se percibe cada zona, qué perfil de inversor atrae y qué datos técnicos respaldan esa percepción. El buscador por estilo de vida parte de acá.</p>
+    <div class="hero-pills fade-up-3">
+      <a href="#refugio" class="pill pill-refugio">🌲 Refugio Inmaculado</a>
+      <a href="#vidriera" class="pill pill-vidriera">💎 La Vidriera</a>
+      <a href="#pueblo" class="pill pill-pueblo">🌊 El Pueblo del Mar</a>
+      <a href="#horizonte" class="pill pill-horizonte">🌿 El Horizonte Tranquilo</a>
+      <a href="#silvestre" class="pill pill-silvestre">⛳ El Club Silvestre</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section style="padding:64px 40px 0;background:#fff" id="intro">
+  <div style="max-width:940px;margin:0 auto">
+    <div class="intro-grid">
+      <div class="intro-txt">
+        <h2>¿Qué es la segmentación psicográfica de zona?</h2>
+        <p>Los portales inmobiliarios tradicionales muestran propiedades por m², habitaciones y precio. Eso responde el <em>qué</em>. Nuestro sistema responde el <em>cómo se siente vivir ahí</em>.</p>
+        <p>Analizamos más de 3.200 reseñas, consultas y transacciones del Partido de Pinamar para identificar los patrones de percepción de cada zona. El resultado son cinco perfiles que no son etiquetas de marketing — son patrones reales de comportamiento de inversión.</p>
+        <p>Cuando el buscador AI te sugiere una propiedad, usa estos perfiles para validar que el estilo de vida que buscás coincide con los datos duros de la ficha técnica.</p>
+      </div>
+      <div class="intro-callout">
+        <p>La búsqueda emocional y la validación técnica no son opuestas. Son los dos extremos del mismo proceso de decisión. Nuestro sistema las conecta.</p>
+        <span class="attr">— Pinamar Propiedades · Metodología 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PERFILES ── -->
+<section class="perfiles-sec">
+  <div class="sec-label">Los cinco perfiles</div>
+  <h2 class="sec-h2">Geografía emocional del Partido</h2>
+  <p class="sec-sub">Hacé click en cada perfil para ver el análisis completo, métricas de mercado y perfil de inversor ideal.</p>
+
+  <div class="perfiles-stack">
+
+    <!-- 1. REFUGIO INMACULADO — Cariló -->
+    <div class="perfil open" id="refugio">
+      <div class="perfil-header" onclick="togglePerfil(this.parentElement)">
+        <div class="perfil-num" style="background:var(--p-refugio)">I</div>
+        <div class="perfil-meta">
+          <div class="perfil-nombre">🌲 Refugio Inmaculado</div>
+          <div class="perfil-zona">Cariló — Barrios Bosque, Golf, El Remanso, Bahía Cariló</div>
+        </div>
+        <div class="perfil-arrow">▾</div>
+      </div>
+      <div class="perfil-body">
+        <p class="perfil-desc">Cariló opera con una lógica de escasez cuidada: acceso controlado, arquitectura que se integra al bosque, y una cultura local que rechaza activamente la masificación. El inversor que llega acá no busca rendimiento rápido — busca preservación de capital en activos que el mercado no puede replicar. La densidad boscosa de pinos y la restricción constructiva del COU Municipal crean una barrera de entrada que los datos confirman: el menor índice de negatividad del Partido.</p>
+        <div class="perfil-grid">
+          <div class="perfil-col">
+            <h4>Análisis de sentimiento</h4>
+            <div class="sent-bars">
+              <div class="sent-item">
+                <div class="sent-label"><span>Positividad</span><span style="color:var(--turquesa)">91%</span></div>
+                <div class="sent-track sent-pos"><div class="sent-fill" data-sent-pos="carilo" style="width:91%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Negatividad</span><span style="color:#e05555" data-sent-neg-txt="carilo">4%</span></div>
+                <div class="sent-track sent-neg"><div class="sent-fill" style="width:4%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Neutro / Factual</span><span style="color:var(--ocre)">5%</span></div>
+                <div class="sent-track sent-neu"><div class="sent-fill" style="width:5%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <h4>Perfil de inversor</h4>
+              <div class="inv-tags">
+                <span class="inv-tag" style="background:var(--p-refugio-l);color:var(--p-refugio)">Preservación de capital</span>
+                <span class="inv-tag" style="background:var(--p-refugio-l);color:var(--p-refugio)">Largo plazo (+10 años)</span>
+                <span class="inv-tag" style="background:var(--p-refugio-l);color:var(--p-refugio)">Alquiler premium</span>
+                <span class="inv-tag" style="background:var(--p-refugio-l);color:var(--p-refugio)">Privacidad crítica</span>
+              </div>
+              <p style="font-size:12.5px;color:var(--gray);line-height:1.7">Inversor con ticket >USD 400K, sensible a la exclusividad más que al rendimiento. Horizonte típico de 8–15 años. Perfil UHNW local y regional (Buenos Aires, Córdoba, Uruguay).</p>
+            </div>
+          </div>
+          <div class="perfil-col">
+            <h4>Métricas de mercado</h4>
+            <div class="metricas">
+              <div class="met"><div class="met-val" data-zona-precio="carilo">USD 5.500</div><div class="met-label">Precio promedio /m² lote</div></div>
+              <div class="met"><div class="met-val" data-zona-constr="carilo">USD 7.200</div><div class="met-label">Precio promedio /m² construcción</div></div>
+              <div class="met"><div class="met-val" data-zona-apreciacion="carilo">+18%</div><div class="met-label">Apreciación 2023–2025</div></div>
+              <div class="met"><div class="met-val" data-zona-neg="carilo">4%</div><div class="met-label">Índice de negatividad</div></div>
+            </div>
+            <div class="precio-bench">
+              <div class="pb-val" data-zona-ticket="carilo">USD 620.000</div>
+              <div class="pb-label">Ticket promedio de transacción · Cariló Bosque</div>
+              <div class="pb-sub">Menor rotación del Partido. Propiedades con ficha técnica se venden 3,4× más rápido.</div>
+            </div>
+          </div>
+        </div>
+        <div class="perfil-cta">
+          <div>
+            <a href="zona-carilo.html" class="btn-ver-zona" style="background:var(--p-refugio)">Ver zona Cariló →</a>
+            <a href="listado-propiedades.html?zona=carilo&ficha=1" class="btn-ver-props">Propiedades con ficha en Cariló</a>
+          </div>
+          <div class="perfil-polarizacion">
+            <span class="pol-dot" style="background:#22c55e"></span>
+            Polarización <strong>baja</strong> — consenso de mercado
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. LA VIDRIERA — Costa Esmeralda -->
+    <div class="perfil" id="vidriera">
+      <div class="perfil-header" onclick="togglePerfil(this.parentElement)">
+        <div class="perfil-num" style="background:var(--p-vidriera)">II</div>
+        <div class="perfil-meta">
+          <div class="perfil-nombre">💎 La Vidriera</div>
+          <div class="perfil-zona">Costa Esmeralda — B. Náutico, B. Atlántico, B. Golf, B. Residencial</div>
+        </div>
+        <div class="perfil-arrow">▾</div>
+      </div>
+      <div class="perfil-body">
+        <p class="perfil-desc">Costa Esmeralda es la apuesta más polarizada del Partido. Su propuesta de valor se basa en seguridad de clausura, estatus visible y equipamiento country de alto nivel (golf, náutica, equitación). La alta polarización que detectamos no es un problema — es una señal: los que valoran la propuesta la valoran mucho, y los que no, simplemente no son el mercado. El inversor que entiende esto tiene una oportunidad clara: el mercado aún no terminó de pricearlo correctamente.</p>
+        <div class="perfil-grid">
+          <div class="perfil-col">
+            <h4>Análisis de sentimiento</h4>
+            <div class="sent-bars">
+              <div class="sent-item">
+                <div class="sent-label"><span>Positividad</span><span style="color:var(--turquesa)" data-sent-pos-txt="costa-esmeralda">68%</span></div>
+                <div class="sent-track sent-pos"><div class="sent-fill" data-sent-pos="costa-esmeralda" style="width:68%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Negatividad</span><span style="color:#e05555">24%</span></div>
+                <div class="sent-track sent-neg"><div class="sent-fill" style="width:24%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Neutro / Factual</span><span style="color:var(--ocre)">8%</span></div>
+                <div class="sent-track sent-neu"><div class="sent-fill" style="width:8%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <h4>Perfil de inversor</h4>
+              <div class="inv-tags">
+                <span class="inv-tag" style="background:var(--p-vidriera-l);color:var(--p-vidriera)">Estatus y seguridad</span>
+                <span class="inv-tag" style="background:var(--p-vidriera-l);color:var(--p-vidriera)">Rendimiento alquiler</span>
+                <span class="inv-tag" style="background:var(--p-vidriera-l);color:var(--p-vidriera)">Uso propio intensivo</span>
+                <span class="inv-tag" style="background:var(--p-vidriera-l);color:var(--p-vidriera)">Familia con hijos</span>
+              </div>
+              <p style="font-size:12.5px;color:var(--gray);line-height:1.7">Inversor que prioriza seguridad perimetral y equipamiento de club sobre integración natural. Ticket medio USD 280–600K. Alto volumen de alquiler en enero-febrero.</p>
+            </div>
+          </div>
+          <div class="perfil-col">
+            <h4>Métricas de mercado</h4>
+            <div class="metricas">
+              <div class="met"><div class="met-val" data-zona-precio="costa-esmeralda">USD 3.200</div><div class="met-label">Precio promedio /m² lote</div></div>
+              <div class="met"><div class="met-val" data-zona-constr="costa-esmeralda">USD 4.800</div><div class="met-label">Precio promedio /m² construcción</div></div>
+              <div class="met"><div class="met-val" data-zona-apreciacion="costa-esmeralda">+11%</div><div class="met-label">Apreciación anual</div></div>
+              <div class="met"><div class="met-val" data-zona-neg="costa-esmeralda">24%</div><div class="met-label">Índice de negatividad</div></div>
+            </div>
+            <div class="precio-bench" style="background:var(--p-vidriera)">
+              <div class="pb-val" data-zona-ticket="costa-esmeralda">USD 320.000</div>
+              <div class="pb-label">Ticket promedio de transacción · Costa Esmeralda</div>
+              <div class="pb-sub">Oportunidad: polarización alta + precio aún no pricead. Potencial de apreciación +20–30% con mejora de infraestructura vial.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="barrios-costa-esmeralda" style="display:none;margin:16px 0">
+          <div style="font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Barrios de esta zona</div>
+        </div>
+        <div class="perfil-cta">
+          <div>
+            <a href="listado-propiedades.html?zona=costa-esmeralda" class="btn-ver-zona" style="background:var(--p-vidriera)">Ver propiedades →</a>
+            <a href="listado-propiedades.html?zona=costa-esmeralda&cerrado=1" class="btn-ver-props">Solo barrios cerrados</a>
+          </div>
+          <div class="perfil-polarizacion">
+            <span class="pol-dot" style="background:#ef4444"></span>
+            Polarización <strong>alta</strong> — oportunidad para convencidos
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. EL PUEBLO DEL MAR — Pinamar Centro -->
+    <div class="perfil" id="pueblo">
+      <div class="perfil-header" onclick="togglePerfil(this.parentElement)">
+        <div class="perfil-num" style="background:var(--p-pueblo)">III</div>
+        <div class="perfil-meta">
+          <div class="perfil-nombre">🌊 El Pueblo del Mar</div>
+          <div class="perfil-zona">Pinamar Centro — Av. Bunge, B. Las Gaviotas, B. Las Hortensias</div>
+        </div>
+        <div class="perfil-arrow">▾</div>
+      </div>
+      <div class="perfil-body">
+        <p class="perfil-desc">Pinamar Centro es el corazón comercial y turístico del Partido. Su fortaleza es la liquidez: la mayor rotación de propiedades, la mayor demanda de alquiler temporal y el acceso peatonal a todos los servicios. El inversor que busca rendimiento en alquiler de corto plazo tiene acá su mejor ecuación. La contra es la densidad: el ambiente es vibrante en temporada y silencioso fuera de ella.</p>
+        <div class="perfil-grid">
+          <div class="perfil-col">
+            <h4>Análisis de sentimiento</h4>
+            <div class="sent-bars">
+              <div class="sent-item">
+                <div class="sent-label"><span>Positividad</span><span style="color:var(--turquesa)">78%</span></div>
+                <div class="sent-track sent-pos"><div class="sent-fill" style="width:78%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Negatividad</span><span style="color:#e05555">12%</span></div>
+                <div class="sent-track sent-neg"><div class="sent-fill" style="width:12%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Neutro / Factual</span><span style="color:var(--ocre)">10%</span></div>
+                <div class="sent-track sent-neu"><div class="sent-fill" style="width:10%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <h4>Perfil de inversor</h4>
+              <div class="inv-tags">
+                <span class="inv-tag" style="background:var(--p-pueblo-l);color:var(--p-pueblo)">Renta alquiler temporal</span>
+                <span class="inv-tag" style="background:var(--p-pueblo-l);color:var(--p-pueblo)">Ticket bajo-medio</span>
+                <span class="inv-tag" style="background:var(--p-pueblo-l);color:var(--p-pueblo)">Alta liquidez</span>
+              </div>
+              <p style="font-size:12.5px;color:var(--gray);line-height:1.7">Mayor accesibilidad de entrada del Partido. Ticket desde USD 80K (departamento 1 amb). Rendimiento de alquiler temporal 8–12% anual. Ideal para primer activo inmobiliario en zona costera.</p>
+            </div>
+          </div>
+          <div class="perfil-col">
+            <h4>Métricas de mercado</h4>
+            <div class="metricas">
+              <div class="met"><div class="met-val" data-zona-precio="pinamar-centro">USD 2.200</div><div class="met-label">Precio promedio /m² depto</div></div>
+              <div class="met"><div class="met-val" data-zona-constr="pinamar-centro">USD 2.800</div><div class="met-label">Precio promedio /m² casa</div></div>
+              <div class="met"><div class="met-val" data-zona-apreciacion="pinamar-centro">+8%</div><div class="met-label">Apreciación anual</div></div>
+              <div class="met"><div class="met-val" data-zona-tendencia="pinamar-centro">↑ sube</div><div class="met-label">Tendencia de mercado</div></div>
+            </div>
+            <div class="precio-bench" style="background:var(--p-pueblo)">
+              <div class="pb-val" data-zona-ticket="pinamar-centro">USD 110.000</div>
+              <div class="pb-label">Ticket promedio de transacción · Pinamar Centro</div>
+              <div class="pb-sub">Alta demanda de alquiler diciembre–marzo. Departamentos con cochera: +18% de valor.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="barrios-pinamar-centro" style="display:none;margin:16px 0">
+          <div style="font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Barrios de esta zona</div>
+        </div>
+        <div class="perfil-cta">
+          <div>
+            <a href="listado-propiedades.html?zona=pinamar-centro" class="btn-ver-zona" style="background:var(--p-pueblo)">Ver propiedades →</a>
+            <a href="listado-propiedades.html?zona=pinamar-centro&tipo=departamento" class="btn-ver-props">Solo departamentos</a>
+          </div>
+          <div class="perfil-polarizacion">
+            <span class="pol-dot" style="background:#f59e0b"></span>
+            Polarización <strong>media</strong> — mercado maduro y líquido
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. EL HORIZONTE TRANQUILO — Valeria / Ostende -->
+    <div class="perfil" id="horizonte">
+      <div class="perfil-header" onclick="togglePerfil(this.parentElement)">
+        <div class="perfil-num" style="background:var(--p-horizonte)">IV</div>
+        <div class="perfil-meta">
+          <div class="perfil-nombre">🌿 El Horizonte Tranquilo</div>
+          <div class="perfil-zona">Valeria del Mar · Ostende</div>
+        </div>
+        <div class="perfil-arrow">▾</div>
+      </div>
+      <div class="perfil-body">
+        <p class="perfil-desc">Valeria del Mar y Ostende comparten una identidad de transición: más tranquilas que Pinamar Centro, más accesibles que Cariló, con una arquitectura heterogénea que va de chalets históricos a residencias modernas. El análisis de sentimiento muestra alta valoración de la tranquilidad y la vista al mar. Son zonas en proceso de revalorización, con varios proyectos de infraestructura municipal pendientes que podrían acelerar el ciclo.</p>
+        <div class="perfil-grid">
+          <div class="perfil-col">
+            <h4>Análisis de sentimiento</h4>
+            <div class="sent-bars">
+              <div class="sent-item">
+                <div class="sent-label"><span>Positividad</span><span style="color:var(--turquesa)">83%</span></div>
+                <div class="sent-track sent-pos"><div class="sent-fill" style="width:83%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Negatividad</span><span style="color:#e05555">8%</span></div>
+                <div class="sent-track sent-neg"><div class="sent-fill" style="width:8%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Neutro / Factual</span><span style="color:var(--ocre)">9%</span></div>
+                <div class="sent-track sent-neu"><div class="sent-fill" style="width:9%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <h4>Perfil de inversor</h4>
+              <div class="inv-tags">
+                <span class="inv-tag" style="background:var(--p-horizonte-l);color:var(--p-horizonte)">Valor a largo plazo</span>
+                <span class="inv-tag" style="background:var(--p-horizonte-l);color:var(--p-horizonte)">Uso propio + renta</span>
+                <span class="inv-tag" style="background:var(--p-horizonte-l);color:var(--p-horizonte)">Baja densidad</span>
+              </div>
+              <p style="font-size:12.5px;color:var(--gray);line-height:1.7">Perfil de inversor paciente que busca calidad de vida sobre liquidez. Ticket medio USD 180–380K. Zonas con mayor potencial de apreciación relativa en el mediano plazo.</p>
+            </div>
+          </div>
+          <div class="perfil-col">
+            <h4>Métricas de mercado</h4>
+            <div class="metricas">
+              <div class="met"><div class="met-val" data-zona-precio="valeria">USD 1.800</div><div class="met-label">Precio promedio /m² lote</div></div>
+              <div class="met"><div class="met-val" data-zona-constr="valeria">USD 2.600</div><div class="met-label">Precio promedio /m² construcción</div></div>
+              <div class="met"><div class="met-val" data-zona-apreciacion="valeria">+14%</div><div class="met-label">Apreciación anual</div></div>
+              <div class="met"><div class="met-val" data-zona-tendencia="valeria">↑ sube</div><div class="met-label">Tendencia de mercado</div></div>
+            </div>
+            <div class="precio-bench" style="background:var(--p-horizonte)">
+              <div class="pb-val" data-zona-ticket="valeria">USD 240.000</div>
+              <div class="pb-label">Ticket promedio de transacción · Valeria/Ostende</div>
+              <div class="pb-sub">Frentes al mar disponibles con alta demanda de permuta. Potencial residencial permanente en crecimiento.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="barrios-valeria" style="display:none;margin:16px 0">
+          <div style="font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Barrios de esta zona</div>
+        </div>
+        <div class="perfil-cta">
+          <div>
+            <a href="listado-propiedades.html?zona=valeria" class="btn-ver-zona" style="background:var(--p-horizonte)">Ver Valeria del Mar →</a>
+            <a href="listado-propiedades.html?zona=ostende" class="btn-ver-props">Ver Ostende</a>
+          </div>
+          <div class="perfil-polarizacion">
+            <span class="pol-dot" style="background:#22c55e"></span>
+            Polarización <strong>baja</strong> — mercado estable en crecimiento
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. EL CLUB SILVESTRE — Pinamar Norte -->
+    <div class="perfil" id="silvestre">
+      <div class="perfil-header" onclick="togglePerfil(this.parentElement)">
+        <div class="perfil-num" style="background:var(--p-silvestre)">V</div>
+        <div class="perfil-meta">
+          <div class="perfil-nombre">⛳ El Club Silvestre</div>
+          <div class="perfil-zona">Pinamar Norte — B. La Herradura, B. Las Gaviotas, B. Golf, B. Lasalle</div>
+        </div>
+        <div class="perfil-arrow">▾</div>
+      </div>
+      <div class="perfil-body">
+        <p class="perfil-desc">Pinamar Norte combina la cercanía a los servicios de Pinamar Centro con la escala del barrio privado. Los barrios golf (La Herradura, Golf) tienen una identidad de club: acceso controlado, lote grande, vida al aire libre. El análisis muestra una valoración muy alta del silencio y el verde, con negatividad concentrada en cuestiones de mantenimiento de infraestructura común — punto de mejora identificado para el inversor que quiere posicionarse en la comunidad.</p>
+        <div class="perfil-grid">
+          <div class="perfil-col">
+            <h4>Análisis de sentimiento</h4>
+            <div class="sent-bars">
+              <div class="sent-item">
+                <div class="sent-label"><span>Positividad</span><span style="color:var(--turquesa)">81%</span></div>
+                <div class="sent-track sent-pos"><div class="sent-fill" style="width:81%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Negatividad</span><span style="color:#e05555">11%</span></div>
+                <div class="sent-track sent-neg"><div class="sent-fill" style="width:11%"></div></div>
+              </div>
+              <div class="sent-item">
+                <div class="sent-label"><span>Neutro / Factual</span><span style="color:var(--ocre)">8%</span></div>
+                <div class="sent-track sent-neu"><div class="sent-fill" style="width:8%"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <h4>Perfil de inversor</h4>
+              <div class="inv-tags">
+                <span class="inv-tag" style="background:var(--p-silvestre-l);color:var(--p-silvestre)">Familia activa</span>
+                <span class="inv-tag" style="background:var(--p-silvestre-l);color:var(--p-silvestre)">Golf y deportes</span>
+                <span class="inv-tag" style="background:var(--p-silvestre-l);color:var(--p-silvestre)">Uso propio residencial</span>
+              </div>
+              <p style="font-size:12.5px;color:var(--gray);line-height:1.7">El perfil que más valora la relación m² de lote / precio. Casas grandes, jardines, ambiente de club. Ticket medio USD 250–600K. Alta demanda de uso propio; alquiler temporal más moderado.</p>
+            </div>
+          </div>
+          <div class="perfil-col">
+            <h4>Métricas de mercado</h4>
+            <div class="metricas">
+              <div class="met"><div class="met-val" data-zona-precio="pinamar-norte">USD 2.800</div><div class="met-label">Precio promedio /m² lote</div></div>
+              <div class="met"><div class="met-val" data-zona-constr="pinamar-norte">USD 3.400</div><div class="met-label">Precio promedio /m² construcción</div></div>
+              <div class="met"><div class="met-val" data-zona-apreciacion="pinamar-norte">+9%</div><div class="met-label">Apreciación anual</div></div>
+              <div class="met"><div class="met-val" data-zona-tendencia="pinamar-norte">↑ sube</div><div class="met-label">Tendencia de mercado</div></div>
+            </div>
+            <div class="precio-bench" style="background:var(--p-silvestre)">
+              <div class="pb-val" data-zona-ticket="pinamar-norte">USD 390.000</div>
+              <div class="pb-label">Ticket promedio de transacción · Pinamar Norte</div>
+              <div class="pb-sub">Mayor proporción de permutas del Partido. Compradores que liquidan activos de otras provincias para radicarse.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="barrios-pinamar-norte" style="display:none;margin:16px 0">
+          <div style="font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Barrios de esta zona</div>
+        </div>
+        <div class="perfil-cta">
+          <div>
+            <a href="listado-propiedades.html?zona=pinamar-norte&cerrado=1" class="btn-ver-zona" style="background:var(--p-silvestre)">Ver barrios cerrados →</a>
+            <a href="listado-propiedades.html?zona=pinamar-norte&permuta=1" class="btn-ver-props">Con opción permuta</a>
+          </div>
+          <div class="perfil-polarizacion">
+            <span class="pol-dot" style="background:#f59e0b"></span>
+            Polarización <strong>media-baja</strong> — mercado de nicho consolidado
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FODA ── -->
+
+
+<!-- ── MATRIZ DE SENTIMIENTO ── -->
+<section class="matriz-sec" id="matriz">
+  <div class="sec-label">Comparativa de zonas</div>
+  <h2 class="sec-h2">Matriz de valor percibido</h2>
+  <p class="sec-sub">Resumen comparativo de los cinco perfiles para una lectura lateral rápida.</p>
+
+  <table class="matriz-table">
+    <thead>
+      <tr>
+        <th>Zona</th>
+        <th>Positividad</th>
+        <th>Negatividad</th>
+        <th>Polarización</th>
+        <th>Perfil ideal</th>
+        <th>Precio /m² lote</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="mz-row" data-mz-zona="carilo">
+        <td><div class="mz-cell"><div class="mz-zona"><span class="mz-dot" style="background:var(--p-refugio)"></span>Cariló</div><div class="mz-slogan">Refugio Inmaculado</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:91%;background:var(--turquesa)"></div></div><div class="mz-pct" style="color:var(--turquesa)">91%</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:4%;background:#e05555"></div></div><div class="mz-pct" style="color:#e05555">4%</div></div></td>
+        <td><div class="mz-cell"><span class="mz-pol pol-baja">● Baja</span></div></td>
+        <td><div class="mz-cell"><div class="mz-perfil">Preservación capital</div><div class="mz-inv">UHNW · largo plazo</div></div></td>
+        <td><div class="mz-cell"><strong data-zona-precio="carilo">USD 5.500</strong></div></td>
+      </tr>
+      <tr class="mz-row" data-mz-zona="costa-esmeralda">
+        <td><div class="mz-cell"><div class="mz-zona"><span class="mz-dot" style="background:var(--p-vidriera)"></span>Costa Esmeralda</div><div class="mz-slogan">La Vidriera</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:68%;background:var(--turquesa)"></div></div><div class="mz-pct" style="color:var(--turquesa)">68%</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:24%;background:#e05555"></div></div><div class="mz-pct" style="color:#e05555">24%</div></div></td>
+        <td><div class="mz-cell"><span class="mz-pol pol-alta">● Alta</span></div></td>
+        <td><div class="mz-cell"><div class="mz-perfil">Estatus y seguridad</div><div class="mz-inv">Familia · alquiler</div></div></td>
+        <td><div class="mz-cell"><strong data-zona-precio="costa-esmeralda">USD 3.200</strong></div></td>
+      </tr>
+      <tr class="mz-row" data-mz-zona="pinamar-centro">
+        <td><div class="mz-cell"><div class="mz-zona"><span class="mz-dot" style="background:var(--p-pueblo)"></span>Pinamar Centro</div><div class="mz-slogan">El Pueblo del Mar</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:78%;background:var(--turquesa)"></div></div><div class="mz-pct" style="color:var(--turquesa)">78%</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:12%;background:#e05555"></div></div><div class="mz-pct" style="color:#e05555">12%</div></div></td>
+        <td><div class="mz-cell"><span class="mz-pol pol-media">● Media</span></div></td>
+        <td><div class="mz-cell"><div class="mz-perfil">Renta alquiler temporal</div><div class="mz-inv">Alta liquidez · accesible</div></div></td>
+        <td><div class="mz-cell"><strong data-zona-precio="pinamar-centro">USD 2.200</strong></div></td>
+      </tr>
+      <tr class="mz-row" data-mz-zona="valeria">
+        <td><div class="mz-cell"><div class="mz-zona"><span class="mz-dot" style="background:var(--p-horizonte)"></span>Valeria / Ostende</div><div class="mz-slogan">El Horizonte Tranquilo</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:83%;background:var(--turquesa)"></div></div><div class="mz-pct" style="color:var(--turquesa)">83%</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:8%;background:#e05555"></div></div><div class="mz-pct" style="color:#e05555">8%</div></div></td>
+        <td><div class="mz-cell"><span class="mz-pol pol-baja">● Baja</span></div></td>
+        <td><div class="mz-cell"><div class="mz-perfil">Valor a largo plazo</div><div class="mz-inv">Uso propio · paciente</div></div></td>
+        <td><div class="mz-cell"><strong data-zona-precio="valeria">USD 1.800</strong></div></td>
+      </tr>
+      <tr class="mz-row" data-mz-zona="pinamar-norte">
+        <td><div class="mz-cell"><div class="mz-zona"><span class="mz-dot" style="background:var(--p-silvestre)"></span>Pinamar Norte</div><div class="mz-slogan">El Club Silvestre</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:81%;background:var(--turquesa)"></div></div><div class="mz-pct" style="color:var(--turquesa)">81%</div></div></td>
+        <td><div class="mz-cell"><div class="mz-bar-wrap"><div class="mz-bar" style="width:11%;background:#e05555"></div></div><div class="mz-pct" style="color:#e05555">11%</div></div></td>
+        <td><div class="mz-cell"><span class="mz-pol pol-media">● Media-baja</span></div></td>
+        <td><div class="mz-cell"><div class="mz-perfil">Familia activa / club</div><div class="mz-inv">Lote grande · deportes</div></div></td>
+        <td><div class="mz-cell"><strong data-zona-precio="pinamar-norte">USD 2.800</strong></div></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ── VENTAJA INJUSTA ── -->
+<section class="ventaja-sec" id="ventaja">
+  <div class="ventaja-inner">
+    <div class="sec-label">La ventaja competitiva</div>
+    <h2 class="sec-h2">Lo que no se puede replicar desde afuera</h2>
+    <p class="sec-sub">Tres barreras de entrada que hacen que esta segmentación sea un activo, no solo un análisis.</p>
+    <div class="ventaja-grid">
+      <div class="vent-card">
+        <div class="vent-ico">📋</div>
+        <div class="vent-title">Datos técnicos firmados por profesionales locales</div>
+        <div class="vent-desc">La Ficha Técnica Certificada con semáforo de estado (estructura, instalaciones, carpinterías) y costo de reparaciones según Índice CAC es imposible de generar de forma remota. Requiere presencia física y red de profesionales habilitados en el Partido.</div>
+        <span class="vent-badge">Barrera física</span>
+      </div>
+      <div class="vent-card">
+        <div class="vent-ico">🗺️</div>
+        <div class="vent-title">Conocimiento de microzonas que ningún algoritmo tiene</div>
+        <div class="vent-desc">La diferencia entre Cariló Bosque y Cariló Centro, o entre B. Las Gaviotas y B. La Herradura, no está en ninguna base de datos nacional. Ese conocimiento es territorio — y se acumula con años de operación local, no con datos de portales.</div>
+        <span class="vent-badge">Barrera de conocimiento</span>
+      </div>
+      <div class="vent-card">
+        <div class="vent-ico">🤝</div>
+        <div class="vent-title">Gestión física del activo en el territorio</div>
+        <div class="vent-desc">El inversor que compra desde Buenos Aires, Montevideo o Miami necesita que alguien esté físicamente en el Partido cuando hay una gotera, un inquilino que no paga o una refacción que coordinar. Eso no lo puede hacer una plataforma digital sin raíz local.</div>
+        <span class="vent-badge">Barrera operativa</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section class="cta-sec">
+  <div class="cta-inner">
+    <h2 class="cta-h">¿Ya sabés qué perfil te identifica?</h2>
+    <p class="cta-p">Usá el buscador por estilo de vida para encontrar propiedades que coincidan con tu perfil y validar cada una con la ficha técnica certificada.</p>
+    <div class="cta-btns">
+      <a href="pinamar-ai.html" class="btn-cta-main">✨ Probar Pinamar AI →</a>
+      <a href="listado-propiedades.html" class="btn-cta-sec">Listado clásico</a>
+      <a href="guia-invertir.html" class="btn-cta-sec">Guía de inversión</a>
+      <a href="calculadora-hipoteca.html" class="btn-cta-sec">🏦 Calculadora hipotecaria</a>
+      <a href="inmobiliarias.html" class="btn-cta-sec">🏢 Inmobiliarias certificadas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER EXPANDIDO — Pinamar Propiedades
+     Incluir en todas las páginas
+═══════════════════════════════════════════════════════════ -->
+<footer class="footer-full">
+  <!-- Banda superior: quiénes somos en miniatura -->
+  <div class="footer-brand">
+    <div class="footer-inner">
+      <div class="fb-logo-col">
+        <a href="pinamar-propiedades-v2.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:14px">
+          <svg width="40" height="40" viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".15"/>
+            <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+            <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+            <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#fff"/>
+            <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+          </svg>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:.06em">PINAMAR</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase">PROPIEDADES</div>
+          </div>
+        </a>
+        <p class="fb-tagline">El nexo inteligente del real estate premium costero.</p>
+        <p class="fb-tagline" style="margin-top:4px;font-style:italic;color:rgba(255,255,255,.35)">"Conectamos la naturaleza con la inversión inteligente."</p>
+        <div class="fb-social">
+          <a href="https://instagram.com/pinamarpropiedades" target="_blank" rel="noopener" class="fb-social-btn" title="Instagram">📸</a>
+          <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-social-btn" title="WhatsApp">💬</a>
+          <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-social-btn" title="Email">✉️</a>
+        </div>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🏠 Portal</div>
+        <a href="listado-propiedades.html" class="fb-link">Buscar propiedades</a>
+        <a href="comparador.html" class="fb-link">Comparador</a>
+        <a href="pinamar-ai.html" class="fb-link">✨ Pinamar AI</a>
+        <a href="perfiles-zona.html" class="fb-link">Perfiles de zona</a>
+        <a href="zona-carilo.html" class="fb-link">Guía Cariló</a>
+        <a href="noticias.html" class="fb-link">Informes de mercado</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">📊 Herramientas</div>
+        <a href="calculadora-hipoteca.html" class="fb-link">Calculadora hipotecaria</a>
+        <a href="guia-invertir.html" class="fb-link">Guía de inversión</a>
+        <a href="inmobiliarias.html" class="fb-link">Inmobiliarias certificadas</a>
+        <a href="proveedores-certificados.html" class="fb-link">Proveedores</a>
+        <a href="barrio.html" class="fb-link">Barrios del Partido</a>
+        <a href="quienes-somos.html" class="fb-link">Quiénes somos</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🔒 Mi cuenta</div>
+        <a href="login-registro.html" class="fb-link">Iniciar sesión</a>
+        <a href="login-registro.html?tab=registro" class="fb-link">Registrarme</a>
+        <a href="panel-inmobiliaria.html" class="fb-link">Panel propietario</a>
+        <div class="fb-col-title" style="margin-top:18px">📞 Contacto</div>
+        <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-link">info@pinamarpropiedades.com.ar</a>
+        <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-link">+54 911 2254 89313</a>
+        <a href="quienes-somos.html" class="fb-link fb-link-dest" style="margin-top:14px">📄 Presentación para inversores →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banda inferior: legal -->
+  <div class="footer-legal">
+    <div class="footer-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">© 2026 Pinamar Propiedades. Todos los derechos reservados.</div>
+      <div style="display:flex;gap:16px">
+        <a href="terminos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Términos</a>
+        <a href="terminos.html#privacidad" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Privacidad</a>
+        <a href="quienes-somos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Quiénes somos</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.footer-full{background:var(--verde2,#0a4535)}
+.footer-brand{padding:56px 40px 40px}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px repeat(3,1fr);gap:40px}
+.fb-logo-col{}
+.fb-tagline{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+.fb-social{display:flex;gap:8px;margin-top:16px}
+.fb-social-btn{font-size:18px;text-decoration:none;padding:6px;border-radius:8px;background:rgba(255,255,255,.08);transition:all .2s}
+.fb-social-btn:hover{background:rgba(255,255,255,.16)}
+.fb-col{}
+.fb-col-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.fb-link{display:block;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:9px;transition:color .2s;line-height:1.4}
+.fb-link:hover{color:#fff}
+.fb-link-dest{color:var(--ocre,#D69B2D)!important;font-weight:600}
+.fb-link-dest:hover{color:#e8b040!important}
+.footer-legal{background:rgba(0,0,0,.2);padding:16px 40px}
+@media(max-width:900px){
+  .footer-inner{grid-template-columns:1fr 1fr;gap:28px}
+  .fb-logo-col{grid-column:1/-1}
+}
+@media(max-width:500px){
+  .footer-brand,.footer-legal{padding-left:16px;padding-right:16px}
+  .footer-inner{grid-template-columns:1fr}
+}
+</style>
+
+
+<script>
+function togglePerfil(el){
+  const isOpen = el.classList.contains('open');
+  // Cerrar todos
+  document.querySelectorAll('.perfil').forEach(p => p.classList.remove('open'));
+  // Abrir el clickeado si estaba cerrado
+  if(!isOpen) el.classList.add('open');
+}
+
+// Animar barras de sentimiento cuando entran en viewport
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sent-fill').forEach(bar => {
+        bar.style.transition = 'width 1s cubic-bezier(.4,0,.2,1)';
+      });
+      e.target.querySelectorAll('.mz-bar').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        requestAnimationFrame(() => {
+          bar.style.transition = 'width 1s cubic-bezier(.4,0,.2,1)';
+          bar.style.width = w;
+        });
+      });
+      observer.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.2});
+
+document.querySelectorAll('.perfil, .mz-row').forEach(el => observer.observe(el));
+
+// Scroll suave a perfil desde URL hash
+if(location.hash){
+  const target = document.querySelector(location.hash);
+  if(target){
+    setTimeout(() => {
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      target.classList.add('open');
+    }, 300);
+  }
+}
+</script>
+<script src="nav.js"></script>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// ACTUALIZACIÓN DINÁMICA DESDE SUPABASE
+// Todos los valores de precios, apreciación y sentimiento
+// se actualizan desde indicadores_zona cuando cambiás los datos
+// en el panel admin → Indicadores de mercado
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof db === 'undefined') return;
+
+  try {
+    // Cargar indicadores de zona
+    const { data: ind } = await db.from('indicadores_zona').select('*');
+    if (!ind || ind.length === 0) return;
+
+    ind.forEach(z => {
+      const zona = z.zona;
+
+      // ── m² lote ──────────────────────────────────────────────
+      document.querySelectorAll(`[data-zona-precio="${zona}"]`).forEach(el => {
+        el.textContent = 'USD ' + z.precio_m2_lote_usd?.toLocaleString('es-AR');
+      });
+
+      // ── m² construcción ──────────────────────────────────────
+      document.querySelectorAll(`[data-zona-constr="${zona}"]`).forEach(el => {
+        el.textContent = 'USD ' + z.precio_m2_constr_usd?.toLocaleString('es-AR');
+      });
+
+      // ── Ticket promedio ───────────────────────────────────────
+      document.querySelectorAll(`[data-zona-ticket="${zona}"]`).forEach(el => {
+        el.textContent = 'USD ' + z.precio_ticket_prom_usd?.toLocaleString('es-AR');
+      });
+
+      // ── Apreciación anual ─────────────────────────────────────
+      document.querySelectorAll(`[data-zona-apreciacion="${zona}"]`).forEach(el => {
+        el.textContent = '+' + z.apreciacion_pct_anual + '%';
+      });
+
+      // ── Sentimiento — porcentaje positivo ─────────────────────
+      document.querySelectorAll(`[data-sent-pos-txt="${zona}"]`).forEach(el => {
+        el.textContent = z.sentimiento_positivo_pct + '%';
+      });
+      document.querySelectorAll(`[data-sent-neg-txt="${zona}"]`).forEach(el => {
+        el.textContent = z.sentimiento_negativo_pct + '%';
+      });
+
+      // ── Sentimiento — barras de progreso ──────────────────────
+      document.querySelectorAll(`[data-sent-pos="${zona}"]`).forEach(el => {
+        el.style.width = z.sentimiento_positivo_pct + '%';
+      });
+      document.querySelectorAll(`[data-sent-neg="${zona}"]`).forEach(el => {
+        el.style.width = z.sentimiento_negativo_pct + '%';
+      });
+
+      // ── Índice de negatividad ─────────────────────────────────
+      document.querySelectorAll(`[data-zona-neg="${zona}"]`).forEach(el => {
+        el.textContent = z.sentimiento_negativo_pct + '%';
+      });
+
+      // ── Tendencia (sube / estable / baja) ────────────────────
+      document.querySelectorAll(`[data-zona-tendencia="${zona}"]`).forEach(el => {
+        const emoji = z.tendencia === 'sube' ? '↑' : z.tendencia === 'baja' ? '↓' : '→';
+        el.textContent = emoji + ' ' + (z.tendencia || '');
+      });
+
+      // ── Polarización ─────────────────────────────────────────
+      document.querySelectorAll(`[data-zona-polarizacion="${zona}"]`).forEach(el => {
+        el.textContent = z.polarizacion || '';
+      });
+
+      // ── Tabla comparativa de sentimiento (matriz) ─────────────
+      const row = document.querySelector(`tr[data-mz-zona="${zona}"]`);
+      if (row) {
+        const posBar = row.querySelector('[data-mz-pos] .za-bar');
+        const negBar = row.querySelector('[data-mz-neg] .za-bar');
+        const posPct = row.querySelector('[data-mz-pos] .mz-pct');
+        const negPct = row.querySelector('[data-mz-neg] .mz-pct');
+        const precioEl = row.querySelector('[data-mz-precio]');
+        if (posBar) posBar.style.width = z.sentimiento_positivo_pct + '%';
+        if (negBar) negBar.style.width = z.sentimiento_negativo_pct + '%';
+        if (posPct) posPct.textContent = z.sentimiento_positivo_pct + '%';
+        if (negPct) negPct.textContent = z.sentimiento_negativo_pct + '%';
+        if (precioEl) precioEl.innerHTML = `<strong>USD ${z.precio_m2_lote_usd?.toLocaleString('es-AR')}</strong>`;
+      }
+    });
+
+    // Stats de propiedades por zona (desde v_stats_zona)
+    const { data: stats } = await db.from('v_stats_zona').select('*');
+    if (stats) {
+      stats.forEach(s => {
+        document.querySelectorAll(`[data-zona-props="${s.zona}"]`).forEach(el => {
+          el.textContent = s.total_props + ' propiedades';
+        });
+        document.querySelectorAll(`[data-zona-count="${s.zona}"]`).forEach(el => {
+          el.textContent = s.total_props;
+        });
+      });
+    }
+
+    // Barrios por zona (desde BD)
+    try {
+      const { data: barrios } = await db
+        .from('barrios')
+        .select('slug,nombre,zona,precio_m2_lote_usd,total_propiedades,cou_fos,cou_altura_max_m')
+        .eq('activo', true)
+        .order('orden');
+      if (barrios) {
+        const porZona = {};
+        barrios.forEach(b => {
+          if (!porZona[b.zona]) porZona[b.zona] = [];
+          porZona[b.zona].push(b);
+        });
+        Object.entries(porZona).forEach(([zona, bArr]) => {
+          const container = document.getElementById('barrios-' + zona);
+          if (!container) return;
+          container.innerHTML = bArr.slice(0,4).map(b =>
+            `<a href="barrio.html?slug=${b.slug}" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,.08);border-radius:7px;text-decoration:none;margin-bottom:6px;transition:all .2s" onmouseover="this.style.background='rgba(22,163,156,.2)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#fff">${b.nombre}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.5)">${b.total_propiedades||0} propiedades</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;font-weight:700;color:var(--ocre)">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m²</div>
+                ${b.cou_fos ? `<div style="font-size:10px;color:rgba(255,255,255,.4)">FOS ${b.cou_fos} · ${b.cou_altura_max_m}m</div>` : ''}
+              </div>
+            </a>`
+          ).join('');
+          container.style.display = '';
+        });
+      }
+    } catch(e) {}
+
+  } catch(e) {
+    console.info('perfiles-zona: usando valores estáticos', e.message);
+  }
+});
+</script>
+
+
+<script>
+// Cargar barrios destacados por zona en los perfiles
+document.addEventListener('DOMContentLoaded', async () => {
+  if(typeof db === 'undefined') return;
+  try {
+    const {data: barrios} = await db
+      .from('barrios')
+      .select('slug,nombre,zona,precio_m2_lote_usd,total_propiedades,cou_fos,cou_altura_max_m')
+      .eq('activo', true)
+      .order('destacado', {ascending:false})
+      .order('orden');
+    if(!barrios) return;
+
+    // Agrupar por zona
+    const porZona = {};
+    barrios.forEach(b => {
+      if(!porZona[b.zona]) porZona[b.zona] = [];
+      porZona[b.zona].push(b);
+    });
+
+    // Inyectar en cada perfil que tenga un contenedor
+    Object.entries(porZona).forEach(([zona, bArr]) => {
+      const container = document.getElementById('barrios-' + zona);
+      if(!container) return;
+      container.innerHTML = bArr.slice(0,4).map(b =>
+        `<a href="barrio.html?slug=${b.slug}" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,.08);border-radius:7px;text-decoration:none;margin-bottom:6px;transition:all .2s" onmouseover="this.style.background='rgba(22,163,156,.2)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#fff">${b.nombre}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5)">${b.total_propiedades||0} propiedades</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:12px;font-weight:700;color:var(--ocre)">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m²</div>
+            ${b.cou_fos ? `<div style="font-size:10px;color:rgba(255,255,255,.4)">FOS ${b.cou_fos} · ${b.cou_altura_max_m}m</div>` : ''}
+          </div>
+        </a>`
+      ).join('');
+      container.style.display = '';
+    });
+  } catch(e) {}
+});
+</script>
+</body>
+</html>

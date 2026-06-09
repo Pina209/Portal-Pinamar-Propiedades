@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="Compará propiedades del Partido de Pinamar lado a lado: USD/m², estado técnico, distancia al mar, datos catastrales y más.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/comparador.html">
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Comparador de propiedades — hasta 4 fichas técnicas | Pinamar Propiedades">
+  <meta property="og:description" content="Compará propiedades del Partido de Pinamar lado a lado: USD/m², estado técnico, distancia al mar, datos catastrales y más.">
+  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/comparador.html">
+  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:site_name"   content="Pinamar Propiedades">
+  <meta property="og:locale"      content="es_AR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Comparador de propiedades — hasta 4 fichas técnicas | Pinamar Propiedades">
+  <meta name="twitter:description" content="Compará propiedades del Partido de Pinamar lado a lado: USD/m², estado técnico, distancia al mar, datos catastrales y más.">
+  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparador de propiedades — hasta 4 fichas técnicas | Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#ddd0b8;
+  --ocre:#D69B2D;--ocre2:#c08a22;--gray:#6b7280;--gray-light:#f8f6f2;
+  --white:#fff;--dark:#0e1a15;
+  --red:#e53935;--green:#2e7d32;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--gray-light);color:#1a1a1a;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(13,91,72,.1);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none}
+.lp{display:block;font-size:16px;font-weight:800;color:var(--verde);letter-spacing:.06em}
+.lpp{display:block;font-size:9px;font-weight:500;color:var(--verde);letter-spacing:.2em;text-transform:uppercase;border-top:1.5px solid var(--turquesa);padding-top:2px}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-sm{text-decoration:none;font-size:12.5px;font-weight:600;color:var(--verde);padding:7px 14px;border:1.5px solid var(--beige3);border-radius:7px;transition:all .2s}
+.btn-sm:hover{border-color:var(--verde)}
+.btn-pub{text-decoration:none;font-size:12.5px;font-weight:700;color:#fff;padding:8px 18px;background:var(--ocre);border-radius:7px}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(150deg,var(--verde2) 0%,var(--verde) 55%,#1a8a72 100%);padding:56px 40px 40px;position:relative;overflow:hidden;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(214,155,45,.2);border:1px solid rgba(214,155,45,.4);color:var(--ocre);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(28px,4.5vw,50px);font-weight:900;color:#fff;line-height:1.08;margin-bottom:12px;position:relative;z-index:2}
+.hero h1 em{color:var(--ocre);font-style:normal}
+.hero-p{font-size:15px;color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 28px;line-height:1.65;position:relative;z-index:2}
+.hero-badge-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative;z-index:2}
+.hbadge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;display:flex;align-items:center;gap:6px}
+
+/* ── TOOLBAR ── */
+.toolbar{background:#fff;border-bottom:1px solid var(--beige2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:68px;z-index:100}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.toolbar-title{font-size:15px;font-weight:700;color:var(--verde)}
+.slot-count{font-size:12px;color:var(--gray);background:var(--beige);padding:3px 10px;border-radius:20px}
+.toolbar-right{display:flex;align-items:center;gap:8px}
+.btn-add{display:flex;align-items:center;gap:7px;padding:9px 18px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-add:hover{background:var(--verde-light)}
+.btn-clear{padding:9px 14px;background:var(--beige);color:var(--gray);border:1.5px solid var(--beige3);border-radius:8px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-clear:hover{border-color:var(--red);color:var(--red)}
+.btn-share{padding:9px 14px;background:var(--turquesa);color:#fff;border:none;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.btn-export{padding:9px 14px;background:var(--ocre);color:#fff;border:none;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+
+/* ── MAIN LAYOUT ── */
+.comp-wrap{max-width:1400px;margin:0 auto;padding:28px 24px 60px}
+
+/* ── COLUMNAS DE COMPARACIÓN ── */
+.comp-grid{display:grid;gap:0;overflow-x:auto}
+/* Se define dinámicamente con JS */
+
+/* ── CARD DE PROPIEDAD (header de columna) ── */
+.prop-col{min-width:260px}
+.prop-header{background:#fff;border-radius:16px 16px 0 0;overflow:hidden;border:2px solid var(--beige2);border-bottom:none;position:relative}
+.prop-header.winner{border-color:var(--ocre);box-shadow:0 0 0 2px rgba(214,155,45,.25)}
+.winner-badge{position:absolute;top:10px;left:10px;background:var(--ocre);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;z-index:2;display:flex;align-items:center;gap:4px}
+.prop-img{height:180px;position:relative;overflow:hidden;cursor:pointer}
+.prop-img-bg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform .5s}
+.prop-img:hover .prop-img-bg{transform:scale(1.06)}
+.prop-img-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent 55%)}
+.prop-remove{position:absolute;top:8px;right:8px;width:28px;height:28px;background:rgba(255,255,255,.88);border:none;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2}
+.prop-remove:hover{background:#fff;color:var(--red)}
+.prop-badges{position:absolute;bottom:8px;left:8px;display:flex;gap:4px;z-index:2}
+.pbadge{padding:2.5px 7px;border-radius:4px;font-size:9.5px;font-weight:700;text-transform:uppercase}
+.pb-v{background:var(--verde);color:#fff}
+.pb-f{background:var(--ocre);color:#fff}
+.pb-p{background:#6c5ce7;color:#fff}
+.prop-info{padding:14px 16px 16px}
+.prop-tipo{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.prop-title{font-size:13.5px;font-weight:700;color:var(--verde);line-height:1.3;margin-bottom:6px}
+.prop-zona{font-size:11.5px;color:var(--gray);display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.prop-price{font-size:20px;font-weight:800;color:var(--verde)}
+.prop-m2{font-size:11.5px;color:var(--gray);margin-top:2px}
+.prop-cta{display:flex;gap:6px;margin-top:12px}
+.cta-wsp{flex:1;padding:8px;background:#25D366;color:#fff;border:none;border-radius:7px;font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
+.cta-ver{flex:1;padding:8px;background:var(--beige);color:var(--verde);border:1.5px solid var(--verde);border-radius:7px;font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center}
+
+/* SLOT VACÍO */
+.slot-empty{background:#fff;border:2.5px dashed var(--beige3);border-radius:16px 16px 0 0;height:100%;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;text-align:center;padding:24px}
+.slot-empty:hover{border-color:var(--turquesa);background:rgba(22,163,156,.03)}
+.slot-ico{font-size:40px;margin-bottom:12px}
+.slot-title{font-size:14px;font-weight:700;color:var(--verde);margin-bottom:6px}
+.slot-sub{font-size:12px;color:var(--gray);line-height:1.5}
+
+/* ── FILAS DE COMPARACIÓN ── */
+.comp-section{margin-top:0}
+.section-label{background:var(--verde);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.section-label span{font-size:11.5px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em}
+
+/* fila alternada */
+.comp-row{display:contents}
+.comp-row-label{background:var(--gray-light);border-left:2px solid var(--beige2);padding:13px 16px;font-size:12.5px;font-weight:600;color:var(--gray);display:flex;align-items:center;gap:7px;position:sticky;left:0;z-index:5;min-width:180px}
+.comp-row-label .lico{font-size:15px}
+.comp-cell{padding:13px 16px;background:#fff;border-left:1px solid var(--beige2);border-bottom:1px solid var(--beige2);display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;min-height:52px;transition:background .2s}
+.comp-cell:last-child{border-right:2px solid var(--beige2)}
+.comp-row-label{border-bottom:1px solid var(--beige2)}
+
+/* Highlight ganador */
+.cell-best{background:rgba(46,125,50,.06);font-weight:700;color:var(--green)}
+.cell-worst{background:rgba(229,57,53,.04);color:#c62828}
+.cell-ok{color:var(--green)}
+.cell-no{color:#c62828}
+.cell-neutral{}
+
+/* Precio en celda */
+.price-cell{font-size:15px;font-weight:800;color:var(--verde)}
+.price-m2-cell{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* Barra comparativa */
+.bar-wrap{width:100%;background:#e0e0e0;border-radius:4px;height:6px;overflow:hidden;margin-top:6px}
+.bar-fill{height:100%;border-radius:4px;background:var(--turquesa);transition:width .5s ease}
+.bar-fill.best{background:var(--green)}
+.bar-fill.worst{background:var(--red)}
+
+/* Score ficha técnica */
+.score-ring{width:52px;height:52px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto}
+.score-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.score-ring-val{font-size:14px;font-weight:800;position:relative;z-index:1;color:var(--verde)}
+.score-ring-lbl{font-size:8px;color:var(--gray);position:relative;z-index:1}
+
+/* Tags */
+.tag-si{background:rgba(46,125,50,.1);color:var(--green);padding:3px 9px;border-radius:5px;font-size:11.5px;font-weight:700}
+.tag-no{background:rgba(229,57,53,.08);color:#c62828;padding:3px 9px;border-radius:5px;font-size:11.5px;font-weight:600}
+.tag-perm{background:rgba(108,92,231,.1);color:#6c5ce7;padding:3px 9px;border-radius:5px;font-size:11.5px;font-weight:700}
+
+/* ── MODAL BUSCADOR ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:500;display:none;align-items:flex-start;justify-content:center;padding-top:80px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.3);overflow:hidden}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--beige2);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:16px;font-weight:700;color:var(--verde)}
+.modal-close{width:32px;height:32px;border-radius:8px;border:none;background:var(--beige);cursor:pointer;font-size:16px;color:var(--gray);transition:all .2s}
+.modal-close:hover{background:var(--beige2)}
+.modal-search{padding:16px 24px;border-bottom:1px solid var(--beige2)}
+.modal-search-input{width:100%;padding:11px 14px;border:1.5px solid var(--beige2);border-radius:10px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.modal-search-input:focus{border-color:var(--turquesa)}
+.modal-filters{padding:12px 24px;border-bottom:1px solid var(--beige2);display:flex;gap:6px;flex-wrap:wrap}
+.mfilt{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--beige3);color:var(--gray);cursor:pointer;background:#fff;transition:all .18s;font-family:'Poppins',sans-serif}
+.mfilt.on{border-color:var(--turquesa);color:var(--turquesa);background:rgba(22,163,156,.07)}
+.modal-results{flex:1;overflow-y:auto;padding:8px 12px 16px}
+.modal-prop{display:flex;gap:14px;padding:12px;border-radius:12px;cursor:pointer;transition:all .2s;border:1.5px solid transparent;margin-bottom:4px}
+.modal-prop:hover{background:var(--gray-light);border-color:var(--turquesa)}
+.modal-prop.selected{background:rgba(22,163,156,.07);border-color:var(--turquesa)}
+.modal-prop.disabled{opacity:.4;cursor:not-allowed}
+.mp-img{width:72px;height:58px;border-radius:8px;flex-shrink:0;background-size:cover;background-position:center}
+.mp-info{flex:1}
+.mp-tipo{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.07em}
+.mp-title{font-size:13px;font-weight:700;color:var(--verde);line-height:1.3;margin-bottom:2px}
+.mp-zona{font-size:11px;color:var(--gray)}
+.mp-price{font-size:15px;font-weight:800;color:var(--verde)}
+.mp-badges{display:flex;gap:4px;margin-top:4px}
+.mp-b{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:4px}
+.no-results{text-align:center;padding:40px 20px;color:var(--gray)}
+
+/* ── RESUMEN GANADOR ── */
+.winner-banner{background:linear-gradient(135deg,var(--verde2),var(--verde));border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.wb-left h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
+.wb-left p{font-size:13px;color:rgba(255,255,255,.7)}
+.wb-score{text-align:center}
+.wb-score-val{font-size:36px;font-weight:900;color:var(--ocre);line-height:1}
+.wb-score-lbl{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
+.wb-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.wb-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:11.5px;font-weight:600;padding:4px 12px;border-radius:6px;display:flex;align-items:center;gap:5px}
+
+/* ── PLACEHOLDER vacío ── */
+.empty-state{text-align:center;padding:80px 20px}
+.es-ico{font-size:72px;margin-bottom:20px}
+.es-title{font-size:22px;font-weight:800;color:var(--verde);margin-bottom:10px}
+.es-p{font-size:14px;color:var(--gray);line-height:1.7;max-width:480px;margin:0 auto 28px}
+.es-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--verde);color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(13,91,72,.25)}
+.es-btn:hover{background:var(--verde-light);transform:translateY(-2px)}
+
+/* ── PRINT ── */
+@media print{
+  nav,.toolbar,.modal-overlay,.prop-remove,.btn-add,.btn-clear,.btn-share,.btn-export,.prop-cta{display:none!important}
+  .comp-wrap{padding:0}
+  body{background:#fff}
+}
+
+@media(max-width:768px){
+  nav,.toolbar,.hero,.comp-wrap{padding-left:16px;padding-right:16px}
+  .winner-banner{flex-direction:column;text-align:center}
+}
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg width="40" height="40" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+    </svg>
+    <div><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
+  </a>
+  <div class="nav-r">
+    <a href="listado-propiedades.html" class="btn-sm">← Ver todas</a>
+    <a href="login-registro.html" class="btn-pub">+ Publicar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🆕 Exclusivo · Solo en Pinamar Propiedades</div>
+  <h1>Comparador de<br><em>Propiedades</em></h1>
+  <p class="hero-p">Compará hasta 4 propiedades en simultáneo: precio, m², ficha técnica, distancia al mar, características y más. El único comparador inmobiliario de la Costa Atlántica.</p>
+  <div class="hero-badge-row">
+    <div class="hbadge">📋 Ficha técnica incluida</div>
+    <div class="hbadge">🗺️ Datos catastrales</div>
+    <div class="hbadge">📊 Análisis automático</div>
+    <div class="hbadge">📄 Exportar a PDF</div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="toolbar-title">Comparando</span>
+    <span class="slot-count" id="slot-count">0 de 4 propiedades</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn-clear" onclick="clearAll()">🗑 Limpiar</button>
+    <button class="btn-share" onclick="shareComparacion()">🔗 Compartir</button>
+    <button class="btn-export" onclick="window.print()">📄 Exportar PDF</button>
+    <button class="btn-add" onclick="openModal()">+ Agregar propiedad</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="comp-wrap" id="comp-wrap">
+
+  <!-- ESTADO VACÍO -->
+  <div class="empty-state" id="empty-state">
+    <div class="es-ico">🏠↔️🏠</div>
+    <h2 class="es-title">Comenzá a comparar propiedades</h2>
+    <p class="es-p">Seleccioná entre 2 y 4 propiedades de Pinamar, Cariló, Valeria del Mar u Ostende para ver una comparación detallada lado a lado. Incluye ficha técnica certificada y datos catastrales.</p>
+    <button class="es-btn" onclick="openModal()">
+      + Agregar primera propiedad
+    </button>
+  </div>
+
+  <!-- COMPARACIÓN (visible cuando hay props) -->
+  <div id="comp-content" style="display:none">
+
+    <!-- BANNER GANADOR -->
+    <div class="winner-banner" id="winner-banner">
+      <div class="wb-left">
+        <h3 id="winner-name">Cargando análisis...</h3>
+        <p id="winner-desc">Basado en precio/m², estado, ficha técnica y distancia al mar</p>
+        <div class="wb-pills" id="winner-pills"></div>
+      </div>
+      <div class="wb-score">
+        <div class="wb-score-val" id="winner-score">–</div>
+        <div class="wb-score-lbl">Score total</div>
+      </div>
+    </div>
+
+    <!-- TABLA DE COMPARACIÓN -->
+    <div style="overflow-x:auto;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,.08)">
+      <div id="comp-table" style="display:grid;min-width:600px">
+        <!-- Se genera dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL BUSCADOR -->
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>🔍 Seleccionar propiedad</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-search">
+      <input class="modal-search-input" type="text" placeholder="Buscar por zona, tipo, precio..." id="search-input" oninput="filterProps(this.value)">
+    </div>
+    <div class="modal-filters">
+      <button class="mfilt on" onclick="setFilt(this,'')">Todas</button>
+      <button class="mfilt" onclick="setFilt(this,'carilo')">🌲 Cariló</button>
+      <button class="mfilt" onclick="setFilt(this,'pinamar')">🌊 Pinamar</button>
+      <button class="mfilt" onclick="setFilt(this,'valeria')">🌿 Valeria</button>
+      <button class="mfilt" onclick="setFilt(this,'ostende')">⚓ Ostende</button>
+      <button class="mfilt" onclick="setFilt(this,'permuta')">🔄 Permuta</button>
+      <button class="mfilt" onclick="setFilt(this,'ficha')">📋 Con ficha</button>
+    </div>
+    <div class="modal-results" id="modal-results">
+      <!-- Props generadas por JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// DATOS DE DEMO — en producción vienen de la API
+// ════════════════════════════════════════════════════════════
+const PROPS_DEMO = [
+  {
+    id:'1', ref:'PP-2026-0847',
+    titulo:'Chalet premium en el bosque con piscina climatizada',
+    tipo:'Casa', zona:'Cariló', localidad:'carilo',
+    precio:620000, supCubierta:285, supTotal:900,
+    precioM2:2175, zonaPrecioM2:5500,
+    dormitorios:4, banos:3, cocheras:2, antiguedad:8,
+    distanciaMarM:650,
+    piscina:true, quincho:true, barrioCarrado:false, enBosque:true, frenteAlMar:false,
+    gasNatural:true, fibraOptica:true, cochera:true,
+    aceptaPermuta:true,
+    tieneFicha:true,
+    ficha:{
+      scoreGeneral:78,
+      estructura:'muy_bueno', electrica:'regular', sanitaria:'bueno',
+      carpinterias:'muy_bueno', terminacionesInt:'bueno', terminacionesExt:'regular',
+      costoReparaciones:3780000, profesional:'Arq. M. González · MP 12345',
+      partida:'3-123-0456-0', zonificacion:'R2', supARBA:900,
+    },
+    inmob:'Rodríguez & Cía',
+    color:'linear-gradient(135deg,#1a5a3a,#5ab08a)',
+    fotos:[]
+  },
+  {
+    id:'2', ref:'PP-2026-0821',
+    titulo:'Casa en La Herradura — country con seguridad 24h y golf',
+    tipo:'Casa', zona:'Pinamar Norte', localidad:'pinamar',
+    precio:890000, supCubierta:330, supTotal:1000,
+    precioM2:2697, zonaPrecioM2:3200,
+    dormitorios:5, banos:4, cocheras:2, antiguedad:5,
+    distanciaMarM:1800,
+    piscina:false, quincho:true, barrioCarrado:true, enBosque:false, frenteAlMar:false,
+    gasNatural:true, fibraOptica:true, cochera:true,
+    aceptaPermuta:false,
+    tieneFicha:true,
+    ficha:{
+      scoreGeneral:91,
+      estructura:'excelente', electrica:'muy_bueno', sanitaria:'muy_bueno',
+      carpinterias:'excelente', terminacionesInt:'muy_bueno', terminacionesExt:'bueno',
+      costoReparaciones:820000, profesional:'Ing. P. Sosa · MP 8741',
+      partida:'3-456-0789-0', zonificacion:'R1', supARBA:1000,
+    },
+    inmob:'Mar Austral',
+    color:'linear-gradient(135deg,#2a1a0a,#D69B2D)',
+    fotos:[]
+  },
+  {
+    id:'3', ref:'PP-2026-0812',
+    titulo:'Depto 2 amb. con balcón y cochera a 3 cuadras del mar',
+    tipo:'Departamento', zona:'Pinamar Centro', localidad:'pinamar',
+    precio:98000, supCubierta:52, supTotal:52,
+    precioM2:1885, zonaPrecioM2:2200,
+    dormitorios:2, banos:1, cocheras:1, antiguedad:12,
+    distanciaMarM:300,
+    piscina:true, quincho:false, barrioCarrado:false, enBosque:false, frenteAlMar:false,
+    gasNatural:true, fibraOptica:true, cochera:true,
+    aceptaPermuta:true,
+    tieneFicha:false,
+    ficha:null,
+    inmob:'Pinamar Brokers',
+    color:'linear-gradient(135deg,#0D5B48,#16A39C)',
+    fotos:[]
+  },
+  {
+    id:'4', ref:'PP-2026-0798',
+    titulo:'Casa frente al mar con acceso privado a la playa — Ostende',
+    tipo:'Casa', zona:'Ostende', localidad:'ostende',
+    precio:520000, supCubierta:210, supTotal:600,
+    precioM2:2476, zonaPrecioM2:1500,
+    dormitorios:4, banos:3, cocheras:1, antiguedad:18,
+    distanciaMarM:0,
+    piscina:false, quincho:true, barrioCarrado:false, enBosque:false, frenteAlMar:true,
+    gasNatural:false, fibraOptica:false, cochera:true,
+    aceptaPermuta:true,
+    tieneFicha:true,
+    ficha:{
+      scoreGeneral:62,
+      estructura:'bueno', electrica:'regular', sanitaria:'regular',
+      carpinterias:'bueno', terminacionesInt:'regular', terminacionesExt:'malo',
+      costoReparaciones:6400000, profesional:'Arq. C. Torres · MP 5123',
+      partida:'3-789-0123-0', zonificacion:'R2', supARBA:600,
+    },
+    inmob:'Costa Atlántica',
+    color:'linear-gradient(135deg,#1a3a5a,#5a90c0)',
+    fotos:[]
+  },
+  {
+    id:'5', ref:'PP-2026-0756',
+    titulo:'Chalet en el bosque de Valeria del Mar, 3 dorm. y deck',
+    tipo:'Casa', zona:'Valeria del Mar', localidad:'valeria',
+    precio:230000, supCubierta:145, supTotal:600,
+    precioM2:1586, zonaPrecioM2:1900,
+    dormitorios:3, banos:2, cocheras:1, antiguedad:10,
+    distanciaMarM:800,
+    piscina:false, quincho:true, barrioCarrado:false, enBosque:true, frenteAlMar:false,
+    gasNatural:true, fibraOptica:false, cochera:true,
+    aceptaPermuta:false,
+    tieneFicha:true,
+    ficha:{
+      scoreGeneral:74,
+      estructura:'bueno', electrica:'bueno', sanitaria:'muy_bueno',
+      carpinterias:'bueno', terminacionesInt:'bueno', terminacionesExt:'bueno',
+      costoReparaciones:1200000, profesional:'Arq. R. Lima · MP 9234',
+      partida:'3-321-0654-0', zonificacion:'R2', supARBA:600,
+    },
+    inmob:'Valeria Properties',
+    color:'linear-gradient(135deg,#2a5a3a,#7ab05a)',
+    fotos:[]
+  },
+]
+
+// ════════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════════════════════════
+let propsSel = []      // propiedades seleccionadas (max 4)
+let filtroZona = ''
+let filtroTexto = ''
+const MAX_PROPS = 4
+
+// ════════════════════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════════════════════
+function openModal() {
+  if (propsSel.length >= MAX_PROPS) {
+    alert(`Máximo ${MAX_PROPS} propiedades para comparar.`)
+    return
+  }
+  document.getElementById('modal').classList.add('open')
+  document.getElementById('search-input').value = ''
+  filtroZona = ''
+  filtroTexto = ''
+  document.querySelectorAll('.mfilt').forEach(f => f.classList.remove('on'))
+  document.querySelector('.mfilt').classList.add('on')
+  renderModalProps()
+  setTimeout(() => document.getElementById('search-input').focus(), 100)
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open')
+}
+
+function handleOverlayClick(e) {
+  if (e.target.id === 'modal') closeModal()
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+function setFilt(el, zona) {
+  document.querySelectorAll('.mfilt').forEach(f => f.classList.remove('on'))
+  el.classList.add('on')
+  filtroZona = zona
+  renderModalProps()
+}
+
+function filterProps(q) {
+  filtroTexto = q.toLowerCase()
+  renderModalProps()
+}
+
+function renderModalProps() {
+  const container = document.getElementById('modal-results')
+  let filtered = PROPS_DEMO.filter(p => {
+    if (filtroZona === 'permuta' && !p.aceptaPermuta) return false
+    if (filtroZona === 'ficha'   && !p.tieneFicha)   return false
+    if (filtroZona && !['permuta','ficha'].includes(filtroZona) && !p.localidad.includes(filtroZona)) return false
+    if (filtroTexto && !p.titulo.toLowerCase().includes(filtroTexto) && !p.zona.toLowerCase().includes(filtroTexto)) return false
+    return true
+  })
+
+  if (!filtered.length) {
+    container.innerHTML = `<div class="no-results"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">Probá con otros filtros o texto</div></div>`
+    return
+  }
+
+  container.innerHTML = filtered.map(p => {
+    const yaEsta = propsSel.find(s => s.id === p.id)
+    const disabled = !yaEsta && propsSel.length >= MAX_PROPS
+    return `
+    <div class="modal-prop ${yaEsta ? 'selected' : ''} ${disabled ? 'disabled' : ''}"
+      onclick="${disabled ? '' : `addProp('${p.id}')`}">
+      <div class="mp-img" style="background:${p.color}"></div>
+      <div class="mp-info">
+        <div class="mp-tipo">${p.tipo} · ${p.zona}</div>
+        <div class="mp-title">${p.titulo}</div>
+        <div class="mp-zona">📍 ${p.zona} · ${p.distanciaMarM === 0 ? 'Frente al mar' : p.distanciaMarM + 'm al mar'}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <div class="mp-price">USD ${p.precio.toLocaleString('es-AR')}</div>
+          <div class="mp-badges">
+            ${p.tieneFicha  ? '<span class="mp-b" style="background:rgba(214,155,45,.15);color:var(--ocre)">📋 Ficha</span>' : ''}
+            ${p.aceptaPermuta ? '<span class="mp-b" style="background:rgba(108,92,231,.12);color:#6c5ce7">🔄 Permuta</span>' : ''}
+          </div>
+        </div>
+      </div>
+      ${yaEsta ? '<div style="color:var(--turquesa);font-size:20px;flex-shrink:0">✓</div>' : ''}
+    </div>`
+  }).join('')
+}
+
+// ════════════════════════════════════════════════════════════
+// AGREGAR / QUITAR
+// ════════════════════════════════════════════════════════════
+function addProp(id) {
+  if (propsSel.find(p => p.id === id)) { removeProp(id); return }
+  if (propsSel.length >= MAX_PROPS) return
+  const prop = PROPS_DEMO.find(p => p.id === id)
+  if (prop) { propsSel.push(prop); render(); closeModal() }
+}
+
+function removeProp(id) {
+  propsSel = propsSel.filter(p => p.id !== id)
+  render()
+}
+
+function clearAll() {
+  if (!propsSel.length) return
+  if (confirm('¿Limpiar todas las propiedades del comparador?')) {
+    propsSel = []; render()
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// SCORING — elige el ganador
+// ════════════════════════════════════════════════════════════
+function calcScore(p) {
+  let score = 0
+  // Precio vs zona (cuánto bajo está del promedio = mejor)
+  const pctPrecio = (p.zonaPrecioM2 - p.precioM2) / p.zonaPrecioM2
+  score += Math.min(25, Math.round(pctPrecio * 50 + 12))
+  // Ficha técnica
+  if (p.tieneFicha && p.ficha) score += Math.round(p.ficha.scoreGeneral * 0.25)
+  // Distancia al mar
+  if (p.distanciaMarM === 0) score += 20
+  else if (p.distanciaMarM <= 200) score += 16
+  else if (p.distanciaMarM <= 500) score += 12
+  else if (p.distanciaMarM <= 1000) score += 7
+  // Amenities
+  if (p.piscina)       score += 4
+  if (p.quincho)       score += 3
+  if (p.barrioCarrado) score += 4
+  if (p.enBosque)      score += 4
+  if (p.frenteAlMar)   score += 8
+  if (p.gasNatural)    score += 3
+  if (p.fibraOptica)   score += 2
+  return Math.min(100, Math.max(0, score))
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER PRINCIPAL
+// ════════════════════════════════════════════════════════════
+function render() {
+  document.getElementById('slot-count').textContent = `${propsSel.length} de ${MAX_PROPS} propiedades`
+  document.getElementById('empty-state').style.display = propsSel.length ? 'none' : 'block'
+  document.getElementById('comp-content').style.display = propsSel.length ? 'block' : 'none'
+
+  if (!propsSel.length) return
+
+  const scores = propsSel.map(p => ({ id: p.id, score: calcScore(p) }))
+  const maxScore = Math.max(...scores.map(s => s.score))
+  const winner   = propsSel.find(p => scores.find(s => s.id === p.id && s.score === maxScore))
+
+  // Banner ganador
+  document.getElementById('winner-name').textContent = `🏆 Mejor opción: ${winner.titulo.slice(0, 45)}...`
+  document.getElementById('winner-score').textContent = maxScore + '/100'
+  const pills = []
+  if (winner.precioM2 < winner.zonaPrecioM2) pills.push(`💰 Precio ${Math.round((winner.zonaPrecioM2-winner.precioM2)/winner.zonaPrecioM2*100)}% bajo zona`)
+  if (winner.tieneFicha) pills.push(`📋 Ficha ${winner.ficha.scoreGeneral}%`)
+  if (winner.frenteAlMar) pills.push('🌊 Frente al mar')
+  if (winner.piscina)    pills.push('🏊 Con piscina')
+  document.getElementById('winner-pills').innerHTML = pills.map(p => `<span class="wb-pill">${p}</span>`).join('')
+
+  // TABLA
+  const n = propsSel.length + 1 // +1 para la columna de etiquetas
+  const colTemplate = `180px ${Array(propsSel.length).fill('1fr').join(' ')}`
+
+  const table = document.getElementById('comp-table')
+  table.style.gridTemplateColumns = colTemplate
+
+  // Calcular extremos para destacar mejor/peor
+  const precios    = propsSel.map(p => p.precio)
+  const preciosM2  = propsSel.map(p => p.precioM2)
+  const sups       = propsSel.map(p => p.supCubierta)
+  const dists      = propsSel.map(p => p.distanciaMarM)
+  const fichaScores= propsSel.map(p => p.ficha?.scoreGeneral || 0)
+  const costosRep  = propsSel.map(p => p.ficha?.costoReparaciones || 0)
+  const pScores    = scores.map(s => s.score)
+
+  const minP  = Math.min(...precios),   maxP  = Math.max(...precios)
+  const minM2 = Math.min(...preciosM2), maxM2 = Math.max(...preciosM2)
+  const maxSup= Math.max(...sups)
+  const minDist=Math.min(...dists),     maxDist=Math.max(...dists)
+  const maxFicha=Math.max(...fichaScores)
+  const minRep= Math.min(...costosRep), maxRep= Math.max(...costosRep)
+  const maxPS = Math.max(...pScores)
+
+  const tag = (lbl, ico) => `<div class="comp-row-label"><span class="lico">${ico}</span>${lbl}</div>`
+  const bar  = (val, max, inverse=false) => {
+    const pct = max > 0 ? Math.round(val/max*100) : 0
+    const cls = inverse ? (val === Math.min(...(inverse)) ? 'best' : '') : (val === max ? 'best' : (val === Math.min(...[val]) ? 'worst' : ''))
+    return `<div class="bar-wrap"><div class="bar-fill ${pct>80?'best':pct<40?'worst':''}" style="width:${pct}%"></div></div>`
+  }
+  const bool = (v) => v ? '<span class="tag-si">✓ Sí</span>' : '<span class="tag-no">✗ No</span>'
+  const estado= (e) => {
+    const m = {excelente:'🟢 Excelente',muy_bueno:'🟢 Muy bueno',bueno:'🟡 Bueno',regular:'🟠 Regular',malo:'🔴 Malo'}
+    return m[e] || '–'
+  }
+  const scoreRing = (s) => {
+    const r=24, c=2*Math.PI*r, fill=c*(s/100)
+    const col = s>=80?'#2e7d32':s>=60?'#D69B2D':'#e53935'
+    return `<div class="score-ring">
+      <svg viewBox="0 0 56 56" width="52" height="52">
+        <circle cx="28" cy="28" r="${r}" fill="none" stroke="#e0e0e0" stroke-width="5"/>
+        <circle cx="28" cy="28" r="${r}" fill="none" stroke="${col}" stroke-width="5"
+          stroke-dasharray="${fill} ${c-fill}" stroke-linecap="round"/>
+      </svg>
+      <span class="score-ring-val">${s}%</span>
+    </div>`
+  }
+
+  let html = ''
+
+  // ── HEADERS ──
+  html += tag('Propiedad','') // celda vacía arriba de etiquetas
+  propsSel.forEach(p => {
+    const sc = scores.find(s => s.id === p.id).score
+    const isW = sc === maxScore
+    html += `
+    <div class="prop-header ${isW ? 'winner' : ''}">
+      ${isW ? '<div class="winner-badge">🏆 Mejor opción</div>' : ''}
+      <div class="prop-img" onclick="window.open('ficha-propiedad.html','_blank')">
+        <div class="prop-img-bg" style="background:${p.color}"></div>
+        <div class="prop-img-ov"></div>
+        <button class="prop-remove" onclick="event.stopPropagation();removeProp('${p.id}')">✕</button>
+        <div class="prop-badges">
+          <span class="pbadge pb-v">Venta</span>
+          ${p.tieneFicha ? '<span class="pbadge pb-f">📋 Ficha</span>' : ''}
+          ${p.aceptaPermuta ? '<span class="pbadge pb-p">🔄 Permuta</span>' : ''}
+        </div>
+      </div>
+      <div class="prop-info">
+        <div class="prop-tipo">${p.tipo} · ${p.zona}</div>
+        <div class="prop-title">${p.titulo.slice(0,60)}${p.titulo.length>60?'...':''}</div>
+        <div class="prop-zona">📍 ${p.zona}</div>
+        <div class="prop-price">USD ${p.precio.toLocaleString('es-AR')}</div>
+        <div class="prop-m2">USD ${p.precioM2.toLocaleString('es-AR')}/m² · Zona: USD ${p.zonaPrecioM2.toLocaleString()}/m²</div>
+        <div class="prop-cta">
+          <button class="cta-wsp">💬 WhatsApp</button>
+          <a href="ficha-propiedad.html" class="cta-ver" target="_blank">Ver ficha →</a>
+        </div>
+      </div>
+    </div>`
+  })
+
+  // Celdas de sección — helper
+  const section = (lbl, ico) => {
+    let h = `<div style="background:var(--verde);padding:10px 16px;display:flex;align-items:center;gap:8px;grid-column:1 / -1;border-top:2px solid var(--verde)">
+      <span style="font-size:16px">${ico}</span>
+      <span style="font-size:11.5px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em">${lbl}</span>
+    </div>`
+    return h
+  }
+
+  const row = (lbl, ico, cells) => {
+    let h = tag(lbl, ico)
+    cells.forEach(c => { h += `<div class="comp-cell">${c}</div>` })
+    return h
+  }
+
+  // ── SECCIÓN: PRECIO ──
+  html += section('Precio y valor', '💰')
+
+  html += row('Precio total', '💵', propsSel.map(p => {
+    const isMin = p.precio === minP, isMax = p.precio === maxP
+    return `<div>
+      <div class="price-cell ${isMin?'cell-best':isMax?'cell-worst':''}">USD ${p.precio.toLocaleString('es-AR')}</div>
+      ${bar(p.precio, maxP)}
+      ${isMin ? '<div style="font-size:10.5px;color:var(--green);margin-top:3px;font-weight:700">✓ Más económica</div>' : ''}
+      ${isMax ? '<div style="font-size:10.5px;color:#c62828;margin-top:3px">↑ Más cara</div>' : ''}
+    </div>`
+  }))
+
+  html += row('Precio USD/m²', '📐', propsSel.map(p => {
+    const isMin = p.precioM2 === minM2
+    const vsProm = Math.round((p.zonaPrecioM2 - p.precioM2)/p.zonaPrecioM2*100)
+    return `<div>
+      <div class="price-cell ${isMin?'cell-best':''}">USD ${p.precioM2.toLocaleString()}</div>
+      <div style="font-size:11px;margin-top:3px;color:${vsProm>0?'var(--green)':'#c62828'};font-weight:600">
+        ${vsProm>0?'▼ '+vsProm+'% bajo zona':'▲ '+Math.abs(vsProm)+'% sobre zona'}
+      </div>
+    </div>`
+  }))
+
+  html += row('Precio zona prom.', '🗺️', propsSel.map(p =>
+    `<div style="font-size:13px;color:var(--gray)">USD ${p.zonaPrecioM2.toLocaleString()}/m²</div>`
+  ))
+
+  // ── SECCIÓN: SUPERFICIE ──
+  html += section('Superficie', '📐')
+
+  html += row('Sup. cubierta', '🏗️', propsSel.map(p => {
+    const isMax = p.supCubierta === maxSup
+    return `<div>
+      <div style="font-size:14px;font-weight:700;color:${isMax?'var(--green)':'#1a1a1a'}">${p.supCubierta} m²</div>
+      ${bar(p.supCubierta, maxSup)}
+    </div>`
+  }))
+
+  html += row('Sup. total terreno', '🌳', propsSel.map(p =>
+    `<div style="font-size:14px;font-weight:600">${p.supTotal} m²</div>`
+  ))
+
+  html += row('Relación cub/total', '📊', propsSel.map(p => {
+    const r = Math.round(p.supCubierta/p.supTotal*100)
+    return `<div style="font-size:13px;font-weight:600">${r}% construido</div>`
+  }))
+
+  // ── SECCIÓN: AMBIENTES ──
+  html += section('Ambientes y características', '🛏️')
+
+  html += row('Dormitorios', '🛏️', propsSel.map(p =>
+    `<div style="font-size:18px;font-weight:800;color:var(--verde)">${p.dormitorios}</div>`
+  ))
+  html += row('Baños', '🚿', propsSel.map(p =>
+    `<div style="font-size:18px;font-weight:800;color:var(--verde)">${p.banos}</div>`
+  ))
+  html += row('Cocheras', '🚗', propsSel.map(p =>
+    `<div style="font-size:18px;font-weight:800;color:var(--verde)">${p.cocheras || 0}</div>`
+  ))
+  html += row('Antigüedad', '🗓️', propsSel.map(p =>
+    `<div style="font-size:13px;font-weight:600">${p.antiguedad} años</div>`
+  ))
+
+  // ── SECCIÓN: UBICACIÓN ──
+  html += section('Ubicación y entorno', '📍')
+
+  html += row('Zona / Barrio', '🗺️', propsSel.map(p =>
+    `<div style="font-size:13px;font-weight:700;color:var(--verde)">${p.zona}</div>`
+  ))
+
+  html += row('Distancia al mar', '🌊', propsSel.map(p => {
+    const isMin = p.distanciaMarM === minDist
+    const lbl = p.distanciaMarM === 0 ? 'Frente al mar 🏖️' : p.distanciaMarM + 'm'
+    return `<div>
+      <div style="font-size:13px;font-weight:${isMin?'700':'500'};color:${isMin?'var(--turquesa)':'#1a1a1a'}">${lbl}</div>
+      ${isMin?'<div style="font-size:10.5px;color:var(--turquesa);margin-top:2px;font-weight:700">✓ Más cercana</div>':''}
+    </div>`
+  }))
+
+  // ── SECCIÓN: AMENITIES ──
+  html += section('Amenities y servicios', '✨')
+
+  html += row('Piscina',        '🏊', propsSel.map(p => bool(p.piscina)))
+  html += row('Quincho/Parrilla','🔥', propsSel.map(p => bool(p.quincho)))
+  html += row('Barrio cerrado', '🔒', propsSel.map(p => bool(p.barrioCarrado)))
+  html += row('En el bosque',   '🌲', propsSel.map(p => bool(p.enBosque)))
+  html += row('Frente al mar',  '🌊', propsSel.map(p => bool(p.frenteAlMar)))
+  html += row('Gas natural',    '🔥', propsSel.map(p => bool(p.gasNatural)))
+  html += row('Fibra óptica',   '📡', propsSel.map(p => bool(p.fibraOptica)))
+  html += row('Acepta permuta', '🔄', propsSel.map(p =>
+    p.aceptaPermuta ? '<span class="tag-perm">🔄 Sí</span>' : '<span class="tag-no">✗ No</span>'
+  ))
+
+  // ── SECCIÓN: FICHA TÉCNICA ──
+  html += section('Ficha técnica certificada', '📋')
+
+  html += row('Tiene ficha', '📋', propsSel.map(p =>
+    p.tieneFicha ? '<span class="tag-si">✓ Certificada</span>' : '<span class="tag-no">✗ Sin ficha</span>'
+  ))
+
+  html += row('Score general', '⭐', propsSel.map(p => {
+    if (!p.ficha) return '<span style="color:var(--gray);font-size:12px">No disponible</span>'
+    const isMax = p.ficha.scoreGeneral === maxFicha
+    return `<div>
+      ${scoreRing(p.ficha.scoreGeneral)}
+      ${isMax ? '<div style="font-size:10px;color:var(--green);margin-top:4px;font-weight:700">✓ Mejor estado</div>' : ''}
+    </div>`
+  }))
+
+  html += row('Estructura',     '🏗️', propsSel.map(p => p.ficha ? estado(p.ficha.estructura)  : '–'))
+  html += row('Inst. eléctrica','⚡', propsSel.map(p => p.ficha ? estado(p.ficha.electrica)   : '–'))
+  html += row('Inst. sanitaria','🚿', propsSel.map(p => p.ficha ? estado(p.ficha.sanitaria)   : '–'))
+  html += row('Carpinterías',   '🪟', propsSel.map(p => p.ficha ? estado(p.ficha.carpinterias): '–'))
+
+  html += row('Costo reparaciones', '💰', propsSel.map(p => {
+    if (!p.ficha || !p.ficha.costoReparaciones) return '<span style="color:var(--gray)">–</span>'
+    const isMin = p.ficha.costoReparaciones === minRep
+    return `<div>
+      <div style="font-size:13px;font-weight:700;color:${isMin?'var(--green)':'#1a1a1a'}">
+        $${Math.round(p.ficha.costoReparaciones/1000).toLocaleString('es-AR')}k
+      </div>
+      ${isMin?'<div style="font-size:10.5px;color:var(--green);font-weight:700">✓ Menor costo</div>':''}
+    </div>`
+  }))
+
+  html += row('Profesional',    '👷', propsSel.map(p => p.ficha
+    ? `<div style="font-size:11px;color:var(--gray)">${p.ficha.profesional}</div>` : '–'))
+
+  // ── SECCIÓN: CATASTRAL ──
+  html += section('Datos catastrales — ARBA', '🗺️')
+
+  html += row('Partida municipal',  '📋', propsSel.map(p => p.ficha ? `<span style="font-size:12px;font-family:monospace">${p.ficha.partida}</span>` : '–'))
+  html += row('Zonificación COU',   '🏛️', propsSel.map(p => p.ficha ? `<strong>${p.ficha.zonificacion}</strong>` : '–'))
+  html += row('Sup. terreno ARBA',  '📐', propsSel.map(p => p.ficha ? `${p.ficha.supARBA} m²` : '–'))
+
+  // ── SECCIÓN: SCORE FINAL ──
+  html += section('Score total — análisis automático', '🏆')
+
+  html += row('Score Pinamar Prop.', '🏆', propsSel.map(p => {
+    const sc   = scores.find(s => s.id === p.id).score
+    const isW  = sc === maxScore
+    const col  = sc >= 70 ? 'var(--green)' : sc >= 50 ? 'var(--ocre)' : '#c62828'
+    return `<div>
+      <div style="font-size:28px;font-weight:900;color:${col}">${sc}<span style="font-size:14px;font-weight:500;color:var(--gray)">/100</span></div>
+      ${isW ? '<div style="font-size:11px;color:var(--ocre);font-weight:800;margin-top:4px">🏆 MEJOR OPCIÓN</div>' : ''}
+      <div class="bar-wrap" style="margin-top:8px"><div class="bar-fill ${isW?'best':''}" style="width:${sc}%"></div></div>
+    </div>`
+  }))
+
+  table.innerHTML = html
+}
+
+// ════════════════════════════════════════════════════════════
+// COMPARTIR
+// ════════════════════════════════════════════════════════════
+function shareComparacion() {
+  const ids = propsSel.map(p => p.id).join(',')
+  const url = `${window.location.origin}${window.location.pathname}?props=${ids}`
+  navigator.clipboard.writeText(url).then(() => {
+    alert('✅ Link copiado al portapapeles. Podés compartir la comparación!')
+  })
+}
+
+// ════════════════════════════════════════════════════════════
+// CARGAR DESDE URL (link compartido)
+// ════════════════════════════════════════════════════════════
+const urlParams = new URLSearchParams(window.location.search)
+const propsParam = urlParams.get('props')
+if (propsParam) {
+  const ids = propsParam.split(',').slice(0, MAX_PROPS)
+  ids.forEach(id => {
+    const prop = PROPS_DEMO.find(p => p.id === id)
+    if (prop) propsSel.push(prop)
+  })
+  render()
+} else {
+  render()
+}
+
+// ════════════════════════════════════════════════════════════
+// DEMO: cargar 2 props por defecto para mostrar
+// ════════════════════════════════════════════════════════════
+if (!propsParam) {
+  propsSel = [PROPS_DEMO[0], PROPS_DEMO[1]]
+  render()
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

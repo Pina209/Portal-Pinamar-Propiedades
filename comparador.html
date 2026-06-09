@@ -1,0 +1,40 @@
+# ── Credenciales y secretos ──────────────────────
+.env
+.env.local
+.env.production
+*.env
+config.local.js
+secrets.js
+
+# ── Nunca subir con credenciales reales ─────────
+# supabase.js con credenciales reales → usar variables de entorno
+# Solo commitear la versión con placeholders
+
+# ── Sistema operativo ────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# ── IDEs ─────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ── Logs ─────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# ── Node (por si en el futuro se agrega) ─────────
+node_modules/
+package-lock.json
+
+# ── Backups ──────────────────────────────────────
+*.bak
+*.backup
+*.zip
