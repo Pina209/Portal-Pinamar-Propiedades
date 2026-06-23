@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="Todas las secciones del portal inmobiliario Pinamar Propiedades.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Mapa del portal — Pinamar Propiedades">
+  <meta property="og:description" content="Todas las secciones del portal inmobiliario Pinamar Propiedades.">
+  <meta property="og:image" content="https://pinamarpropiedades.com.ar/og-image.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa del portal — Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#0D5B48;--turquesa:#16A39C;--beige:#F2E9D7;--ocre:#D69B2D;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--beige);min-height:100vh;padding:40px}
+.header{text-align:center;margin-bottom:48px}
+.header-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+.header h1{font-size:28px;font-weight:800;color:var(--verde)}
+.header p{font-size:14px;color:#6b7280;margin-top:6px}
+.section-label{font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.12em;padding:10px 0 6px;border-bottom:2px solid #e8e8e8;margin-bottom:12px;grid-column:1/-1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;max-width:1100px;margin:0 auto}
+.card{background:#fff;border-radius:14px;padding:22px;border:2px solid #e8e8e8;transition:all .25s;text-decoration:none;display:block;position:relative}
+.card:hover{border-color:var(--turquesa);transform:translateY(-3px);box-shadow:0 10px 28px rgba(13,91,72,.12)}
+.card-new::after{content:'NUEVO';position:absolute;top:12px;right:12px;background:var(--ocre);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.06em}
+.card-ico{font-size:34px;margin-bottom:12px}
+.card-title{font-size:15px;font-weight:700;color:var(--verde);margin-bottom:5px}
+.card-desc{font-size:12px;color:#6b7280;line-height:1.6}
+.card-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
+.tag-pub{background:rgba(13,91,72,.1);color:var(--verde)}
+.tag-priv{background:rgba(214,155,45,.1);color:var(--ocre)}
+.tag-admin{background:rgba(229,57,53,.1);color:#c62828}
+.tag-new{background:rgba(22,163,156,.1);color:var(--turquesa)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-logo">
+    <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+    </svg>
+    <h1>Pinamar Propiedades</h1>
+  </div>
+  <p>Portal completo · 11 páginas desarrolladas · Proyecto listo para producción</p>
+</div>
+
+<div class="grid">
+
+  <div class="section-label">🌐 Páginas públicas del portal</div>
+
+  <a href="pinamar-propiedades-v2.html" class="card">
+    <div class="card-ico">🏠</div>
+    <div class="card-title">Homepage</div>
+    <div class="card-desc">Hero con buscador, zonas, propiedades destacadas, ficha técnica, mapa, indicadores de mercado, calculadora, permuta y planes de publicación.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <a href="listado-propiedades.html" class="card">
+    <div class="card-ico">🔍</div>
+    <div class="card-title">Listado de propiedades</div>
+    <div class="card-desc">Grid con filtros laterales completos: zona, barrio, precio, tipo, dormitorios, distancia al mar, amenities, permuta, ficha técnica. Vista grilla / lista / mapa.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <a href="comparador.html" class="card card-new">
+    <div class="card-ico">⚖️</div>
+    <div class="card-title">Comparador de propiedades</div>
+    <div class="card-desc">Comparación lado a lado de hasta 4 propiedades. Precio, m², ficha técnica certificada, catastro ARBA, score automático y elección del ganador.</div>
+    <span class="card-tag tag-new">Diferencial único</span>
+  </a>
+
+  <a href="ficha-propiedad.html" class="card">
+    <div class="card-ico">📋</div>
+    <div class="card-title">Ficha de propiedad</div>
+    <div class="card-desc">Galería, características completas, mapa, ficha técnica certificada con estado por ítem, costo de reparaciones CAC, datos catastrales ARBA y contacto.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <a href="zona-carilo.html" class="card">
+    <div class="card-ico">🌲</div>
+    <div class="card-title">Página de zona — Cariló</div>
+    <div class="card-desc">5 barrios con precios y características, tabla de mercado, guía de inversión, simulación de rentabilidad, mapa COU, servicios y FAQ.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <a href="guia-invertir.html" class="card">
+    <div class="card-ico">💰</div>
+    <div class="card-title">Guía para invertir</div>
+    <div class="card-desc">Por qué Pinamar, comparativa de zonas, rentabilidad, proceso de compra paso a paso, marco legal, impuestos, compradores extranjeros y glosario.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <a href="proveedores-certificados.html" class="card card-new">
+    <div class="card-ico">🏅</div>
+    <div class="card-title">Proveedores Certificados</div>
+    <div class="card-desc">Formulario de inscripción al programa de certificación para técnicos y profesionales del Partido de Pinamar.</div>
+    <span class="card-tag tag-new">Nuevo</span>
+  </a>
+
+  <a href="noticias.html" class="card">
+    <div class="card-ico">📰</div>
+    <div class="card-title">Noticias y Blog</div>
+    <div class="card-desc">Noticias del mercado inmobiliario por categoría, informes mensuales, indicadores en sidebar, newsletter e índice CAC.</div>
+    <span class="card-tag tag-pub">Público</span>
+  </a>
+
+  <div class="section-label">🔐 Autenticación</div>
+
+  <a href="login-registro.html" class="card">
+    <div class="card-ico">🔐</div>
+    <div class="card-title">Login y Registro</div>
+    <div class="card-desc">Split screen con login (Google + email), registro diferenciado por tipo de usuario (propietario, inmobiliaria con matrícula CMCPD, desarrollador) y recuperación.</div>
+    <span class="card-tag tag-priv">Auth</span>
+  </a>
+
+  <div class="section-label">⚙️ Paneles privados</div>
+
+  <a href="panel-inmobiliaria.html" class="card">
+    <div class="card-ico">🏢</div>
+    <div class="card-title">Panel de Inmobiliaria</div>
+    <div class="card-desc">Dashboard con KPIs, gestión de propiedades, nueva propiedad en 5 pasos, carga masiva CSV/API, consultas, permutas recibidas y garantías.</div>
+    <span class="card-tag tag-priv">Privado</span>
+  </a>
+
+  <a href="panel-admin.html" class="card">
+    <div class="card-ico">⚙️</div>
+    <div class="card-title">Panel de Administrador</div>
+    <div class="card-desc">Dashboard global, aprobación de propiedades e inmobiliarias (matrícula CMCPD), usuarios, editor de precios por zona, índice CAC y API & integraciones.</div>
+    <span class="card-tag tag-admin">Admin</span>
+  </a>
+
+</div>
+<script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  
+  <script src="nav.js"></script>
+</body>
+</html>
