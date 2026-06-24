@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="Portal inmobiliario especializado en Cariló, Pinamar, Valeria del Mar y Ostende. Fichas técnicas certificadas, KYC de títulos y buscador con IA.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/pinamar-propiedades-v2.html">
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Pinamar Propiedades — Comprá, alquilá e invertí en el Partido de Pinamar">
+  <meta property="og:description" content="Portal inmobiliario especializado en Cariló, Pinamar, Valeria del Mar y Ostende. Fichas técnicas certificadas, KYC de títulos y buscador con IA.">
+  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/pinamar-propiedades-v2.html">
+  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:site_name"   content="Pinamar Propiedades">
+  <meta property="og:locale"      content="es_AR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Pinamar Propiedades — Comprá, alquilá e invertí en el Partido de Pinamar">
+  <meta name="twitter:description" content="Portal inmobiliario especializado en Cariló, Pinamar, Valeria del Mar y Ostende. Fichas técnicas certificadas, KYC de títulos y buscador con IA.">
+  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pinamar Propiedades — Comprá, alquilá e invertí en el Partido de Pinamar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --verde:       #0D5B48;
+  --verde2:      #0a4535;
+  --verde-light: #1a7a62;
+  --turquesa:    #16A39C;
+  --turq-light:  #1dc4bc;
+  --beige:       #F2E9D7;
+  --beige2:      #e8dcc4;
+  --beige3:      #ddd0b8;
+  --ocre:        #D69B2D;
+  --ocre2:       #c08a22;
+  --white:       #ffffff;
+  --dark:        #0e1a15;
+  --gray:        #6b7280;
+  --gray-light:  #f8f6f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--beige);color:#1a1a1a;overflow-x:hidden}
+
+/* ========== NAVBAR ========== */
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:70px;
+  background:rgba(242,233,215,0.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(13,91,72,0.1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;
+  transition:box-shadow .3s;
+}
+#navbar.scrolled{box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+
+/* Logo SVG fiel al manual */
+.logo-wrap{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
+.logo-svg-wrap{width:48px;height:48px}
+.logo-textblock{line-height:1.05}
+.logo-pinamar{
+  display:block;font-size:18px;font-weight:800;
+  color:var(--verde);letter-spacing:.06em;
+}
+.logo-propiedades{
+  display:block;font-size:10px;font-weight:500;
+  color:var(--verde);letter-spacing:.22em;text-transform:uppercase;
+  border-top:1.5px solid var(--turquesa);
+  padding-top:2px;margin-top:1px;
+  position:relative;
+}
+.logo-propiedades::before,.logo-propiedades::after{
+  content:'—';color:var(--turquesa);margin:0 4px;font-size:9px;
+}
+
+.nav-links{display:flex;align-items:center;gap:0px;list-style:none;flex-wrap:nowrap}
+.nav-links a{
+  text-decoration:none;color:var(--verde);font-size:12.5px;font-weight:500;
+  padding:7px 9px;border-radius:7px;transition:all .18s;white-space:nowrap;
+}
+.nav-links a:hover{background:rgba(13,91,72,.09)}
+.nav-links .hl{
+  background:var(--verde);color:#fff!important;
+  font-weight:700;padding:8px 14px;
+}
+.nav-links .hl:hover{background:var(--verde-light)!important}
+
+/* Dropdown — Mercado */
+.nav-dropdown{position:relative}
+.nav-dropdown-trigger{display:flex;align-items:center;gap:3px}
+.dd-caret{font-size:9px;transition:transform .2s}
+.nav-dropdown:hover .dd-caret{transform:rotate(180deg)}
+.nav-dropdown-menu{
+  position:absolute;top:100%;left:0;margin-top:6px;
+  background:#fff;border-radius:10px;box-shadow:0 10px 30px rgba(13,91,72,.16);
+  border:1px solid rgba(13,91,72,.08);
+  list-style:none;padding:8px;min-width:200px;
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:all .18s;z-index:1000;
+}
+.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-dropdown-menu li{display:block}
+.nav-dropdown-menu a{
+  display:block;padding:9px 12px;font-size:13px;white-space:nowrap;
+  border-radius:7px;color:var(--verde);font-weight:500;
+}
+.nav-dropdown-menu a:hover{background:rgba(13,91,72,.08)}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-in{
+  text-decoration:none;font-size:12.5px;font-weight:600;color:var(--verde);
+  padding:8px 16px;border:1.5px solid var(--verde);border-radius:7px;transition:all .2s;
+}
+.btn-in:hover{background:var(--verde);color:#fff}
+.btn-pub-nav{
+  text-decoration:none;font-size:12.5px;font-weight:700;color:#fff;
+  padding:9px 20px;background:var(--ocre);border-radius:7px;
+  box-shadow:0 2px 10px rgba(214,155,45,.38);transition:all .2s;
+}
+.btn-pub-nav:hover{background:var(--ocre2);transform:translateY(-1px)}
+
+/* ========== HERO ========== */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(150deg,#072e22 0%,#0a4535 30%,var(--verde) 60%,#1a8a72 80%,var(--turquesa) 100%);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding-bottom:0;
+}
+/* Textura sutil */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+/* Foto de fondo hero — Pinamar/Cariló */
+.hero-photo{
+  position:absolute;inset:0;
+  background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Pinamar_desde_el_aire.jpg/1280px-Pinamar_desde_el_aire.jpg') center/cover no-repeat;
+  opacity:.18;
+}
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1200px;margin:0 auto;width:100%;
+  padding:120px 48px 80px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  color:rgba(255,255,255,.9);font-size:11.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;margin-bottom:22px;
+}
+.hero-badge span{color:var(--ocre)}
+.hero-h1{
+  font-size:clamp(38px,5.5vw,68px);font-weight:800;
+  color:#fff;line-height:1.08;margin-bottom:20px;max-width:700px;
+}
+.hero-h1 em{color:var(--ocre);font-style:normal}
+.hero-sub{
+  font-size:16px;color:rgba(255,255,255,.74);max-width:500px;
+  line-height:1.65;margin-bottom:44px;font-weight:300;
+}
+.hero-kpis{
+  display:flex;gap:48px;margin-bottom:44px;
+}
+.kpi strong{display:block;font-size:30px;font-weight:800;color:var(--ocre);line-height:1}
+.kpi span{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.07em;margin-top:4px;display:block}
+
+/* ===== SEARCH BOX ===== */
+.sbox{
+  background:#fff;border-radius:18px;
+  box-shadow:0 24px 72px rgba(0,0,0,.28);
+  overflow:hidden;max-width:900px;
+}
+.stabs{
+  display:flex;background:var(--beige);padding:6px;gap:4px;
+}
+.stab{
+  flex:1;padding:10px 6px;font-family:'Poppins',sans-serif;
+  font-size:12.5px;font-weight:600;color:var(--gray);
+  background:none;border:none;border-radius:8px;cursor:pointer;transition:all .2s;
+}
+.stab.on{background:var(--verde);color:#fff}
+.sfields{
+  display:flex;align-items:stretch;padding:8px;gap:6px;
+}
+.sf{
+  flex:1;display:flex;flex-direction:column;
+  padding:10px 14px;background:var(--beige);
+  border-radius:10px;border:1.5px solid transparent;transition:all .18s;cursor:pointer;
+}
+.sf:hover{border-color:var(--turquesa);background:#fff}
+.sf label{
+  font-size:9.5px;font-weight:700;color:var(--turquesa);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;cursor:pointer;
+}
+.sf select,.sf input{
+  border:none;background:transparent;font-family:'Poppins',sans-serif;
+  font-size:13.5px;font-weight:500;color:#1a1a1a;outline:none;cursor:pointer;width:100%;
+}
+.sbtn{
+  background:var(--verde);color:#fff;border:none;border-radius:10px;
+  padding:0 28px;font-family:'Poppins',sans-serif;
+  font-size:13.5px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;
+  min-height:52px;transition:all .2s;
+}
+.sbtn:hover{background:var(--verde-light);transform:translateY(-1px)}
+.schips{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:8px 10px 10px;border-top:1px solid var(--beige2);
+}
+.chip{
+  padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:500;
+  border:1.5px solid var(--beige3);color:var(--gray);cursor:pointer;
+  background:#fff;transition:all .18s;font-family:'Poppins',sans-serif;
+}
+.chip:hover,.chip.on{border-color:var(--turquesa);color:var(--turquesa);background:rgba(22,163,156,.07)}
+.chip.perm{border-color:var(--ocre);color:var(--ocre)}
+.chip.perm.on{background:rgba(214,155,45,.09)}
+
+/* Wave divisor */
+.wave-div{position:relative;height:80px;margin-top:-2px}
+.wave-div svg{position:absolute;bottom:0;width:100%;height:100%}
+
+/* ========== SECCIÓN GENÉRICA ========== */
+.sec{padding:80px 48px;max-width:1200px;margin:0 auto}
+.sec-tag{
+  font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--turquesa);margin-bottom:12px;display:block;
+}
+.sec-h2{
+  font-size:clamp(26px,3.5vw,40px);font-weight:800;
+  color:var(--verde);line-height:1.15;
+}
+.sec-h2 em{color:var(--ocre);font-style:normal}
+.sec-p{font-size:15px;color:var(--gray);line-height:1.7;margin-top:12px;max-width:540px}
+.sec-hdr{margin-bottom:48px}
+
+/* ========== ZONAS GRID ========== */
+.zonas-wrap{background:#fff;padding:80px 0}
+.zonas-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.zonas-grid{
+  display:grid;
+  grid-template-columns:1.7fr 1fr 1fr;
+  grid-template-rows:260px 240px;
+  gap:14px;margin-top:48px;
+}
+.zc{
+  border-radius:18px;overflow:hidden;position:relative;
+  cursor:pointer;text-decoration:none;display:block;
+}
+.zc:first-child{grid-row:1/3}
+.zc-bg{
+  width:100%;height:100%;
+  background-size:cover;background-position:center;
+  transition:transform .6s;
+}
+.zc:hover .zc-bg{transform:scale(1.05)}
+.zc-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(7,30,20,.88) 0%,rgba(7,30,20,.18) 55%,transparent 100%);
+}
+.zc-info{position:absolute;bottom:0;left:0;right:0;padding:22px 24px;color:#fff}
+.zc-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.zc:first-child .zc-name{font-size:28px}
+.zc-desc{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.4;margin-bottom:10px}
+.zc-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.zc-precio{
+  background:rgba(214,155,45,.9);color:#fff;
+  font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;
+}
+.zc-cant{
+  background:rgba(255,255,255,.18);color:#fff;
+  font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;
+}
+
+/* ========== PROPIEDADES ========== */
+.props-bg{background:var(--gray-light);padding:80px 0}
+.props-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.props-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+
+.pc{
+  background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 3px 20px rgba(0,0,0,.07);
+  border:1px solid rgba(0,0,0,.05);
+  transition:all .3s;cursor:pointer;
+}
+.pc:hover{transform:translateY(-7px);box-shadow:0 18px 52px rgba(13,91,72,.15)}
+.pc-img{height:215px;position:relative;overflow:hidden}
+.pc-img-bg{
+  width:100%;height:100%;
+  background-size:cover;background-position:center;
+  transition:transform .5s;
+}
+.pc:hover .pc-img-bg{transform:scale(1.07)}
+.pc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.32) 0%,transparent 55%)}
+.pc-badges{position:absolute;top:12px;left:12px;display:flex;gap:5px;flex-wrap:wrap}
+.badge{
+  padding:3.5px 9px;border-radius:5px;font-size:10.5px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+}
+.b-venta{background:var(--verde);color:#fff}
+.b-alq{background:var(--turquesa);color:#fff}
+.b-ficha{background:var(--ocre);color:#fff}
+.b-perm{background:#6c5ce7;color:#fff}
+.b-new{background:#e53935;color:#fff}
+.pc-fav{
+  position:absolute;top:12px;right:12px;
+  width:32px;height:32px;background:rgba(255,255,255,.88);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:15px;cursor:pointer;transition:all .2s;border:none;
+}
+.pc-fav:hover{background:#fff;transform:scale(1.12)}
+.pc-body{padding:18px 20px}
+.pc-tipo{font-size:10.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.pc-title{font-size:14.5px;font-weight:700;color:var(--verde);line-height:1.35;margin-bottom:5px}
+.pc-zona{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:4px;margin-bottom:13px}
+.pc-feats{
+  display:flex;gap:14px;padding:11px 0;
+  border-top:1px solid var(--beige2);border-bottom:1px solid var(--beige2);
+  margin-bottom:13px;
+}
+.pf{font-size:11.5px;color:var(--gray);display:flex;align-items:center;gap:4px}
+.pf strong{color:#1a1a1a;font-weight:600}
+.pc-price{font-size:19px;font-weight:800;color:var(--verde)}
+.pc-price span{font-size:12px;font-weight:400;color:var(--gray)}
+.pc-m2{font-size:11.5px;color:var(--gray);margin-top:2px}
+.pc-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:13px;padding-top:13px;border-top:1px solid var(--beige2);
+}
+.pc-inmob{display:flex;align-items:center;gap:7px}
+.pc-inmob-ico{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--verde);color:#fff;font-size:9.5px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.pc-inmob-nm{font-size:11px;color:var(--gray)}
+.pc-btns{display:flex;gap:5px}
+.btn-wsp{
+  padding:6px 11px;border-radius:6px;font-size:11.5px;font-weight:700;
+  background:#25D366;color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:4px;text-decoration:none;transition:all .2s;
+}
+.btn-wsp:hover{background:#1db954}
+.btn-ver{
+  padding:6px 11px;border-radius:6px;font-size:11.5px;font-weight:600;
+  background:var(--beige);color:var(--verde);
+  border:1.5px solid var(--verde);cursor:pointer;text-decoration:none;transition:all .2s;
+}
+.btn-ver:hover{background:var(--verde);color:#fff}
+
+/* ========== FICHA TÉCNICA ========== */
+.ficha-wrap{
+  background:linear-gradient(140deg,var(--verde2) 0%,var(--verde) 55%,#1a8a6a 100%);
+  padding:90px 0;position:relative;overflow:hidden;
+}
+.ficha-deco{
+  position:absolute;top:-120px;right:-120px;
+  width:560px;height:560px;border-radius:50%;
+  background:rgba(22,163,156,.12);
+}
+.ficha-deco2{
+  position:absolute;bottom:-80px;left:-80px;
+  width:320px;height:320px;border-radius:50%;
+  background:rgba(214,155,45,.08);
+}
+.ficha-inner{
+  max-width:1200px;margin:0 auto;padding:0 48px;
+  display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start;
+  position:relative;z-index:2;
+}
+.ficha-left .sec-tag{color:var(--ocre)}
+.ficha-left .sec-h2{color:#fff}
+.ficha-left .sec-p{color:rgba(255,255,255,.68);max-width:none}
+.ficha-feats{margin-top:34px;display:flex;flex-direction:column;gap:16px}
+.ff{
+  display:flex;align-items:flex-start;gap:14px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:13px;padding:16px;transition:all .2s;
+}
+.ff:hover{background:rgba(255,255,255,.12)}
+.ff-ico{
+  width:42px;min-width:42px;height:42px;border-radius:9px;
+  background:var(--ocre);display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.ff h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.ff p{font-size:12.5px;color:rgba(255,255,255,.63);line-height:1.5}
+
+/* Card ficha demo */
+.ficha-card{
+  background:#fff;border-radius:20px;overflow:hidden;
+  box-shadow:0 28px 90px rgba(0,0,0,.3);
+}
+.fcard-hdr{
+  background:var(--verde);padding:18px 24px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.fcard-hdr h3{color:#fff;font-size:13.5px;font-weight:700}
+.fcert{
+  background:var(--ocre);color:#fff;font-size:10.5px;
+  font-weight:700;padding:4px 10px;border-radius:5px;
+}
+.fcard-body{padding:22px}
+.frow{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px solid var(--beige);font-size:12.5px;
+}
+.frow:last-of-type{border-bottom:none}
+.frow label{color:var(--gray);font-weight:400}
+.fval{font-weight:700;color:var(--verde)}
+.fval.ok{color:#2e7d32}
+.fval.warn{color:#e65100}
+.festado{
+  background:var(--beige);border-radius:11px;padding:14px;margin:14px 0;
+}
+.festado-lbl{font-size:10.5px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;margin-bottom:5px}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--turquesa),var(--verde))}
+.bar-lbls{display:flex;justify-content:space-between;font-size:10px;color:var(--gray)}
+.frep{
+  background:rgba(214,155,45,.08);border:1px solid rgba(214,155,45,.3);
+  border-radius:11px;padding:14px;margin-top:10px;
+}
+.frep-lbl{font-size:10px;font-weight:700;color:var(--ocre);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.frep-val{font-size:20px;font-weight:800;color:#1a1a1a}
+.frep-sub{font-size:11px;color:var(--gray);margin-top:2px}
+.fcat{
+  background:rgba(22,163,156,.07);border:1px solid rgba(22,163,156,.25);
+  border-radius:11px;padding:14px;margin-top:10px;
+}
+.fcat-lbl{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.fcat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fci label{font-size:10px;color:var(--gray);display:block}
+.fci strong{font-size:12px;color:var(--verde);font-weight:700}
+
+/* ========== MAPA ========== */
+.mapa-wrap{background:var(--beige);padding:80px 0}
+.mapa-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.mapa-box{
+  margin-top:48px;border-radius:20px;overflow:hidden;
+  box-shadow:0 8px 48px rgba(0,0,0,.13);position:relative;height:500px;
+}
+.mapa-iframe{width:100%;height:100%;border:none}
+.mapa-panel{
+  position:absolute;top:18px;left:18px;
+  background:#fff;border-radius:14px;padding:18px;
+  box-shadow:0 4px 24px rgba(0,0,0,.13);min-width:190px;
+  max-height:420px;overflow-y:auto;
+}
+.mapa-panel h4{font-size:12px;font-weight:700;color:var(--verde);margin-bottom:12px}
+.leg{display:flex;flex-direction:column;gap:7px}
+.leg-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#444}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.mapa-fuente{
+  position:absolute;bottom:12px;right:12px;
+  background:rgba(255,255,255,.9);font-size:10.5px;color:var(--gray);
+  padding:4px 10px;border-radius:6px;
+}
+
+/* ========== MERCADO ========== */
+.mercado-wrap{background:#fff;padding:80px 0}
+.mercado-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.inds-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+.ind{
+  background:var(--beige);border-radius:16px;padding:26px 22px;
+  border:1px solid var(--beige2);transition:all .3s;
+}
+.ind:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(13,91,72,.1)}
+.ind-ico{
+  width:46px;height:46px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;
+}
+.ico-v{background:rgba(13,91,72,.1)}
+.ico-t{background:rgba(22,163,156,.1)}
+.ico-o{background:rgba(214,155,45,.1)}
+.ico-b{background:rgba(60,100,200,.1)}
+.ind-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.ind-val{font-size:26px;font-weight:800;color:var(--verde);line-height:1;margin-bottom:4px}
+.ind-sub{font-size:11.5px;color:var(--gray)}
+.trend{
+  display:inline-flex;align-items:center;gap:4px;margin-top:9px;
+  font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:6px;
+}
+.t-up{background:rgba(46,125,50,.1);color:#2e7d32}
+.t-dn{background:rgba(198,40,40,.1);color:#c62828}
+
+.ptable-wrap{
+  margin-top:36px;background:var(--beige);border-radius:16px;overflow:hidden;
+  border:1px solid var(--beige2);
+}
+.ptable-hdr{
+  background:var(--verde);padding:18px 26px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.ptable-hdr h3{color:#fff;font-size:15px;font-weight:700}
+.ptable-hdr span{color:rgba(255,255,255,.65);font-size:11.5px}
+table{width:100%;border-collapse:collapse}
+th{
+  background:var(--beige2);padding:11px 18px;text-align:left;
+  font-size:10.5px;font-weight:700;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.06em;
+}
+td{padding:13px 18px;font-size:12.5px;border-bottom:1px solid var(--beige2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(22,163,156,.04)}
+.zdot{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--verde)}
+.dot{width:8px;height:8px;border-radius:50%}
+.p-cell{font-weight:700;color:var(--verde)}
+.vp{color:#2e7d32;font-weight:600}
+.vn{color:#c62828;font-weight:600}
+
+/* ========== CALCULADORA ========== */
+.calc-wrap{
+  background:linear-gradient(135deg,#f5ead4 0%,var(--beige) 100%);
+  padding:80px 0;
+}
+.calc-inner{
+  max-width:1200px;margin:0 auto;padding:0 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;
+}
+.calc-card{
+  background:#fff;border-radius:20px;padding:34px;
+  box-shadow:0 8px 48px rgba(13,91,72,.1);
+}
+.calc-card h3{font-size:18px;font-weight:700;color:var(--verde);margin-bottom:22px}
+.cf{margin-bottom:18px}
+.cf label{
+  display:block;font-size:10.5px;font-weight:700;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;
+}
+.cf input,.cf select{
+  width:100%;padding:11px 14px;border:2px solid var(--beige2);border-radius:9px;
+  font-family:'Poppins',sans-serif;font-size:13.5px;font-weight:500;
+  color:#1a1a1a;outline:none;transition:border-color .2s;background:#fff;
+}
+.cf input:focus,.cf select:focus{border-color:var(--turquesa)}
+.range-val{
+  width:100%;margin-top:6px;padding:8px 12px;
+  background:var(--beige);border-radius:7px;font-size:13px;
+  font-weight:700;color:var(--verde);text-align:center;
+}
+.btn-calc{
+  width:100%;padding:13px;background:var(--ocre);color:#fff;border:none;
+  border-radius:9px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;margin-top:6px;
+}
+.btn-calc:hover{background:var(--ocre2);transform:translateY(-1px)}
+.cresult{
+  background:var(--verde);border-radius:13px;padding:20px;margin-top:20px;display:none;
+}
+.cresult.show{display:block}
+.cr-lbl{font-size:10.5px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.cr-val{font-size:30px;font-weight:800;color:#fff;margin-bottom:4px}
+.cr-sub{font-size:11.5px;color:rgba(255,255,255,.6)}
+.cr-row{
+  display:flex;gap:16px;margin-top:14px;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.18);
+}
+.cr-item{flex:1}
+.cr-item label{font-size:10px;color:rgba(255,255,255,.55);display:block;text-transform:uppercase;letter-spacing:.06em}
+.cr-item strong{font-size:14px;color:rgba(255,255,255,.9);font-weight:700}
+
+/* ========== PERMUTA BANNER ========== */
+.perm-wrap{background:var(--verde);padding:56px 48px}
+.perm-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;gap:40px;
+}
+.perm-txt h2{font-size:clamp(22px,3vw,34px);font-weight:800;color:#fff;margin-bottom:10px}
+.perm-txt p{font-size:14.5px;color:rgba(255,255,255,.72);max-width:520px;line-height:1.65}
+.btn-perm{
+  flex-shrink:0;display:inline-block;padding:15px 36px;
+  background:var(--ocre);color:#fff;text-decoration:none;
+  border-radius:9px;font-size:15px;font-weight:700;
+  box-shadow:0 4px 18px rgba(214,155,45,.42);transition:all .2s;white-space:nowrap;
+}
+.btn-perm:hover{background:var(--ocre2);transform:translateY(-2px)}
+
+/* ========== SERVICIOS ========== */
+.serv-wrap{background:var(--gray-light);padding:80px 0}
+.serv-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.serv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.sc{
+  background:#fff;border-radius:16px;padding:30px 26px;
+  border:2px solid var(--beige2);transition:all .3s;cursor:pointer;
+}
+.sc:hover{border-color:var(--turquesa);transform:translateY(-5px);box-shadow:0 10px 36px rgba(22,163,156,.13)}
+.sc-ico{font-size:34px;margin-bottom:15px}
+.sc-title{font-size:16px;font-weight:700;color:var(--verde);margin-bottom:7px}
+.sc-desc{font-size:12.5px;color:var(--gray);line-height:1.65}
+.sc-link{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:15px;font-size:12.5px;font-weight:600;color:var(--turquesa);
+  text-decoration:none;
+}
+
+/* ========== NOTICIAS ========== */
+.news-wrap{background:#fff;padding:80px 0}
+.news-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.news-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:22px;margin-top:48px}
+.nc{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 2px 18px rgba(0,0,0,.07);transition:all .3s;cursor:pointer;
+}
+.nc:hover{transform:translateY(-5px)}
+.nc-img{height:195px;background-size:cover;background-position:center}
+.nc:first-child .nc-img{height:250px}
+.nc-body{padding:18px 20px}
+.nc-cat{font-size:10.5px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.nc-title{font-size:14.5px;font-weight:700;color:var(--verde);line-height:1.4;margin-bottom:7px}
+.nc:first-child .nc-title{font-size:17px}
+.nc-meta{font-size:11.5px;color:var(--gray)}
+
+/* ========== PUBLICAR ========== */
+.pub-wrap{background:var(--beige);padding:80px 0}
+.pub-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+.pub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.puc{
+  background:#fff;border-radius:20px;padding:34px 28px;
+  text-align:center;border:2px solid var(--beige2);transition:all .3s;
+}
+.puc:hover{border-color:var(--turquesa);transform:translateY(-5px)}
+.puc-ico{font-size:46px;margin-bottom:18px}
+.puc-title{font-size:18px;font-weight:700;color:var(--verde);margin-bottom:8px}
+.puc-desc{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:22px}
+.puc-feats{list-style:none;text-align:left;margin-bottom:26px;display:flex;flex-direction:column;gap:7px}
+.puc-feats li{
+  font-size:12.5px;color:var(--gray);
+  display:flex;align-items:flex-start;gap:8px;
+  padding-bottom:7px;border-bottom:1px solid var(--beige2);
+}
+.puc-feats li:last-child{border-bottom:none;padding-bottom:0}
+.puc-feats li::before{content:'✓';color:var(--turquesa);font-weight:800;font-size:13px;flex-shrink:0}
+.btn-puc{
+  display:block;width:100%;padding:13px;text-align:center;
+  background:var(--verde);color:#fff;text-decoration:none;
+  border-radius:9px;font-size:13.5px;font-weight:700;transition:all .2s;
+}
+.btn-puc:hover{background:var(--verde-light)}
+.puc-star{
+  border:2px solid var(--ocre);position:relative;
+}
+.puc-tag{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--ocre);color:#fff;font-size:10.5px;font-weight:700;
+  padding:4px 16px;border-radius:20px;white-space:nowrap;
+}
+.puc-star .btn-puc{background:var(--ocre)}
+.puc-star .btn-puc:hover{background:var(--ocre2)}
+
+/* ========== FOOTER ========== */
+footer{background:var(--dark);padding:60px 48px 28px}
+.foot-inner{max-width:1200px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.foot-brand p{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.75;margin-top:14px;max-width:260px}
+.foot-domains{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.fdomain{
+  padding:4px 10px;border:1px solid rgba(255,255,255,.14);
+  border-radius:5px;font-size:10.5px;color:rgba(255,255,255,.38);
+}
+.foot-col h4{
+  font-size:11px;font-weight:700;color:#fff;
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;
+}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:8px}
+.flinks a{text-decoration:none;font-size:12.5px;color:rgba(255,255,255,.45);transition:color .2s}
+.flinks a:hover{color:var(--turquesa)}
+.foot-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,.07);
+  font-size:11.5px;color:rgba(255,255,255,.3);
+}
+.foot-socials{display:flex;gap:12px}
+.fsoc{
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.5);text-decoration:none;font-size:14px;transition:all .2s;
+}
+.fsoc:hover{background:var(--turquesa);color:#fff}
+
+/* ========== ANIMACIONES ========== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.hero-content>*{animation:fadeUp .7s ease both}
+.hero-badge{animation-delay:.08s}
+.hero-h1{animation-delay:.18s}
+.hero-sub{animation-delay:.28s}
+.hero-kpis{animation-delay:.38s}
+.sbox{animation-delay:.48s}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:1024px){
+  .props-grid,.serv-grid,.pub-grid,.inds-grid{grid-template-columns:repeat(2,1fr)}
+  .ficha-inner,.calc-inner{grid-template-columns:1fr;gap:48px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .news-grid{grid-template-columns:1fr 1fr}
+  .news-grid .nc:first-child{grid-column:1/-1}
+  .zonas-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .zc:first-child{grid-row:auto}
+}
+@media(max-width:768px){
+  #navbar{padding:0 20px}
+  .nav-links,.nav-r .btn-in{display:none}
+  .hero-content,.sec,.serv-inner,.news-inner,.pub-inner,.mercado-inner,.mapa-inner,.props-inner,.zonas-inner,.calc-inner,.ficha-inner{padding-left:20px;padding-right:20px}
+  .hero-kpis{gap:22px;flex-wrap:wrap}
+  .sfields{flex-direction:column}
+  .props-grid,.serv-grid,.pub-grid,.inds-grid,.news-grid,.zonas-grid{grid-template-columns:1fr}
+  .perm-inner{flex-direction:column;text-align:center}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-bottom{flex-direction:column;gap:12px;text-align:center}
+  .perm-wrap{padding:56px 20px}
+}
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav id="navbar">
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <!-- SVG fiel al isologotipo: árbol pino, médanos, ola, sol — colores exactos del manual -->
+    <div class="logo-svg-wrap">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Círculo fondo -->
+        <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity="0.9"/>
+        <!-- Sol -->
+        <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+        <!-- Médanos -->
+        <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+        <ellipse cx="58" cy="68" rx="20" ry="8" fill="#D69B2D" opacity=".7"/>
+        <!-- Árbol pino -->
+        <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+        <!-- Ola cuerpo -->
+        <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 Q88 86 78 86 Q68 86 58 86 Q48 86 38 86 Q28 86 18 86 Z" fill="#16A39C"/>
+        <!-- Ola líneas -->
+        <path d="M18 78 Q28 70 38 78 Q48 86 58 78 Q68 70 78 78 Q88 86 102 78" stroke="#0D5B48" stroke-width="1.5" fill="none" opacity=".5"/>
+        <path d="M22 84 Q32 76 42 84 Q52 92 62 84 Q72 76 82 84 Q92 92 102 84" stroke="#0D5B48" stroke-width="1.2" fill="none" opacity=".3"/>
+        <!-- Voluta ola -->
+        <path d="M96 66 Q106 58 108 68 Q110 76 100 74 Q96 72 96 66Z" fill="#16A39C"/>
+        <path d="M96 66 Q106 58 108 68" stroke="#0D5B48" stroke-width="1.5" fill="none"/>
+        <!-- Borde círculo -->
+        <circle cx="60" cy="52" r="46" stroke="#0D5B48" stroke-width="2.5" fill="none" opacity=".15"/>
+      </svg>
+    </div>
+    <div class="logo-textblock">
+      <span class="logo-pinamar">PINAMAR</span>
+      <span class="logo-propiedades">PROPIEDADES</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="listado-propiedades.html">Propiedades</a></li>
+    <li><a href="comparador.html">Comparador</a></li>
+    <li><a href="#ficha">Ficha Técnica</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li class="nav-dropdown">
+      <a href="#mercado" class="nav-dropdown-trigger">Mercado <span class="dd-caret">▾</span></a>
+      <ul class="nav-dropdown-menu">
+        <li><a href="#mercado">📊 Indicadores de mercado</a></li>
+        <li><a href="perfiles-zona.html">🗺️ Análisis de zonas</a></li>
+        <li><a href="noticias.html">📰 Noticias</a></li>
+      </ul>
+    </li>
+        <li><a href="pinamar-ai.html" style="color:var(--turquesa);font-weight:700">✨ Pinamar AI</a></li>
+    <li><a href="login-registro.html" class="hl">Publicar propiedad</a></li>
+  </ul>
+
+  <div class="nav-r">
+    <a href="login-registro.html" class="btn-in">Iniciar sesión</a>
+    <a href="login-registro.html" class="btn-pub-nav">+ Publicar</a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(7,30,22,.92) 0%,rgba(10,69,53,.85) 35%,rgba(13,91,72,.75) 65%,rgba(22,163,156,.65) 100%);z-index:1"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span>★</span> El único portal inmobiliario 100% especializado en Pinamar
+    </div>
+    <h1 class="hero-h1">Encontrá tu propiedad<br>en <em>Pinamar</em>, Cariló,<br>Valeria y Ostende</h1>
+    <p class="hero-sub">Propiedades verificadas con ficha técnica certificada, datos catastrales oficiales y precios reales del mercado local.</p>
+    <div class="hero-kpis">
+      <div class="kpi"><strong>+1.250</strong><span>Propiedades</span></div>
+      <div class="kpi"><strong>+90</strong><span>Inmobiliarias</span></div>
+      <div class="kpi"><strong>4</strong><span>Localidades</span></div>
+      <div class="kpi"><strong>100%</strong><span>Local · Especializado</span></div>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="sbox">
+      <div class="stabs">
+        <button class="stab on" onclick="setTab(this)">Venta</button>
+        <button class="stab" onclick="setTab(this)">Alquiler</button>
+        <button class="stab" onclick="setTab(this)">Alq. Temporal</button>
+        <button class="stab" onclick="setTab(this)">🔄 Permuta</button>
+        <button class="stab" onclick="setTab(this)">Emprendimientos</button>
+      </div>
+      <div class="sfields">
+        <div class="sf">
+          <label>Localidad / Zona</label>
+          <select id="s-zona">
+            <option>Todas las zonas</option>
+            <optgroup label="🌲 Cariló">
+              <option>Cariló — Centro</option>
+              <option>Cariló — Bosque</option>
+            </optgroup>
+            <optgroup label="🌊 Pinamar">
+              <option>Pinamar — Centro</option>
+              <option>Pinamar Norte</option>
+              <option>Barrio Las Gaviotas</option>
+              <option>Barrio La Herradura</option>
+              <option>Barrio Las Hortensias</option>
+              <option>Barrio Lasalle</option>
+              <option>Barrio Los Álamos</option>
+              <option>Barrio Golf</option>
+            </optgroup>
+            <optgroup label="🌿 Valeria del Mar">
+              <option>Valeria del Mar</option>
+            </optgroup>
+            <optgroup label="⚓ Ostende">
+              <option>Ostende</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="sf">
+          <label>Tipo de propiedad</label>
+          <select id="s-tipo">
+            <option>Todos los tipos</option>
+            <option>Casa / Chalet</option>
+            <option>Departamento</option>
+            <option>Lote / Terreno</option>
+            <option>Duplex</option>
+            <option>Local Comercial</option>
+            <option>Proyecto / PH</option>
+          </select>
+        </div>
+        <div class="sf">
+          <label>Precio en USD</label>
+          <select id="s-precio">
+            <option>Cualquier precio</option>
+            <option>Hasta USD 80.000</option>
+            <option>USD 80k – 200k</option>
+            <option>USD 200k – 400k</option>
+            <option>USD 400k – 700k</option>
+            <option>Más de USD 700k</option>
+          </select>
+        </div>
+        <div class="sf">
+          <label>Distancia al mar</label>
+          <select id="s-dist">
+            <option>Sin límite</option>
+            <option>Frente al mar</option>
+            <option>Hasta 200 m</option>
+            <option>Hasta 500 m</option>
+            <option>Hasta 1 km</option>
+            <option>Más de 1 km</option>
+          </select>
+        </div>
+        <button class="sbtn" onclick="buscar()">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Buscar
+        </button>
+      </div>
+      <div class="schips">
+        <span style="font-size:11px;color:#aaa;font-weight:500;align-self:center;margin-right:4px">Filtros rápidos:</span>
+        <button class="chip" onclick="tc(this)" data-filter="dist:0">🌊 Frente al mar</button>
+        <button class="chip" onclick="tc(this)" data-filter="zona:carilo">🌲 En el bosque</button>
+        <button class="chip" onclick="tc(this)" data-filter="amenity:piscina">🏊 Con piscina</button>
+        <button class="chip" onclick="tc(this)" data-filter="amenity:cochera">🚗 Con cochera</button>
+        <button class="chip" onclick="tc(this)" data-filter="amenity:barrio-cerrado">🔒 Barrio cerrado</button>
+        <button class="chip perm" onclick="tc(this)" data-filter="operacion:permuta">🔄 Acepta permuta</button>
+        <button class="chip" onclick="tc(this)" data-filter="ficha:1">📋 Ficha técnica</button>
+      </div>
+    </div>
+  </div>
+  <div class="wave-div">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,30 C200,70 400,0 600,40 C800,80 1050,10 1200,45 L1440,30 L1440,80 L0,80Z" fill="#ffffff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== ZONAS ========== -->
+<div id="zonas" class="zonas-wrap">
+<div class="zonas-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Localidades y barrios</span>
+    <h2 class="sec-h2">Explorá cada <em>rincón de Pinamar</em></h2>
+    <p class="sec-p">Cada localidad tiene su identidad, sus precios y sus barrios únicos. Conocé el mercado antes de buscar.</p>
+  </div>
+  <div class="zonas-grid">
+    <!-- CARILÓ — foto real del bosque -->
+    <a href="zona-carilo.html" class="zc">
+      <div class="zc-bg" style="background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Bosque_en_Cari%C3%B3.jpg/1280px-Bosque_en_Cari%C3%B3.jpg') center/cover;"></div>
+      <div class="zc-ov"></div>
+      <div class="zc-info">
+        <div class="zc-name">🌲 Cariló</div>
+        <div class="zc-desc">El destino más exclusivo de la Costa Atlántica. Bosque de pinos, arquitectura premium integrada a la naturaleza, calles de arena y privacidad.</div>
+        <div class="zc-row">
+          <span class="zc-precio">USD 3.500 – 8.000 /m²</span>
+          <span class="zc-cant">142 propiedades</span>
+        </div>
+      </div>
+    </a>
+    <!-- PINAMAR -->
+    <a href="listado-propiedades.html?zona=pinamar-centro" class="zc">
+      <div class="zc-bg" style="background:linear-gradient(135deg,#0a4535 0%,#16A39C 100%);"></div>
+      <div class="zc-ov"></div>
+      <div class="zc-info">
+        <div class="zc-name">🌊 Pinamar</div>
+        <div class="zc-desc">Centro comercial, gastronomía, playas y barrios cerrados con golf.</div>
+        <div class="zc-row">
+          <span class="zc-precio">USD 1.800 – 4.500 /m²</span>
+          <span class="zc-cant">583 prop.</span>
+        </div>
+      </div>
+    </a>
+    <!-- VALERIA DEL MAR -->
+    <a href="listado-propiedades.html?zona=pinamar-norte" class="zc">
+      <div class="zc-bg" style="background:linear-gradient(135deg,#2a5a3a 0%,#5ab08a 100%);"></div>
+      <div class="zc-ov"></div>
+      <div class="zc-info">
+        <div class="zc-name">🌿 Valeria del Mar</div>
+        <div class="zc-desc">Tranquilidad entre el bosque y el mar, con fuerte crecimiento de valor.</div>
+        <div class="zc-row">
+          <span class="zc-precio">USD 1.500 – 3.200 /m²</span>
+          <span class="zc-cant">198 prop.</span>
+        </div>
+      </div>
+    </a>
+    <!-- OSTENDE -->
+    <a href="listado-propiedades.html?zona=valeria" class="zc">
+      <div class="zc-bg" style="background:linear-gradient(135deg,#1a3a5a 0%,#5a90c0 100%);"></div>
+      <div class="zc-ov"></div>
+      <div class="zc-info">
+        <div class="zc-name">⚓ Ostende</div>
+        <div class="zc-desc">Historia centenaria, playas tranquilas e inversión accesible.</div>
+        <div class="zc-row">
+          <span class="zc-precio">USD 1.200 – 2.800 /m²</span>
+          <span class="zc-cant">127 prop.</span>
+        </div>
+      </div>
+    </a>
+    <!-- PINAMAR NORTE -->
+    <a href="listado-propiedades.html?zona=ostende" class="zc">
+      <div class="zc-bg" style="background:linear-gradient(135deg,#3a2a1a 0%,#D69B2D 100%);"></div>
+      <div class="zc-ov"></div>
+      <div class="zc-info">
+        <div class="zc-name">🏌️ Pinamar Norte</div>
+        <div class="zc-desc">Countries y barrios cerrados: La Herradura, Golf, Las Gaviotas. Seguridad 24h.</div>
+        <div class="zc-row">
+          <span class="zc-precio">USD 2.000 – 5.500 /m²</span>
+          <span class="zc-cant">208 prop.</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- ========== PROPIEDADES ========== -->
+<div id="propiedades" class="props-bg">
+<div class="props-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Publicaciones destacadas</span>
+    <h2 class="sec-h2">Las mejores <em>oportunidades</em> del mercado</h2>
+  </div>
+  <div class="props-grid">
+    <!-- Prop 1 -->
+    <div class="pc">
+      <div class="pc-img">
+        <div class="pc-img-bg" style="background:linear-gradient(135deg,#1a5a3a,#2d8a5a 60%,#5ab08a);"></div>
+        <div class="pc-ov"></div>
+        <div class="pc-badges">
+          <span class="badge b-venta">Venta</span>
+          <span class="badge b-ficha">📋 Ficha técnica</span>
+        </div>
+        <button class="pc-fav">♡</button>
+      </div>
+      <div class="pc-body">
+        <div class="pc-tipo">Casa · Cariló</div>
+        <div class="pc-title">Chalet premium integrado al bosque con piscina climatizada</div>
+        <div class="pc-zona">📍 Cariló — A 650m del mar · Bosque</div>
+        <div class="pc-feats">
+          <div class="pf"><strong>4</strong>&nbsp;dorm.</div>
+          <div class="pf"><strong>3</strong>&nbsp;baños</div>
+          <div class="pf"><strong>285</strong>&nbsp;m²</div>
+          <div class="pf"><strong>900</strong>&nbsp;m² tot.</div>
+        </div>
+        <div class="pc-price">USD 620.000 <span>+ gastos</span></div>
+        <div class="pc-m2">USD 2.175/m² · Zona: USD 5.500 prom.</div>
+        <div class="pc-foot">
+          <div class="pc-inmob">
+            <div class="pc-inmob-ico">RC</div>
+            <span class="pc-inmob-nm">Rodríguez &amp; Cía</span>
+          </div>
+          <div class="pc-btns">
+            <a href="https://wa.me/5491125489313" data-config="whatsapp" target="_blank" rel="noopener" class="btn-wsp">💬 WA</a>
+            <a href="ficha-propiedad.html" class="btn-ver">Ver ficha</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Prop 2 -->
+    <div class="pc">
+      <div class="pc-img">
+        <div class="pc-img-bg" style="background:linear-gradient(135deg,var(--verde),var(--turquesa));"></div>
+        <div class="pc-ov"></div>
+        <div class="pc-badges">
+          <span class="badge b-venta">Venta</span>
+          <span class="badge b-perm">🔄 Permuta</span>
+        </div>
+        <button class="pc-fav">♡</button>
+      </div>
+      <div class="pc-body">
+        <div class="pc-tipo">Depto · Pinamar Centro</div>
+        <div class="pc-title">2 ambientes con balcón y cochera, 3 cuadras del mar</div>
+        <div class="pc-zona">📍 Pinamar — Centro · Av. Shaw</div>
+        <div class="pc-feats">
+          <div class="pf"><strong>2</strong>&nbsp;amb.</div>
+          <div class="pf"><strong>1</strong>&nbsp;baño</div>
+          <div class="pf"><strong>52</strong>&nbsp;m²</div>
+          <div class="pf">Cochera 🚗</div>
+        </div>
+        <div class="pc-price">USD 98.000</div>
+        <div class="pc-m2">USD 1.885/m² · Acepta permuta</div>
+        <div class="pc-foot">
+          <div class="pc-inmob">
+            <div class="pc-inmob-ico">PB</div>
+            <span class="pc-inmob-nm">Pinamar Brokers</span>
+          </div>
+          <div class="pc-btns">
+            <a href="https://wa.me/5491125489313" data-config="whatsapp" target="_blank" rel="noopener" class="btn-wsp">💬 WA</a>
+            <a href="ficha-propiedad.html" class="btn-ver">Ver ficha</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Prop 3 -->
+    <div class="pc">
+      <div class="pc-img">
+        <div class="pc-img-bg" style="background:linear-gradient(135deg,#2a1a0a,#8a5a1a,#D69B2D);"></div>
+        <div class="pc-ov"></div>
+        <div class="pc-badges">
+          <span class="badge b-venta">Venta</span>
+          <span class="badge b-new">⭐ Nuevo</span>
+          <span class="badge b-ficha">📋 Ficha</span>
+        </div>
+        <button class="pc-fav">♡</button>
+      </div>
+      <div class="pc-body">
+        <div class="pc-tipo">Casa · Pinamar Norte</div>
+        <div class="pc-title">Casa en La Herradura — country con seguridad 24h y golf</div>
+        <div class="pc-zona">📍 Pinamar Norte — B. Cerrado La Herradura</div>
+        <div class="pc-feats">
+          <div class="pf"><strong>5</strong>&nbsp;dorm.</div>
+          <div class="pf"><strong>4</strong>&nbsp;baños</div>
+          <div class="pf"><strong>330</strong>&nbsp;m²</div>
+          <div class="pf">Golf ⛳</div>
+        </div>
+        <div class="pc-price">USD 890.000</div>
+        <div class="pc-m2">USD 2.697/m²</div>
+        <div class="pc-foot">
+          <div class="pc-inmob">
+            <div class="pc-inmob-ico">MA</div>
+            <span class="pc-inmob-nm">Mar Austral</span>
+          </div>
+          <div class="pc-btns">
+            <a href="https://wa.me/5491125489313" data-config="whatsapp" target="_blank" rel="noopener" class="btn-wsp">💬 WA</a>
+            <a href="ficha-propiedad.html" class="btn-ver">Ver ficha</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:40px">
+    <a href="listado-propiedades.html" style="display:inline-block;padding:13px 42px;background:var(--verde);color:#fff;text-decoration:none;border-radius:9px;font-size:14px;font-weight:700;transition:all .2s" onmouseover="this.style.background=\'#1a7a62\'" onmouseout="this.style.background=\'var(--verde)\'">Ver todas las propiedades →</a>
+  </div>
+</div>
+</div>
+
+<!-- ========== FICHA TÉCNICA ========== -->
+<div id="ficha" class="ficha-wrap">
+  <div class="ficha-deco"></div>
+  <div class="ficha-deco2"></div>
+  <div class="ficha-inner">
+    <div class="ficha-left">
+      <span class="sec-tag">Nuestro diferencial único</span>
+      <h2 class="sec-h2">Cada propiedad<br>con su <em>ficha técnica</em><br>certificada</h2>
+      <p class="sec-p">El único portal en Argentina que incluye el estado real del inmueble verificado por un profesional, con datos catastrales oficiales integrados de ARBA y la Municipalidad de Pinamar.</p>
+      <div class="ficha-feats">
+        <div class="ff">
+          <div class="ff-ico">🏠</div>
+          <div><h4>Estado real del inmueble</h4><p>Relevamiento de estructura, instalaciones eléctricas, sanitarias, carpinterías y terminaciones. Semáforo de estado.</p></div>
+        </div>
+        <div class="ff">
+          <div class="ff-ico">📋</div>
+          <div><h4>Certificado profesional</h4><p>Firmado por arquitecto o ingeniero matriculado en el Colegio PBA. Validez legal.</p></div>
+        </div>
+        <div class="ff">
+          <div class="ff-ico">💰</div>
+          <div><h4>Costo estimado de reparaciones</h4><p>Según Índice CAC (Cámara Argentina de la Construcción). Actualizado mensualmente.</p></div>
+        </div>
+        <div class="ff">
+          <div class="ff-ico">🗺️</div>
+          <div><h4>Datos catastrales oficiales</h4><p>Integración con ARBA (geo.arba.gov.ar) y Mapa COU de la Municipalidad de Pinamar: partida, zonificación, superficies.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="ficha-card">
+        <div class="fcard-hdr">
+          <h3>📋 Ficha Técnica del Inmueble</h3>
+          <span class="fcert">✓ Certificado</span>
+        </div>
+        <div class="fcard-body">
+          <div class="frow"><label>Profesional</label><span class="fval">Arq. M. González · MP 12345</span></div>
+          <div class="frow"><label>Relevamiento</label><span class="fval">15/04/2026</span></div>
+          <div class="frow"><label>Estructura</label><span class="fval ok">✓ Muy bueno</span></div>
+          <div class="frow"><label>Inst. eléctrica</label><span class="fval warn">⚠ Requiere revisión</span></div>
+          <div class="frow"><label>Inst. sanitaria</label><span class="fval ok">✓ Bueno</span></div>
+          <div class="frow"><label>Carpinterías</label><span class="fval ok">✓ Muy bueno</span></div>
+          <div class="frow"><label>Terminaciones</label><span class="fval warn">⚠ Con desgaste</span></div>
+          <div class="festado">
+            <div class="festado-lbl">Estado general</div>
+            <div class="bar"><div class="bar-fill" style="width:78%"></div></div>
+            <div class="bar-lbls"><span>Regular</span><span style="font-weight:700;color:var(--verde)">78% — Bueno</span><span>Excelente</span></div>
+          </div>
+          <div class="frep">
+            <div class="frep-lbl">💰 Costo estimado de reparaciones (CAC)</div>
+            <div class="frep-val">$4.850.000</div>
+            <div class="frep-sub">Índice CAC 1.245,3 · Actualizado abril 2026</div>
+          </div>
+          <div class="fcat">
+            <div class="fcat-lbl">🗺️ Datos Catastrales — ARBA / Municipalidad Pinamar</div>
+            <div class="fcat-grid">
+              <div class="fci"><label>Partida Municipal</label><strong>3-123-0456-0</strong></div>
+              <div class="fci"><label>Zonificación COU</label><strong>R2 — Residencial</strong></div>
+              <div class="fci"><label>Sup. terreno</label><strong>900 m²</strong></div>
+              <div class="fci"><label>Sup. edificada</label><strong>285 m²</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MAPA ========== -->
+<div id="mapa" class="mapa-wrap">
+<div class="mapa-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Mapa interactivo</span>
+    <h2 class="sec-h2">Buscá propiedades<br>directamente en el <em>mapa</em></h2>
+    <p class="sec-p">Visualizá todas las propiedades geolocalizadas, el precio promedio por zona y la zonificación COU del Partido de Pinamar.</p>
+  </div>
+  <div class="mapa-box">
+    <iframe class="mapa-iframe"
+      src="https://www.openstreetmap.org/export/embed.html?bbox=-57.10%2C-37.25%2C-56.75%2C-37.00&layer=mapnik&marker=-37.109%2C-56.866"
+      title="Mapa Partido de Pinamar — Cariló, Pinamar, Valeria del Mar, Ostende">
+    </iframe>
+    <div class="mapa-panel">
+      <h4>Precio promedio por zona</h4>
+      <div class="leg">
+        <div class="leg-item"><div class="leg-dot" style="background:#0D5B48"></div>Cariló · USD 5.500/m²</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#D69B2D"></div>Pinamar Norte · USD 3.200/m²</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#16A39C"></div>Pinamar Centro · USD 2.200/m²</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#6aaa6a"></div>Valeria del Mar · USD 1.900/m²</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#5a90c0"></div>Ostende · USD 1.500/m²</div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--beige2)">
+        <div style="font-size:10.5px;color:var(--gray);font-weight:600;margin-bottom:6px">Fuentes catastrales</div>
+        <div style="font-size:10px;color:var(--gray)">🗺️ <a href="https://www.mapaspinamar.gob.ar" target="_blank" style="color:var(--turquesa)">Mapa COU Pinamar</a></div>
+        <div style="font-size:10px;color:var(--gray);margin-top:4px">📍 <a href="https://carto.arba.gov.ar" target="_blank" style="color:var(--turquesa)">CARTO ARBA</a></div>
+      </div>
+    </div>
+    <div class="mapa-fuente">© OpenStreetMap · Datos catastrales: ARBA / Municipalidad Pinamar</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== MERCADO ========== -->
+<div id="mercado" class="mercado-wrap">
+<div class="mercado-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Informes del mercado</span>
+    <h2 class="sec-h2">El pulso inmobiliario<br>de <em>Pinamar</em> en tiempo real</h2>
+    <p class="sec-p">Datos propios actualizados mensualmente. Precios en USD, costo de construcción y operaciones registradas.</p>
+  </div>
+  <div class="inds-grid">
+    <div class="ind"><div class="ind-ico ico-v">🏠</div><div class="ind-lbl">Precio prom. Cariló</div><div class="ind-val">USD 5.500</div><div class="ind-sub">por m² construido</div><span class="trend t-up">▲ +3,2% mensual</span></div>
+    <div class="ind"><div class="ind-ico ico-t">🌊</div><div class="ind-lbl">Precio prom. Pinamar</div><div class="ind-val">USD 2.200</div><div class="ind-sub">por m² construido</div><span class="trend t-up">▲ +1,8% mensual</span></div>
+    <div class="ind"><div class="ind-ico ico-o">🏗️</div><div class="ind-lbl">Costo construcción</div><div class="ind-val">$1.245.000</div><div class="ind-sub">por m² · índice CAC abr. 2026</div><span class="trend t-up">▲ +4,1% mensual</span></div>
+    <div class="ind"><div class="ind-ico ico-b">📊</div><div class="ind-lbl">Escrituraciones</div><div class="ind-val">347</div><div class="ind-sub">ene–mar 2026</div><span class="trend t-up">▲ +22% vs. 2025</span></div>
+  </div>
+  <div class="ptable-wrap">
+    <div class="ptable-hdr">
+      <h3>📍 Precio promedio por zona — Abril 2026</h3>
+      <span>Relevamiento propio · Actualizado mensualmente</span>
+    </div>
+    <table>
+      <thead><tr><th>Zona</th><th>USD/m² prom.</th><th>Rango</th><th>Var. mensual</th><th>Var. anual</th><th>Propiedades</th></tr></thead>
+      <tbody>
+        <tr><td><span class="zdot"><span class="dot" style="background:#0D5B48"></span>Cariló</span></td><td class="p-cell">USD 5.500</td><td>USD 3.500 – 8.000</td><td class="vp">+3,2%</td><td class="vp">+18,4%</td><td>142</td></tr>
+        <tr><td><span class="zdot"><span class="dot" style="background:#D69B2D"></span>Pinamar Norte</span></td><td class="p-cell">USD 3.200</td><td>USD 2.000 – 5.500</td><td class="vp">+2,1%</td><td class="vp">+14,2%</td><td>208</td></tr>
+        <tr><td><span class="zdot"><span class="dot" style="background:#16A39C"></span>Pinamar Centro</span></td><td class="p-cell">USD 2.200</td><td>USD 1.800 – 4.500</td><td class="vp">+1,8%</td><td class="vp">+12,0%</td><td>583</td></tr>
+        <tr><td><span class="zdot"><span class="dot" style="background:#6aaa6a"></span>Valeria del Mar</span></td><td class="p-cell">USD 1.900</td><td>USD 1.500 – 3.200</td><td class="vn">-0,5%</td><td class="vp">+8,6%</td><td>198</td></tr>
+        <tr><td><span class="zdot"><span class="dot" style="background:#5a90c0"></span>Ostende</span></td><td class="p-cell">USD 1.500</td><td>USD 1.200 – 2.800</td><td class="vp">+1,2%</td><td class="vp">+9,8%</td><td>127</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ========== CALCULADORA ========== -->
+<div id="calc" class="calc-wrap">
+<div class="calc-inner">
+  <div>
+    <span class="sec-tag">Herramientas</span>
+    <h2 class="sec-h2">Calculadora de<br><em>crédito hipotecario</em></h2>
+    <p class="sec-p">Simulá tu cuota con los principales bancos de Argentina. Actualizado con tasas vigentes al 22/04/2026.</p>
+    <div style="margin-top:28px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--gray)">
+        <span style="width:36px;height:36px;border-radius:8px;background:rgba(13,91,72,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏦</span>
+        Banco Nación, Provincia, Hipotecario, Galicia y más
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--gray)">
+        <span style="width:36px;height:36px;border-radius:8px;background:rgba(22,163,156,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🔒</span>
+        También calculamos garantías de alquiler (seguro de caución)
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--gray)">
+        <span style="width:36px;height:36px;border-radius:8px;background:rgba(214,155,45,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏗️</span>
+        Calculadora de costo de construcción (índice CAC)
+      </div>
+    </div>
+  </div>
+  <div class="calc-card">
+    <h3>💳 Simulador Hipotecario</h3>
+    <div class="cf"><label>Valor de la propiedad (USD)</label><input type="number" id="v" value="150000" oninput="calc()"></div>
+    <div class="cf">
+      <label>Anticipo — <span id="ant-lbl">30%</span></label>
+      <input type="range" min="20" max="70" value="30" oninput="document.getElementById('ant-lbl').textContent=this.value+'%';calc()">
+    </div>
+    <div class="cf">
+      <label>Plazo</label>
+      <select id="pz" onchange="calc()">
+        <option value="10">10 años</option>
+        <option value="15">15 años</option>
+        <option value="20" selected>20 años</option>
+        <option value="30">30 años</option>
+      </select>
+    </div>
+    <div class="cf">
+      <label>Entidad bancaria</label>
+      <select id="tna" onchange="calc()">
+        <option value="8.5">Banco Nación — TNA 8,5%</option>
+        <option value="9.5">Banco Provincia — TNA 9,5%</option>
+        <option value="10.0">Banco Hipotecario — TNA 10%</option>
+        <option value="11.0">Banco Galicia — TNA 11%</option>
+      </select>
+    </div>
+    <button class="btn-calc" onclick="calc()">Calcular cuota estimada</button>
+    <div class="cresult" id="cr">
+      <div class="cr-lbl">Cuota mensual estimada</div>
+      <div class="cr-val" id="cr-cuota">USD 1.245</div>
+      <div class="cr-sub">Referencia orientativa · Consultar condiciones en la entidad</div>
+      <div class="cr-row">
+        <div class="cr-item"><label>A financiar</label><strong id="cr-monto">–</strong></div>
+        <div class="cr-item"><label>Total a pagar</label><strong id="cr-total">–</strong></div>
+        <div class="cr-item"><label>Plazo</label><strong id="cr-pz">20 años</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== PERMUTA ========== -->
+<div class="perm-wrap">
+  <div class="perm-inner">
+    <div class="perm-txt">
+      <h2>🔄 ¿Tu propiedad acepta una permuta?</h2>
+      <p>En Pinamar Propiedades cada propiedad indica claramente si el vendedor acepta permuta. Si encontrás algo que te interesa, podés enviarle tu propuesta directamente desde la ficha — sin intermediarios.</p>
+    </div>
+    <a href="listado-propiedades.html?permuta=1" class="btn-perm">Ver propiedades con permuta →</a>
+  </div>
+</div>
+
+<!-- ========== SERVICIOS ========== -->
+<div id="servicios" class="serv-wrap">
+<div class="serv-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Servicios del portal</span>
+    <h2 class="sec-h2">Todo lo que necesitás<br>para <em>operar con confianza</em></h2>
+  </div>
+  <div class="serv-grid">
+    <div class="sc"><div class="sc-ico">🔒</div><div class="sc-title">Garantía de alquiler</div><div class="sc-desc">Seguro de caución 100% online. Sin garantía propietaria. Respuesta en 24 horas. Válido para argentinos y extranjeros residentes.</div><a href="login-registro.html?servicio=garantia" class="sc-link">Cotizá tu garantía →</a></div>
+    <div class="sc"><div class="sc-ico">📋</div><div class="sc-title">Ficha técnica certificada</div><div class="sc-desc">Relevamiento profesional del estado del inmueble. Certificado firmado por arquitecto o ingeniero matriculado en el Colegio PBA.</div><a href="login-registro.html?servicio=ficha" class="sc-link">Solicitá tu ficha →</a></div>
+    <div class="sc"><div class="sc-ico">📊</div><div class="sc-title">Tasación online</div><div class="sc-desc">Estimá el valor de tu propiedad en base a datos reales del mercado de Pinamar, por zona, tipo y metros.</div><a href="login-registro.html?servicio=tasacion" class="sc-link">Tasar mi propiedad →</a></div>
+    <div class="sc"><div class="sc-ico">🗺️</div><div class="sc-title">Consulta catastral</div><div class="sc-desc">Partida municipal, zonificación COU, planos y datos oficiales de cualquier inmueble vía ARBA y Municipalidad de Pinamar.</div><a href="guia-invertir.html#catastro" class="sc-link">Consultar catastro →</a></div>
+    <div class="sc"><div class="sc-ico">⚖️</div><div class="sc-title">Asesoramiento legal</div><div class="sc-desc">Red de escribanos y abogados especializados en inmuebles de la Costa Atlántica para acompañarte en cada operación.</div><a href="guia-invertir.html#legal" class="sc-link">Contactar asesor →</a></div>
+    <div class="sc"><div class="sc-ico">🏗️</div><div class="sc-title">Costo de construcción</div><div class="sc-desc">Calculadora según índice CAC actualizado. Estimá el costo de construir o refaccionar en Pinamar con valores reales.</div><a href="pinamar-propiedades-v2.html#calculadora" class="sc-link">Calcular costo →</a></div>
+  </div>
+</div>
+</div>
+
+<!-- ========== NOTICIAS ========== -->
+<div id="noticias" class="news-wrap">
+<div class="news-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Noticias e informes</span>
+    <h2 class="sec-h2">El mercado de <em>Pinamar</em><br>en profundidad</h2>
+  </div>
+  <div class="news-grid">
+    <div class="nc">
+      <div class="nc-img" style="background:linear-gradient(135deg,#0a4535,#16A39C);"></div>
+      <div class="nc-body">
+        <div class="nc-cat">📊 Informe de mercado</div>
+        <div class="nc-title">Pinamar registra récord de escrituraciones en el primer trimestre 2026: +22% respecto de 2025</div>
+        <div class="nc-meta">15 de abril de 2026 · 5 min. de lectura</div>
+      </div>
+    </div>
+    <div class="nc">
+      <div class="nc-img" style="background:linear-gradient(135deg,#1a5a2a,#4a9a4a);"></div>
+      <div class="nc-body">
+        <div class="nc-cat">🌲 Cariló</div>
+        <div class="nc-title">Cariló consolida su posición como el destino de lujo más cotizado de la Costa Atlántica</div>
+        <div class="nc-meta">10 de abril de 2026</div>
+      </div>
+    </div>
+    <div class="nc">
+      <div class="nc-img" style="background:linear-gradient(135deg,#2a3a5a,#5a7a9a);"></div>
+      <div class="nc-body">
+        <div class="nc-cat">🏗️ Construcción</div>
+        <div class="nc-title">Índice CAC abril 2026: qué implica para quienes planean construir en Pinamar</div>
+        <div class="nc-meta">5 de abril de 2026</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== PUBLICAR ========== -->
+<div id="publicar" class="pub-wrap">
+<div class="pub-inner">
+  <div class="sec-hdr">
+    <span class="sec-tag">Para inmobiliarias, propietarios y desarrolladores</span>
+    <h2 class="sec-h2">Publicá tu propiedad<br>en <em>el portal de Pinamar</em></h2>
+    <p class="sec-p">Llegá al comprador que busca específicamente en Pinamar, Cariló, Valeria del Mar y Ostende.</p>
+  </div>
+  <div class="pub-grid">
+    <div class="puc">
+      <div class="puc-ico">👤</div>
+      <div class="puc-title">Propietario</div>
+      <div class="puc-desc">Publicá tu propiedad directamente sin intermediarios.</div>
+      <ul class="puc-feats">
+        <li>1 publicación activa</li>
+        <li>Fotos y descripción completa</li>
+        <li>Mapa con ubicación exacta</li>
+        <li>Contacto directo con interesados</li>
+        <li>Indicador de permuta activable</li>
+      </ul>
+      <a href="login-registro.html?tipo=propietario" class="btn-puc">Publicar como propietario</a>
+    </div>
+    <div class="puc puc-star">
+      <div class="puc-tag">⭐ Más elegido</div>
+      <div class="puc-ico">🏢</div>
+      <div class="puc-title">Inmobiliaria</div>
+      <div class="puc-desc">Publicaciones ilimitadas y herramientas profesionales.</div>
+      <ul class="puc-feats">
+        <li>Publicaciones ilimitadas</li>
+        <li>Carga masiva vía CSV o API</li>
+        <li>Ficha técnica certificada disponible</li>
+        <li>Estadísticas de visitas por propiedad</li>
+        <li>CRM básico integrado</li>
+        <li>Gestión de garantías de alquiler</li>
+        <li>Logo de inmobiliaria en cada aviso</li>
+      </ul>
+      <a href="login-registro.html?tipo=inmobiliaria" class="btn-puc">Registrar mi inmobiliaria</a>
+    </div>
+    <div class="puc">
+      <div class="puc-ico">🏗️</div>
+      <div class="puc-title">Desarrollador</div>
+      <div class="puc-desc">Para emprendimientos, loteos y proyectos en construcción.</div>
+      <ul class="puc-feats">
+        <li>Página de emprendimiento propia</li>
+        <li>Galería de renders y planos</li>
+        <li>Mapa de unidades disponibles</li>
+        <li>Integración con datos catastrales</li>
+        <li>Formulario de consulta personalizado</li>
+      </ul>
+      <a href="login-registro.html?tipo=desarrollador" class="btn-puc">Publicar mi desarrollo</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+
+
+<script>
+// Scroll navbar
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40)
+})
+
+// Tabs búsqueda
+function setTab(el){
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'))
+  el.classList.add('on')
+}
+
+// Chips filtros
+function tc(el){el.classList.toggle('on')}
+
+function buscar(){
+  const zona   = document.getElementById('s-zona')?.value   || '';
+  const tipo   = document.getElementById('s-tipo')?.value   || '';
+  const precio = document.getElementById('s-precio')?.value || '';
+  const dist   = document.getElementById('s-dist')?.value   || '';
+  const params = new URLSearchParams();
+
+  // Selects
+  const zonaMap = {
+    'Cariló — Centro':'carilo','Cariló — Bosque':'carilo',
+    'Pinamar — Centro':'pinamar-centro','Pinamar Norte':'pinamar-norte',
+    'Barrio Las Gaviotas':'pinamar-norte','Barrio La Herradura':'pinamar-norte',
+    'Barrio Las Hortensias':'pinamar-norte','Barrio Lasalle':'pinamar-norte',
+    'Barrio Los Álamos':'pinamar-norte','Barrio Golf':'pinamar-norte',
+    'Valeria del Mar':'valeria','Ostende':'ostende'
+  };
+  if(zonaMap[zona]) params.set('zona', zonaMap[zona]);
+
+  const tipoMap = {
+    'Casa / Chalet':'casa','Departamento':'departamento',
+    'Lote / Terreno':'terreno','Duplex':'duplex',
+    'Local Comercial':'local','Proyecto / PH':'ph'
+  };
+  if(tipoMap[tipo]) params.set('tipo', tipoMap[tipo]);
+
+  const precioMap = {
+    'Hasta USD 80.000':'0-80000','USD 80k – 200k':'80000-200000',
+    'USD 200k – 400k':'200000-400000','USD 400k – 700k':'400000-700000',
+    'Más de USD 700k':'700000-9999999'
+  };
+  if(precioMap[precio]) params.set('precio', precioMap[precio]);
+
+  const distMap = {
+    'Frente al mar':'0','Hasta 200 m':'200',
+    'Hasta 500 m':'500','Hasta 1 km':'1000','Más de 1 km':'any'
+  };
+  if(distMap[dist]) params.set('dist', distMap[dist]);
+
+  // Chips activos
+  document.querySelectorAll('.chip.on[data-filter]').forEach(c => {
+    const [key, val] = c.getAttribute('data-filter').split(':');
+    params.set(key, val);
+  });
+
+  const qs = params.toString();
+  window.location.href = 'listado-propiedades.html' + (qs ? '?' + qs : '');
+}
+
+// Calculadora hipotecaria
+function calc(){
+  const v=parseFloat(document.getElementById('v').value)||150000
+  const ant=parseInt(document.querySelector('input[type=range]').value)/100
+  const pz=parseInt(document.getElementById('pz').value)
+  const tna=parseFloat(document.getElementById('tna').value)/100
+  const m=v*(1-ant)
+  const tm=tna/12, n=pz*12
+  const c=m*(tm*Math.pow(1+tm,n))/(Math.pow(1+tm,n)-1)
+  const t=c*n
+  document.getElementById('cr').classList.add('show')
+  document.getElementById('cr-cuota').textContent='USD '+Math.round(c).toLocaleString('es-AR')
+  document.getElementById('cr-monto').textContent='USD '+Math.round(m).toLocaleString('es-AR')
+  document.getElementById('cr-total').textContent='USD '+Math.round(t).toLocaleString('es-AR')
+  document.getElementById('cr-pz').textContent=pz+' años'
+}
+
+// Animación scroll
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1'
+      e.target.style.transform='translateY(0)'
+    }
+  })
+},{threshold:.08})
+
+document.querySelectorAll('.pc,.ind,.sc,.puc,.nc,.zc,.ff').forEach(el=>{
+  el.style.opacity='0'
+  el.style.transform='translateY(22px)'
+  el.style.transition='opacity .55s ease, transform .55s ease'
+  obs.observe(el)
+})
+</script>
+<script src="nav.js"></script>
+
+<script>
+// Cargar propiedades destacadas desde Supabase
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof Propiedades === 'undefined') return;
+  try {
+    const { data } = await Propiedades.destacadas(6);
+    if (!data || data.length === 0) return;
+    // Buscar el grid de propiedades destacadas en la homepage
+    const grid = document.querySelector('.props-grid, #props-destacadas');
+    if (grid) grid.innerHTML = data.map(p => UI.renderCard(p)).join('');
+  } catch(e) { console.info('Homepage: usando propiedades demo', e.message); }
+
+  // Mostrar stats de zona en la sección de perfiles
+  try {
+    const { data: stats } = await Propiedades.statsPorZona();
+    if (!stats) return;
+    stats.forEach(s => {
+      const el = document.querySelector(`[data-zona-count="${s.zona}"]`);
+      if (el) el.textContent = s.total_props + ' propiedades';
+    });
+  } catch(e) {}
+});
+</script>
+
+<script>
+// Actualizar precios de zona en la homepage desde Supabase
+document.addEventListener('DOMContentLoaded', async () => {
+  if(typeof db === 'undefined') return;
+  try {
+    const {data} = await db.from('indicadores_zona').select('zona,precio_m2_lote_usd,apreciacion_pct_anual,sentimiento_positivo_pct');
+    if(!data) return;
+    data.forEach(z => {
+      // Actualizar precio en zona cards de la homepage
+      document.querySelectorAll(`[data-zona-precio-home="${z.zona}"]`).forEach(el => {
+        el.textContent = 'USD ' + z.precio_m2_lote_usd?.toLocaleString('es-AR') + '/m²';
+      });
+    });
+  } catch(e) {}
+});
+</script>
+<footer class="footer-full">
+  <div class="footer-brand">
+    <div class="footer-inner">
+      <div class="fb-logo-col">
+        <a href="pinamar-propiedades-v2.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:14px">
+          <svg width="40" height="40" viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".15"/>
+            <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+            <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+            <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#fff"/>
+            <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+          </svg>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:.06em">PINAMAR</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase">PROPIEDADES</div>
+          </div>
+        </a>
+        <p class="fb-tagline">El nexo inteligente del real estate premium costero.</p>
+        <p class="fb-tagline" style="margin-top:4px;font-style:italic;color:rgba(255,255,255,.35)">"Conectamos la naturaleza con la inversión inteligente."</p>
+        <div class="fb-social">
+          <a href="https://instagram.com/pinamarpropiedades" target="_blank" rel="noopener" class="fb-social-btn" title="Instagram">📸</a>
+          <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-social-btn" title="WhatsApp">💬</a>
+          <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-social-btn" title="Email">✉️</a>
+        </div>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🏠 Portal</div>
+        <a href="listado-propiedades.html" class="fb-link">Buscar propiedades</a>
+        <a href="comparador.html" class="fb-link">Comparador</a>
+        <a href="pinamar-ai.html" class="fb-link">✨ Pinamar AI</a>
+        <a href="perfiles-zona.html" class="fb-link">Perfiles de zona</a>
+        <a href="zona-carilo.html" class="fb-link">Guía Cariló</a>
+        <a href="noticias.html" class="fb-link">Informes de mercado</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">📊 Herramientas</div>
+        <a href="calculadora-hipoteca.html" class="fb-link">Calculadora hipotecaria</a>
+        <a href="guia-invertir.html" class="fb-link">Guía de inversión</a>
+        <a href="inmobiliarias.html" class="fb-link">Inmobiliarias certificadas</a>
+        <a href="proveedores-certificados.html" class="fb-link">Proveedores</a>
+        <a href="barrio.html" class="fb-link">Barrios del Partido</a>
+        <a href="quienes-somos.html" class="fb-link">Quiénes somos</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🔒 Mi cuenta</div>
+        <a href="login-registro.html" class="fb-link">Iniciar sesión</a>
+        <a href="login-registro.html?tab=registro" class="fb-link">Registrarme</a>
+        <a href="panel-inmobiliaria.html" class="fb-link">Panel propietario</a>
+        <div class="fb-col-title" style="margin-top:18px">📞 Contacto</div>
+        <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-link">info@pinamarpropiedades.com.ar</a>
+        <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-link">+54 911 2254 89313</a>
+        <a href="quienes-somos.html" class="fb-link fb-link-dest" style="margin-top:14px">📄 Presentación para inversores →</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <div class="footer-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">© 2026 Pinamar Propiedades. Todos los derechos reservados.</div>
+      <div style="display:flex;gap:16px">
+        <a href="terminos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Términos</a>
+        <a href="terminos.html#privacidad" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Privacidad</a>
+        <a href="quienes-somos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Quiénes somos</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.footer-full{background:#0a4535}
+.footer-brand{padding:56px 40px 40px}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px repeat(3,1fr);gap:40px}
+.fb-tagline{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+.fb-social{display:flex;gap:8px;margin-top:16px}
+.fb-social-btn{font-size:18px;text-decoration:none;padding:6px;border-radius:8px;background:rgba(255,255,255,.08);transition:all .2s}
+.fb-social-btn:hover{background:rgba(255,255,255,.16)}
+.fb-col-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.fb-link{display:block;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:9px;transition:color .2s;line-height:1.4}
+.fb-link:hover{color:#fff}
+.fb-link-dest{color:#D69B2D!important;font-weight:600}
+.footer-legal{background:rgba(0,0,0,.2);padding:16px 40px}
+@media(max-width:900px){.footer-inner{grid-template-columns:1fr 1fr;gap:28px}.fb-logo-col{grid-column:1/-1}}
+@media(max-width:500px){.footer-brand,.footer-legal{padding-left:16px;padding-right:16px}.footer-inner{grid-template-columns:1fr}}
+</style>
+
+</body>
+</html>
