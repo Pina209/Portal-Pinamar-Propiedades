@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="Calculadora Hipotecaria UVA y USD | Pinamar Propiedades">
+  <meta property="og:description" content="Calculá tu crédito hipotecario UVA o en dólares con tasas actualizadas de los principales bancos argentinos.">
+  <meta property="og:url" content="https://www.pinamarpropiedades.com.ar/calculadora-hipoteca.html">
+  <meta property="og:image" content="https://www.pinamarpropiedades.com.ar/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta name="description" content="Calculá tu crédito hipotecario UVA o en dólares con tasas actualizadas de los principales bancos argentinos.">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Calculadora de hipoteca UVA y en dólares para propiedades en el Partido de Pinamar. Calculá tu cuota mensual estimada.">
+<meta name="robots" content="index, follow">
+<title>Calculadora hipotecaria | Pinamar Propiedades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--turquesa:#16A39C;
+  --beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#d4c9b0;
+  --ocre:#D69B2D;--gray:#6b7280;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--beige);color:#1a1a1a;min-height:100vh}
+
+nav{position:sticky;top:0;z-index:99;height:64px;background:rgba(242,233,215,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(13,91,72,.1);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.logo-wrap{display:flex;align-items:center;gap:9px;text-decoration:none}
+.lp{font-size:15px;font-weight:800;color:var(--verde);letter-spacing:.06em}
+.lpp{font-size:8px;color:var(--turquesa);letter-spacing:.2em;text-transform:uppercase}
+
+.page-wrap{max-width:900px;margin:0 auto;padding:40px 20px 60px}
+.page-eyebrow{font-size:11px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.14em;margin-bottom:10px}
+.page-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,42px);color:var(--verde);margin-bottom:8px}
+.page-sub{font-size:14px;color:var(--gray);margin-bottom:32px;line-height:1.7;max-width:560px}
+
+/* Selector tipo de crédito */
+.tipo-selector{display:flex;gap:10px;margin-bottom:28px}
+.tipo-btn{flex:1;padding:14px 20px;border-radius:12px;border:2px solid var(--beige3);background:#fff;cursor:pointer;font-family:inherit;transition:all .2s;text-align:left}
+.tipo-btn.on{border-color:var(--verde);background:var(--verde);color:#fff}
+.tipo-btn:hover:not(.on){border-color:var(--verde);background:rgba(13,91,72,.04)}
+.tipo-btn-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.tipo-btn-sub{font-size:11px;opacity:.7;margin-top:3px}
+
+/* Layout */
+.calc-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+.calc-form{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(13,91,72,.08)}
+.calc-result{background:var(--verde);border-radius:16px;padding:28px;color:#fff;position:sticky;top:80px}
+
+/* Form fields */
+.f-group{margin-bottom:20px}
+.f-label{font-size:12px;font-weight:600;color:var(--verde);display:block;margin-bottom:6px}
+.f-label span{color:var(--gray);font-weight:400;font-size:11px}
+.f-input{width:100%;padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:9px;font-family:inherit;font-size:14px;font-weight:600;outline:none;transition:border-color .2s;background:#fff}
+.f-input:focus{border-color:var(--turquesa)}
+.f-input-prefix{position:relative}
+.f-input-prefix .prefix{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:700;color:var(--gray)}
+.f-input-prefix .f-input{padding-left:32px}
+.f-select{width:100%;padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:9px;font-family:inherit;font-size:13px;font-weight:600;outline:none;background:#fff;cursor:pointer;appearance:none;transition:border-color .2s}
+.f-select:focus{border-color:var(--turquesa)}
+
+/* Slider */
+.f-slider{width:100%;margin-top:8px;accent-color:var(--verde)}
+.slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-top:4px}
+
+/* Separador de tasas */
+.tasas-box{background:rgba(13,91,72,.04);border:1.5px solid rgba(13,91,72,.1);border-radius:10px;padding:14px 16px;margin-bottom:20px}
+.tasas-title{font-size:11px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.tasas-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tasa-item{}
+.tasa-item label{font-size:11px;font-weight:600;color:var(--gray);display:block;margin-bottom:5px}
+.tasa-item input{width:100%;padding:8px 10px;border:1.5px solid #e0e0e0;border-radius:7px;font-family:inherit;font-size:13px;font-weight:700;outline:none;text-align:center;transition:border-color .2s}
+.tasa-item input:focus{border-color:var(--turquesa)}
+.tasa-total{text-align:center;padding-top:10px;font-size:12px;color:var(--gray)}
+.tasa-total strong{color:var(--verde);font-size:16px}
+
+/* Resultado */
+.res-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.res-cuota{font-size:42px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.res-cuota-sub{font-size:12px;color:rgba(255,255,255,.6);margin-bottom:20px}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.res-item{background:rgba(255,255,255,.1);border-radius:9px;padding:12px}
+.res-item-n{font-size:16px;font-weight:700;color:#fff}
+.res-item-l{font-size:10px;color:rgba(255,255,255,.55);margin-top:2px}
+.res-bar{height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.res-bar-fill{height:100%;background:var(--ocre);border-radius:3px;transition:width .6s ease}
+.res-bar-label{font-size:10px;color:rgba(255,255,255,.5);display:flex;justify-content:space-between}
+
+/* Disclaimer */
+.disclaimer{background:rgba(214,155,45,.12);border:1px solid rgba(214,155,45,.3);border-radius:10px;padding:14px 16px;margin-top:20px;font-size:11.5px;color:rgba(255,255,255,.7);line-height:1.65}
+.disclaimer strong{color:var(--ocre)}
+
+/* Banco selector */
+.banco-selector{background:rgba(255,255,255,.08);border-radius:10px;padding:14px;margin-bottom:20px}
+.banco-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.banco-chips{display:flex;flex-wrap:wrap;gap:6px}
+.banco-chip{padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.6);cursor:pointer;font-family:inherit;transition:all .2s}
+.banco-chip.on{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* Tabla amortización */
+.tabla-wrap{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(13,91,72,.08);margin-top:20px}
+.tabla-title{font-size:14px;font-weight:700;color:var(--verde);margin-bottom:14px}
+.tabla-scroll{overflow-x:auto}
+table.amort{width:100%;border-collapse:collapse;font-size:12px}
+table.amort th{padding:8px 12px;font-weight:600;color:var(--gray);text-align:right;border-bottom:1.5px solid var(--beige2);white-space:nowrap}
+table.amort th:first-child{text-align:left}
+table.amort td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--beige2)}
+table.amort td:first-child{text-align:left;font-weight:600}
+table.amort tr:hover td{background:var(--beige)}
+
+@media(max-width:768px){
+  nav{padding:0 16px}
+  .page-wrap{padding:24px 16px 40px}
+  .calc-layout{grid-template-columns:1fr}
+  .calc-result{position:static}
+  .tipo-selector{flex-direction:column}
+  .tasas-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg width="36" height="36" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+    </svg>
+    <div><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
+  </a>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="pinamar-propiedades-v2.html" style="font-size:12px;font-weight:600;color:var(--verde);text-decoration:none">← Inicio</a>
+    <a href="guia-invertir.html" style="font-size:12px;font-weight:600;color:var(--verde);text-decoration:none">← Guía de inversión</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">Herramienta de planificación</div>
+  <h1 class="page-title">Calculadora hipotecaria</h1>
+  <p class="page-sub">Calculá tu cuota estimada para créditos UVA (pesos + ajuste inflación) o en dólares. Las tasas son actualizadas por el equipo de Pinamar Propiedades.</p>
+
+  <!-- Tipo de crédito -->
+  <div class="tipo-selector">
+    <button class="tipo-btn on" id="btn-uva" onclick="setTipo('uva')">
+      <div class="tipo-btn-title">🏦 Crédito UVA</div>
+      <div class="tipo-btn-sub">Cuota en pesos · ajusta por inflación (CER)</div>
+    </button>
+    <button class="tipo-btn" id="btn-dolares" onclick="setTipo('dolares')">
+      <div class="tipo-btn-title">💵 Crédito en USD</div>
+      <div class="tipo-btn-sub">Cuota en dólares · tasa fija + spread</div>
+    </button>
+  </div>
+
+  <div class="calc-layout">
+
+    <!-- FORMULARIO -->
+    <div class="calc-form">
+
+      <!-- Banco / línea de crédito -->
+      <div class="f-group">
+        <label class="f-label">Banco / Línea de crédito</label>
+        <select class="f-select" id="f-banco" onchange="cargarTasasBanco()">
+          <option value="">Ingresá las tasas manualmente →</option>
+        </select>
+      </div>
+
+      <!-- Tasas -->
+      <div class="tasas-box">
+        <div class="tasas-title" id="tasas-title">📊 Tasas del crédito</div>
+        <div class="tasas-row">
+          <div class="tasa-item">
+            <label id="label-tasa-fija">TNA fija (%)</label>
+            <input type="number" id="f-tna-fija" value="3.5" step="0.1" min="0" max="50" oninput="calcular()">
+          </div>
+          <div class="tasa-item">
+            <label id="label-tasa-var">Spread variable (%)</label>
+            <input type="number" id="f-spread" value="0" step="0.1" min="0" max="30" oninput="calcular()">
+          </div>
+        </div>
+        <div class="tasa-total">TNA total: <strong id="tna-total">3.5%</strong> anual</div>
+        <div style="font-size:11px;color:var(--gray);margin-top:6px;line-height:1.5" id="tasa-nota">
+          Crédito UVA: la cuota inicial en pesos sube mensualmente con el índice CER (inflación). El spread variable es el margen adicional sobre la tasa fija.
+        </div>
+      </div>
+
+      <!-- Valor de la propiedad -->
+      <div class="f-group">
+        <label class="f-label">Valor de la propiedad <span id="moneda-label">(USD)</span></label>
+        <div class="f-input-prefix">
+          <span class="prefix" id="prefix-symbol">USD</span>
+          <input type="number" class="f-input" id="f-valor" value="500000" min="10000" step="1000" oninput="actualizarAnticipo()">
+        </div>
+      </div>
+
+      <!-- Anticipo -->
+      <div class="f-group">
+        <label class="f-label">Anticipo: <strong id="anticipo-pct-label">30%</strong> = <strong id="anticipo-monto-label">USD 150.000</strong></label>
+        <input type="range" class="f-slider" id="f-anticipo" min="20" max="70" value="30" oninput="actualizarAnticipo()">
+        <div class="slider-labels"><span>20%</span><span>70%</span></div>
+      </div>
+
+      <!-- Plazo -->
+      <div class="f-group">
+        <label class="f-label">Plazo del crédito</label>
+        <select class="f-select" id="f-plazo" onchange="calcular()">
+          <option value="5">5 años (60 cuotas)</option>
+          <option value="10">10 años (120 cuotas)</option>
+          <option value="15">15 años (180 cuotas)</option>
+          <option value="20" selected>20 años (240 cuotas)</option>
+          <option value="25">25 años (300 cuotas)</option>
+          <option value="30">30 años (360 cuotas)</option>
+        </select>
+      </div>
+
+      <!-- Cuota UVA actual (solo UVA) -->
+      <div class="f-group" id="uva-group">
+        <label class="f-label">Valor UVA actual <span>(para calcular cuota en pesos)</span></label>
+        <div class="f-input-prefix">
+          <span class="prefix">$</span>
+          <input type="number" class="f-input" id="f-uva" value="1850" step="1" oninput="calcular()">
+        </div>
+        <div style="font-size:11px;color:var(--gray);margin-top:5px">
+          Valor referencial. Verificá el valor actual en <a href="https://www.bcra.gob.ar" target="_blank" rel="noopener" style="color:var(--turquesa);font-weight:600">bcra.gob.ar</a>
+        </div>
+      </div>
+
+      <button onclick="calcular()" style="width:100%;padding:13px;background:var(--verde);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;transition:all .2s">
+        Calcular cuota estimada
+      </button>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="calc-result">
+      <div class="res-label" id="res-tipo-label">Crédito UVA — Cuota inicial estimada</div>
+      <div class="res-cuota" id="res-cuota">–</div>
+      <div class="res-cuota-sub" id="res-cuota-sub">por mes</div>
+
+      <div class="res-grid">
+        <div class="res-item">
+          <div class="res-item-n" id="res-financiar">–</div>
+          <div class="res-item-l">Monto a financiar</div>
+        </div>
+        <div class="res-item">
+          <div class="res-item-n" id="res-total">–</div>
+          <div class="res-item-l">Total a pagar</div>
+        </div>
+        <div class="res-item">
+          <div class="res-item-n" id="res-tna">–</div>
+          <div class="res-item-l">TNA total</div>
+        </div>
+        <div class="res-item">
+          <div class="res-item-n" id="res-plazo">–</div>
+          <div class="res-item-l">Plazo</div>
+        </div>
+      </div>
+
+      <!-- Barra capital/interés -->
+      <div>
+        <div class="res-bar-label"><span>Capital</span><span>Intereses</span></div>
+        <div class="res-bar"><div class="res-bar-fill" id="res-bar-fill" style="width:50%"></div></div>
+        <div class="res-bar-label"><span id="res-pct-cap">–</span><span id="res-pct-int">–</span></div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>⚠️ Valores orientativos.</strong> Esta calculadora es una herramienta de estimación. Las tasas, condiciones y cuotas reales varían según el banco, el perfil del solicitante y las condiciones del mercado al momento de la solicitud. <strong>Consultá con tu banco antes de tomar decisiones.</strong>
+        <br><br>
+        <span id="tasas-fecha">Tasas actualizadas por Pinamar Propiedades.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABLA DE AMORTIZACIÓN -->
+  <div class="tabla-wrap" id="tabla-section" style="display:none">
+    <div class="tabla-title">📊 Proyección de cuotas (primeros 24 meses)</div>
+    <div class="tabla-scroll">
+      <table class="amort" id="tabla-amort">
+        <thead>
+          <tr>
+            <th style="text-align:left">Cuota</th>
+            <th>Cuota total</th>
+            <th>Capital</th>
+            <th>Interés</th>
+            <th>Saldo restante</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-top:10px" id="tabla-nota"></div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER EXPANDIDO — Pinamar Propiedades
+     Incluir en todas las páginas
+═══════════════════════════════════════════════════════════ -->
+<footer class="footer-full">
+  <!-- Banda superior: quiénes somos en miniatura -->
+  <div class="footer-brand">
+    <div class="footer-inner">
+      <div class="fb-logo-col">
+        <a href="pinamar-propiedades-v2.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:14px">
+          <svg width="40" height="40" viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".15"/>
+            <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+            <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
+            <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#fff"/>
+            <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
+          </svg>
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:.06em">PINAMAR</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase">PROPIEDADES</div>
+          </div>
+        </a>
+        <p class="fb-tagline">El nexo inteligente del real estate premium costero.</p>
+        <p class="fb-tagline" style="margin-top:4px;font-style:italic;color:rgba(255,255,255,.35)">"Conectamos la naturaleza con la inversión inteligente."</p>
+        <div class="fb-social">
+          <a href="https://instagram.com/pinamarpropiedades" target="_blank" rel="noopener" class="fb-social-btn" title="Instagram">📸</a>
+          <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-social-btn" title="WhatsApp">💬</a>
+          <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-social-btn" title="Email">✉️</a>
+        </div>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🏠 Portal</div>
+        <a href="listado-propiedades.html" class="fb-link">Buscar propiedades</a>
+        <a href="comparador.html" class="fb-link">Comparador</a>
+        <a href="pinamar-ai.html" class="fb-link">✨ Pinamar AI</a>
+        <a href="perfiles-zona.html" class="fb-link">Perfiles de zona</a>
+        <a href="zona-carilo.html" class="fb-link">Guía Cariló</a>
+        <a href="noticias.html" class="fb-link">Informes de mercado</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">📊 Herramientas</div>
+        <a href="calculadora-hipoteca.html" class="fb-link">Calculadora hipotecaria</a>
+        <a href="guia-invertir.html" class="fb-link">Guía de inversión</a>
+        <a href="inmobiliarias.html" class="fb-link">Inmobiliarias certificadas</a>
+        <a href="proveedores-certificados.html" class="fb-link">Proveedores</a>
+        <a href="barrio.html" class="fb-link">Barrios del Partido</a>
+        <a href="quienes-somos.html" class="fb-link">Quiénes somos</a>
+      </div>
+
+      <div class="fb-col">
+        <div class="fb-col-title">🔒 Mi cuenta</div>
+        <a href="login-registro.html" class="fb-link">Iniciar sesión</a>
+        <a href="login-registro.html?tab=registro" class="fb-link">Registrarme</a>
+        <a href="panel-inmobiliaria.html" class="fb-link">Panel propietario</a>
+        <div class="fb-col-title" style="margin-top:18px">📞 Contacto</div>
+        <a href="mailto:info@pinamarpropiedades.com.ar" class="fb-link">info@pinamarpropiedades.com.ar</a>
+        <a href="https://wa.me/5491125489313" target="_blank" rel="noopener" class="fb-link">+54 911 2254 89313</a>
+        <a href="quienes-somos.html" class="fb-link fb-link-dest" style="margin-top:14px">📄 Presentación para inversores →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banda inferior: legal -->
+  <div class="footer-legal">
+    <div class="footer-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div style="font-size:11px;color:rgba(255,255,255,.3)">© 2026 Pinamar Propiedades. Todos los derechos reservados.</div>
+      <div style="display:flex;gap:16px">
+        <a href="terminos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Términos</a>
+        <a href="terminos.html#privacidad" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Privacidad</a>
+        <a href="quienes-somos.html" style="font-size:11px;color:rgba(255,255,255,.3);text-decoration:none">Quiénes somos</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.footer-full{background:var(--verde2,#0a4535)}
+.footer-brand{padding:56px 40px 40px}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px repeat(3,1fr);gap:40px}
+.fb-logo-col{}
+.fb-tagline{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+.fb-social{display:flex;gap:8px;margin-top:16px}
+.fb-social-btn{font-size:18px;text-decoration:none;padding:6px;border-radius:8px;background:rgba(255,255,255,.08);transition:all .2s}
+.fb-social-btn:hover{background:rgba(255,255,255,.16)}
+.fb-col{}
+.fb-col-title{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.fb-link{display:block;font-size:12.5px;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:9px;transition:color .2s;line-height:1.4}
+.fb-link:hover{color:#fff}
+.fb-link-dest{color:var(--ocre,#D69B2D)!important;font-weight:600}
+.fb-link-dest:hover{color:#e8b040!important}
+.footer-legal{background:rgba(0,0,0,.2);padding:16px 40px}
+@media(max-width:900px){
+  .footer-inner{grid-template-columns:1fr 1fr;gap:28px}
+  .fb-logo-col{grid-column:1/-1}
+}
+@media(max-width:500px){
+  .footer-brand,.footer-legal{padding-left:16px;padding-right:16px}
+  .footer-inner{grid-template-columns:1fr}
+}
+</style>
+
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CALCULADORA HIPOTECARIA
+// ══════════════════════════════════════════════════════════════
+let _tipo = 'uva';  // 'uva' o 'dolares'
+let _bancos = [];
+
+// Bancos por defecto (se reemplazan con los de Supabase)
+const BANCOS_DEFAULT = {
+  uva: [
+    { nombre:'Banco Nación — UVA',     tna_fija:3.5, spread_variable:0,   notas:'', actualizado_en:null },
+    { nombre:'Banco Provincia — UVA',  tna_fija:4.0, spread_variable:0,   notas:'', actualizado_en:null },
+    { nombre:'Banco Ciudad — UVA',     tna_fija:3.75,spread_variable:0,   notas:'', actualizado_en:null },
+  ],
+  dolares: [
+    { nombre:'Crédito USD — Referencia', tna_fija:6.5, spread_variable:2.5, notas:'Solo referencia. Verificar con banco.', actualizado_en:null },
+  ],
+};
+
+function setTipo(tipo) {
+  _tipo = tipo;
+  document.getElementById('btn-uva').classList.toggle('on', tipo==='uva');
+  document.getElementById('btn-dolares').classList.toggle('on', tipo==='dolares');
+
+  const esUVA = tipo === 'uva';
+  document.getElementById('uva-group').style.display     = esUVA ? '' : 'none';
+  document.getElementById('prefix-symbol').textContent   = esUVA ? 'USD' : 'USD';
+  document.getElementById('moneda-label').textContent    = esUVA ? '(USD)' : '(USD)';
+  document.getElementById('res-tipo-label').textContent  = esUVA ? 'Crédito UVA — Cuota inicial en pesos' : 'Crédito USD — Cuota mensual en dólares';
+  document.getElementById('label-tasa-fija').textContent = esUVA ? 'TNA fija (%)' : 'Tasa fija anual (%)';
+  document.getElementById('label-tasa-var').textContent  = esUVA ? 'Spread sobre CER (%)' : 'Spread variable (%)';
+  document.getElementById('tasa-nota').textContent       = esUVA
+    ? 'Crédito UVA: la cuota inicial en pesos sube mensualmente con el índice CER (inflación). El spread es el margen adicional sobre la tasa fija.'
+    : 'Crédito en USD: la cuota es fija en dólares. El spread variable es el margen sobre la tasa base que puede ajustarse según condiciones de mercado.';
+
+  poblarBancos();
+  calcular();
+}
+
+function poblarBancos() {
+  const select = document.getElementById('f-banco');
+  const bancos = _bancos.filter(b => b.tipo === _tipo);
+  const defaults = BANCOS_DEFAULT[_tipo] || [];
+  const lista = bancos.length ? bancos : defaults;
+
+  select.innerHTML = '<option value="">Ingresá las tasas manualmente</option>' +
+    lista.map((b,i) => `<option value="${i}">${b.nombre_banco||b.nombre}</option>`).join('');
+}
+
+function cargarTasasBanco() {
+  const idx = document.getElementById('f-banco').value;
+  if (idx === '') return;
+  const bancos = _bancos.filter(b => b.tipo === _tipo);
+  const defaults = BANCOS_DEFAULT[_tipo] || [];
+  const lista = bancos.length ? bancos : defaults;
+  const b = lista[parseInt(idx)];
+  if (!b) return;
+  document.getElementById('f-tna-fija').value = b.tna_fija || b.tna_fija_pct || 0;
+  document.getElementById('f-spread').value   = b.spread_variable || 0;
+  actualizarTnaTotal();
+  calcular();
+}
+
+function actualizarTnaTotal() {
+  const fija  = parseFloat(document.getElementById('f-tna-fija').value) || 0;
+  const var_  = parseFloat(document.getElementById('f-spread').value) || 0;
+  const total = fija + var_;
+  document.getElementById('tna-total').textContent = total.toFixed(2) + '%';
+}
+
+function actualizarAnticipo() {
+  const valor    = parseFloat(document.getElementById('f-valor').value) || 0;
+  const anticipo = parseInt(document.getElementById('f-anticipo').value) || 30;
+  const montoAnt = valor * anticipo / 100;
+  const moneda   = _tipo === 'uva' ? 'USD' : 'USD';
+  document.getElementById('anticipo-pct-label').textContent   = anticipo + '%';
+  document.getElementById('anticipo-monto-label').textContent = moneda + ' ' + Math.round(montoAnt).toLocaleString('es-AR');
+  calcular();
+}
+
+function fmt(n, moneda='USD') {
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return moneda + ' ' + Math.round(n).toLocaleString('es-AR');
+}
+function fmtPesos(n) {
+  if (isNaN(n) || !isFinite(n)) return '—';
+  return '$ ' + Math.round(n).toLocaleString('es-AR');
+}
+
+function calcular() {
+  actualizarTnaTotal();
+
+  const valor     = parseFloat(document.getElementById('f-valor').value) || 0;
+  const anticipo  = parseInt(document.getElementById('f-anticipo').value) || 30;
+  const plazoAnos = parseInt(document.getElementById('f-plazo').value) || 20;
+  const tnaFija   = parseFloat(document.getElementById('f-tna-fija').value) || 0;
+  const spread    = parseFloat(document.getElementById('f-spread').value) || 0;
+  const tnaTotal  = tnaFija + spread;
+  const uvaVal    = parseFloat(document.getElementById('f-uva').value) || 1850;
+
+  if (!valor || !plazoAnos) return;
+
+  const monto      = valor * (1 - anticipo/100);
+  const n          = plazoAnos * 12;
+  const tasaMensual= tnaTotal / 100 / 12;
+
+  // Cuota por sistema francés (cuota fija)
+  let cuota;
+  if (tasaMensual === 0) {
+    cuota = monto / n;
+  } else {
+    cuota = monto * tasaMensual * Math.pow(1 + tasaMensual, n) / (Math.pow(1 + tasaMensual, n) - 1);
+  }
+
+  const totalPagar   = cuota * n;
+  const totalIntereses = totalPagar - monto;
+  const pctCapital   = (monto / totalPagar * 100).toFixed(0);
+  const pctInteres   = (100 - pctCapital).toFixed(0);
+
+  // Si es UVA: mostrar en pesos (cuota en UVAs * valor UVA)
+  const cuotaUVAs = _tipo === 'uva' ? cuota / uvaVal : null;
+  const cuotaPesos = _tipo === 'uva' ? cuotaUVAs * uvaVal : null;
+
+  // Actualizar resultado
+  if (_tipo === 'uva') {
+    document.getElementById('res-cuota').textContent = fmtPesos(cuotaPesos);
+    document.getElementById('res-cuota-sub').textContent = `por mes · ${cuotaUVAs?.toFixed(0)} UVAs`;
+  } else {
+    document.getElementById('res-cuota').textContent = fmt(cuota);
+    document.getElementById('res-cuota-sub').textContent = 'por mes (fijo en dólares)';
+  }
+
+  document.getElementById('res-financiar').textContent = fmt(monto);
+  document.getElementById('res-total').textContent = _tipo === 'uva' ? '⚠️ Variable' : fmt(totalPagar);
+  document.getElementById('res-tna').textContent = tnaTotal.toFixed(2) + '%';
+  document.getElementById('res-plazo').textContent = plazoAnos + ' años';
+  document.getElementById('res-bar-fill').style.width = pctCapital + '%';
+  document.getElementById('res-pct-cap').textContent = pctCapital + '%';
+  document.getElementById('res-pct-int').textContent = pctInteres + '%';
+
+  // Tabla de amortización (primeras 24 cuotas)
+  generarTabla(monto, cuota, tasaMensual, n);
+}
+
+function generarTabla(capital, cuota, tasa, n) {
+  const tbody = document.getElementById('tabla-body');
+  const rows = [];
+  let saldo = capital;
+  const meses = Math.min(24, n);
+
+  for (let i = 1; i <= meses; i++) {
+    const interes = saldo * tasa;
+    const cap     = cuota - interes;
+    saldo -= cap;
+    const moneda = _tipo === 'dolares' ? 'USD ' : '$ ';
+    rows.push(`
+      <tr>
+        <td>Cuota ${i}</td>
+        <td>${moneda}${Math.round(cuota).toLocaleString('es-AR')}</td>
+        <td>${moneda}${Math.round(cap).toLocaleString('es-AR')}</td>
+        <td>${moneda}${Math.round(interes).toLocaleString('es-AR')}</td>
+        <td>${moneda}${Math.round(Math.max(0,saldo)).toLocaleString('es-AR')}</td>
+      </tr>`);
+  }
+
+  tbody.innerHTML = rows.join('');
+  document.getElementById('tabla-section').style.display = '';
+  document.getElementById('tabla-nota').textContent = _tipo === 'uva'
+    ? '⚠️ En créditos UVA los montos en pesos aumentan mensualmente con el índice CER. Esta tabla muestra valores en dólares base, sin ajuste por inflación.'
+    : 'Tabla calculada con sistema francés (cuota fija). Los valores son estimativos.';
+}
+
+// Cargar tasas desde Supabase
+async function cargarTasas() {
+  if (typeof db === 'undefined') { poblarBancos(); calcular(); return; }
+  try {
+    const { data } = await db.from('config_calculadora').select('*').eq('activa', true).order('tipo').order('nombre_banco');
+    if (data?.length) {
+      _bancos = data;
+      if (data[0]?.actualizado_en) {
+        document.getElementById('tasas-fecha').textContent =
+          'Tasas actualizadas el ' + new Date(data[0].actualizado_en).toLocaleDateString('es-AR', {day:'numeric',month:'long',year:'numeric'}) + ' por Pinamar Propiedades.';
+      }
+    }
+  } catch(e) { console.info('Tasas demo'); }
+  poblarBancos();
+  calcular();
+}
+
+document.addEventListener('DOMContentLoaded', cargarTasas);
+document.getElementById('f-tna-fija').addEventListener('input', () => { actualizarTnaTotal(); calcular(); });
+document.getElementById('f-spread').addEventListener('input',   () => { actualizarTnaTotal(); calcular(); });
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
