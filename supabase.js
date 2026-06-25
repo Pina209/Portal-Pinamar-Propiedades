@@ -179,6 +179,14 @@ const Propiedades = {
       .limit(limit);
   },
 
+  /** Total de propiedades activas en el portal (para contadores del hero) */
+  async totalActivas() {
+    const { count } = await db.from('propiedades')
+      .select('id', { count: 'exact', head: true })
+      .eq('estado', 'activa');
+    return count ?? 0;
+  },
+
   /** Propiedades similares (misma zona y tipo, distinto ID) */
   async similares(propiedad_id, zona, tipo, limit = 3) {
     return db
@@ -330,6 +338,15 @@ const Inmobiliarias = {
       .select('id', { count: 'exact', head: true })
       .eq('inmobiliaria_id', inmobiliariaId)
       .eq('estado', 'activa');
+    return count ?? 0;
+  },
+
+  /** Total de inmobiliarias certificadas y activas (para contadores del hero) */
+  async totalActivas() {
+    const { count } = await db.from('inmobiliarias')
+      .select('id', { count: 'exact', head: true })
+      .eq('activa', true)
+      .eq('certificado_pinamar', true);
     return count ?? 0;
   }
 };
