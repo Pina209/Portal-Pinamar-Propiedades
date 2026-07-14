@@ -265,6 +265,8 @@ nav{
 </style>
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -350,6 +352,7 @@ nav{
     <span id="res-n">1.258</span> propiedades en venta en Pinamar
   </div>
   <div class="res-right">
+    <button onclick="niCrearAlertaDesdeFiltros()" style="padding:8px 16px;background:#fff;border:1.5px solid var(--verde,#0D5B48);color:var(--verde,#0D5B48);border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;margin-right:8px">🔔 Crear alerta</button>
     <select class="sort-sel">
       <option>Ordenar: Más relevantes</option>
       <option>Precio: menor a mayor</option>
@@ -800,6 +803,7 @@ async function cargarDesdeSupabase(filtros = {}) {
   }
 
   grid.innerHTML = data.map(p => UI.renderCard(p)).join('');
+  agregarFavoritosYSlugsAGrid(grid, data);
 
   // Actualizar contador
   const resEl = document.getElementById('res-n');
@@ -1071,6 +1075,70 @@ function setView(v, el) {
       }
     }, 200);
   }
+}
+</script>
+
+<script>
+// ══════════════════════════════════════════════════════
+// NEXO INTELIGENTE — favoritos + links por slug en las cards,
+// y "Crear alerta" reutilizando los filtros activos.
+// ══════════════════════════════════════════════════════
+
+function agregarFavoritosYSlugsAGrid(grid, data) {
+  if (typeof Favoritos === 'undefined') return;
+  const cards = grid.querySelectorAll('.pc');
+  cards.forEach((card, i) => {
+    const p = data[i];
+    if (!p) return;
+
+    // Si el registro ya viene del esquema nuevo (tiene slug y
+    // tabla_origen), corregimos los links a ficha para usar slug
+    // en vez de id — mejora SEO y evita el parámetro pelado.
+    if (p.slug && p.tabla_origen) {
+      card.querySelectorAll('a[href^="ficha-propiedad.html"]').forEach(a => {
+        a.href = `ficha-propiedad.html?slug=${encodeURIComponent(p.slug)}&tabla=${encodeURIComponent(p.tabla_origen)}`;
+      });
+      card.setAttribute('onclick', `window.location.href='ficha-propiedad.html?slug=${encodeURIComponent(p.slug)}&tabla=${encodeURIComponent(p.tabla_origen)}'`);
+    }
+
+    // Solo se puede guardar como favorito si el registro pertenece
+    // a una de las 10 tablas nuevas (favoritos.tabla_origen lo exige).
+    if (!p.tabla_origen) return;
+
+    const imgDiv = card.querySelector('.pc-img');
+    if (!imgDiv || imgDiv.querySelector('.btn-fav-card')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-fav-card';
+    btn.type = 'button';
+    btn.textContent = '🤍';
+    btn.style.cssText = 'position:absolute;top:8px;right:8px;background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;font-size:15px;cursor:pointer;z-index:2';
+    btn.onclick = async (ev) => {
+      ev.stopPropagation();
+      const marcado = btn.dataset.marcado === '1';
+      if (marcado) {
+        await Favoritos.quitar(p.id, p.tabla_origen);
+        btn.textContent = '🤍'; btn.dataset.marcado = '0';
+      } else {
+        await Favoritos.agregar(p.id, p.tabla_origen);
+        btn.textContent = '❤️'; btn.dataset.marcado = '1';
+      }
+    };
+    imgDiv.style.position = 'relative';
+    imgDiv.appendChild(btn);
+  });
+}
+
+async function niCrearAlertaDesdeFiltros() {
+  if (typeof AlertasBusqueda === 'undefined') { alert('No se pudo cargar el módulo de alertas.'); return; }
+  const email = prompt('¿A qué email querés recibir las notificaciones de esta búsqueda?');
+  if (!email) return;
+  const criterios = (typeof Propiedades !== 'undefined' && Propiedades.filtrosDesdeURL)
+    ? Propiedades.filtrosDesdeURL()
+    : Object.fromEntries(new URLSearchParams(location.search));
+  const { error } = await AlertasBusqueda.crear({ email, criteriosFiltro: criterios, frecuencia: 'semanal' });
+  if (error) { alert('Hubo un problema al crear la alerta: ' + (error.message || error)); return; }
+  alert('✓ Alerta creada. Te avisamos por email cuando aparezcan propiedades nuevas que coincidan con esta búsqueda.');
 }
 </script>
 
