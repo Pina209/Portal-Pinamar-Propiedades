@@ -165,6 +165,12 @@ body{font-family:'Poppins',sans-serif;background:var(--beige);color:#1a1a1a;over
   font-size:16px;color:rgba(255,255,255,.74);max-width:500px;
   line-height:1.65;margin-bottom:44px;font-weight:300;
 }
+.ni-hero-btn{
+  background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.4);color:#fff;
+  padding:12px 22px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;
+  font-family:inherit;transition:background .2s,transform .15s;backdrop-filter:blur(4px);
+}
+.ni-hero-btn:hover{background:rgba(255,255,255,.24);transform:translateY(-2px)}
 .hero-kpis{
   display:flex;gap:48px;margin-bottom:44px;
 }
@@ -720,6 +726,7 @@ footer{background:var(--dark);padding:60px 48px 28px}
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
 </head>
 <body>
@@ -790,6 +797,17 @@ footer{background:var(--dark);padding:60px 48px 28px}
     </div>
     <h1 class="hero-h1">Encontrá tu propiedad<br>en <em>Pinamar</em>, Cariló,<br>Valeria y Ostende</h1>
     <p class="hero-sub">Propiedades verificadas con ficha técnica certificada, datos catastrales oficiales y precios reales del mercado local.</p>
+
+    <!-- NEXO INTELIGENTE — Hero de triple entrada -->
+    <div class="ni-hero-triple" style="margin:22px 0">
+      <p style="color:#fff;font-weight:700;font-size:15px;margin-bottom:12px;letter-spacing:.01em">¿Qué estás proyectando?</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button onclick="niHeroClick('inversion_renta')" class="ni-hero-btn">📈 Invertir</button>
+        <button onclick="niHeroClick('vivienda_principal')" class="ni-hero-btn">🏡 Mi Refugio</button>
+        <button onclick="niHeroClick('turismo')" class="ni-hero-btn">🏖️ Turismo</button>
+      </div>
+    </div>
+
     <div class="hero-kpis">
       <div class="kpi"><strong id="kpi-propiedades">—</strong><span>Propiedades</span></div>
       <div class="kpi"><strong id="kpi-inmobiliarias">—</strong><span>Inmobiliarias</span></div>
@@ -1292,6 +1310,26 @@ window.addEventListener('scroll',()=>{
 function setTab(el){
   document.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'))
   el.classList.add('on')
+}
+
+// NEXO INTELIGENTE — Hero de triple entrada. Un clic ya registra
+// el perfil de comprador (inferencia silenciosa) y lleva a la
+// búsqueda tradicional como paso siguiente, no la reemplaza.
+async function niHeroClick(uso) {
+  try {
+    if (typeof PerfilBusqueda !== 'undefined') {
+      await PerfilBusqueda.registrarDesdeHero(uso);
+    }
+  } catch (e) { console.info('PerfilBusqueda: no se pudo registrar', e.message); }
+
+  // Turismo: preseleccionar la pestaña de Alquiler temporal
+  if (uso === 'turismo') {
+    const tabs = document.querySelectorAll('.stab');
+    const tabTemporal = Array.from(tabs).find(t => t.textContent.includes('Alq. Temporal'));
+    if (tabTemporal) setTab(tabTemporal);
+  }
+
+  document.querySelector('.sbox')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // Chips filtros
