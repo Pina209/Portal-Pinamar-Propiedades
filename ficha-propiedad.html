@@ -489,6 +489,7 @@ nav{
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -939,10 +940,125 @@ window.addEventListener('scroll',()=>{
   document.querySelector('nav').style.boxShadow=window.scrollY>40?'0 4px 24px rgba(0,0,0,.1)':''
 })
 </script>
+
+<script>
+// ══════════════════════════════════════════════════════
+// NEXO INTELIGENTE — carga de ficha vía slug + tabla (10
+// tablas nuevas), meta tags dinámicos, favorito, y permuta
+// reconectada al flujo real (ya no hace scroll al form).
+// ══════════════════════════════════════════════════════
+
+function setMetaOG(prop, content) {
+  let el = document.querySelector(`meta[property="${prop}"]`);
+  if (!el) { el = document.createElement('meta'); el.setAttribute('property', prop); document.head.appendChild(el); }
+  el.setAttribute('content', content);
+}
+
+async function cargarFichaNexo(slug, tabla) {
+  const { data: prop, error } = await PropiedadesNexo.obtenerPorSlug(tabla, slug);
+  if (error || !prop) { console.error('cargarFichaNexo', error); return; }
+  _propData = prop;
+
+  const titleEl = document.querySelector('.ph-title, h1.prop-title');
+  if (titleEl) titleEl.textContent = prop.titulo;
+
+  const precioEl = document.querySelector('.ph-price, .prop-price, .cc-price');
+  if (precioEl && prop.precio_usd) precioEl.textContent = 'USD ' + Number(prop.precio_usd).toLocaleString('es-AR');
+
+  document.title = `${prop.titulo} | Pinamar Propiedades`;
+  const urlCanonica = `https://portal-pinamar-propiedades.vercel.app/propiedad/${slug}`;
+  setMetaOG('og:title', `${prop.titulo} | Pinamar Propiedades`);
+  setMetaOG('og:description', (prop.descripcion || '').slice(0, 160));
+  setMetaOG('og:image', prop.og_imagen_url || 'https://portal-pinamar-propiedades.vercel.app/og-image.jpg');
+  setMetaOG('og:url', urlCanonica);
+
+  // JSON-LD (SEO + citabilidad en respuestas de IA)
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: prop.titulo,
+    description: prop.descripcion,
+    image: prop.og_imagen_url,
+    offers: prop.precio_usd ? { '@type': 'Offer', priceCurrency: prop.moneda_aceptada || 'USD', price: prop.precio_usd } : undefined
+  });
+  document.head.appendChild(ld);
+
+  if (prop.lat && prop.lng) {
+    setTimeout(() => iniciarMapa(prop.lat, prop.lng, prop.titulo, prop.mostrar_ubicacion_exacta !== false), 300);
+  }
+
+  await configurarBotonFavorito(prop.id, tabla);
+  await configurarSeccionPermuta(prop.id, tabla);
+}
+
+async function configurarBotonFavorito(propiedadId, tabla) {
+  let btn = document.getElementById('btn-favorito');
+  if (!btn) {
+    const cc = document.querySelector('.contact-card .cc-price');
+    if (!cc) return;
+    btn = document.createElement('button');
+    btn.id = 'btn-favorito';
+    btn.type = 'button';
+    btn.style.cssText = 'margin-left:10px;background:none;border:none;font-size:22px;cursor:pointer;vertical-align:middle';
+    btn.textContent = '🤍';
+    cc.appendChild(btn);
+  }
+  btn.onclick = async () => {
+    const marcado = btn.dataset.marcado === '1';
+    if (marcado) {
+      await Favoritos.quitar(propiedadId, tabla);
+      btn.textContent = '🤍'; btn.dataset.marcado = '0';
+    } else {
+      await Favoritos.agregar(propiedadId, tabla);
+      btn.textContent = '❤️'; btn.dataset.marcado = '1';
+    }
+  };
+}
+
+async function configurarSeccionPermuta(propiedadId, tabla) {
+  const card = document.querySelector('.permuta-card');
+  if (!card) return;
+  try {
+    const { data: opciones } = await db.from('propiedad_opciones')
+      .select('opcion_id, opciones_configurables(categoria, valor)')
+      .eq('propiedad_id', propiedadId).eq('tabla_origen', tabla);
+    const aceptaPermuta = (opciones || []).some(o =>
+      o.opciones_configurables?.categoria === 'forma_pago' && o.opciones_configurables?.valor === 'Permuta'
+    );
+    if (!aceptaPermuta) { card.style.display = 'none'; return; }
+  } catch (e) {
+    card.style.display = 'none';
+    return;
+  }
+  const btn = card.querySelector('.btn-permuta');
+  if (btn) {
+    // Ya no hace scroll al formulario genérico — arranca el flujo
+    // real de permutas (registro + publicación de la propiedad
+    // ofrecida), que se termina de construir en login-registro.html.
+    btn.onclick = () => {
+      location.href = `login-registro.html?next=permuta&propiedad_destino_id=${propiedadId}&tabla_destino=${tabla}`;
+    };
+  }
+}
+</script>
 <script src="nav.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
+  // ── Camino NUEVO (Arquitectura Nexo Inteligente): si la URL trae
+  // slug + tabla, se usa el esquema de 10 tablas. Si no, sigue el
+  // camino VIEJO de abajo tal cual estaba (id + tabla plana), para
+  // no romper links existentes mientras dure la transición.
+  const _params = new URLSearchParams(location.search);
+  const _slug = _params.get('slug');
+  const _tabla = _params.get('tabla');
+  if (_slug && _tabla && typeof PropiedadesNexo !== 'undefined') {
+    await cargarFichaNexo(_slug, _tabla);
+    return;
+  }
+
   const id = new URLSearchParams(location.search).get('id');
   if (!id || typeof Propiedades === 'undefined') return;
 
