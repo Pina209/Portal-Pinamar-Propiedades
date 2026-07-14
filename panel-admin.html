@@ -223,6 +223,7 @@ body{font-family:'Poppins',sans-serif;background:#f0f0f0;color:#1a1a1a;display:f
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
 
 <script>
 // ── Auth Guard — panel-admin ─────────────────────────────────────────────
@@ -323,6 +324,11 @@ async function cerrarSesion() {
     <button class="sb-item" onclick="show('permutas',this)"><span class="ico">🔄</span>Permutas</button>
     <button class="sb-item" onclick="show('garantias',this)"><span class="ico">🔒</span>Garantías alquiler</button>
     <button class="sb-item" onclick="show('fichas',this)"><span class="ico">📋</span>Fichas técnicas</button>
+
+    <div class="sb-section">Nexo Inteligente</div>
+    <button class="sb-item" onclick="show('nexo-publicar',this)"><span class="ico">➕</span>Publicar propiedad</button>
+    <button class="sb-item" onclick="show('nexo-opciones',this)"><span class="ico">🏷️</span>Gestionar opciones</button>
+    <button class="sb-item" onclick="show('nexo-barrios',this)"><span class="ico">🏡</span>Barrios cerrados</button>
 
     <div class="sb-section">Sistema</div>
     <button class="sb-item" onclick="show('config',this)"><span class="ico">⚙️</span>Configuración</button>
@@ -2798,8 +2804,445 @@ async function guardarConfigBrand() {
       </div>
     </div>
 
+    <!-- ═══ NEXO INTELIGENTE — PUBLICAR PROPIEDAD (10 tipos, form dinámico) ═══ -->
+    <div class="panel" id="panel-nexo-publicar">
+      <div class="card">
+        <div class="card-h"><h3>➕ Publicar propiedad — Nexo Inteligente</h3></div>
+        <div class="card-b">
+          <div style="margin-bottom:16px">
+            <label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Tipo de propiedad</label>
+            <select id="ni-tipo" style="width:100%;max-width:400px;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:14px" onchange="niCambiarTipo(this.value)">
+              <option value="">Seleccioná un tipo...</option>
+              <option value="propiedades_lotes">Terreno / Lote</option>
+              <option value="propiedades_deptos">Departamento</option>
+              <option value="propiedades_casas">Casa</option>
+              <option value="propiedades_duplex_ph">Duplex / PH</option>
+              <option value="propiedades_emprendimientos">Emprendimiento</option>
+              <option value="propiedades_locales">Local comercial</option>
+              <option value="propiedades_oficinas">Oficina</option>
+              <option value="propiedades_amarras">Cama náutica / Amarra</option>
+              <option value="propiedades_hoteles">Hotel / Hostería</option>
+              <option value="propiedades_edificios">Edificio completo</option>
+            </select>
+          </div>
+
+          <div id="ni-form-compartido" style="display:none">
+            <div class="grid-3" style="margin-bottom:14px">
+              <div><label class="ni-lbl">Título</label><input id="ni-titulo" class="ni-inp" placeholder="Ej: Casa 3 ambientes en Cariló a 500m del mar"></div>
+              <div><label class="ni-lbl">Operación</label>
+                <select id="ni-operacion" class="ni-inp">
+                  <option value="venta">Venta</option>
+                  <option value="alquiler">Alquiler</option>
+                  <option value="alquiler_temporal">Alquiler temporal</option>
+                </select>
+              </div>
+              <div><label class="ni-lbl">Zona</label><select id="ni-zona" class="ni-inp"><option value="">Cargando zonas...</option></select></div>
+            </div>
+            <div style="margin-bottom:14px"><label class="ni-lbl">Descripción</label><textarea id="ni-descripcion" class="ni-inp" rows="3"></textarea></div>
+
+            <div class="grid-3" style="margin-bottom:14px">
+              <div><label class="ni-lbl">Distancia al mar (m)</label><input type="number" id="ni-dist-mar" class="ni-inp"></div>
+              <div><label class="ni-lbl">Barrio cerrado (opcional)</label><select id="ni-barrio-cerrado" class="ni-inp"><option value="">Ninguno</option></select></div>
+              <div><label class="ni-lbl">Cantidad de cocheras</label><input type="number" id="ni-cocheras" class="ni-inp" value="0"></div>
+            </div>
+
+            <div class="grid-3" style="margin-bottom:14px">
+              <div><label class="ni-lbl">Estado dominial</label><select id="ni-estado-dominial" class="ni-inp"></select></div>
+              <div><label class="ni-lbl">Moneda</label>
+                <select id="ni-moneda" class="ni-inp"><option>USD</option><option>ARS</option><option>ambas</option></select>
+              </div>
+              <div style="display:flex;align-items:end;gap:16px;padding-bottom:8px">
+                <label style="font-size:12px"><input type="checkbox" id="ni-apto-credito"> Apto crédito bancario</label>
+                <label style="font-size:12px"><input type="checkbox" id="ni-apto-profesional"> Apto profesional</label>
+                <label style="font-size:12px"><input type="checkbox" id="ni-accesible"> Accesible</label>
+              </div>
+            </div>
+
+            <!-- Bloques específicos por tipo — se muestran/ocultan con niCambiarTipo() -->
+            <div class="ni-bloque-tipo" data-tipo="propiedades_lotes" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Terreno</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Sup. terreno m²</label><input type="number" id="ni-lote-sup-terreno" class="ni-inp"></div>
+                <div><label class="ni-lbl">Frente (m)</label><input type="number" id="ni-lote-frente" class="ni-inp"></div>
+                <div><label class="ni-lbl">Fondo (m)</label><input type="number" id="ni-lote-fondo" class="ni-inp"></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_deptos" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Departamento</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Sup. cubierta m²</label><input type="number" id="ni-depto-sup-cubierta" class="ni-inp"></div>
+                <div><label class="ni-lbl">Ambientes</label><input type="number" id="ni-depto-ambientes" class="ni-inp"></div>
+                <div><label class="ni-lbl">Dormitorios</label><input type="number" id="ni-depto-dormitorios" class="ni-inp"></div>
+                <div><label class="ni-lbl">Baños</label><input type="number" id="ni-depto-banos" class="ni-inp"></div>
+                <div><label class="ni-lbl">Piso</label><input type="number" id="ni-depto-piso" class="ni-inp"></div>
+                <div><label class="ni-lbl">Expensas (USD)</label><input type="number" id="ni-depto-expensas" class="ni-inp"></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_casas" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Casa</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Sup. terreno m²</label><input type="number" id="ni-casa-sup-terreno" class="ni-inp"></div>
+                <div><label class="ni-lbl">Sup. cubierta m²</label><input type="number" id="ni-casa-sup-cubierta" class="ni-inp"></div>
+                <div><label class="ni-lbl">Ambientes</label><input type="number" id="ni-casa-ambientes" class="ni-inp"></div>
+                <div><label class="ni-lbl">Dormitorios</label><input type="number" id="ni-casa-dormitorios" class="ni-inp"></div>
+                <div><label class="ni-lbl">Baños</label><input type="number" id="ni-casa-banos" class="ni-inp"></div>
+                <div><label class="ni-lbl">Plantas</label><input type="number" id="ni-casa-plantas" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-casa-piscina"> Piscina</label></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-casa-quincho"> Quincho</label></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_duplex_ph" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Duplex / PH</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Subtipo</label><select id="ni-duplexph-subtipo" class="ni-inp"><option value="duplex">Duplex</option><option value="ph">PH</option></select></div>
+                <div><label class="ni-lbl">Sup. cubierta m²</label><input type="number" id="ni-duplexph-sup-cubierta" class="ni-inp"></div>
+                <div><label class="ni-lbl">Ambientes</label><input type="number" id="ni-duplexph-ambientes" class="ni-inp"></div>
+                <div><label class="ni-lbl">Dormitorios</label><input type="number" id="ni-duplexph-dormitorios" class="ni-inp"></div>
+                <div><label class="ni-lbl">Baños</label><input type="number" id="ni-duplexph-banos" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-duplexph-patio"> Patio propio</label></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_emprendimientos" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Emprendimiento</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Desarrollador</label><input id="ni-emp-desarrollador" class="ni-inp"></div>
+                <div><label class="ni-lbl">Tipo de desarrollo</label><select id="ni-emp-tipo-desarrollo" class="ni-inp"><option value="horizontal">Horizontal</option><option value="vertical">Vertical</option></select></div>
+                <div><label class="ni-lbl">Avance de obra (%)</label><input type="number" id="ni-emp-avance" class="ni-inp" min="0" max="100"></div>
+                <div><label class="ni-lbl">Fecha de entrega estimada</label><input type="date" id="ni-emp-entrega" class="ni-inp"></div>
+                <div><label class="ni-lbl">Unidades totales</label><input type="number" id="ni-emp-unid-totales" class="ni-inp"></div>
+                <div><label class="ni-lbl">Unidades disponibles</label><input type="number" id="ni-emp-unid-disp" class="ni-inp"></div>
+                <div><label class="ni-lbl">Precio desde (USD)</label><input type="number" id="ni-emp-precio-desde" class="ni-inp"></div>
+              </div>
+              <p style="font-size:11px;color:var(--gray);margin-top:8px">Las tipologías (2 amb. piso 3, etc.) se cargan después de guardar el emprendimiento, desde su ficha.</p>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_locales" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Local comercial</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Subtipo</label><select id="ni-local-subtipo" class="ni-inp"></select></div>
+                <div><label class="ni-lbl">Sup. m²</label><input type="number" id="ni-local-sup" class="ni-inp"></div>
+                <div><label class="ni-lbl">Frente (m)</label><input type="number" id="ni-local-frente" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-local-pb" checked> Planta baja</label></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-local-vidriera"> Apto vidriera</label></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_oficinas" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Oficina</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Sup. m²</label><input type="number" id="ni-oficina-sup" class="ni-inp"></div>
+                <div><label class="ni-lbl">Piso</label><input type="number" id="ni-oficina-piso" class="ni-inp"></div>
+                <div><label class="ni-lbl">Expensas (USD)</label><input type="number" id="ni-oficina-expensas" class="ni-inp"></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_amarras" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Amarra náutica</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Club náutico / marina</label><input id="ni-amarra-club" class="ni-inp"></div>
+                <div><label class="ni-lbl">Tipo de amarre</label><select id="ni-amarra-tipo" class="ni-inp"></select></div>
+                <div><label class="ni-lbl">Eslora máxima (m)</label><input type="number" id="ni-amarra-eslora" class="ni-inp"></div>
+                <div><label class="ni-lbl">Calado (m)</label><input type="number" id="ni-amarra-calado" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-amarra-techada"> Techada</label></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_hoteles" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Hotel / Hostería</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Cantidad de habitaciones</label><input type="number" id="ni-hotel-habitaciones" class="ni-inp"></div>
+                <div><label class="ni-lbl">Categoría</label><select id="ni-hotel-categoria" class="ni-inp"></select></div>
+                <div><label class="ni-lbl">Ocupación promedio (%)</label><input type="number" id="ni-hotel-ocupacion" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-hotel-personal"> Personal incluido</label></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-hotel-licencia"> Licencia vigente</label></div>
+              </div>
+            </div>
+
+            <div class="ni-bloque-tipo" data-tipo="propiedades_edificios" style="display:none">
+              <h4 style="margin:14px 0 8px">Específico de Edificio completo</h4>
+              <div class="grid-3">
+                <div><label class="ni-lbl">Cantidad de unidades</label><input type="number" id="ni-edif-unidades" class="ni-inp"></div>
+                <div><label class="ni-lbl">Tipo de unidades</label><select id="ni-edif-tipo-unidades" class="ni-inp"></select></div>
+                <div><label class="ni-lbl">Cantidad de pisos</label><input type="number" id="ni-edif-pisos" class="ni-inp"></div>
+                <div><label style="font-size:12px"><input type="checkbox" id="ni-edif-ascensor"> Ascensor</label></div>
+                <div><label class="ni-lbl">Ocupación actual (%)</label><input type="number" id="ni-edif-ocupacion" class="ni-inp"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:18px"><label class="ni-lbl">Observaciones (texto libre)</label><textarea id="ni-observaciones" class="ni-inp" rows="2"></textarea></div>
+
+            <button onclick="niGuardarPropiedad()" style="margin-top:18px;padding:12px 28px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">💾 Publicar propiedad</button>
+            <span id="ni-guardar-msg" style="margin-left:12px;font-size:12px"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ NEXO INTELIGENTE — GESTIONAR OPCIONES ═══ -->
+    <div class="panel" id="panel-nexo-opciones">
+      <div class="card">
+        <div class="card-h"><h3>🏷️ Gestionar opciones configurables</h3></div>
+        <div class="card-b">
+          <p style="font-size:12px;color:var(--gray);margin-bottom:14px">Acá se administran todas las listas del sitio (estados legales, estadios de antigüedad, tags de pileta/vista, rubros de local, etc.) sin necesitar cambios de código.</p>
+          <div class="grid-3" style="margin-bottom:14px;align-items:end">
+            <div><label class="ni-lbl">Categoría</label><input id="opt-categoria" class="ni-inp" placeholder="ej: piscina_tags"></div>
+            <div><label class="ni-lbl">Valor nuevo</label><input id="opt-valor" class="ni-inp" placeholder="ej: Con hidromasaje"></div>
+            <div><button onclick="optAgregar()" style="padding:11px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">+ Agregar</button></div>
+          </div>
+          <div id="opt-listado" style="font-size:13px;color:var(--gray)">Cargando opciones...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ NEXO INTELIGENTE — BARRIOS CERRADOS ═══ -->
+    <div class="panel" id="panel-nexo-barrios">
+      <div class="card">
+        <div class="card-h"><h3>🏡 Barrios cerrados y countries</h3></div>
+        <div class="card-b">
+          <div class="grid-3" style="margin-bottom:14px">
+            <div><label class="ni-lbl">Nombre</label><input id="bc-nombre" class="ni-inp" placeholder="ej: Marítimo Golf Club"></div>
+            <div><label class="ni-lbl">Zona</label><select id="bc-zona" class="ni-inp"></select></div>
+            <div><label class="ni-lbl">Expensas promedio (USD)</label><input type="number" id="bc-expensas" class="ni-inp"></div>
+          </div>
+          <button onclick="bcAgregar()" style="padding:11px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:16px">+ Agregar barrio cerrado</button>
+          <div id="bc-listado" style="font-size:13px;color:var(--gray)">Cargando...</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<style>
+.ni-lbl{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px}
+.ni-inp{width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;outline:none;box-sizing:border-box}
+</style>
+
+<script>
+// ══════════════════════════════════════════════════════
+// NEXO INTELIGENTE — lógica del formulario dinámico y las
+// pantallas de opciones/barrios cerrados. Depende de los
+// objetos globales definidos en nexo-inteligente.js.
+// ══════════════════════════════════════════════════════
+
+async function niInit() {
+  document.getElementById('ni-form-compartido').style.display = 'block';
+
+  // Zonas (se usa en 3 pantallas)
+  const zonas = await Zonas.listar();
+  const optsZona = '<option value="">Sin definir</option>' + zonas.map(z => `<option value="${z.id}">${z.nombre}</option>`).join('');
+  const selZona = document.getElementById('ni-zona'); if (selZona) selZona.innerHTML = optsZona;
+  const selBcZona = document.getElementById('bc-zona'); if (selBcZona) selBcZona.innerHTML = optsZona;
+
+  // Estado dominial (con semáforo)
+  const estadosDominiales = await OpcionesConfigurables.porCategoria('estado_dominial');
+  const selDominial = document.getElementById('ni-estado-dominial');
+  if (selDominial) selDominial.innerHTML = estadosDominiales.map(o => `<option value="${o.id}">${o.valor}${o.color_semaforo ? ' ('+o.color_semaforo+')' : ''}</option>`).join('');
+
+  // Subtipo local
+  const subtiposLocal = await OpcionesConfigurables.porCategoria('subtipo_local');
+  const selLocal = document.getElementById('ni-local-subtipo');
+  if (selLocal) selLocal.innerHTML = subtiposLocal.map(o => `<option value="${o.id}">${o.valor}</option>`).join('');
+
+  // Tipo de amarre
+  const tiposAmarre = await OpcionesConfigurables.porCategoria('tipo_amarre');
+  const selAmarre = document.getElementById('ni-amarra-tipo');
+  if (selAmarre) selAmarre.innerHTML = tiposAmarre.map(o => `<option value="${o.id}">${o.valor}</option>`).join('');
+
+  // Categoría de estrellas (hoteles)
+  const catEstrellas = await OpcionesConfigurables.porCategoria('categoria_estrellas');
+  const selEstrellas = document.getElementById('ni-hotel-categoria');
+  if (selEstrellas) selEstrellas.innerHTML = catEstrellas.map(o => `<option value="${o.id}">${o.valor}</option>`).join('');
+
+  // Tipo de unidades (edificios)
+  const tipoUnidades = await OpcionesConfigurables.porCategoria('tipo_unidades');
+  const selUnidades = document.getElementById('ni-edif-tipo-unidades');
+  if (selUnidades) selUnidades.innerHTML = tipoUnidades.map(o => `<option value="${o.id}">${o.valor}</option>`).join('');
+
+  // Barrios cerrados (para el select del form principal)
+  await niCargarBarriosCerradosSelect();
+}
+
+async function niCargarBarriosCerradosSelect() {
+  const zonaId = document.getElementById('ni-zona')?.value;
+  const sel = document.getElementById('ni-barrio-cerrado');
+  if (!sel) return;
+  if (!zonaId) { sel.innerHTML = '<option value="">Ninguno</option>'; return; }
+  const barrios = await BarriosCerrados.porZona(zonaId);
+  sel.innerHTML = '<option value="">Ninguno</option>' + barrios.map(b => `<option value="${b.id}">${b.nombre}</option>`).join('');
+}
+
+function niCambiarTipo(tipo) {
+  document.querySelectorAll('.ni-bloque-tipo').forEach(b => b.style.display = (b.dataset.tipo === tipo ? 'block' : 'none'));
+}
+
+async function niGuardarPropiedad() {
+  const tabla = document.getElementById('ni-tipo').value;
+  if (!tabla) { alert('Elegí un tipo de propiedad primero.'); return; }
+
+  const usuario = await Auth.getUser().catch(() => null);
+  if (!usuario) { alert('Necesitás estar logueado para publicar.'); return; }
+
+  const zonaSel = document.getElementById('ni-zona');
+  const datos = {
+    titulo: document.getElementById('ni-titulo').value,
+    descripcion: document.getElementById('ni-descripcion').value,
+    operacion: document.getElementById('ni-operacion').value,
+    publicante_id: usuario.id,
+    zona_id: zonaSel.value || null,
+    dist_mar_m: document.getElementById('ni-dist-mar').value || null,
+    cantidad_cocheras: document.getElementById('ni-cocheras').value || 0,
+    estado_dominial_id: document.getElementById('ni-estado-dominial').value || null,
+    moneda_aceptada: document.getElementById('ni-moneda').value,
+    apto_credito_bancario: document.getElementById('ni-apto-credito').checked,
+    apto_profesional: document.getElementById('ni-apto-profesional').checked,
+    accesible_movilidad_reducida: document.getElementById('ni-accesible').checked,
+    observaciones: document.getElementById('ni-observaciones').value,
+    _zonaNombre: zonaSel.options[zonaSel.selectedIndex]?.text || ''
+  };
+
+  const barrioCerrado = document.getElementById('ni-barrio-cerrado')?.value;
+  if (barrioCerrado && ['propiedades_lotes','propiedades_casas','propiedades_duplex_ph'].includes(tabla)) {
+    datos.barrio_cerrado_id = barrioCerrado;
+  }
+
+  // Campos específicos por tabla
+  if (tabla === 'propiedades_lotes') {
+    datos.sup_terreno_m2 = document.getElementById('ni-lote-sup-terreno').value || null;
+    datos.frente_m = document.getElementById('ni-lote-frente').value || null;
+    datos.fondo_m = document.getElementById('ni-lote-fondo').value || null;
+  } else if (tabla === 'propiedades_deptos') {
+    datos.sup_cubierta_m2 = document.getElementById('ni-depto-sup-cubierta').value || null;
+    datos.ambientes = document.getElementById('ni-depto-ambientes').value || null;
+    datos.dormitorios = document.getElementById('ni-depto-dormitorios').value || null;
+    datos.banos = document.getElementById('ni-depto-banos').value || null;
+    datos.piso = document.getElementById('ni-depto-piso').value || null;
+    datos.expensas_usd = document.getElementById('ni-depto-expensas').value || null;
+  } else if (tabla === 'propiedades_casas') {
+    datos.sup_terreno_m2 = document.getElementById('ni-casa-sup-terreno').value || null;
+    datos.sup_cubierta_m2 = document.getElementById('ni-casa-sup-cubierta').value || null;
+    datos.ambientes = document.getElementById('ni-casa-ambientes').value || null;
+    datos.dormitorios = document.getElementById('ni-casa-dormitorios').value || null;
+    datos.banos = document.getElementById('ni-casa-banos').value || null;
+    datos.plantas = document.getElementById('ni-casa-plantas').value || null;
+    datos.quincho = document.getElementById('ni-casa-quincho').checked;
+  } else if (tabla === 'propiedades_duplex_ph') {
+    datos.subtipo = document.getElementById('ni-duplexph-subtipo').value;
+    datos.sup_cubierta_m2 = document.getElementById('ni-duplexph-sup-cubierta').value || null;
+    datos.ambientes = document.getElementById('ni-duplexph-ambientes').value || null;
+    datos.dormitorios = document.getElementById('ni-duplexph-dormitorios').value || null;
+    datos.banos = document.getElementById('ni-duplexph-banos').value || null;
+    datos.patio_propio = document.getElementById('ni-duplexph-patio').checked;
+  } else if (tabla === 'propiedades_emprendimientos') {
+    datos.desarrollador = document.getElementById('ni-emp-desarrollador').value;
+    datos.tipo_desarrollo = document.getElementById('ni-emp-tipo-desarrollo').value;
+    datos.avance_obra_pct = document.getElementById('ni-emp-avance').value || null;
+    datos.fecha_entrega_estimada = document.getElementById('ni-emp-entrega').value || null;
+    datos.unidades_totales = document.getElementById('ni-emp-unid-totales').value || null;
+    datos.unidades_disponibles = document.getElementById('ni-emp-unid-disp').value || null;
+    datos.precio_desde_usd = document.getElementById('ni-emp-precio-desde').value || null;
+  } else if (tabla === 'propiedades_locales') {
+    datos.subtipo_local_id = document.getElementById('ni-local-subtipo').value || null;
+    datos.sup_m2 = document.getElementById('ni-local-sup').value || null;
+    datos.frente_m = document.getElementById('ni-local-frente').value || null;
+    datos.planta_baja = document.getElementById('ni-local-pb').checked;
+    datos.apto_vidriera = document.getElementById('ni-local-vidriera').checked;
+  } else if (tabla === 'propiedades_oficinas') {
+    datos.sup_m2 = document.getElementById('ni-oficina-sup').value || null;
+    datos.piso = document.getElementById('ni-oficina-piso').value || null;
+    datos.expensas_usd = document.getElementById('ni-oficina-expensas').value || null;
+  } else if (tabla === 'propiedades_amarras') {
+    datos.club_nautico = document.getElementById('ni-amarra-club').value;
+    datos.tipo_amarre_id = document.getElementById('ni-amarra-tipo').value || null;
+    datos.eslora_max_m = document.getElementById('ni-amarra-eslora').value || null;
+    datos.calado_m = document.getElementById('ni-amarra-calado').value || null;
+    datos.techada = document.getElementById('ni-amarra-techada').checked;
+  } else if (tabla === 'propiedades_hoteles') {
+    datos.cantidad_habitaciones = document.getElementById('ni-hotel-habitaciones').value || null;
+    datos.categoria_estrellas_id = document.getElementById('ni-hotel-categoria').value || null;
+    datos.ocupacion_promedio_pct = document.getElementById('ni-hotel-ocupacion').value || null;
+    datos.personal_incluido = document.getElementById('ni-hotel-personal').checked;
+    datos.licencia_habilitacion_vigente = document.getElementById('ni-hotel-licencia').checked;
+  } else if (tabla === 'propiedades_edificios') {
+    datos.cantidad_unidades = document.getElementById('ni-edif-unidades').value || null;
+    datos.tipo_unidades_id = document.getElementById('ni-edif-tipo-unidades').value || null;
+    datos.cantidad_pisos = document.getElementById('ni-edif-pisos').value || null;
+    datos.ascensor = document.getElementById('ni-edif-ascensor').checked;
+    datos.ocupacion_actual_pct = document.getElementById('ni-edif-ocupacion').value || null;
+  }
+
+  const msg = document.getElementById('ni-guardar-msg');
+  const { data, error } = await PropiedadesNexo.crear(tabla, datos);
+  if (error) {
+    msg.style.color = 'var(--red)';
+    msg.textContent = '✕ Error: ' + error.message;
+  } else {
+    msg.style.color = 'var(--green)';
+    msg.textContent = '✓ Propiedad publicada — slug: ' + data.slug;
+  }
+}
+
+// ── Gestionar opciones ──
+async function optCargarListado() {
+  const cont = document.getElementById('opt-listado');
+  const { data, error } = await db.from('opciones_configurables').select('*').order('categoria').order('orden');
+  if (error) { cont.textContent = 'Error al cargar: ' + error.message; return; }
+  const porCategoria = {};
+  data.forEach(o => { (porCategoria[o.categoria] = porCategoria[o.categoria] || []).push(o); });
+  cont.innerHTML = Object.entries(porCategoria).map(([cat, opts]) => `
+    <div style="margin-bottom:14px">
+      <strong style="font-size:12px;color:var(--verde)">${cat}</strong>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+        ${opts.map(o => `<span style="background:#f0ede4;padding:4px 10px;border-radius:14px;font-size:12px">${o.valor}${o.color_semaforo ? ' 🟢🟡🔴'[['verde','amarillo','rojo'].indexOf(o.color_semaforo)+1] : ''}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function optAgregar() {
+  const categoria = document.getElementById('opt-categoria').value.trim();
+  const valor = document.getElementById('opt-valor').value.trim();
+  if (!categoria || !valor) { alert('Completá categoría y valor.'); return; }
+  const { error } = await db.from('opciones_configurables').insert({ categoria, valor });
+  if (error) { alert('Error: ' + error.message); return; }
+  document.getElementById('opt-valor').value = '';
+  optCargarListado();
+}
+
+// ── Barrios cerrados ──
+async function bcCargarListado() {
+  const cont = document.getElementById('bc-listado');
+  const { data, error } = await db.from('barrios_cerrados').select('*, zonas(nombre)').order('nombre');
+  if (error) { cont.textContent = 'Error al cargar: ' + error.message; return; }
+  if (!data.length) { cont.textContent = 'Todavía no hay barrios cerrados cargados.'; return; }
+  cont.innerHTML = '<table class="gt"><thead><tr><th>Nombre</th><th>Zona</th><th>Expensas prom.</th></tr></thead><tbody>' +
+    data.map(b => `<tr><td>${b.nombre}</td><td>${b.zonas?.nombre || '-'}</td><td>${b.expensas_promedio_usd ? 'USD ' + b.expensas_promedio_usd : '-'}</td></tr>`).join('') +
+    '</tbody></table>';
+}
+
+async function bcAgregar() {
+  const nombre = document.getElementById('bc-nombre').value.trim();
+  const zona_id = document.getElementById('bc-zona').value || null;
+  const expensas_promedio_usd = document.getElementById('bc-expensas').value || null;
+  if (!nombre) { alert('Completá el nombre.'); return; }
+  const { error } = await db.from('barrios_cerrados').insert({ nombre, zona_id, expensas_promedio_usd });
+  if (error) { alert('Error: ' + error.message); return; }
+  document.getElementById('bc-nombre').value = '';
+  bcCargarListado();
+}
+
+// Inicialización diferida (no bloquea el resto del panel si Supabase tarda)
+if (typeof db !== 'undefined') {
+  niInit();
+  optCargarListado();
+  bcCargarListado();
+  document.getElementById('ni-zona')?.addEventListener('change', niCargarBarriosCerradosSelect);
+}
+</script>
 
 <script>
 async function cargarTasasGastosAdmin() {
