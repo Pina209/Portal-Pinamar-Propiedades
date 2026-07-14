@@ -213,6 +213,7 @@ nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.9
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
 </head>
 <body>
@@ -333,7 +334,7 @@ nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.9
 // ════════════════════════════════════════════════════════════
 const PROPS_DEMO = [
   {
-    id:'1', ref:'PP-2026-0847',
+    id:'1', ref:'PP-2026-0847', tabla_origen:'propiedades_casas',
     titulo:'Chalet premium en el bosque con piscina climatizada',
     tipo:'Casa', zona:'Cariló', localidad:'carilo',
     precio:620000, supCubierta:285, supTotal:900,
@@ -356,7 +357,7 @@ const PROPS_DEMO = [
     fotos:[]
   },
   {
-    id:'2', ref:'PP-2026-0821',
+    id:'2', ref:'PP-2026-0821', tabla_origen:'propiedades_casas',
     titulo:'Casa en La Herradura — country con seguridad 24h y golf',
     tipo:'Casa', zona:'Pinamar Norte', localidad:'pinamar',
     precio:890000, supCubierta:330, supTotal:1000,
@@ -379,7 +380,7 @@ const PROPS_DEMO = [
     fotos:[]
   },
   {
-    id:'3', ref:'PP-2026-0812',
+    id:'3', ref:'PP-2026-0812', tabla_origen:'propiedades_casas',
     titulo:'Depto 2 amb. con balcón y cochera a 3 cuadras del mar',
     tipo:'Departamento', zona:'Pinamar Centro', localidad:'pinamar',
     precio:98000, supCubierta:52, supTotal:52,
@@ -396,7 +397,7 @@ const PROPS_DEMO = [
     fotos:[]
   },
   {
-    id:'4', ref:'PP-2026-0798',
+    id:'4', ref:'PP-2026-0798', tabla_origen:'propiedades_casas',
     titulo:'Casa frente al mar con acceso privado a la playa — Ostende',
     tipo:'Casa', zona:'Ostende', localidad:'ostende',
     precio:520000, supCubierta:210, supTotal:600,
@@ -419,7 +420,7 @@ const PROPS_DEMO = [
     fotos:[]
   },
   {
-    id:'5', ref:'PP-2026-0756',
+    id:'5', ref:'PP-2026-0756', tabla_origen:'propiedades_casas',
     titulo:'Chalet en el bosque de Valeria del Mar, 3 dorm. y deck',
     tipo:'Casa', zona:'Valeria del Mar', localidad:'valeria',
     precio:230000, supCubierta:145, supTotal:600,
@@ -450,6 +451,7 @@ let propsSel = []      // propiedades seleccionadas (max 4)
 let filtroZona = ''
 let filtroTexto = ''
 const MAX_PROPS = 4
+let _propsDisponibles = []   // se llena con datos reales si hay (Nexo Inteligente)
 
 // ════════════════════════════════════════════════════════════
 // MODAL
@@ -493,7 +495,9 @@ function filterProps(q) {
 
 function renderModalProps() {
   const container = document.getElementById('modal-results')
-  let filtered = PROPS_DEMO.filter(p => {
+  const fuente = _propsDisponibles.length ? _propsDisponibles : PROPS_DEMO
+  let filtered = fuente.filter(p => {
+    if (propsSel.length && p.tabla_origen !== propsSel[0].tabla_origen) return false
     if (filtroZona === 'permuta' && !p.aceptaPermuta) return false
     if (filtroZona === 'ficha'   && !p.tieneFicha)   return false
     if (filtroZona && !['permuta','ficha'].includes(filtroZona) && !p.localidad.includes(filtroZona)) return false
@@ -502,7 +506,10 @@ function renderModalProps() {
   })
 
   if (!filtered.length) {
-    container.innerHTML = `<div class="no-results"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">Probá con otros filtros o texto</div></div>`
+    const motivo = (_propsDisponibles.length === 0 && !PROPS_DEMO.length)
+      ? 'Todavía no hay propiedades reales cargadas de este tipo.'
+      : 'Probá con otros filtros o texto'
+    container.innerHTML = `<div class="no-results"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">${motivo}</div></div>`
     return
   }
 
@@ -536,8 +543,13 @@ function renderModalProps() {
 function addProp(id) {
   if (propsSel.find(p => p.id === id)) { removeProp(id); return }
   if (propsSel.length >= MAX_PROPS) return
-  const prop = PROPS_DEMO.find(p => p.id === id)
-  if (prop) { propsSel.push(prop); render(); closeModal() }
+  const prop = (_propsDisponibles.length ? _propsDisponibles : PROPS_DEMO).find(p => p.id === id)
+  if (!prop) return
+  if (propsSel.length && propsSel[0].tabla_origen !== prop.tabla_origen) {
+    alert('Solo se pueden comparar propiedades del mismo tipo entre sí (ej: casa con casa, terreno con terreno). Quitá las propiedades actuales para elegir otro tipo.')
+    return
+  }
+  propsSel.push(prop); render(); closeModal()
 }
 
 function removeProp(id) {
@@ -627,6 +639,11 @@ function render() {
   const maxPS = Math.max(...pScores)
 
   const tag = (lbl, ico) => `<div class="comp-row-label"><span class="lico">${ico}</span>${lbl}</div>`
+  // Tipo de las propiedades seleccionadas — el comparador solo permite
+  // comparar propiedades del MISMO tipo entre sí (una casa se compara
+  // con casas, un terreno con terrenos, etc. — no tiene sentido cruzar).
+  const _tipoActivo = propsSel[0]?.tabla_origen || null
+  const soloSi = (...tipos) => tipos.includes(_tipoActivo)
   const bar  = (val, max, inverse=false) => {
     const pct = max > 0 ? Math.round(val/max*100) : 0
     const cls = inverse ? (val === Math.min(...(inverse)) ? 'best' : '') : (val === max ? 'best' : (val === Math.min(...[val]) ? 'worst' : ''))
@@ -730,24 +747,41 @@ function render() {
   // ── SECCIÓN: SUPERFICIE ──
   html += section('Superficie', '📐')
 
-  html += row('Sup. cubierta', '🏗️', propsSel.map(p => {
-    const isMax = p.supCubierta === maxSup
-    return `<div>
-      <div style="font-size:14px;font-weight:700;color:${isMax?'var(--green)':'#1a1a1a'}">${p.supCubierta} m²</div>
-      ${bar(p.supCubierta, maxSup)}
-    </div>`
-  }))
+  if (soloSi('propiedades_casas','propiedades_deptos','propiedades_duplex_ph')) {
+    html += row('Sup. cubierta', '🏗️', propsSel.map(p => {
+      const isMax = p.supCubierta === maxSup
+      return `<div>
+        <div style="font-size:14px;font-weight:700;color:${isMax?'var(--green)':'#1a1a1a'}">${p.supCubierta} m²</div>
+        ${bar(p.supCubierta, maxSup)}
+      </div>`
+    }))
+  }
 
   html += row('Sup. total terreno', '🌳', propsSel.map(p =>
     `<div style="font-size:14px;font-weight:600">${p.supTotal} m²</div>`
   ))
 
-  html += row('Relación cub/total', '📊', propsSel.map(p => {
-    const r = Math.round(p.supCubierta/p.supTotal*100)
-    return `<div style="font-size:13px;font-weight:600">${r}% construido</div>`
-  }))
+  if (soloSi('propiedades_casas','propiedades_deptos','propiedades_duplex_ph')) {
+    html += row('Relación cub/total', '📊', propsSel.map(p => {
+      const r = Math.round(p.supCubierta/p.supTotal*100)
+      return `<div style="font-size:13px;font-weight:600">${r}% construido</div>`
+    }))
+  }
 
-  // ── SECCIÓN: AMBIENTES ──
+  // ── SECCIÓN: PROPIO DE TERRENO ──
+  if (soloSi('propiedades_lotes')) {
+    html += section('Características del terreno', '🏞️')
+    html += row('Frente / Fondo', '📏', propsSel.map(p =>
+      `<div style="font-size:13px;font-weight:600">${p.frenteM || '–'}m × ${p.fondoM || '–'}m</div>`
+    ))
+    html += row('Apto para construir', '🏗️', propsSel.map(p => bool(p.aptoConstruir)))
+    html += row('Topografía', '⛰️', propsSel.map(p => p.topografia || '<span style="color:var(--gray);font-size:12px">Sin datos</span>'))
+    html += row('Forestación', '🌲', propsSel.map(p => p.forestacion || '<span style="color:var(--gray);font-size:12px">Sin datos</span>'))
+    html += row('Servicios disponibles', '🔌', propsSel.map(p => p.servicios?.length ? p.servicios.join(', ') : '<span style="color:var(--gray);font-size:12px">Sin datos</span>'))
+  }
+
+  // ── SECCIÓN: AMBIENTES (no aplica a Terrenos) ──
+  if (soloSi('propiedades_casas','propiedades_deptos','propiedades_duplex_ph')) {
   html += section('Ambientes y características', '🛏️')
 
   html += row('Dormitorios', '🛏️', propsSel.map(p =>
@@ -762,6 +796,7 @@ function render() {
   html += row('Antigüedad', '🗓️', propsSel.map(p =>
     `<div style="font-size:13px;font-weight:600">${p.antiguedad} años</div>`
   ))
+  }
 
   // ── SECCIÓN: UBICACIÓN ──
   html += section('Ubicación y entorno', '📍')
@@ -780,6 +815,7 @@ function render() {
   }))
 
   // ── SECCIÓN: AMENITIES ──
+  if (soloSi('propiedades_casas','propiedades_deptos','propiedades_duplex_ph')) {
   html += section('Amenities y servicios', '✨')
 
   html += row('Piscina',        '🏊', propsSel.map(p => bool(p.piscina)))
@@ -791,6 +827,28 @@ function render() {
   html += row('Fibra óptica',   '📡', propsSel.map(p => bool(p.fibraOptica)))
   html += row('Acepta permuta', '🔄', propsSel.map(p =>
     p.aceptaPermuta ? '<span class="tag-perm">🔄 Sí</span>' : '<span class="tag-no">✗ No</span>'
+  ))
+  } else {
+    // Terreno igual necesita saber si acepta permuta, aunque no tenga el resto de amenities
+    html += section('Condiciones', '🔄')
+    html += row('Acepta permuta', '🔄', propsSel.map(p =>
+      p.aceptaPermuta ? '<span class="tag-perm">🔄 Sí</span>' : '<span class="tag-no">✗ No</span>'
+    ))
+  }
+
+  // ── SECCIÓN: INVERSIÓN Y MERCADO (Nexo Inteligente) ──
+  html += section('Inversión y mercado', '📈')
+
+  html += row('Liquidez de la zona', '⏱️', propsSel.map(p =>
+    p.liquidezDiasZona
+      ? `<div style="font-size:13px;font-weight:600">${p.liquidezDiasZona} días prom.</div>`
+      : '<span style="color:var(--gray);font-size:12px">Sin datos aún</span>'
+  ))
+
+  html += row('ROI estimado anual', '💰', propsSel.map(p =>
+    p.roiEstimadoPct
+      ? `<div style="font-size:13px;font-weight:700;color:var(--verde)">${p.roiEstimadoPct}%</div>`
+      : '<span style="color:var(--gray);font-size:12px">No publicado</span>'
   ))
 
   // ── SECCIÓN: FICHA TÉCNICA ──
@@ -864,28 +922,101 @@ function shareComparacion() {
 }
 
 // ════════════════════════════════════════════════════════════
-// CARGAR DESDE URL (link compartido)
+// NEXO INTELIGENTE — carga real desde las 4 tablas comparables
+// (lotes, deptos, casas, duplex/ph). Si no hay nada cargado
+// todavía, se recurre al set de demo como antes.
 // ════════════════════════════════════════════════════════════
-const urlParams = new URLSearchParams(window.location.search)
-const propsParam = urlParams.get('props')
-if (propsParam) {
-  const ids = propsParam.split(',').slice(0, MAX_PROPS)
-  ids.forEach(id => {
-    const prop = PROPS_DEMO.find(p => p.id === id)
-    if (prop) propsSel.push(prop)
-  })
-  render()
-} else {
-  render()
+async function cargarPropiedadesReales() {
+  if (typeof db === 'undefined') return []
+  const tiposComparables = ['propiedades_casas', 'propiedades_deptos', 'propiedades_duplex_ph', 'propiedades_lotes']
+  let todas = []
+  for (const tabla of tiposComparables) {
+    try {
+      const { data, error } = await db.from(tabla)
+        .select('*, zonas(nombre, usd_m2_casa, usd_m2_depto, usd_m2_lote, liquidez_dias_promedio_venta)')
+        .eq('estado', 'activa')
+      if (error) { console.error('cargarPropiedadesReales', tabla, error); continue }
+      ;(data || []).forEach(p => todas.push(normalizarPropiedadReal(p, tabla)))
+    } catch (e) { console.error('cargarPropiedadesReales', tabla, e) }
+  }
+
+  // Completar "acepta permuta" con una sola consulta batched (no una
+  // por propiedad), buscando el tag forma_pago='Permuta' en propiedad_opciones.
+  if (todas.length) {
+    try {
+      const ids = todas.map(p => p.id)
+      const { data: opciones } = await db.from('propiedad_opciones')
+        .select('propiedad_id, opciones_configurables(categoria, valor)')
+        .in('propiedad_id', ids)
+      const idsConPermuta = new Set(
+        (opciones || [])
+          .filter(o => o.opciones_configurables?.categoria === 'forma_pago' && o.opciones_configurables?.valor === 'Permuta')
+          .map(o => o.propiedad_id)
+      )
+      todas.forEach(p => { p.aceptaPermuta = idsConPermuta.has(p.id) })
+    } catch (e) { console.error('cargarPropiedadesReales (permuta)', e) }
+  }
+
+  return todas
+}
+
+function normalizarPropiedadReal(p, tabla) {
+  const zonaUsdM2 = p.zonas?.usd_m2_casa || p.zonas?.usd_m2_depto || p.zonas?.usd_m2_lote || 0
+  const supPrincipal = p.sup_cubierta_m2 || p.sup_terreno_m2 || 0
+  return {
+    id: p.id, ref: p.slug, tabla_origen: tabla,
+    titulo: p.titulo, tipo: tabla.replace('propiedades_', ''),
+    zona: p.zonas?.nombre || 'Sin zona', localidad: (p.zonas?.nombre || '').toLowerCase(),
+    precio: p.precio_usd || 0,
+    supCubierta: p.sup_cubierta_m2 || 0, supTotal: p.sup_terreno_m2 || p.sup_cubierta_m2 || 0,
+    precioM2: supPrincipal ? Math.round((p.precio_usd || 0) / supPrincipal) : 0,
+    zonaPrecioM2: zonaUsdM2,
+    dormitorios: p.dormitorios || 0, banos: p.banos || 0,
+    cocheras: p.cantidad_cocheras || 0, antiguedad: p.antiguedad_anios || 0,
+    distanciaMarM: p.dist_mar_m ?? null,
+    piscina: !!p.piscina, quincho: !!p.quincho,
+    barrioCarrado: !!p.barrio_cerrado_id, enBosque: false, frenteAlMar: p.dist_mar_m === 0,
+    gasNatural: false, fibraOptica: false,
+    aceptaPermuta: false, // se completa después con una consulta batched a propiedad_opciones (ver cargarPropiedadesReales)
+    tieneFicha: false, ficha: null,
+    liquidezDiasZona: p.zonas?.liquidez_dias_promedio_venta || null,
+    roiEstimadoPct: p.rentabilidad_estimada_anual_pct || null,
+    frenteM: p.frente_m, fondoM: p.fondo_m, aptoConstruir: !!p.apto_construir,
+    topografia: null, forestacion: null, servicios: [],
+    inmob: '', color: 'linear-gradient(135deg,#1a5a3a,#5ab08a)', fotos: []
+  }
 }
 
 // ════════════════════════════════════════════════════════════
-// DEMO: cargar 2 props por defecto para mostrar
+// CARGAR DESDE URL (link compartido) + inicialización
 // ════════════════════════════════════════════════════════════
-if (!propsParam) {
-  propsSel = [PROPS_DEMO[0], PROPS_DEMO[1]]
+const urlParams = new URLSearchParams(window.location.search)
+const propsParam = urlParams.get('props')
+
+;(async () => {
+  _propsDisponibles = await cargarPropiedadesReales()
+
+  if (propsParam) {
+    const ids = propsParam.split(',').slice(0, MAX_PROPS)
+    const fuente = _propsDisponibles.length ? _propsDisponibles : PROPS_DEMO
+    ids.forEach(id => {
+      const prop = fuente.find(p => p.id === id)
+      if (prop) propsSel.push(prop)
+    })
+    render()
+    return
+  }
+
+  if (_propsDisponibles.length >= 2) {
+    // Hay datos reales: mostrar 2 propiedades reales del mismo tipo por defecto
+    const primerTipo = _propsDisponibles[0].tabla_origen
+    propsSel = _propsDisponibles.filter(p => p.tabla_origen === primerTipo).slice(0, 2)
+  } else {
+    // Todavía no hay datos reales cargados: mismo comportamiento de siempre (demo)
+    propsSel = [PROPS_DEMO[0], PROPS_DEMO[1]]
+  }
   render()
-}
+})()
 </script>
 <script src="nav.js"></script>
 </body>
