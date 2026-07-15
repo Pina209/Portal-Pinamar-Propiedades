@@ -398,7 +398,7 @@ function renderCard(inm) {
     <div class="inm-card${inm.destacada?' destacada':''}" onclick="abrirPerfil('${inm.id}')">
       <div class="inm-header" style="${inm.foto_portada_url?`background-image:url('${inm.foto_portada_url}');background-size:cover;background-position:center`:''}">
         ${inm.destacada ? '<div class="inm-dest">⭐ Destacada</div>' : ''}
-        ${inm.verificada ? '<div class="inm-cert">✓ Certificada</div>' : ''}
+        ${inm.certificado_pinamar ? '<div class="inm-cert">✓ Certificada</div>' : ''}
         <div class="inm-logo">${logoHTML}</div>
       </div>
       <div class="inm-body">
@@ -505,7 +505,7 @@ async function abrirPerfil(id) {
     </div>
     <div class="mp-body">
       <div class="mp-nombre">${inm.nombre}</div>
-      ${inm.matricula_cmcpd ? `<div class="mp-matricula">🪪 Matrícula CMCPD ${inm.matricula_cmcpd} · ${inm.verificada?'<span style="color:var(--turquesa)">✓ Verificada por Pinamar Propiedades</span>':''}</div>` : ''}
+      ${inm.matricula_cmcpd ? `<div class="mp-matricula">🪪 Matrícula CMCPD ${inm.matricula_cmcpd} · ${inm.certificado_pinamar?'<span style="color:var(--turquesa)">✓ Verificada por Pinamar Propiedades</span>':''}</div>` : ''}
 
       <div class="mp-stats">
         ${inm.anios_mercado ? `<div class="mp-stat"><div class="mp-stat-n">${inm.anios_mercado}</div><div class="mp-stat-l">Años en el mercado</div></div>` : ''}
@@ -651,7 +651,7 @@ async function cargarInmobiliarias() {
   renderGrilla(inms);
 
   // Stats del hero
-  document.getElementById('stat-total').textContent = inms.filter(i => i.verificada).length;
+  document.getElementById('stat-total').textContent = inms.filter(i => i.certificado_pinamar).length;
   const totalResenas = inms.reduce((a, i) => a + (i.total_resenas||0), 0);
   document.getElementById('stat-resenas').textContent = totalResenas;
   const totalProps = inms.reduce((a, i) => a + (i.props_activas||i.prop_activas||0), 0);

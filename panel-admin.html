@@ -3281,7 +3281,19 @@ async function dashboardCargarReal() {
 }
 
 async function dashboardAprobarInmobiliaria(id) {
-  const { error } = await db.from('inmobiliarias').update({ estado_alta: 'activa', activa: true }).eq('id', id);
+  // Mismos campos que certificarInmobiliaria() en la sección "Gestión de
+  // Inmobiliarias" — antes esta función ponía estado_alta:'activa' (valor
+  // que ni siquiera existe en badgesCertificacion) y nunca marcaba
+  // certificado_pinamar, así que la inmobiliaria quedaba aprobada acá
+  // pero seguía apareciendo como no certificada en todo el resto del sitio.
+  const user = await Auth.getUser();
+  const { error } = await db.from('inmobiliarias').update({
+    activa: true,
+    certificado_pinamar: true,
+    estado_alta: 'certificada',
+    certificado_en: new Date().toISOString(),
+    certificado_por: user?.id || null,
+  }).eq('id', id);
   if (error) { alert('Error al aprobar: ' + error.message); return; }
   dashboardCargarReal();
 }
