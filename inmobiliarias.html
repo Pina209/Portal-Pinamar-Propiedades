@@ -320,6 +320,7 @@ let _todasInm = [];
 let _zonaActiva = '';
 let _inmActual = null;
 let _puntajeSeleccionado = 0;
+let _sinInmobiliariasReales = false;
 
 const ZONAS_LABEL = {
   'carilo':'🌲 Cariló','pinamar-centro':'🌊 Pinamar Centro',
@@ -327,7 +328,8 @@ const ZONAS_LABEL = {
   'ostende':'⚓ Ostende','costa-esmeralda':'💎 Costa Esmeralda'
 };
 
-// Demo data (mientras Supabase no está configurado)
+// Demo data — SOLO se usa como referencia de forma/estructura para
+// desarrollo, NUNCA se muestra a un visitante real. Ver cargarInmobiliarias().
 const INM_DEMO = [
   {
     id:'inm-1', nombre:'Rodríguez & Cía Inmobiliaria', slug:'rodriguez-cia',
@@ -423,7 +425,22 @@ function renderGrilla(lista) {
   const grid  = document.getElementById('inm-grid');
   const empty = document.getElementById('inm-empty');
   if (!lista?.length) {
-    grid.style.display = 'none'; empty.style.display = 'block'; return;
+    grid.style.display = 'none'; empty.style.display = 'block';
+    // Distinguimos "todavía no hay ninguna inmobiliaria verificada en
+    // el portal" (estado honesto real) de "no hay resultados para tu
+    // búsqueda/filtro" (hay datos, pero el filtro no matcheó nada).
+    if (_sinInmobiliariasReales) {
+      empty.innerHTML = `
+        <div class="empty-ico">🏢</div>
+        <div style="font-size:16px;font-weight:700;color:var(--verde);margin-bottom:8px">Todavía no hay inmobiliarias certificadas cargadas</div>
+        <div style="font-size:13px">Estamos incorporando las primeras inmobiliarias asociadas. Si sos una inmobiliaria y querés publicar en Pinamar Propiedades, <a href="login-registro.html">contactanos acá</a>.</div>`;
+    } else {
+      empty.innerHTML = `
+        <div class="empty-ico">🏢</div>
+        <div style="font-size:16px;font-weight:700;color:var(--verde);margin-bottom:8px">Sin resultados</div>
+        <div style="font-size:13px">Probá con otra zona o término de búsqueda.</div>`;
+    }
+    return;
   }
   grid.style.display = ''; empty.style.display = 'none';
   grid.innerHTML = lista.map(renderCard).join('');
@@ -611,7 +628,12 @@ async function enviarResena(inmId) {
 
 // ── Cargar inmobiliarias ──────────────────────────────────────
 async function cargarInmobiliarias() {
-  let inms = INM_DEMO;
+  // Nunca arrancamos mostrando el demo — arrancamos vacío y solo
+  // completamos con datos reales de Supabase. Si no hay ninguna
+  // inmobiliaria verificada todavía, se muestra el estado vacío
+  // honesto (ver renderGrilla) en vez de inventar 3 agencias falsas.
+  let inms = [];
+  let huboDatosReales = false;
 
   if (typeof db !== 'undefined') {
     try {
@@ -620,11 +642,12 @@ async function cargarInmobiliarias() {
         .select('*')
         .order('destacada', { ascending: false })
         .order('puntaje_promedio', { ascending: false });
-      if (data?.length) inms = data;
-    } catch(e) { console.info('Inmobiliarias demo:', e.message); }
+      if (data?.length) { inms = data; huboDatosReales = true; }
+    } catch(e) { console.info('Inmobiliarias: no se pudieron cargar', e.message); }
   }
 
   _todasInm = inms;
+  _sinInmobiliariasReales = !huboDatosReales;
   renderGrilla(inms);
 
   // Stats del hero

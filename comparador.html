@@ -330,7 +330,9 @@ nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.9
 
 <script>
 // ════════════════════════════════════════════════════════════
-// DATOS DE DEMO — en producción vienen de la API
+// DATOS DE DEMO — SOLO referencia de forma/estructura para
+// desarrollo. NUNCA se muestra a un visitante real (ver
+// cargarPropiedadesReales() / renderModalProps() más abajo).
 // ════════════════════════════════════════════════════════════
 const PROPS_DEMO = [
   {
@@ -495,7 +497,7 @@ function filterProps(q) {
 
 function renderModalProps() {
   const container = document.getElementById('modal-results')
-  const fuente = _propsDisponibles.length ? _propsDisponibles : PROPS_DEMO
+  const fuente = _propsDisponibles
   let filtered = fuente.filter(p => {
     if (propsSel.length && p.tabla_origen !== propsSel[0].tabla_origen) return false
     if (filtroZona === 'permuta' && !p.aceptaPermuta) return false
@@ -506,7 +508,7 @@ function renderModalProps() {
   })
 
   if (!filtered.length) {
-    const motivo = (_propsDisponibles.length === 0 && !PROPS_DEMO.length)
+    const motivo = _propsDisponibles.length === 0
       ? 'Todavía no hay propiedades reales cargadas de este tipo.'
       : 'Probá con otros filtros o texto'
     container.innerHTML = `<div class="no-results"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">${motivo}</div></div>`
@@ -924,7 +926,9 @@ function shareComparacion() {
 // ════════════════════════════════════════════════════════════
 // NEXO INTELIGENTE — carga real desde las 4 tablas comparables
 // (lotes, deptos, casas, duplex/ph). Si no hay nada cargado
-// todavía, se recurre al set de demo como antes.
+// todavía, se muestra el estado vacío honesto (#empty-state) en
+// vez de propiedades inventadas — NUNCA se le muestran datos de
+// PROPS_DEMO a un visitante real.
 // ════════════════════════════════════════════════════════════
 async function cargarPropiedadesReales() {
   if (typeof db === 'undefined') return []
@@ -998,9 +1002,8 @@ const propsParam = urlParams.get('props')
 
   if (propsParam) {
     const ids = propsParam.split(',').slice(0, MAX_PROPS)
-    const fuente = _propsDisponibles.length ? _propsDisponibles : PROPS_DEMO
     ids.forEach(id => {
-      const prop = fuente.find(p => p.id === id)
+      const prop = _propsDisponibles.find(p => p.id === id)
       if (prop) propsSel.push(prop)
     })
     render()
@@ -1011,10 +1014,10 @@ const propsParam = urlParams.get('props')
     // Hay datos reales: mostrar 2 propiedades reales del mismo tipo por defecto
     const primerTipo = _propsDisponibles[0].tabla_origen
     propsSel = _propsDisponibles.filter(p => p.tabla_origen === primerTipo).slice(0, 2)
-  } else {
-    // Todavía no hay datos reales cargados: mismo comportamiento de siempre (demo)
-    propsSel = [PROPS_DEMO[0], PROPS_DEMO[1]]
   }
+  // Si todavía no hay datos reales cargados, propsSel queda vacío y
+  // render() muestra el estado vacío honesto (#empty-state) en vez
+  // de propiedades inventadas.
   render()
 })()
 </script>
