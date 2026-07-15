@@ -1085,7 +1085,7 @@ function setView(v, el) {
 // ══════════════════════════════════════════════════════
 
 function agregarFavoritosYSlugsAGrid(grid, data) {
-  if (typeof Favoritos === 'undefined') return;
+  if (typeof FavoritosNexo === 'undefined') return;
   const cards = grid.querySelectorAll('.pc');
   cards.forEach((card, i) => {
     const p = data[i];
@@ -1117,10 +1117,10 @@ function agregarFavoritosYSlugsAGrid(grid, data) {
       ev.stopPropagation();
       const marcado = btn.dataset.marcado === '1';
       if (marcado) {
-        await Favoritos.quitar(p.id, p.tabla_origen);
+        await FavoritosNexo.quitar(p.id, p.tabla_origen);
         btn.textContent = '🤍'; btn.dataset.marcado = '0';
       } else {
-        await Favoritos.agregar(p.id, p.tabla_origen);
+        await FavoritosNexo.agregar(p.id, p.tabla_origen);
         btn.textContent = '❤️'; btn.dataset.marcado = '1';
       }
     };

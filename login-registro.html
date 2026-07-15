@@ -697,8 +697,8 @@ async function mcCargarTodo() {
 
 async function mcCargarFavoritos() {
   const cont = document.getElementById('mc-lista-favoritos');
-  if (typeof Favoritos === 'undefined') { cont.textContent = 'No se pudo cargar el módulo de favoritos.'; return; }
-  const data = await Favoritos.listarMios();
+  if (typeof FavoritosNexo === 'undefined') { cont.textContent = 'No se pudo cargar el módulo de favoritos.'; return; }
+  const data = await FavoritosNexo.listarMios();
   if (!data.length) { cont.textContent = 'Todavía no guardaste ninguna propiedad.'; return; }
   cont.innerHTML = data.map(f => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
@@ -708,7 +708,7 @@ async function mcCargarFavoritos() {
 }
 
 async function mcQuitarFavorito(id, tabla) {
-  await Favoritos.quitar(id, tabla);
+  await FavoritosNexo.quitar(id, tabla);
   mcCargarFavoritos();
 }
 

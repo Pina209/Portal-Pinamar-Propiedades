@@ -1008,10 +1008,10 @@ async function configurarBotonFavorito(propiedadId, tabla) {
   btn.onclick = async () => {
     const marcado = btn.dataset.marcado === '1';
     if (marcado) {
-      await Favoritos.quitar(propiedadId, tabla);
+      await FavoritosNexo.quitar(propiedadId, tabla);
       btn.textContent = '🤍'; btn.dataset.marcado = '0';
     } else {
-      await Favoritos.agregar(propiedadId, tabla);
+      await FavoritosNexo.agregar(propiedadId, tabla);
       btn.textContent = '❤️'; btn.dataset.marcado = '1';
     }
   };
