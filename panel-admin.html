@@ -363,9 +363,9 @@ async function cerrarSesion() {
   </div>
 
   <!-- ALERTA BANNER -->
-  <div class="alert-banner">
-    ⚠️ <strong>4 propiedades</strong> esperan aprobación · <strong>3 nuevas inmobiliarias</strong> pendientes de verificación de matrícula ·
-    <a href="#" onclick="show('propiedades',null)" style="color:var(--red);font-weight:700;margin-left:8px;text-decoration:none">Revisar ahora →</a>
+  <div class="alert-banner" id="alert-banner" style="display:none">
+    ⚠️ <strong id="alert-banner-texto"></strong>
+    <a href="#" onclick="show('dashboard',null)" style="color:var(--red);font-weight:700;margin-left:8px;text-decoration:none">Revisar ahora →</a>
   </div>
 
   <div class="content">
@@ -422,26 +422,13 @@ async function cerrarSesion() {
       <!-- STATS ANILLO -->
       <div class="grid-3">
         <div class="card"><div class="card-h"><h3>👥 Distribución de usuarios</h3></div><div class="card-b">
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <div class="stat-ring"><div class="ring-wrap"><svg viewBox="0 0 70 70"><circle class="ring-bg" cx="35" cy="35" r="28"/><circle class="ring-fill" cx="35" cy="35" r="28" stroke-dasharray="175.9" stroke-dashoffset="44"/></svg><div class="ring-label">75%</div></div><div class="ring-info"><h4>Propietarios</h4><p>2.885 usuarios</p></div></div>
-            <div class="stat-ring"><div class="ring-wrap"><svg viewBox="0 0 70 70"><circle class="ring-bg" cx="35" cy="35" r="28"/><circle class="ring-fill" cx="35" cy="35" r="28" stroke-dasharray="175.9" stroke-dashoffset="132" stroke="var(--ocre)"/></svg><div class="ring-label" style="color:var(--ocre)">25%</div></div><div class="ring-info"><h4>Inmobiliarias</h4><p>962 usuarios</p></div></div>
-          </div>
+          <div id="dashboard-distribucion-usuarios" style="display:flex;flex-direction:column;gap:12px;font-size:12.5px;color:var(--gray)">Cargando...</div>
         </div></div>
         <div class="card"><div class="card-h"><h3>🔄 Permutas activas</h3></div><div class="card-b">
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Ofertas enviadas</span><strong style="color:var(--verde)">47</strong></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">En negociación</span><strong style="color:var(--ocre)">12</strong></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Concretadas</span><strong style="color:#2e7d32">3</strong></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige);border-radius:8px"><span style="font-size:12.5px;font-weight:600">Rechazadas</span><strong style="color:var(--red)">18</strong></div>
-          </div>
+          <div id="dashboard-permutas" style="display:flex;flex-direction:column;gap:10px;font-size:12.5px;color:var(--gray)">Cargando...</div>
         </div></div>
         <div class="card"><div class="card-h"><h3>📋 Fichas técnicas</h3></div><div class="card-b">
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(46,125,50,.08);border-radius:8px;border:1px solid rgba(46,125,50,.2)"><span style="font-size:12.5px;font-weight:600">Certificadas</span><strong style="color:#2e7d32">284</strong></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(230,126,34,.08);border-radius:8px;border:1px solid rgba(230,126,34,.2)"><span style="font-size:12.5px;font-weight:600">En proceso</span><strong style="color:#e67e22">18</strong></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:rgba(22,163,156,.07);border-radius:8px;border:1px solid rgba(22,163,156,.2)"><span style="font-size:12.5px;font-weight:600">Solicitadas</span><strong style="color:var(--turquesa)">7</strong></div>
-            <div style="font-size:12px;color:var(--gray);text-align:center;margin-top:4px">Próximo profesional disponible: Arq. González · 30/04</div>
-          </div>
+          <div id="dashboard-fichas" style="display:flex;flex-direction:column;gap:10px;font-size:12.5px;color:var(--gray)">Cargando...</div>
         </div></div>
       </div>
     </div>
@@ -3312,7 +3299,99 @@ if (typeof db !== 'undefined') {
   optCargarListado();
   bcCargarListado();
   dashboardCargarReal();
+  dashboardCargarBanner();
+  dashboardCargarDistribucionUsuarios();
+  dashboardCargarPermutas();
+  dashboardCargarFichas();
   document.getElementById('ni-zona')?.addEventListener('change', niCargarBarriosCerradosSelect);
+}
+
+// ── Banner de alerta — solo con datos reales, se oculta si no hay nada ──
+async function dashboardCargarBanner() {
+  try {
+    const { count } = await db.from('inmobiliarias').select('id', { count: 'exact', head: true }).eq('estado_alta', 'pendiente');
+    const banner = document.getElementById('alert-banner');
+    const texto = document.getElementById('alert-banner-texto');
+    if (count > 0) {
+      texto.textContent = `${count} inmobiliaria${count === 1 ? '' : 's'} pendiente${count === 1 ? '' : 's'} de verificación de matrícula`;
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  } catch (e) { console.error('dashboard: banner', e); }
+}
+
+// ── Distribución de usuarios — agrupado real por rol, sin asumir categorías fijas ──
+async function dashboardCargarDistribucionUsuarios() {
+  const cont = document.getElementById('dashboard-distribucion-usuarios');
+  try {
+    const { data, error } = await db.from('perfiles').select('rol');
+    if (error) throw error;
+    if (!data || !data.length) { cont.textContent = 'Todavía no hay usuarios registrados.'; return; }
+    const grupos = {};
+    data.forEach(p => { const r = p.rol || 'sin_rol'; grupos[r] = (grupos[r] || 0) + 1; });
+    const total = data.length;
+    const colores = { admin: 'var(--red)', inmobiliaria: 'var(--ocre)', vendedor: 'var(--turquesa)', comprador: 'var(--verde)' };
+    cont.innerHTML = Object.entries(grupos).map(([rol, cant]) => {
+      const pct = Math.round(cant / total * 100);
+      const color = colores[rol] || 'var(--gray)';
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige,#f7f5ef);border-radius:8px">
+        <span style="font-weight:600;text-transform:capitalize">${rol.replace('_',' ')}</span>
+        <strong style="color:${color}">${cant} (${pct}%)</strong>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    console.error('dashboard: distribución usuarios', e);
+    cont.textContent = 'No se pudo cargar.';
+  }
+}
+
+// ── Permutas activas — real, desde permuta_ofertas.estado_oferta ──
+async function dashboardCargarPermutas() {
+  const cont = document.getElementById('dashboard-permutas');
+  try {
+    const { data, error } = await db.from('permuta_ofertas').select('estado_oferta');
+    if (error) throw error;
+    if (!data || !data.length) { cont.textContent = 'Todavía no hay ofertas de permuta cargadas.'; return; }
+    const grupos = { pendiente: 0, aceptada: 0, rechazada: 0, retirada: 0 };
+    data.forEach(o => { if (grupos[o.estado_oferta] !== undefined) grupos[o.estado_oferta]++; });
+    const etiquetas = { pendiente: 'Ofertas pendientes', aceptada: 'Aceptadas', rechazada: 'Rechazadas', retirada: 'Retiradas' };
+    const colores2 = { pendiente: 'var(--ocre)', aceptada: '#2e7d32', rechazada: 'var(--red)', retirada: 'var(--gray)' };
+    cont.innerHTML = Object.entries(grupos).map(([estado, cant]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige,#f7f5ef);border-radius:8px">
+        <span style="font-weight:600">${etiquetas[estado]}</span><strong style="color:${colores2[estado]}">${cant}</strong>
+      </div>`).join('');
+  } catch (e) {
+    console.error('dashboard: permutas', e);
+    cont.textContent = 'No se pudo cargar.';
+  }
+}
+
+// ── Fichas técnicas — real; se agrupa por 'estado' si la columna existe,
+// sin asumir nombres de categorías que no podamos confirmar ──
+async function dashboardCargarFichas() {
+  const cont = document.getElementById('dashboard-fichas');
+  try {
+    const { data, error } = await db.from('fichas_tecnicas').select('estado');
+    if (error) throw error;
+    if (!data || !data.length) { cont.textContent = 'Todavía no hay fichas técnicas cargadas.'; return; }
+    const grupos = {};
+    data.forEach(f => { const e = f.estado || 'sin_estado'; grupos[e] = (grupos[e] || 0) + 1; });
+    cont.innerHTML = Object.entries(grupos).map(([estado, cant]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige,#f7f5ef);border-radius:8px">
+        <span style="font-weight:600;text-transform:capitalize">${estado.replace('_',' ')}</span><strong style="color:var(--verde)">${cant}</strong>
+      </div>`).join('');
+  } catch (e) {
+    // La tabla puede no tener columna 'estado', o no existir tal cual —
+    // en vez de inventar categorías, mostramos solo el total si se puede.
+    try {
+      const { count } = await db.from('fichas_tecnicas').select('id', { count: 'exact', head: true });
+      cont.innerHTML = `<div style="text-align:center;color:var(--gray)">Total de fichas: ${count ?? 0} (no se pudo determinar el desglose por estado)</div>`;
+    } catch (e2) {
+      console.error('dashboard: fichas técnicas', e2);
+      cont.textContent = 'No se pudo cargar.';
+    }
+  }
 }
 </script>
 
