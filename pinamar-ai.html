@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+  <meta name="description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/pinamar-ai.html">
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
+  <meta property="og:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/pinamar-ai.html">
+  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:site_name"   content="Pinamar Propiedades">
+  <meta property="og:locale"      content="es_AR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
+  <meta name="twitter:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
+  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <!-- Preconnect para performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0D5B48;--verde2:#0a4535;--verde-light:#1a7a62;
+  --turquesa:#16A39C;--beige:#F2E9D7;--beige2:#e8dcc4;--beige3:#d4c9b0;
+  --ocre:#D69B2D;--gray:#6b7280;--gray-light:#f8f6f2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--verde2);color:#fff;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── NAV ── */
+nav{
+  height:60px;background:rgba(10,69,53,.9);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  flex-shrink:0;z-index:10;
+}
+.logo-wrap{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-svg{width:34px;height:34px}
+.lp{font-size:14px;font-weight:800;color:#fff;letter-spacing:.06em}
+.lpp{font-size:8px;color:var(--turquesa);letter-spacing:.2em;text-transform:uppercase}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn-sm{text-decoration:none;font-size:12px;font-weight:600;color:rgba(255,255,255,.7);padding:6px 14px;border:1px solid rgba(255,255,255,.15);border-radius:6px;transition:all .2s}
+.btn-sm:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.btn-in{text-decoration:none;font-size:12px;font-weight:600;color:#fff;padding:6px 14px;border:1px solid rgba(255,255,255,.4);border-radius:6px;transition:all .2s}
+.btn-in:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7)}
+.btn-props{text-decoration:none;font-size:12px;font-weight:700;color:#fff;padding:6px 14px;background:var(--turquesa);border-radius:6px;transition:background .2s}
+.btn-props:hover{background:var(--verde-light)}
+
+/* ── LAYOUT ── */
+.ai-layout{flex:1;display:grid;grid-template-columns:280px 1fr;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.ai-sidebar{
+  border-right:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.2);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.sidebar-header{padding:20px 20px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.ai-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--turquesa),var(--verde-light));
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  color:#fff;letter-spacing:.04em;margin-bottom:12px;
+}
+.ai-badge .dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.sidebar-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.sidebar-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
+
+.sidebar-section{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-section h4{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--turquesa);margin-bottom:12px}
+
+/* Ejemplos */
+.example-chips{display:flex;flex-direction:column;gap:7px}
+.ex-chip{
+  padding:9px 13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;font-size:12px;color:rgba(255,255,255,.75);cursor:pointer;
+  transition:all .2s;line-height:1.4;
+}
+.ex-chip:hover{background:rgba(22,163,156,.2);border-color:var(--turquesa);color:#fff}
+
+/* Propiedades encontradas */
+.found-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:260px;padding-right:4px}
+.found-list::-webkit-scrollbar{width:3px}
+.found-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px}
+.found-card{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;padding:11px 13px;cursor:pointer;transition:all .2s;
+  text-decoration:none;display:block;
+}
+.found-card:hover{background:rgba(22,163,156,.2);border-color:var(--turquesa)}
+.fc-zona{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.fc-title{font-size:13px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:4px}
+.fc-price{font-size:12px;color:var(--ocre);font-weight:700}
+.fc-match{font-size:11px;color:rgba(255,255,255,.5);margin-top:4px}
+
+.sidebar-empty{
+  padding:24px 20px;text-align:center;
+  font-size:12px;color:rgba(255,255,255,.3);line-height:1.6;
+}
+
+/* ── CHAT AREA ── */
+.ai-chat{display:flex;flex-direction:column;overflow:hidden}
+
+/* Messages */
+.chat-messages{
+  flex:1;overflow-y:auto;padding:28px 32px;
+  display:flex;flex-direction:column;gap:20px;
+}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+
+/* Bienvenida */
+.welcome{text-align:center;padding:40px 20px 20px;max-width:560px;margin:0 auto}
+.ni-quiz-btn{background:#f0ede4;border:1px solid #ddd;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.ni-quiz-btn:hover{background:#e4e0d3}
+.welcome-ico{font-size:48px;margin-bottom:16px}
+.welcome h2{font-family:'DM Serif Display',serif;font-size:28px;color:#fff;margin-bottom:10px;line-height:1.2}
+.welcome p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+
+/* Mensaje usuario */
+.msg{display:flex;gap:12px;align-items:flex-start}
+.msg.user{flex-direction:row-reverse}
+.msg-avatar{
+  width:34px;height:34px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;flex-shrink:0;
+}
+.msg.user .msg-avatar{background:var(--turquesa)}
+.msg.ai .msg-avatar{background:linear-gradient(135deg,var(--verde),var(--turquesa))}
+.msg-bubble{
+  max-width:72%;padding:14px 18px;border-radius:16px;
+  font-size:14px;line-height:1.7;
+}
+.msg.user .msg-bubble{
+  background:var(--turquesa);color:#fff;border-radius:16px 4px 16px 16px;
+}
+.msg.ai .msg-bubble{
+  background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);
+  border-radius:4px 16px 16px 16px;border:1px solid rgba(255,255,255,.1);
+}
+
+/* Typing indicator */
+.typing{display:flex;gap:5px;align-items:center;padding:6px 0}
+.typing span{
+  width:7px;height:7px;border-radius:50%;background:var(--turquesa);
+  animation:typing .9s infinite;
+}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes typing{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+
+/* Prop cards inline en chat */
+.prop-cards-inline{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;max-width:520px}
+.pci{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;
+  text-decoration:none;display:block;
+}
+.pci:hover{background:rgba(22,163,156,.2);border-color:var(--turquesa);transform:translateY(-2px)}
+.pci-ico{font-size:22px;margin-bottom:6px}
+.pci-zona{font-size:10px;font-weight:700;color:var(--turquesa);text-transform:uppercase;margin-bottom:3px}
+.pci-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;line-height:1.3}
+.pci-price{font-size:13px;color:var(--ocre);font-weight:700}
+.pci-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.pci-badge{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.pci-match{margin-top:6px;font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:4px}
+.match-bar{height:3px;border-radius:2px;background:var(--turquesa);flex:1;max-width:50px}
+
+/* Análisis de zona inline */
+.zona-analysis{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:16px;margin-top:10px;
+}
+.za-title{font-size:12px;font-weight:700;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.za-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.za-label{font-size:12px;color:rgba(255,255,255,.6)}
+.za-bar-wrap{width:120px;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.za-bar{height:100%;background:var(--turquesa);border-radius:3px;transition:width .8s ease}
+.za-pct{font-size:12px;font-weight:700;color:#fff;min-width:32px;text-align:right}
+
+/* Input area */
+.chat-input-area{
+  padding:16px 24px 20px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.15);
+  flex-shrink:0;
+}
+.chat-input-row{
+  display:flex;gap:10px;align-items:flex-end;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
+  border-radius:14px;padding:12px 14px;transition:border-color .2s;
+}
+.chat-input-row:focus-within{border-color:var(--turquesa)}
+.chat-textarea{
+  flex:1;background:none;border:none;outline:none;resize:none;
+  font-family:'Poppins',sans-serif;font-size:14px;color:#fff;
+  line-height:1.5;max-height:120px;overflow-y:auto;
+  scrollbar-width:none;
+}
+.chat-textarea::placeholder{color:rgba(255,255,255,.3)}
+.chat-textarea::-webkit-scrollbar{display:none}
+.send-btn{
+  width:38px;height:38px;border-radius:10px;border:none;cursor:pointer;
+  background:var(--turquesa);color:#fff;font-size:18px;display:flex;
+  align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;
+  padding:0;
+}
+.send-btn:hover{background:var(--verde-light);transform:scale(1.05)}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.input-hint{text-align:center;font-size:11px;color:rgba(255,255,255,.25);margin-top:8px}
+
+/* ── MOBILE ── */
+@media(max-width:700px){
+  .ai-layout{grid-template-columns:1fr}
+  .ai-sidebar{display:none}
+  .chat-messages{padding:16px}
+  .prop-cards-inline{grid-template-columns:1fr}
+}
+</style>
+  <!-- Supabase JS v2 -->
+  <script src="supabase-client.js"></script>
+  <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
+  
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
+    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".2"/>
+      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
+      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".8"/>
+      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#7CCFB8"/>
+      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C" opacity=".7"/>
+    </svg>
+    <div><span class="lp">PINAMAR AI</span><span class="lpp">Propiedades · Buscador Inteligente</span></div>
+  </a>
+  <div class="nav-r">
+    <a href="perfiles-zona.html" class="btn-sm">📊 Perfiles de zona</a>
+    <a href="listado-propiedades.html" class="btn-sm">Listado clásico</a>
+    <a href="login-registro.html" class="btn-in">Iniciar sesión</a>
+    <a href="pinamar-propiedades-v2.html" class="btn-sm">← Inicio</a>
+  </div>
+</nav>
+
+<!-- ── LAYOUT ── -->
+<div class="ai-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="ai-sidebar">
+    <div class="sidebar-header">
+      <div class="ai-badge"><div class="dot"></div>IA · Claude API</div>
+      <div class="sidebar-title">Pinamar AI</div>
+      <div class="sidebar-sub">Buscador por estilo de vida con validación técnica de fichas.</div>
+    </div>
+
+    <div class="sidebar-section">
+      <h4>Probá con estos ejemplos</h4>
+      <div class="example-chips">
+        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Quiero una casa en Cariló, bosque, para inversión, que no necesite muchas reparaciones y esté por debajo del m² de la zona"</div>
+        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Busco algo frente al mar para alquilar en verano, hasta USD 200.000, con cochera"</div>
+        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"¿Cuál es la diferencia entre comprar en Valeria del Mar y en Ostende?"</div>
+        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Tengo USD 400K, ¿en qué zona del Partido me conviene más invertir a largo plazo?"</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+      <h4>Propiedades encontradas</h4>
+      <div class="found-list" id="found-list">
+        <div class="sidebar-empty">Las propiedades que el AI detecte como relevantes para tu búsqueda van a aparecer acá.</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CHAT -->
+  <div class="ai-chat">
+    <div class="chat-messages" id="chat-messages">
+      <div class="welcome" id="welcome-msg">
+        <div class="welcome-ico">🏡</div>
+        <h2>¿Qué estilo de vida estás buscando?</h2>
+        <p>Describime en palabras naturales lo que querés: zona, uso, presupuesto, estado de la propiedad. Voy a cruzar eso con los datos técnicos de las fichas certificadas y los perfiles psicográficos del Partido.</p>
+
+        <!-- Quiz opcional (secundario) — nunca reemplaza la conversación libre -->
+        <div id="ni-quiz-opcional" style="margin-top:18px;font-size:12.5px">
+          <button onclick="niToggleQuiz()" style="background:none;border:1px solid #ccc;border-radius:20px;padding:6px 14px;cursor:pointer;font-family:inherit;color:inherit">¿Preferís elegir con botones en vez de escribir? →</button>
+          <div id="ni-quiz-body" style="display:none;margin-top:14px;text-align:left">
+            <p style="font-weight:700;margin-bottom:6px">¿Para qué estás buscando?</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+              <button onclick="niQuizResponder('uso','inversion_renta')" class="ni-quiz-btn">📈 Invertir</button>
+              <button onclick="niQuizResponder('uso','vivienda_principal')" class="ni-quiz-btn">🏡 Vivienda</button>
+              <button onclick="niQuizResponder('uso','turismo')" class="ni-quiz-btn">🏖️ Turismo</button>
+            </div>
+            <p style="font-weight:700;margin-bottom:6px">¿Preferís privacidad o vida social?</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onclick="niQuizResponder('estilo_vida',10)" class="ni-quiz-btn">🌲 Privacidad (Refugio)</button>
+              <button onclick="niQuizResponder('estilo_vida',50)" class="ni-quiz-btn">⚖️ Un poco de ambos</button>
+              <button onclick="niQuizResponder('estilo_vida',90)" class="ni-quiz-btn">✨ Vida social (Vidriera)</button>
+            </div>
+            <p id="ni-quiz-msg" style="margin-top:10px;color:var(--verde,#0D5B48);font-weight:600"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <textarea
+          class="chat-textarea"
+          id="chat-input"
+          placeholder="Ej: Busco casa en Cariló para inversión a largo plazo, bosque, no quiero hacer obras grandes..."
+          rows="1"
+        ></textarea>
+        <button class="send-btn" id="send-btn" onclick="enviar()" title="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="input-hint">Pinamar AI usa Claude (Anthropic) · Los datos de fichas son orientativos hasta que el backend esté conectado</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Configuración Supabase (leer de supabase.js si está cargado) ─────────
+// URL del proyecto (no es secreta — es pública por diseño de Supabase)
+const SUPABASE_URL      = typeof window._SUPABASE_URL !== 'undefined' ? window._SUPABASE_URL : 'https://TU-PROYECTO.supabase.co';
+// La anon key se lee desde el cliente de Supabase ya inicializado
+const SUPABASE_ANON_KEY = typeof db !== 'undefined' ? db.supabaseKey : '';
+
+// ── Estado del chat ───────────────────────────────────────────────────────
+const history = [];
+let isTyping = false;
+
+// ── Base de propiedades mock (se reemplaza con Supabase) ──────────────────
+const PROPIEDADES = [
+  {
+    id:'p001', zona:'carilo', zonaLabel:'Cariló — Bosque', perfil:'Refugio Inmaculado',
+    tipo:'casa', titulo:'Chalet en pino · 4 amb', precio:620000, dist:650, ficha:true,
+    permuta:true, piscina:true, cochera:false, cerrado:false, kyc:true,
+    estado:'bueno', cac:18000,
+    desc:'Casa en excelente estado estructural. Semáforo: ✅ estructura ✅ eléctr. ⚠️ sanitaria',
+    ico:'🌲'
+  },
+  {
+    id:'p002', zona:'pinamar-centro', zonaLabel:'Pinamar Centro', perfil:'El Pueblo del Mar',
+    tipo:'departamento', titulo:'Depto 2 amb · frente al mar', precio:98000, dist:300, ficha:false,
+    permuta:false, piscina:true, cochera:false, cerrado:false,
+    estado:'regular', cac:42000,
+    desc:'Sin ficha técnica certificada aún. Buena ubicación y alta demanda de alquiler.',
+    ico:'🌊'
+  },
+  {
+    id:'p003', zona:'pinamar-norte', zonaLabel:'Pinamar Norte — B. Golf', perfil:'El Club Silvestre',
+    tipo:'casa', titulo:'Casa en barrio cerrado · golf', precio:890000, dist:2000, ficha:true,
+    permuta:false, piscina:false, cochera:true, cerrado:true, kyc:true,
+    estado:'excelente', cac:0,
+    desc:'Sin reparaciones significativas según ficha. Estructura e instalaciones en estado óptimo.',
+    ico:'⛳'
+  },
+  {
+    id:'p004', zona:'ostende', zonaLabel:'Ostende — Frente al mar', perfil:'El Horizonte Tranquilo',
+    tipo:'casa', titulo:'Casa frente al mar · permuta', precio:480000, dist:0, ficha:false,
+    permuta:true, piscina:false, cochera:false, cerrado:false,
+    estado:'bueno', cac:28000,
+    desc:'Acepta permuta. Sin ficha certificada aún. Vista al mar directa, terreno 900 m².',
+    ico:'🌅'
+  },
+  {
+    id:'p005', zona:'valeria', zonaLabel:'Valeria del Mar', perfil:'El Horizonte Tranquilo',
+    tipo:'casa', titulo:'Casa · 3 amb · lote 800m²', precio:290000, dist:800, ficha:true,
+    permuta:false, piscina:false, cochera:false, cerrado:false,
+    estado:'bueno', cac:15000,
+    desc:'Ficha certificada. Semáforo: ✅ estructura ✅ instalaciones. Requiere pintura general.',
+    ico:'🌿'
+  },
+  {
+    id:'p006', zona:'carilo', zonaLabel:'Cariló — Bosque', perfil:'Refugio Inmaculado',
+    tipo:'terreno', titulo:'Lote 900 m² · bosque', precio:750000, dist:1200, ficha:false,
+    permuta:false, piscina:false, cochera:false, cerrado:false,
+    estado:'n/a', cac:0,
+    desc:'Lote en pleno bosque, zonificación residencial baja densidad. Proyecto en etapa de diseño.',
+    ico:'🌳'
+  },
+];
+
+// ── Perfiles psicográficos (fallback mock — se reemplaza por datos
+// reales de la tabla `zonas` en tiempo de ejecución, ver cargarZonasContext) ──
+const PERFILES_CONTEXT_MOCK = `
+PERFILES PSICOGRÁFICOS DEL PARTIDO DE PINAMAR:
+1. "Refugio Inmaculado" (Cariló): Bosque, privacidad, escasez cuidada. Inversor UHNW, largo plazo. USD/m² lote: 5.500. Negatividad: 4%. Polarización baja.
+2. "La Vidriera" (Costa Esmeralda): Barrios cerrados, estatus, náutica y golf. Alta polarización (24% negatividad). Oportunidad de revalorización. USD/m² lote: 3.200.
+3. "El Pueblo del Mar" (Pinamar Centro): Alta liquidez, alquiler temporal, acceso a servicios. Negatividad 12%, mercado maduro. USD/m² depto: 2.200.
+4. "El Horizonte Tranquilo" (Valeria del Mar / Ostende): Tranquilidad, horizonte abierto, revalorización. Negatividad 8%. USD/m² lote: 1.800.
+5. "El Club Silvestre" (Pinamar Norte): Barrios golf, lote grande, familia activa. Negatividad 11%. USD/m² lote: 2.800.
+`;
+
+// ── NEXO INTELIGENTE: los 3 bloques de contexto reales ────────────────────
+// Corrige un bug real que había en esta página: se usaba una variable
+// PROPIEDADES_CONTEXT que nunca estaba definida en ningún lado, lo que
+// hacía que el chat fallara silenciosamente en cada mensaje (caía siempre
+// al catch de "Hubo un problema al conectar con el servidor").
+
+async function armarZonasContext() {
+  if (typeof Zonas === 'undefined') return PERFILES_CONTEXT_MOCK;
+  try {
+    const zonas = await Zonas.listar();
+    if (!zonas.length) return PERFILES_CONTEXT_MOCK;
+    const lineas = zonas.map(z => {
+      const partes = [`"${z.nombre_perfil_psicografico || z.nombre}" (${z.nombre})`];
+      if (z.descripcion_estilo_vida) partes.push(z.descripcion_estilo_vida);
+      if (z.usd_m2_lote) partes.push(`USD/m² lote: ${z.usd_m2_lote}`);
+      if (z.usd_m2_casa) partes.push(`USD/m² casa: ${z.usd_m2_casa}`);
+      if (z.usd_m2_depto) partes.push(`USD/m² depto: ${z.usd_m2_depto}`);
+      if (z.sentimiento_negatividad_pct != null) partes.push(`Negatividad: ${z.sentimiento_negatividad_pct}%`);
+      if (z.liquidez_dias_promedio_venta) partes.push(`Liquidez: ${z.liquidez_dias_promedio_venta} días prom. de venta`);
+      return '- ' + partes.join(' | ');
+    });
+    return `PERFILES PSICOGRÁFICOS DEL PARTIDO DE PINAMAR (datos reales de la tabla zonas):\n${lineas.join('\n')}`;
+  } catch (e) {
+    console.info('ZONAS_CONTEXT: no se pudo cargar, uso mock', e.message);
+    return PERFILES_CONTEXT_MOCK;
+  }
+}
+
+async function armarPropiedadesContext(perfil) {
+  if (typeof PropiedadesNexo === 'undefined') return armarPropiedadesContextMock();
+  try {
+    // Filtro SQL determinístico previo (Sección 5/6 de la arquitectura):
+    // acota el pool ANTES de la llamada a la IA, sin una segunda llamada.
+    const candidatas = await PropiedadesNexo.filtrarParaIA(perfil);
+    if (!candidatas.length) return armarPropiedadesContextMock();
+    const lineas = candidatas.map(p =>
+      `- [${p.id}] ${p.titulo} (${p.tabla_origen.replace('propiedades_','')}) | USD ${p.precio_usd?.toLocaleString() || 's/d'} | Dist. mar: ${p.dist_mar_m ?? 's/d'}m | Operación: ${p.operacion}`
+    );
+    return `PROPIEDADES DISPONIBLES (datos reales, ya filtradas — ${candidatas.length} candidatas):\n${lineas.join('\n')}`;
+  } catch (e) {
+    console.info('PROPIEDADES_CONTEXT: no se pudo cargar de la BD real, uso mock', e.message);
+    return armarPropiedadesContextMock();
+  }
+}
+
+function armarPropiedadesContextMock() {
+  return `PROPIEDADES DISPONIBLES (datos simplificados, modo demo):\n${PROPIEDADES.map(p => `- [${p.id}] ${p.titulo} en ${p.zonaLabel} | USD ${p.precio.toLocaleString()} | Dist mar: ${p.dist}m | Ficha: ${p.ficha?'SÍ':'NO'} | KYC: ${p.kyc?'SÍ':'NO'} | Estado: ${p.estado} | CAC estimado: USD ${p.cac.toLocaleString()} | Acepta permuta: ${p.permuta?'SÍ':'NO'}`).join('\n')}\n\nÍNDICE CAC (Cámara Argentina de la Construcción) 2026: USD 1.200/m² construcción media. Una reparación mayor (sanitaria completa) ronda USD 15.000–35.000.`;
+}
+
+async function armarPerfilUsuarioContext() {
+  if (typeof PerfilBusqueda === 'undefined') return '';
+  try {
+    const perfil = await PerfilBusqueda.ultimoDeLaSesion();
+    if (!perfil) return '';
+    const partes = [];
+    if (perfil.uso) partes.push(`Uso buscado: ${perfil.uso}`);
+    if (perfil.composicion_hogar) partes.push(`Composición del hogar: ${perfil.composicion_hogar}`);
+    if (perfil.estilo_vida != null) partes.push(`Estilo de vida (0=Refugio, 100=Vidriera): ${perfil.estilo_vida}`);
+    if (perfil.uso_temporal) partes.push(`Uso temporal: ${perfil.uso_temporal}`);
+    if (perfil.tolerancia_riesgo_legal) partes.push(`Tolerancia a riesgo legal: ${perfil.tolerancia_riesgo_legal}`);
+    if (perfil.sensibilidad_financiamiento) partes.push(`Sensibilidad a financiamiento: ${perfil.sensibilidad_financiamiento}`);
+    if (!partes.length) return '';
+    return `PERFIL DEL COMPRADOR ACTUAL (ya registrado en esta sesión, cruzalo con las propiedades):\n${partes.map(p => '- ' + p).join('\n')}`;
+  } catch (e) {
+    console.info('PERFIL_USUARIO_CONTEXT: no se pudo cargar', e.message);
+    return '';
+  }
+}
+
+// ── Prompt de sistema ─────────────────────────────────────────────────────
+// Marcadores para inyección dinámica de contexto de BD
+const SYSTEM_PROMPT = `{{ZONAS_CONTEXT}}
+
+Sos el asistente de búsqueda inmobiliaria de Pinamar Propiedades. Te llamás "Pinamar AI".
+
+Tu objetivo es ayudar al usuario a encontrar la propiedad ideal en el Partido de Pinamar cruzando 3 cosas:
+1. Su perfil de comprador (uso buscado, estilo de vida, tolerancia a riesgo legal, financiamiento) — ver {{PERFIL_USUARIO_CONTEXT}} más abajo, si ya está disponible.
+2. Su perfil psicográfico de zona (estilo de vida deseado, zona emocional).
+3. Datos técnicos duros (precio/m², estado según ficha, costo de reparaciones CAC, distancia al mar).
+
+{{PERFIL_USUARIO_CONTEXT}}
+
+{{PROPIEDADES_CONTEXT}}
+
+INSTRUCCIONES:
+- Respondé siempre en español rioplatense (voseo).
+- Si hay un PERFIL DEL COMPRADOR ACTUAL disponible, usalo como primer filtro antes de recomendar — no le vuelvas a preguntar algo que ya está ahí.
+- Cuando el usuario describa lo que busca, identificá el perfil psicográfico de zona que mejor encaja y explicá brevemente por qué.
+- Recomendá entre 2 y 4 propiedades de la lista que mejor matcheen con su búsqueda. Para cada una, explicá el nivel de match y cualquier dato técnico relevante (estado, CAC, distancia al mar).
+- Si mencionan un presupuesto, filtrá las propiedades dentro de ese rango.
+- Si preguntan por diferencias entre zonas, usá los datos de sentimiento y precios para responder con precisión.
+- Cuando recomendés propiedades, incluí sus IDs entre corchetes así: [p001], [p002] — esto permite que el sistema las muestre como cards.
+- Si el usuario tiene dudas sobre si conviene una zona u otra, compará los índices de negatividad, polarización y precio/m².
+- Sé conciso pero preciso. Máximo 3 párrafos de texto + recomendaciones.
+- Nunca inventés datos que no están en el contexto. Si no sabés algo, decilo.
+- Al final de cada respuesta con propiedades recomendadas, preguntá si quiere ver la ficha técnica completa o comparar alguna de ellas.`;
+
+// ── Enviar mensaje ────────────────────────────────────────────────────────
+async function enviar(){
+  const input = document.getElementById('chat-input');
+  const texto = input.value.trim();
+  if(!texto || isTyping) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Ocultar bienvenida
+  const welcome = document.getElementById('welcome-msg');
+  if(welcome) welcome.style.display = 'none';
+
+  // Agregar mensaje del usuario
+  agregarMensaje('user', texto);
+  history.push({role:'user', content:texto});
+
+  // Mostrar typing
+  isTyping = true;
+  document.getElementById('send-btn').disabled = true;
+  const typingEl = mostrarTyping();
+
+  try {
+    // Armar los 3 bloques de contexto reales (Sección 6 de la arquitectura
+    // Nexo Inteligente): zonas, propiedades ya filtradas por SQL, y perfil
+    // del comprador de esta sesión — con fallback a mock si algo falla.
+    let perfilActual = null;
+    try {
+      if (typeof PerfilBusqueda !== 'undefined') perfilActual = await PerfilBusqueda.ultimoDeLaSesion();
+    } catch (e) { /* sigue sin perfil */ }
+
+    const [zonasContext, propsContext, perfilContext] = await Promise.all([
+      armarZonasContext(),
+      armarPropiedadesContext(perfilActual),
+      armarPerfilUsuarioContext()
+    ]);
+
+    // Inyección limpia de contexto — marcadores {{...}} en lugar de regex frágil
+    const systemPromptFinal = SYSTEM_PROMPT
+      .replace('{{ZONAS_CONTEXT}}', zonasContext)
+      .replace('{{PERFIL_USUARIO_CONTEXT}}', perfilContext)
+      .replace('{{PROPIEDADES_CONTEXT}}', propsContext);
+
+    // ── Llamar a la Edge Function (proxy seguro) ──────────────────────────
+    // La API key de Anthropic vive en el servidor, nunca en el navegador.
+    // En modo demo (sin Supabase), usa DEMO_MODE para respuestas simuladas.
+    const EDGE_URL = typeof db !== 'undefined'
+      ? `${SUPABASE_URL}/functions/v1/ai-search`
+      : null;
+
+    let respuesta = '';
+
+    if (EDGE_URL) {
+      const response = await fetch(EDGE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // La apikey la provee el CDN de Supabase JS automáticamente via el cliente db
+          ...(typeof db !== 'undefined' && db.supabaseKey ? {'apikey': db.supabaseKey} : {}),
+        },
+        body: JSON.stringify({
+          messages: history,
+          filtros: Propiedades?.filtrosDesdeURL?.() ?? {},
+        })
+      });
+
+      const data = await response.json();
+      if (data.error) throw new Error(data.error);
+      respuesta = data.respuesta || 'No pude procesar la respuesta.';
+
+    } else {
+      // ── Modo demo: respuesta simulada sin API key ──────────────────────
+      await new Promise(r => setTimeout(r, 1200));
+      const ultimo = history[history.length - 1]?.content?.toLowerCase() ?? '';
+      if (ultimo.includes('cariló') || ultimo.includes('carilo') || ultimo.includes('bosque')) {
+        respuesta = 'Para el perfil **"Refugio Inmaculado"** (Cariló), el mercado premia la privacidad y el bosque sobre cualquier otra variable. Las propiedades con ficha técnica se venden 3,4× más rápido que sin ficha.\n\nTe recomiendo estas propiedades que coinciden con tu búsqueda: [p001] [p006]\n\n¿Querés que compare estas dos opciones en el comparador técnico?';
+      } else if (ultimo.includes('mar') || ultimo.includes('playa') || ultimo.includes('frente')) {
+        respuesta = 'Para una propiedad frente al mar con perfil de alquiler temporal, Pinamar Centro y Ostende son las mejores opciones por liquidez y demanda en temporada.\n\nTe recomiendo: [p002] [p004]\n\n¿Querés filtrar por precio o por si tienen ficha técnica certificada?';
+      } else if (ultimo.includes('inversion') || ultimo.includes('inversión') || ultimo.includes('largo plazo')) {
+        respuesta = 'Para inversión a largo plazo, los datos del mercado muestran que **Cariló tiene la mayor apreciación** (+18% en 2023–2025) y el menor índice de negatividad del Partido (4%).\n\nValeria del Mar es la segunda mejor opción con +14% y alta demanda en crecimiento.\n\n¿Tenés un presupuesto en mente para mostrarte las opciones disponibles?';
+      } else {
+        respuesta = 'Contame un poco más: ¿buscás para uso propio o inversión? ¿Tenés una zona del Partido en mente, o arrancamos comparando perfiles?\n\nPor ejemplo, podés decirme "quiero algo en el bosque, sin obras, hasta USD 500.000" y cruzamos eso con las fichas técnicas disponibles.';
+      }
+    }
+
+    typingEl.remove();
+    agregarMensajeAI(respuesta);
+    history.push({role:'assistant', content:respuesta});
+    // Persistir conversación
+    if (typeof AIConversaciones !== 'undefined') {
+      const propIds = [...respuesta.matchAll(/\[p[a-zA-Z0-9-]{3,36}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
+      await AIConversaciones.guardar(history, propIds).catch(() => {});
+    }
+
+    // Extraer IDs de propiedades mencionadas
+    const ids = [...respuesta.matchAll(/\[p\d{3}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
+    if(ids.length > 0) actualizarFoundList(ids);
+
+  } catch(err){
+    typingEl.remove();
+    agregarMensajeAI('Hubo un problema al conectar con el servidor. Por favor intentá de nuevo en un momento.');
+    console.error('API error:', err);
+  }
+
+  isTyping = false;
+  document.getElementById('send-btn').disabled = false;
+}
+
+// ── Agregar mensaje usuario ───────────────────────────────────────────────
+function agregarMensaje(rol, texto){
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${rol}`;
+  div.innerHTML = `
+    <div class="msg-avatar">${rol === 'user' ? '👤' : '🏡'}</div>
+    <div class="msg-bubble">${escapeHtml(texto).replace(/\n/g,'<br>')}</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── Agregar respuesta AI (con prop cards si aplica) ───────────────────────
+function agregarMensajeAI(texto){
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+
+  // Extraer IDs de props mencionados
+  const ids = [...texto.matchAll(/\[p\d{3}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
+
+  // Limpiar IDs del texto para mostrar
+  let textoLimpio = texto.replace(/\[p\d{3}\]/g, '').replace(/\s+/g,' ').trim();
+
+  // Formatear texto: negrita para **texto**
+  textoLimpio = textoLimpio.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  // Saltos de línea
+  textoLimpio = textoLimpio.replace(/\n/g,'<br>');
+
+  let cardsHtml = '';
+  if(ids.length > 0){
+    const props = ids.map(id => PROPIEDADES.find(p => p.id === id)).filter(Boolean);
+    cardsHtml = `<div class="prop-cards-inline">${props.map(p => `
+      <a href="ficha-propiedad.html?id=${p.id}" class="pci">
+        <div class="pci-ico">${p.ico}</div>
+        <div class="pci-zona">${p.perfil}</div>
+        <div class="pci-title">${p.titulo}</div>
+        <div class="pci-price">USD ${p.precio.toLocaleString()}</div>
+        <div class="pci-badges">
+          ${p.kyc ? '<span class="pci-badge">🛡️ KYC</span>' : ''}${p.ficha ? '<span class="pci-badge">📋 Ficha</span>' : ''}
+          ${p.permuta ? '<span class="pci-badge">🔄 Permuta</span>' : ''}
+          ${p.cerrado ? '<span class="pci-badge">🔒 B. Cerrado</span>' : ''}
+          ${p.dist === 0 ? '<span class="pci-badge">🌊 Frente al mar</span>' : p.dist <= 300 ? '<span class="pci-badge">🌊 < 300m</span>' : ''}
+        </div>
+        <div class="pci-match"><div class="match-bar"></div> Alta compatibilidad</div>
+      </a>`).join('')}</div>`;
+  }
+
+  // Análisis de zona si menciona una zona específica
+  let zonaHtml = '';
+  const zonaTexto = texto.toLowerCase();
+  let zonaData = null;
+  if(zonaTexto.includes('cariló') || zonaTexto.includes('carilo')){
+    zonaData = {zona:'Cariló', pos:91, neg:4, pol:'Baja', precio:'USD 5.500/m²'};
+  } else if(zonaTexto.includes('costa esmeralda')){
+    zonaData = {zona:'Costa Esmeralda', pos:68, neg:24, pol:'Alta', precio:'USD 3.200/m²'};
+  } else if(zonaTexto.includes('valeria')){
+    zonaData = {zona:'Valeria del Mar', pos:83, neg:8, pol:'Baja', precio:'USD 1.800/m²'};
+  }
+  if(zonaData && ids.length === 0){
+    zonaHtml = `<div class="zona-analysis">
+      <div class="za-title">📊 Análisis de sentimiento · ${zonaData.zona}</div>
+      <div class="za-row"><span class="za-label">Positividad</span><div class="za-bar-wrap"><div class="za-bar" style="width:${zonaData.pos}%"></div></div><span class="za-pct">${zonaData.pos}%</span></div>
+      <div class="za-row"><span class="za-label">Negatividad</span><div class="za-bar-wrap"><div class="za-bar" style="width:${zonaData.neg}%;background:#e05555"></div></div><span class="za-pct">${zonaData.neg}%</span></div>
+      <div class="za-row"><span class="za-label">Polarización</span><span style="font-size:12px;color:rgba(255,255,255,.7)">${zonaData.pol}</span></div>
+      <div class="za-row"><span class="za-label">Precio referencia</span><span style="font-size:12px;font-weight:700;color:var(--ocre)">${zonaData.precio}</span></div>
+    </div>`;
+  }
+
+  div.innerHTML = `
+    <div class="msg-avatar">🏡</div>
+    <div class="msg-bubble">
+      ${textoLimpio}
+      ${cardsHtml}
+      ${zonaHtml}
+    </div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── Typing indicator ──────────────────────────────────────────────────────
+function mostrarTyping(){
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.innerHTML = `
+    <div class="msg-avatar">🏡</div>
+    <div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+// ── Actualizar sidebar con propiedades encontradas ────────────────────────
+function actualizarFoundList(ids){
+  const list = document.getElementById('found-list');
+  const props = ids.map(id => PROPIEDADES.find(p => p.id === id)).filter(Boolean);
+  if(props.length === 0) return;
+
+  list.innerHTML = props.map(p => `
+    <a href="ficha-propiedad.html?id=${p.id}" class="found-card">
+      <div class="fc-zona">${p.perfil}</div>
+      <div class="fc-title">${p.ico} ${p.titulo}</div>
+      <div class="fc-price">USD ${p.precio.toLocaleString()}</div>
+      <div class="fc-match">${p.ficha ? '📋 Con ficha · ' : ''}${p.dist === 0 ? '🌊 Frente al mar' : p.dist + 'm del mar'}</div>
+    </a>
+  `).join('');
+}
+
+// ── Ejemplos rápidos ──────────────────────────────────────────────────────
+function enviarEjemplo(texto){
+  document.getElementById('chat-input').value = texto;
+  enviar();
+}
+
+// ── Teclas: Enter envía, Shift+Enter nueva línea ──────────────────────────
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    enviar();
+  }
+});
+
+// Auto-resize textarea
+document.getElementById('chat-input').addEventListener('input', function(){
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// ── Helper ────────────────────────────────────────────────────────────────
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── NEXO INTELIGENTE — quiz opcional (secundario a la conversación libre) ──
+const _quizRespuestas = {};
+
+function niToggleQuiz() {
+  const body = document.getElementById('ni-quiz-body');
+  body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+async function niQuizResponder(campo, valor) {
+  _quizRespuestas[campo] = valor;
+  const msg = document.getElementById('ni-quiz-msg');
+  try {
+    if (typeof PerfilBusqueda !== 'undefined') {
+      await PerfilBusqueda.registrarDesdeChat(_quizRespuestas);
+    }
+    msg.textContent = '✓ Guardado — esto ya lo voy a tener en cuenta cuando te recomiende propiedades.';
+  } catch (e) {
+    console.info('Quiz: no se pudo guardar el perfil', e.message);
+  }
+}
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
