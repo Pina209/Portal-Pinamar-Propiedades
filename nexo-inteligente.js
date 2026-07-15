@@ -224,7 +224,7 @@ const PerfilBusqueda = {
     const usuario = await Auth.getUser().catch(() => null);
     let q = db.from('perfiles_busqueda').select('*').order('created_at', { ascending: false }).limit(1);
     q = usuario ? q.eq('usuario_id', usuario.id) : q.eq('sesion_id', SesionAnonima.obtener());
-    const { data } = await q.single();
+    const { data } = await q.maybeSingle();
     return data;
   }
 };
