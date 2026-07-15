@@ -696,7 +696,7 @@ async function cerrarSesion() {
     </div>
   </div>
 
-</div><div class="panel" id="panel-propiedades"><div class="card"><div class="card-h"><h3>🏠 Gestión de propiedades</h3><span class="badge b-red">12 pendientes</span></div><div class="card-b" style="padding:0"><table class="gt"><thead><tr><th>Propiedad</th><th>Publicante</th><th>Zona</th><th>Precio</th><th>Estado</th><th>Ficha</th><th>KYC</th><th>Acciones</th></tr></thead><tbody><tr><td><strong style="color:var(--verde)">Casa Cariló — chalet 4 dorm.</strong><br><small style="color:var(--gray)">PP-2026-0847</small></td><td>Rodríguez & Cía</td><td>Cariló</td><td>USD 620.000</td><td><span class="badge b-warn">Pendiente</span></td><td><span class="badge b-ok">✓</span></td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-view">Ver</button><button class="act act-del">✕</button></div></td></tr><tr><td><strong style="color:var(--verde)">Depto 2 amb. Av. Bunge</strong><br><small style="color:var(--gray)">PP-2026-0901</small></td><td>Pinamar Brokers</td><td>Pinamar</td><td>USD 98.000</td><td><span class="badge b-red">Reportada</span></td><td><span class="badge b-gray">✕</span></td><td><div class="act-row"><button class="act act-view">Revisar</button><button class="act act-del">Eliminar</button></div></td></tr></tbody></table></div></div></div>
+</div>
     <div class="panel" id="panel-alertas-v2"><div style="padding:20px;text-align:center;color:var(--gray)">Panel de alertas</div></div>
     <div class="panel" id="panel-noticias">
 
@@ -3372,18 +3372,21 @@ async function dashboardCargarPermutas() {
 async function dashboardCargarFichas() {
   const cont = document.getElementById('dashboard-fichas');
   try {
-    const { data, error } = await db.from('fichas_tecnicas').select('estado');
+    // La columna real en fichas_tecnicas se llama 'estado_general'
+    // (confirmado con information_schema.columns el 15/07/2026),
+    // no 'estado' como se probaba antes.
+    const { data, error } = await db.from('fichas_tecnicas').select('estado_general');
     if (error) throw error;
     if (!data || !data.length) { cont.textContent = 'Todavía no hay fichas técnicas cargadas.'; return; }
     const grupos = {};
-    data.forEach(f => { const e = f.estado || 'sin_estado'; grupos[e] = (grupos[e] || 0) + 1; });
+    data.forEach(f => { const e = f.estado_general || 'sin_estado'; grupos[e] = (grupos[e] || 0) + 1; });
     cont.innerHTML = Object.entries(grupos).map(([estado, cant]) => `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:9px;background:var(--beige,#f7f5ef);border-radius:8px">
         <span style="font-weight:600;text-transform:capitalize">${estado.replace('_',' ')}</span><strong style="color:var(--verde)">${cant}</strong>
       </div>`).join('');
   } catch (e) {
-    // La tabla puede no tener columna 'estado', o no existir tal cual —
-    // en vez de inventar categorías, mostramos solo el total si se puede.
+    // Fallback por si el nombre de columna cambia de nuevo en el futuro —
+    // en vez de inventar categorías, mostramos solo el total.
     try {
       const { count } = await db.from('fichas_tecnicas').select('id', { count: 'exact', head: true });
       cont.innerHTML = `<div style="text-align:center;color:var(--gray)">Total de fichas: ${count ?? 0} (no se pudo determinar el desglose por estado)</div>`;
