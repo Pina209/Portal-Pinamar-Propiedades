@@ -955,7 +955,14 @@ function setMetaOG(prop, content) {
 }
 
 async function cargarFichaNexo(slug, tabla) {
-  const { data: prop, error } = await PropiedadesNexo.obtenerPorSlug(tabla, slug);
+  let prop, error;
+  if (tabla) {
+    ({ data: prop, error } = await PropiedadesNexo.obtenerPorSlug(tabla, slug));
+  } else {
+    // URL amigable /propiedad/:slug — no trae la tabla, se busca en las 10
+    const resultado = await PropiedadesNexo.obtenerPorSlugCualquierTabla(slug);
+    prop = resultado.data; error = resultado.error; tabla = resultado.tabla_origen;
+  }
   if (error || !prop) { console.error('cargarFichaNexo', error); return; }
   _propData = prop;
 
@@ -1054,8 +1061,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const _params = new URLSearchParams(location.search);
   const _slug = _params.get('slug');
   const _tabla = _params.get('tabla');
-  if (_slug && _tabla && typeof PropiedadesNexo !== 'undefined') {
-    await cargarFichaNexo(_slug, _tabla);
+  if (_slug && typeof PropiedadesNexo !== 'undefined') {
+    await cargarFichaNexo(_slug, _tabla || null);
     return;
   }
 
