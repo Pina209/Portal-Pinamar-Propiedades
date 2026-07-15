@@ -149,6 +149,7 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
 </head>
 <body>
@@ -328,6 +329,60 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
     <button class="btn-success sec" onclick="window.location.href='pinamar-propiedades-v2.html'">Ver el portal</button>
   </div>
 
+  <!-- ═══ MI CUENTA (Nexo Inteligente) — Favoritos/Alertas + Permutas ═══ -->
+  <div id="panel-mi-cuenta" style="display:none">
+    <div class="form-title">Mi cuenta</div>
+    <div class="form-sub">Tus propiedades guardadas, alertas y ofertas de permuta.</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:20px;border-bottom:1.5px solid #e0e0e0">
+      <button class="mc-tab on" onclick="mcSetTab('favoritos',this)" style="padding:10px 16px;background:none;border:none;border-bottom:2.5px solid transparent;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit">🤍 Favoritos y Alertas</button>
+      <button class="mc-tab" onclick="mcSetTab('permutas',this)" style="padding:10px 16px;background:none;border:none;border-bottom:2.5px solid transparent;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit">🔄 Ofertas de Permuta</button>
+    </div>
+
+    <!-- Sub-pestaña: Favoritos y Alertas -->
+    <div id="mc-favoritos" style="display:block">
+      <h4 style="margin-bottom:8px;font-size:13px;color:var(--gray,#666)">Propiedades guardadas</h4>
+      <div id="mc-lista-favoritos" style="margin-bottom:24px;font-size:13px;color:var(--gray,#666)">Cargando...</div>
+
+      <h4 style="margin-bottom:8px;font-size:13px;color:var(--gray,#666)">Alertas de búsqueda</h4>
+      <div id="mc-lista-alertas" style="font-size:13px;color:var(--gray,#666)">Cargando...</div>
+    </div>
+
+    <!-- Sub-pestaña: Ofertas de Permuta -->
+    <div id="mc-permutas" style="display:none">
+      <div id="mc-permuta-form-wrap" style="display:none;margin-bottom:24px;padding:16px;background:#f7f5ef;border-radius:10px">
+        <h4 style="margin-bottom:10px;font-size:13px">Publicar mi propiedad para ofrecer en permuta</h4>
+        <div class="ff"><label>Tipo de propiedad</label>
+          <select id="mcp-tipo">
+            <option value="propiedades_lotes">Terreno</option>
+            <option value="propiedades_deptos">Departamento</option>
+            <option value="propiedades_casas" selected>Casa</option>
+            <option value="propiedades_duplex_ph">Duplex / PH</option>
+          </select>
+        </div>
+        <div class="ff"><label>Título</label><input type="text" id="mcp-titulo" placeholder="Ej: Casa 3 amb. en Nueva Córdoba"></div>
+        <div class="ff"><label>Descripción</label><input type="text" id="mcp-descripcion" placeholder="Breve descripción del inmueble"></div>
+        <div class="ff"><label>Ubicación (si está fuera de Pinamar)</label><input type="text" id="mcp-localidad" placeholder="Ciudad / Provincia"></div>
+        <div class="ff"><label>Valor de referencia (USD, opcional)</label><input type="number" id="mcp-precio"></div>
+        <div class="ff"><label><input type="checkbox" id="mcp-tiene-cotizacion"> Ya tiene cotización de una inmobiliaria</label></div>
+        <button class="btn-submit" onclick="mcPublicarOfertaPermuta()">Publicar y ofrecer</button>
+        <div id="mcp-msg" style="margin-top:10px;font-size:12.5px"></div>
+      </div>
+
+      <h4 style="margin-bottom:8px;font-size:13px;color:var(--gray,#666)">Mis ofertas hechas</h4>
+      <div id="mc-lista-mis-ofertas" style="margin-bottom:20px;font-size:13px;color:var(--gray,#666)">Cargando...</div>
+
+      <h4 style="margin-bottom:8px;font-size:13px;color:var(--gray,#666)">Ofertas recibidas en mis avisos</h4>
+      <div id="mc-lista-ofertas-recibidas" style="margin-bottom:20px;font-size:13px;color:var(--gray,#666)">Cargando...</div>
+
+      <h4 style="margin-bottom:8px;font-size:13px;color:var(--gray,#666)">Pool general de propiedades ofrecidas</h4>
+      <p style="font-size:11.5px;color:var(--gray,#666);margin-bottom:8px">Solo visible si tenés al menos una propiedad activa en venta en el portal.</p>
+      <div id="mc-lista-pool" style="font-size:13px;color:var(--gray,#666)">Cargando...</div>
+    </div>
+
+    <div class="form-footer" style="margin-top:20px"><a href="pinamar-propiedades-v2.html">← Volver al portal</a></div>
+  </div>
+
 </div>
 
 <script>
@@ -438,14 +493,21 @@ async function doLogin(){
     if(error){
       mostrarError('Email o contraseña incorrectos. Verificá tus datos.');
     } else {
-      // Verificar rol y redirigir al panel correcto
+      // Verificar rol y redirigir al destino correcto
       try {
         const perfil = await Auth.getPerfil();
-        const destino = perfil?.rol === 'admin' ? 'panel-admin.html' : 'panel-inmobiliaria.html';
-        showSuccess('👋','¡Bienvenido de vuelta!','Redirigiendo a tu panel...','Ir a mi panel →', destino);
+        if (perfil?.rol === 'admin') {
+          showSuccess('👋','¡Bienvenido de vuelta!','Redirigiendo a tu panel...','Ir a mi panel →', 'panel-admin.html');
+        } else if (perfil?.rol === 'inmobiliaria' || perfil?.rol === 'vendedor') {
+          showSuccess('👋','¡Bienvenido de vuelta!','Redirigiendo a tu panel...','Ir a mi panel →', 'panel-inmobiliaria.html');
+        } else {
+          // Comprador — antes se lo mandaba (mal) al panel de inmobiliarias.
+          // Ahora entra a su propia área: Favoritos/Alertas/Permutas.
+          mcMostrarPanel();
+        }
       } catch(e) {
         console.error('No se pudo verificar el rol del usuario:', e.message);
-        showSuccess('👋','¡Bienvenido de vuelta!','Estás ingresando a tu panel...','Ir a mi panel →','panel-inmobiliaria.html');
+        mcMostrarPanel();
       }
     }
   } else {
@@ -591,6 +653,178 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script src="nav.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════
+// NEXO INTELIGENTE — panel "Mi Cuenta": Favoritos/Alertas
+// y Ofertas de Permuta. Se muestra en vez de redirigir a
+// otra página cuando el usuario logueado es un comprador
+// (no admin, no inmobiliaria/vendedor).
+// ══════════════════════════════════════════════════════
+
+function mcMostrarPanel() {
+  ['panel-login','panel-registro','panel-recuperar','success'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  document.getElementById('panel-mi-cuenta').style.display = 'block';
+  mcCargarTodo();
+
+  // Si venimos del botón de permuta en una ficha, mostrar directamente
+  // esa pestaña con el formulario de publicación abierto.
+  const params = new URLSearchParams(location.search);
+  if (params.get('next') === 'permuta') {
+    const tabBtn = document.querySelectorAll('.mc-tab')[1];
+    mcSetTab('permutas', tabBtn);
+    document.getElementById('mc-permuta-form-wrap').style.display = 'block';
+  }
+}
+
+function mcSetTab(tab, el) {
+  document.getElementById('mc-favoritos').style.display = tab === 'favoritos' ? 'block' : 'none';
+  document.getElementById('mc-permutas').style.display = tab === 'permutas' ? 'block' : 'none';
+  document.querySelectorAll('.mc-tab').forEach(b => b.style.borderBottomColor = 'transparent');
+  if (el) el.style.borderBottomColor = 'var(--verde, #0D5B48)';
+}
+
+async function mcCargarTodo() {
+  await mcCargarFavoritos();
+  await mcCargarAlertas();
+  await mcCargarMisOfertas();
+  await mcCargarOfertasRecibidas();
+  await mcCargarPool();
+}
+
+async function mcCargarFavoritos() {
+  const cont = document.getElementById('mc-lista-favoritos');
+  if (typeof Favoritos === 'undefined') { cont.textContent = 'No se pudo cargar el módulo de favoritos.'; return; }
+  const data = await Favoritos.listarMios();
+  if (!data.length) { cont.textContent = 'Todavía no guardaste ninguna propiedad.'; return; }
+  cont.innerHTML = data.map(f => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
+      <span>${f.tabla_origen.replace('propiedades_','')} — ${f.propiedad_id.slice(0,8)}...</span>
+      <button onclick="mcQuitarFavorito('${f.propiedad_id}','${f.tabla_origen}')" style="background:none;border:none;color:#c53030;cursor:pointer;font-size:12px">Quitar</button>
+    </div>`).join('');
+}
+
+async function mcQuitarFavorito(id, tabla) {
+  await Favoritos.quitar(id, tabla);
+  mcCargarFavoritos();
+}
+
+async function mcCargarAlertas() {
+  const cont = document.getElementById('mc-lista-alertas');
+  if (typeof AlertasBusqueda === 'undefined') { cont.textContent = 'No se pudo cargar el módulo de alertas.'; return; }
+  const data = await AlertasBusqueda.listarMias();
+  if (!data.length) { cont.textContent = 'No tenés alertas de búsqueda activas.'; return; }
+  cont.innerHTML = data.map(a => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
+      <span>${a.email} · ${a.frecuencia} · ${a.activa ? '🟢 activa' : '⚪ pausada'}</span>
+      ${a.activa ? `<button onclick="mcPausarAlerta('${a.id}')" style="background:none;border:none;color:var(--turquesa,#16A39C);cursor:pointer;font-size:12px">Pausar</button>` : ''}
+    </div>`).join('');
+}
+
+async function mcPausarAlerta(id) {
+  await AlertasBusqueda.pausar(id);
+  mcCargarAlertas();
+}
+
+async function mcCargarMisOfertas() {
+  const cont = document.getElementById('mc-lista-mis-ofertas');
+  if (typeof Permutas === 'undefined') { cont.textContent = 'No se pudo cargar el módulo de permutas.'; return; }
+  const data = await Permutas.misOfertas();
+  if (!data.length) { cont.textContent = 'Todavía no ofreciste ninguna propiedad en permuta.'; return; }
+  cont.innerHTML = data.map(o => `
+    <div style="padding:8px 0;border-bottom:1px solid #eee;font-size:12.5px">
+      Oferta sobre ${o.tabla_origen_ofrecida.replace('propiedades_','')} — estado: <strong>${o.estado_oferta}</strong>
+      ${o.propiedad_destino_id ? ' · dirigida a un aviso puntual' : ' · en el pool general'}
+    </div>`).join('');
+}
+
+async function mcCargarOfertasRecibidas() {
+  const cont = document.getElementById('mc-lista-ofertas-recibidas');
+  if (typeof Permutas === 'undefined') { cont.textContent = ''; return; }
+  const data = await Permutas.ofertasRecibidas();
+  if (!data.length) { cont.textContent = 'No recibiste ofertas de permuta todavía.'; return; }
+  cont.innerHTML = data.map(o => `
+    <div style="padding:8px 0;border-bottom:1px solid #eee;font-size:12.5px">
+      Te ofrecen un/a ${o.tabla_origen_ofrecida.replace('propiedades_','')} — estado: <strong>${o.estado_oferta}</strong>
+    </div>`).join('');
+}
+
+async function mcCargarPool() {
+  const cont = document.getElementById('mc-lista-pool');
+  if (typeof Permutas === 'undefined') { cont.textContent = ''; return; }
+  const data = await Permutas.verPool();
+  if (!data.length) { cont.textContent = 'No hay propiedades en el pool general todavía (o no cumplís la condición de tener un aviso activo para verlo).'; return; }
+  cont.innerHTML = data.map(o => `
+    <div style="padding:8px 0;border-bottom:1px solid #eee;font-size:12.5px">
+      ${o.tabla_origen_ofrecida.replace('propiedades_','')} disponible para permutar
+    </div>`).join('');
+}
+
+async function mcPublicarOfertaPermuta() {
+  const tabla = document.getElementById('mcp-tipo').value;
+  const titulo = document.getElementById('mcp-titulo').value.trim();
+  const msg = document.getElementById('mcp-msg');
+  if (!titulo) { msg.style.color = '#c53030'; msg.textContent = 'Completá al menos el título.'; return; }
+
+  const datos = {
+    titulo,
+    descripcion: document.getElementById('mcp-descripcion').value,
+    operacion: 'venta',
+    localidad_libre: document.getElementById('mcp-localidad').value || null,
+    precio_usd: document.getElementById('mcp-precio').value || null,
+    _zonaNombre: document.getElementById('mcp-localidad').value || 'permuta'
+  };
+
+  const { data: propOfrecida, error: errProp } = await Permutas.publicarPropiedadOfrecida(tabla, datos);
+  if (errProp || !propOfrecida) {
+    msg.style.color = '#c53030';
+    msg.textContent = 'Error al publicar: ' + (errProp?.message || errProp);
+    return;
+  }
+
+  await Permutas.agregarDatosOferta(propOfrecida.id, tabla, {
+    tieneCotizacionPrevia: document.getElementById('mcp-tiene-cotizacion').checked
+  });
+
+  const params = new URLSearchParams(location.search);
+  const destinoId = params.get('propiedad_destino_id');
+  const destinoTabla = params.get('tabla_destino');
+
+  const { error: errOferta } = await Permutas.crearOferta({
+    propiedadOfrecidaId: propOfrecida.id,
+    tablaOrigenOfrecida: tabla,
+    propiedadDestinoId: destinoId || null,
+    tablaOrigenDestino: destinoTabla || null
+  });
+
+  if (errOferta) {
+    msg.style.color = '#c53030';
+    msg.textContent = 'Se publicó tu propiedad, pero hubo un error al vincular la oferta: ' + errOferta;
+    return;
+  }
+
+  msg.style.color = 'var(--verde,#0D5B48)';
+  msg.textContent = '✓ Propiedad publicada y oferta enviada.';
+  document.getElementById('mc-permuta-form-wrap').style.display = 'none';
+  mcCargarMisOfertas();
+}
+
+// Si ya está logueado y viene con next=permuta, mostrar el panel directo
+// sin pasar por el formulario de login.
+(async () => {
+  try {
+    if (typeof Auth === 'undefined') return;
+    const usuario = await Auth.getUser();
+    const params = new URLSearchParams(location.search);
+    if (usuario && params.get('next') === 'permuta') {
+      mcMostrarPanel();
+    }
+  } catch (e) { /* no logueado, sigue el flujo normal de login */ }
+})();
+</script>
 
 </body>
 </html>
