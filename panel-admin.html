@@ -373,36 +373,21 @@ async function cerrarSesion() {
     <!-- ═══ DASHBOARD ═══ -->
     <div class="panel show" id="panel-dashboard">
       <div class="kpis">
-        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-g">🏠</div><span class="kpi-trend t-up">+8 hoy</span></div><div class="kpi-val">1.258</div><div class="kpi-lbl">Propiedades activas</div></div>
-        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-t">🏢</div><span class="kpi-trend t-up">+3</span></div><div class="kpi-val">94</div><div class="kpi-lbl">Inmobiliarias registradas</div></div>
-        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-o">👤</div><span class="kpi-trend t-up">+12</span></div><div class="kpi-val">3.847</div><div class="kpi-lbl">Usuarios totales</div></div>
-        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-b">👁️</div><span class="kpi-trend t-up">+24%</span></div><div class="kpi-val">48.230</div><div class="kpi-lbl">Visitas este mes</div></div>
-        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-r">💬</div><span class="kpi-trend t-up">+18%</span></div><div class="kpi-val">2.147</div><div class="kpi-lbl">Consultas este mes</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-g">🏠</div><span class="kpi-trend t-up" id="kpi-props-trend"></span></div><div class="kpi-val" id="kpi-props-val">—</div><div class="kpi-lbl">Propiedades activas</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-t">🏢</div><span class="kpi-trend t-up" id="kpi-inmob-trend"></span></div><div class="kpi-val" id="kpi-inmob-val">—</div><div class="kpi-lbl">Inmobiliarias registradas</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-o">👤</div><span class="kpi-trend t-up" id="kpi-usuarios-trend"></span></div><div class="kpi-val" id="kpi-usuarios-val">—</div><div class="kpi-lbl">Usuarios totales</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-b">👁️</div></div><div class="kpi-val" style="font-size:15px;color:var(--gray)">Sin datos</div><div class="kpi-lbl">Visitas este mes (requiere analítica)</div></div>
+        <div class="kpi"><div class="kpi-h"><div class="kpi-ico ico-r">💬</div></div><div class="kpi-val" id="kpi-consultas-val">—</div><div class="kpi-lbl">Consultas este mes</div></div>
       </div>
 
       <div class="grid-3">
         <!-- VISITAS CHART -->
         <div class="card" style="grid-column:1/3">
-          <div class="card-h"><h3>📈 Visitas al portal — últimos 14 días</h3><select style="font-size:12px;border:1px solid #e0e0e0;border-radius:6px;padding:4px 8px;font-family:'Poppins',sans-serif;color:var(--gray);outline:none"><option>14 días</option><option>30 días</option><option>3 meses</option></select></div>
+          <div class="card-h"><h3>📈 Visitas al portal</h3></div>
           <div class="card-b">
-            <div class="mini-chart" style="height:120px;gap:8px">
-              <div class="mc-bar" style="height:45%"></div>
-              <div class="mc-bar" style="height:60%"></div>
-              <div class="mc-bar" style="height:52%"></div>
-              <div class="mc-bar" style="height:78%"></div>
-              <div class="mc-bar" style="height:65%"></div>
-              <div class="mc-bar" style="height:88%"></div>
-              <div class="mc-bar" style="height:72%"></div>
-              <div class="mc-bar" style="height:95%"></div>
-              <div class="mc-bar" style="height:80%"></div>
-              <div class="mc-bar" style="height:100%;background:var(--verde)"></div>
-              <div class="mc-bar" style="height:88%"></div>
-              <div class="mc-bar" style="height:92%"></div>
-              <div class="mc-bar" style="height:85%"></div>
-              <div class="mc-bar" style="height:78%"></div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--gray);margin-top:8px;padding:0 4px">
-              <span>15 abr</span><span>17</span><span>19</span><span>21</span><span>23</span><span>25</span><span>27</span><span>28 abr</span>
+            <div style="padding:30px;text-align:center;color:var(--gray);font-size:13px">
+              📊 Todavía no hay analítica de tráfico conectada al portal.<br>
+              <span style="font-size:11.5px">Esto requiere sumar una herramienta de analítica (ej. Vercel Analytics o Plausible) — no es un dato que viva en Supabase.</span>
             </div>
           </div>
         </div>
@@ -411,13 +396,7 @@ async function cerrarSesion() {
         <div class="card">
           <div class="card-h"><h3>📍 Prop. por zona</h3></div>
           <div class="card-b">
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Pinamar Centro</span><span>583 (46%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:46%"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Pinamar Norte</span><span>208 (17%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:17%"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Valeria del Mar</span><span>198 (16%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:16%"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Cariló</span><span>142 (11%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:11%"></div></div></div>
-              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">Ostende</span><span>127 (10%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div></div>
-            </div>
+            <div id="dashboard-zonas" style="display:flex;flex-direction:column;gap:10px;font-size:12px;color:var(--gray)">Cargando...</div>
           </div>
         </div>
       </div>
@@ -425,40 +404,17 @@ async function cerrarSesion() {
       <div class="grid-2">
         <!-- PENDIENTES -->
         <div class="card">
-          <div class="card-h"><h3>⏳ Propiedades pendientes de aprobación</h3><span style="font-size:12px;font-weight:700;color:var(--red)">12 pendientes</span></div>
-          <div class="card-b" style="padding:0">
-            <table class="gt">
-              <thead><tr><th>Propiedad</th><th>Inmobiliaria</th><th>Zona</th><th>Precio</th><th>Enviada</th><th>Acciones</th></tr></thead>
-              <tbody>
-                <tr><td><strong style="color:var(--verde)">Casa Cariló 4 dorm.</strong><br><small style="color:var(--gray)">Con ficha técnica</small></td><td>Rodríguez & Cía</td><td>Cariló</td><td>USD 620.000</td><td>hace 2h</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-warn">✏️ Editar</button><button class="act act-del">✕ Rechazar</button></div></td></tr>
-                <tr><td><strong style="color:var(--verde)">Depto 2 amb. Pinamar</strong><br><small style="color:var(--gray)">Sin ficha</small></td><td>Pinamar Brokers</td><td>Pinamar</td><td>USD 98.000</td><td>hace 5h</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
-                <tr><td><strong style="color:var(--verde)">Lote Valeria 600m²</strong><br><small style="color:var(--gray)">Propietario directo</small></td><td>Propietario</td><td>Valeria</td><td>USD 45.000</td><td>ayer</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
-                <tr><td><strong style="color:var(--verde)">Casa Ostende frente mar</strong></td><td>Costa Atlántica</td><td>Ostende</td><td>USD 520.000</td><td>ayer</td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕</button></div></td></tr>
-              </tbody>
-            </table>
+          <div class="card-h"><h3>⏳ Propiedades pendientes de aprobación</h3><span style="font-size:12px;font-weight:700;color:var(--gray)">Flujo pendiente de diseño</span></div>
+          <div class="card-b" style="padding:20px;font-size:12.5px;color:var(--gray)">
+            El esquema nuevo (10 tablas) todavía no tiene un estado "pendiente de aprobación" — hoy una propiedad se publica directamente como activa. Si quieren un paso de aprobación antes de publicar, es una definición de flujo a diseñar (no es una conexión de datos, es una decisión de producto).
           </div>
         </div>
 
         <!-- INMOBILIARIAS NUEVAS -->
         <div class="card">
-          <div class="card-h"><h3>🏢 Inmobiliarias a verificar</h3><span style="font-size:12px;font-weight:700;color:var(--ocre)">3 pendientes</span></div>
+          <div class="card-h"><h3>🏢 Inmobiliarias a verificar</h3><span style="font-size:12px;font-weight:700;color:var(--ocre)" id="inmob-pendientes-count">—</span></div>
           <div class="card-b">
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="background:#fafafa;border-radius:10px;padding:13px;border:1px solid #e8e8e8">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-                  <div><div style="font-size:13px;font-weight:700;color:#1a1a1a">Mar &amp; Arena Inmobiliaria</div><div style="font-size:11.5px;color:var(--gray)">Matrícula CMCPD: 7.234 · Lucas Bianchi</div></div>
-                  <span class="badge b-warn">Verificar</span>
-                </div>
-                <div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Matrícula válida — Aprobar</button><button class="act act-del">✕ Rechazar</button></div>
-              </div>
-              <div style="background:#fafafa;border-radius:10px;padding:13px;border:1px solid #e8e8e8">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-                  <div><div style="font-size:13px;font-weight:700;color:#1a1a1a">Duna Sur Propiedades</div><div style="font-size:11.5px;color:var(--gray)">Matrícula CMCPD: 4.891 · Carolina Pérez</div></div>
-                  <span class="badge b-warn">Verificar</span>
-                </div>
-                <div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Aprobar</button><button class="act act-del">✕ Rechazar</button></div>
-              </div>
-            </div>
+            <div id="dashboard-inmob-pendientes" style="display:flex;flex-direction:column;gap:10px;font-size:12px">Cargando...</div>
           </div>
         </div>
       </div>
@@ -3235,11 +3191,127 @@ async function bcAgregar() {
   bcCargarListado();
 }
 
+// ══════════════════════════════════════════════════════
+// DASHBOARD — Overview global con datos reales (reemplaza
+// los números fijos de demo). Ver hallazgo de sesión: el
+// Dashboard mostraba cifras ficticias sin conectar a Supabase.
+// ══════════════════════════════════════════════════════
+
+const TABLAS_PROPS_DASHBOARD = [
+  'propiedades_lotes', 'propiedades_deptos', 'propiedades_casas',
+  'propiedades_duplex_ph', 'propiedades_emprendimientos', 'propiedades_locales',
+  'propiedades_oficinas', 'propiedades_amarras', 'propiedades_hoteles', 'propiedades_edificios'
+];
+
+async function dashboardCargarReal() {
+  // 1) Propiedades activas — suma real across las 10 tablas
+  try {
+    const counts = await Promise.all(TABLAS_PROPS_DASHBOARD.map(t =>
+      db.from(t).select('id', { count: 'exact', head: true }).eq('estado', 'activa')
+        .then(r => r.count || 0).catch(() => 0)
+    ));
+    const total = counts.reduce((a, b) => a + b, 0);
+    document.getElementById('kpi-props-val').textContent = total.toLocaleString('es-AR');
+  } catch (e) { console.error('dashboard: propiedades activas', e); }
+
+  // 2) Inmobiliarias registradas (total, no solo certificadas)
+  try {
+    const { count } = await db.from('inmobiliarias').select('id', { count: 'exact', head: true });
+    document.getElementById('kpi-inmob-val').textContent = (count || 0).toLocaleString('es-AR');
+  } catch (e) { console.error('dashboard: inmobiliarias', e); }
+
+  // 3) Usuarios totales
+  try {
+    const { count } = await db.from('perfiles').select('id', { count: 'exact', head: true });
+    document.getElementById('kpi-usuarios-val').textContent = (count || 0).toLocaleString('es-AR');
+  } catch (e) { console.error('dashboard: usuarios', e); }
+
+  // 4) Consultas de este mes
+  try {
+    const inicioMes = new Date(); inicioMes.setDate(1); inicioMes.setHours(0,0,0,0);
+    const { count } = await db.from('consultas').select('id', { count: 'exact', head: true })
+      .gte('creado_en', inicioMes.toISOString());
+    document.getElementById('kpi-consultas-val').textContent = (count || 0).toLocaleString('es-AR');
+  } catch (e) { console.error('dashboard: consultas', e); }
+
+  // 5) Distribución real por zona (suma across las 10 tablas, agrupado por zona)
+  try {
+    const zonas = await Zonas.listar();
+    const conteoZona = {};
+    zonas.forEach(z => conteoZona[z.id] = { nombre: z.nombre, cantidad: 0 });
+
+    await Promise.all(TABLAS_PROPS_DASHBOARD.map(async (t) => {
+      const { data } = await db.from(t).select('zona_id').eq('estado', 'activa');
+      (data || []).forEach(row => {
+        if (row.zona_id && conteoZona[row.zona_id]) conteoZona[row.zona_id].cantidad++;
+      });
+    }));
+
+    const totalProps = Object.values(conteoZona).reduce((a, z) => a + z.cantidad, 0);
+    const cont = document.getElementById('dashboard-zonas');
+    const filas = Object.values(conteoZona).filter(z => z.cantidad > 0).sort((a,b) => b.cantidad - a.cantidad);
+    if (!filas.length) {
+      cont.innerHTML = 'Todavía no hay propiedades activas cargadas para mostrar distribución por zona.';
+    } else {
+      cont.innerHTML = filas.map(z => {
+        const pct = totalProps ? Math.round(z.cantidad / totalProps * 100) : 0;
+        return `<div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600;color:var(--verde)">${z.nombre}</span><span>${z.cantidad} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+      }).join('');
+    }
+  } catch (e) {
+    console.error('dashboard: distribución zonas', e);
+    document.getElementById('dashboard-zonas').textContent = 'No se pudo cargar.';
+  }
+
+  // 6) Inmobiliarias pendientes de verificar (estado_alta = 'pendiente', dato real)
+  try {
+    const { data: pendientes } = await db.from('inmobiliarias')
+      .select('id, nombre, matricula_localidad, matricula_numero, email')
+      .eq('estado_alta', 'pendiente');
+    const cont = document.getElementById('dashboard-inmob-pendientes');
+    const countEl = document.getElementById('inmob-pendientes-count');
+    countEl.textContent = `${(pendientes || []).length} pendientes`;
+    if (!pendientes || !pendientes.length) {
+      cont.innerHTML = 'No hay inmobiliarias esperando verificación.';
+    } else {
+      cont.innerHTML = pendientes.map(i => `
+        <div style="background:#fafafa;border-radius:10px;padding:13px;border:1px solid #e8e8e8">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div><div style="font-size:13px;font-weight:700;color:#1a1a1a">${i.nombre}</div><div style="font-size:11.5px;color:var(--gray)">Matrícula ${i.matricula_localidad || ''} ${i.matricula_numero || ''} · ${i.email || ''}</div></div>
+            <span class="badge b-warn">Verificar</span>
+          </div>
+          <div class="act-row">
+            <button class="act act-ok" onclick="dashboardAprobarInmobiliaria('${i.id}')">✓ Aprobar</button>
+            <button class="act act-del" onclick="dashboardRechazarInmobiliaria('${i.id}')">✕ Rechazar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch (e) {
+    console.error('dashboard: inmobiliarias pendientes', e);
+    document.getElementById('dashboard-inmob-pendientes').textContent = 'No se pudo cargar.';
+  }
+}
+
+async function dashboardAprobarInmobiliaria(id) {
+  const { error } = await db.from('inmobiliarias').update({ estado_alta: 'activa', activa: true }).eq('id', id);
+  if (error) { alert('Error al aprobar: ' + error.message); return; }
+  dashboardCargarReal();
+}
+
+async function dashboardRechazarInmobiliaria(id) {
+  if (!confirm('¿Rechazar esta inmobiliaria?')) return;
+  const { error } = await db.from('inmobiliarias').update({ estado_alta: 'rechazada' }).eq('id', id);
+  if (error) { alert('Error al rechazar: ' + error.message); return; }
+  dashboardCargarReal();
+}
+
 // Inicialización diferida (no bloquea el resto del panel si Supabase tarda)
 if (typeof db !== 'undefined') {
   niInit();
   optCargarListado();
   bcCargarListado();
+  dashboardCargarReal();
   document.getElementById('ni-zona')?.addEventListener('change', niCargarBarriosCerradosSelect);
 }
 </script>
