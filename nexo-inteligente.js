@@ -217,7 +217,7 @@ const PerfilBusqueda = {
 // ══════════════════════════════════════════════════════════════
 // Favoritos
 // ══════════════════════════════════════════════════════════════
-const Favoritos = {
+const FavoritosNexo = {
   async agregar(propiedadId, tablaOrigen) {
     const usuario = await Auth.getUser().catch(() => null);
     const payload = {
