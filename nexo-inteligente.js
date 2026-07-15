@@ -122,6 +122,21 @@ const PropiedadesNexo = {
     return { data, error };
   },
 
+  /**
+   * Resuelve una propiedad solo por slug, sin saber de antemano en cuál
+   * de las 10 tablas está — necesario para la URL amigable /propiedad/:slug
+   * (Sección 8.3 de la arquitectura), que no incluye la tabla de origen.
+   * El slug ya lleva un sufijo aleatorio que garantiza unicidad global,
+   * así que encontrar una coincidencia en cualquier tabla es suficiente.
+   */
+  async obtenerPorSlugCualquierTabla(slug) {
+    for (const tabla of TABLAS_PROPIEDADES) {
+      const { data, error } = await db.from(tabla).select('*').eq('slug', slug).maybeSingle();
+      if (data && !error) return { data, error: null, tabla_origen: tabla };
+    }
+    return { data: null, error: 'No se encontró ninguna propiedad con ese slug.', tabla_origen: null };
+  },
+
   async actualizar(tabla, id, cambios) {
     if (!TABLAS_PROPIEDADES.includes(tabla)) throw new Error(`Tabla inválida: ${tabla}`);
     const { data, error } = await db.from(tabla).update(cambios).eq('id', id).select().single();
