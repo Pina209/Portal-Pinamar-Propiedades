@@ -333,9 +333,9 @@ nav{
 <script>
 // ── Configuración Supabase (leer de supabase.js si está cargado) ─────────
 // URL del proyecto (no es secreta — es pública por diseño de Supabase)
-const SUPABASE_URL      = typeof window._SUPABASE_URL !== 'undefined' ? window._SUPABASE_URL : 'https://TU-PROYECTO.supabase.co';
+const PINAMAR_AI_SUPABASE_URL      = typeof window._SUPABASE_URL !== 'undefined' ? window._SUPABASE_URL : 'https://TU-PROYECTO.supabase.co';
 // La anon key se lee desde el cliente de Supabase ya inicializado
-const SUPABASE_ANON_KEY = typeof db !== 'undefined' ? db.supabaseKey : '';
+const PINAMAR_AI_ANON_KEY = typeof db !== 'undefined' ? db.supabaseKey : '';
 
 // ── Estado del chat ───────────────────────────────────────────────────────
 const history = [];
@@ -548,7 +548,7 @@ async function enviar(){
     // La API key de Anthropic vive en el servidor, nunca en el navegador.
     // En modo demo (sin Supabase), usa DEMO_MODE para respuestas simuladas.
     const EDGE_URL = typeof db !== 'undefined'
-      ? `${SUPABASE_URL}/functions/v1/ai-search`
+      ? `${PINAMAR_AI_SUPABASE_URL}/functions/v1/ai-search`
       : null;
 
     let respuesta = '';
