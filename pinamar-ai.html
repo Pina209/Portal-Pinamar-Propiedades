@@ -473,6 +473,21 @@ async function armarPerfilUsuarioContext() {
   }
 }
 
+// ── Respuesta simulada (modo demo, sin Edge Function desplegada) ──────────
+async function respuestaDemo(history) {
+  await new Promise(r => setTimeout(r, 1200));
+  const ultimo = history[history.length - 1]?.content?.toLowerCase() ?? '';
+  if (ultimo.includes('cariló') || ultimo.includes('carilo') || ultimo.includes('bosque')) {
+    return 'Para el perfil **"Refugio Inmaculado"** (Cariló), el mercado premia la privacidad y el bosque sobre cualquier otra variable. Las propiedades con ficha técnica se venden 3,4× más rápido que sin ficha.\n\nTe recomiendo estas propiedades que coinciden con tu búsqueda: [p001] [p006]\n\n¿Querés que compare estas dos opciones en el comparador técnico?';
+  } else if (ultimo.includes('mar') || ultimo.includes('playa') || ultimo.includes('frente')) {
+    return 'Para una propiedad frente al mar con perfil de alquiler temporal, Pinamar Centro y Ostende son las mejores opciones por liquidez y demanda en temporada.\n\nTe recomiendo: [p002] [p004]\n\n¿Querés filtrar por precio o por si tienen ficha técnica certificada?';
+  } else if (ultimo.includes('inversion') || ultimo.includes('inversión') || ultimo.includes('largo plazo')) {
+    return 'Para inversión a largo plazo, los datos del mercado muestran que **Cariló tiene la mayor apreciación** (+18% en 2023–2025) y el menor índice de negatividad del Partido (4%).\n\nValeria del Mar es la segunda mejor opción con +14% y alta demanda en crecimiento.\n\n¿Tenés un presupuesto en mente para mostrarte las opciones disponibles?';
+  } else {
+    return 'Contame un poco más: ¿buscás para uso propio o inversión? ¿Tenés una zona del Partido en mente, o arrancamos comparando perfiles?\n\nPor ejemplo, podés decirme "quiero algo en el bosque, sin obras, hasta USD 500.000" y cruzamos eso con las fichas técnicas disponibles.';
+  }
+}
+
 // ── Prompt de sistema ─────────────────────────────────────────────────────
 // Marcadores para inyección dinámica de contexto de BD
 const SYSTEM_PROMPT = `{{ZONAS_CONTEXT}}
@@ -546,7 +561,8 @@ async function enviar(){
 
     // ── Llamar a la Edge Function (proxy seguro) ──────────────────────────
     // La API key de Anthropic vive en el servidor, nunca en el navegador.
-    // En modo demo (sin Supabase), usa DEMO_MODE para respuestas simuladas.
+    // En modo demo (sin Supabase, o si la Edge Function todavía no está
+    // desplegada), usa respuestaDemo() para respuestas simuladas.
     const EDGE_URL = typeof db !== 'undefined'
       ? `${PINAMAR_AI_SUPABASE_URL}/functions/v1/ai-search`
       : null;
@@ -554,36 +570,31 @@ async function enviar(){
     let respuesta = '';
 
     if (EDGE_URL) {
-      const response = await fetch(EDGE_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // La apikey la provee el CDN de Supabase JS automáticamente via el cliente db
-          ...(typeof db !== 'undefined' && db.supabaseKey ? {'apikey': db.supabaseKey} : {}),
-        },
-        body: JSON.stringify({
-          messages: history,
-          filtros: Propiedades?.filtrosDesdeURL?.() ?? {},
-        })
-      });
+      try {
+        const response = await fetch(EDGE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(typeof db !== 'undefined' && db.supabaseKey ? {'apikey': db.supabaseKey} : {}),
+          },
+          body: JSON.stringify({
+            messages: history,
+            filtros: Propiedades?.filtrosDesdeURL?.() ?? {},
+          })
+        });
 
-      const data = await response.json();
-      if (data.error) throw new Error(data.error);
-      respuesta = data.respuesta || 'No pude procesar la respuesta.';
-
-    } else {
-      // ── Modo demo: respuesta simulada sin API key ──────────────────────
-      await new Promise(r => setTimeout(r, 1200));
-      const ultimo = history[history.length - 1]?.content?.toLowerCase() ?? '';
-      if (ultimo.includes('cariló') || ultimo.includes('carilo') || ultimo.includes('bosque')) {
-        respuesta = 'Para el perfil **"Refugio Inmaculado"** (Cariló), el mercado premia la privacidad y el bosque sobre cualquier otra variable. Las propiedades con ficha técnica se venden 3,4× más rápido que sin ficha.\n\nTe recomiendo estas propiedades que coinciden con tu búsqueda: [p001] [p006]\n\n¿Querés que compare estas dos opciones en el comparador técnico?';
-      } else if (ultimo.includes('mar') || ultimo.includes('playa') || ultimo.includes('frente')) {
-        respuesta = 'Para una propiedad frente al mar con perfil de alquiler temporal, Pinamar Centro y Ostende son las mejores opciones por liquidez y demanda en temporada.\n\nTe recomiendo: [p002] [p004]\n\n¿Querés filtrar por precio o por si tienen ficha técnica certificada?';
-      } else if (ultimo.includes('inversion') || ultimo.includes('inversión') || ultimo.includes('largo plazo')) {
-        respuesta = 'Para inversión a largo plazo, los datos del mercado muestran que **Cariló tiene la mayor apreciación** (+18% en 2023–2025) y el menor índice de negatividad del Partido (4%).\n\nValeria del Mar es la segunda mejor opción con +14% y alta demanda en crecimiento.\n\n¿Tenés un presupuesto en mente para mostrarte las opciones disponibles?';
-      } else {
-        respuesta = 'Contame un poco más: ¿buscás para uso propio o inversión? ¿Tenés una zona del Partido en mente, o arrancamos comparando perfiles?\n\nPor ejemplo, podés decirme "quiero algo en el bosque, sin obras, hasta USD 500.000" y cruzamos eso con las fichas técnicas disponibles.';
+        if (!response.ok) throw new Error(`Edge Function respondió ${response.status}`);
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+        respuesta = data.respuesta || 'No pude procesar la respuesta.';
+      } catch (edgeErr) {
+        // La Edge Function todavía no está desplegada (pendiente anotado) —
+        // en vez de mostrar un error al usuario, caemos al modo demo.
+        console.info('Edge Function no disponible, uso modo demo:', edgeErr.message);
+        respuesta = await respuestaDemo(history);
       }
+    } else {
+      respuesta = await respuestaDemo(history);
     }
 
     typingEl.remove();
