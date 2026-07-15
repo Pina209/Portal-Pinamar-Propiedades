@@ -3,6 +3,14 @@
     {
       "source": "/",
       "destination": "/pinamar-propiedades-v2.html"
+    },
+    {
+      "source": "/propiedad/:slug",
+      "destination": "/ficha-propiedad.html?slug=:slug"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
     }
   ],
   "headers": [
@@ -68,6 +76,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/sitemap",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
         }
       ]
     }
