@@ -29,4 +29,4 @@ Disallow: /.gitignore
 Disallow: /supabase/
 
 
-Sitemap: https://portal-pinamar-propiedades.vercel.app/sitemap.xml
+Sitemap: https://pinamarpropiedades.com.ar/sitemap.xml

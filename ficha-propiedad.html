@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
   <meta name="description" content="Ficha técnica con semáforo de estado, índice CAC y verificación KYC de títulos. Datos rigurosos para tomar decisiones de inversión con certeza.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://portal-pinamar-propiedades.vercel.app/ficha-propiedad.html">
+  <link rel="canonical" href="https://pinamarpropiedades.com.ar/ficha-propiedad.html">
   <!-- Open Graph -->
   <meta property="og:type"        content="article">
   <meta property="og:title"       content="Ficha de propiedad certificada | Pinamar Propiedades">
   <meta property="og:description" content="Ficha técnica con semáforo de estado, índice CAC y verificación KYC de títulos. Datos rigurosos para tomar decisiones de inversión con certeza.">
-  <meta property="og:url"         content="https://portal-pinamar-propiedades.vercel.app/ficha-propiedad.html">
-  <meta property="og:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta property="og:url"         content="https://pinamarpropiedades.com.ar/ficha-propiedad.html">
+  <meta property="og:image"       content="https://pinamarpropiedades.com.ar/og-image.jpg">
   <meta property="og:site_name"   content="Pinamar Propiedades">
   <meta property="og:locale"      content="es_AR">
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="Ficha de propiedad certificada | Pinamar Propiedades">
   <meta name="twitter:description" content="Ficha técnica con semáforo de estado, índice CAC y verificación KYC de títulos. Datos rigurosos para tomar decisiones de inversión con certeza.">
-  <meta name="twitter:image"       content="https://portal-pinamar-propiedades.vercel.app/og-image.jpg">
+  <meta name="twitter:image"       content="https://pinamarpropiedades.com.ar/og-image.jpg">
   <!-- Preconnect para performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -973,10 +973,10 @@ async function cargarFichaNexo(slug, tabla) {
   if (precioEl && prop.precio_usd) precioEl.textContent = 'USD ' + Number(prop.precio_usd).toLocaleString('es-AR');
 
   document.title = `${prop.titulo} | Pinamar Propiedades`;
-  const urlCanonica = `https://portal-pinamar-propiedades.vercel.app/propiedad/${slug}`;
+  const urlCanonica = `https://pinamarpropiedades.com.ar/propiedad/${slug}`;
   setMetaOG('og:title', `${prop.titulo} | Pinamar Propiedades`);
   setMetaOG('og:description', (prop.descripcion || '').slice(0, 160));
-  setMetaOG('og:image', prop.og_imagen_url || 'https://portal-pinamar-propiedades.vercel.app/og-image.jpg');
+  setMetaOG('og:image', prop.og_imagen_url || 'https://pinamarpropiedades.com.ar/og-image.jpg');
   setMetaOG('og:url', urlCanonica);
 
   // JSON-LD (SEO + citabilidad en respuestas de IA)
