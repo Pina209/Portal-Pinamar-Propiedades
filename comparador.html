@@ -196,7 +196,8 @@ nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.9
 
 /* ── PLACEHOLDER vacío ── */
 .empty-state{text-align:center;padding:80px 20px}
-.es-ico{font-size:72px;margin-bottom:20px}
+.es-ico{margin-bottom:20px;color:var(--verde);display:flex;justify-content:center}
+.icono{vertical-align:middle;flex-shrink:0}
 .es-title{font-size:22px;font-weight:800;color:var(--verde);margin-bottom:10px}
 .es-p{font-size:14px;color:var(--gray);line-height:1.7;max-width:480px;margin:0 auto 28px}
 .es-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--verde);color:#fff;border:none;border-radius:10px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(13,91,72,.25)}
@@ -273,7 +274,7 @@ nav{position:sticky;top:0;z-index:200;height:68px;background:rgba(242,233,215,.9
 
   <!-- ESTADO VACÍO -->
   <div class="empty-state" id="empty-state">
-    <div class="es-ico">🏠↔️🏠</div>
+    <div class="es-ico"><svg class="icono" width="96" height="66"><use href="#icono-comparar"/></svg></div>
     <h2 class="es-title">Comenzá a comparar propiedades</h2>
     <p class="es-p">Seleccioná entre 2 y 4 propiedades de Pinamar, Cariló, Valeria del Mar u Ostende para ver una comparación detallada lado a lado. Incluye ficha técnica certificada y datos catastrales.</p>
     <button class="es-btn" onclick="openModal()">
@@ -515,7 +516,7 @@ function renderModalProps() {
     const motivo = _propsDisponibles.length === 0
       ? 'Todavía no hay propiedades reales cargadas de este tipo.'
       : 'Probá con otros filtros o texto'
-    container.innerHTML = `<div class="no-results"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">${motivo}</div></div>`
+    container.innerHTML = `<div class="no-results"><div style="margin-bottom:12px;color:var(--verde);display:flex;justify-content:center"><svg class="icono" width="40" height="40"><use href="#icono-buscar"/></svg></div><div style="font-weight:700;color:var(--verde)">Sin resultados</div><div style="font-size:12.5px;color:var(--gray);margin-top:6px">${motivo}</div></div>`
     return
   }
 
@@ -1026,5 +1027,6 @@ const propsParam = urlParams.get('props')
 })()
 </script>
 <script src="nav.js"></script>
+<script src="/icons-marca.js"></script>
 </body>
 </html>

@@ -248,7 +248,8 @@ nav{
 
 /* SIN RESULTADOS */
 .no-results{text-align:center;padding:60px 20px;color:var(--gray)}
-.no-results-ico{font-size:60px;margin-bottom:16px}
+.no-results-ico{margin-bottom:16px;color:var(--verde);display:flex;justify-content:center}
+.icono{vertical-align:middle;flex-shrink:0}
 .no-results h3{font-size:18px;font-weight:700;color:var(--verde);margin-bottom:8px}
 
 /* VISTA MAPA full */
@@ -665,7 +666,7 @@ function aplicarFiltros(){
       noResults = document.createElement('div');
       noResults.id = 'no-results-msg';
       noResults.className = 'no-results';
-      noResults.innerHTML = '<div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
+      noResults.innerHTML = '<div class="no-results-ico"><svg class="icono" width="56" height="56"><use href="#icono-buscar"/></svg></div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
       grid.parentNode.insertBefore(noResults, grid);
     }
     noResults.style.display = 'flex';
@@ -796,12 +797,12 @@ async function cargarDesdeSupabase(filtros = {}) {
   });
 
   if (error) {
-    grid.innerHTML = '<div class="no-results"><div class="no-results-ico">⚠️</div><h3>Error al cargar propiedades</h3><p>' + error.message + '</p></div>';
+    grid.innerHTML = '<div class="no-results"><div class="no-results-ico"><svg class="icono" width="56" height="56"><use href="#icono-alerta"/></svg></div><h3>Error al cargar propiedades</h3><p>' + error.message + '</p></div>';
     return;
   }
 
   if (!data || data.length === 0) {
-    grid.innerHTML = '<div class="no-results"><div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button></div>';
+    grid.innerHTML = '<div class="no-results"><div class="no-results-ico"><svg class="icono" width="56" height="56"><use href="#icono-buscar"/></svg></div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button></div>';
     grid.style.display = 'block';
     return;
   }
@@ -884,7 +885,7 @@ async function aplicarFiltros() {
       noResults = document.createElement('div');
       noResults.id = 'no-results-msg';
       noResults.className = 'no-results';
-      noResults.innerHTML = '<div class="no-results-ico">🔍</div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
+      noResults.innerHTML = '<div class="no-results-ico"><svg class="icono" width="56" height="56"><use href="#icono-buscar"/></svg></div><h3>Sin resultados con estos filtros</h3><p>Intentá ampliar la zona, el rango de precios o quitá algún filtro.</p><button onclick="resetFiltros()" style="margin-top:16px;padding:10px 24px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Limpiar filtros</button>';
       grid.parentNode.insertBefore(noResults, grid);
     }
     noResults.style.display = 'flex';
@@ -1146,5 +1147,6 @@ async function niCrearAlertaDesdeFiltros() {
 }
 </script>
 
+<script src="/icons-marca.js"></script>
 </body>
 </html>
