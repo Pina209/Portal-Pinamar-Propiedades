@@ -336,10 +336,10 @@ const INM_DEMO = [
     descripcion:'Más de 20 años operando en Cariló y Pinamar Norte. Especialistas en propiedades de alto valor, barrios cerrados y permutas. Matrícula CMCPD activa.',
     telefono:'+54 2254 123456', whatsapp:'5492254123456', email:'info@rodriguezcia.com.ar',
     web:'https://rodriguezcia.com.ar', instagram:'rodriguezcia_inmuebles',
-    matricula_cmcpd:'CMCPD 4892', anios_mercado:22,
+    matricula_numero:'4892', matricula_localidad:'carilo', anos_experiencia:22,
     zonas_opera:['carilo','pinamar-norte'], especialidades:['venta','permuta'],
     propiedades_vendidas:340, prop_activas:18, props_en_portal:12,
-    verificada:true, destacada:true, foto_portada_url:null, logo_url:null,
+    certificado_pinamar:true, destacada:true, imagen_portada_url:null, logo_url:null,
     total_resenas:24, puntaje_promedio:4.8,
     horario_atencion:'Lun–Vie 9–18hs · Sáb 9–14hs',
   },
@@ -348,10 +348,10 @@ const INM_DEMO = [
     descripcion:'Agencia especializada en el mercado de Pinamar Centro y Costa Esmeralda. Alquiler temporario y venta. Gestión integral de propiedades.',
     telefono:'+54 2254 654321', whatsapp:'5492254654321', email:'ventas@pinamarbrokers.com.ar',
     web:'https://pinamarbrokers.com.ar', instagram:'pinamarbrokers',
-    matricula_cmcpd:'CMCPD 5103', anios_mercado:12,
+    matricula_numero:'5103', matricula_localidad:'pinamar', anos_experiencia:12,
     zonas_opera:['pinamar-centro','costa-esmeralda'], especialidades:['venta','alquiler_temp'],
     propiedades_vendidas:180, prop_activas:31, props_en_portal:28,
-    verificada:true, destacada:false, foto_portada_url:null, logo_url:null,
+    certificado_pinamar:true, destacada:false, imagen_portada_url:null, logo_url:null,
     total_resenas:16, puntaje_promedio:4.5,
     horario_atencion:'Lun–Sáb 9–20hs',
   },
@@ -360,10 +360,10 @@ const INM_DEMO = [
     descripcion:'Boutique inmobiliaria de Cariló con foco exclusivo en el segmento de lujo. Propiedades únicas en el bosque, con ficha técnica certificada en todas nuestras publicaciones.',
     telefono:'+54 2254 987654', whatsapp:'5492254987654', email:'hola@carilopremium.com.ar',
     web:null, instagram:'carilopremium',
-    matricula_cmcpd:'CMCPD 6220', anios_mercado:8,
+    matricula_numero:'6220', matricula_localidad:'carilo', anos_experiencia:8,
     zonas_opera:['carilo'], especialidades:['venta','inversión'],
     propiedades_vendidas:92, prop_activas:9, props_en_portal:7,
-    verificada:true, destacada:false, foto_portada_url:null, logo_url:null,
+    certificado_pinamar:true, destacada:false, imagen_portada_url:null, logo_url:null,
     total_resenas:11, puntaje_promedio:4.9,
     horario_atencion:'Con turno previo',
   },
@@ -396,15 +396,15 @@ function renderCard(inm) {
 
   return `
     <div class="inm-card${inm.destacada?' destacada':''}" onclick="abrirPerfil('${inm.id}')">
-      <div class="inm-header" style="${inm.foto_portada_url?`background-image:url('${inm.foto_portada_url}');background-size:cover;background-position:center`:''}">
+      <div class="inm-header" style="${inm.imagen_portada_url?`background-image:url('${inm.imagen_portada_url}');background-size:cover;background-position:center`:''}">
         ${inm.destacada ? '<div class="inm-dest">⭐ Destacada</div>' : ''}
         ${inm.certificado_pinamar ? '<div class="inm-cert">✓ Certificada</div>' : ''}
         <div class="inm-logo">${logoHTML}</div>
       </div>
       <div class="inm-body">
         <div class="inm-nombre">${inm.nombre}</div>
-        ${inm.matricula_cmcpd ? `<div class="inm-matricula">🪪 ${inm.matricula_cmcpd}</div>` : ''}
-        ${inm.anios_mercado ? `<div class="inm-anios">🏆 ${inm.anios_mercado} años en el mercado</div>` : ''}
+        ${inm.matricula_numero ? `<div class="inm-matricula">🪪 ${inm.matricula_numero}</div>` : ''}
+        ${inm.anos_experiencia ? `<div class="inm-anios">🏆 ${inm.anos_experiencia} años en el mercado</div>` : ''}
         <div class="inm-desc">${inm.descripcion||''}</div>
         <div class="inm-zonas">${zonas}</div>
         ${inm.puntaje_promedio ? `
@@ -499,16 +499,16 @@ async function abrirPerfil(id) {
     : '<div style="font-size:13px;color:var(--gray);padding:16px">Todavía no hay reseñas publicadas para esta inmobiliaria.</div>';
 
   document.getElementById('modal-perfil-content').innerHTML = `
-    <div class="mp-header" style="${inm.foto_portada_url?`background-image:url('${inm.foto_portada_url}');background-size:cover;background-position:center;`:''}">
+    <div class="mp-header" style="${inm.imagen_portada_url?`background-image:url('${inm.imagen_portada_url}');background-size:cover;background-position:center;`:''}">
       <button class="modal-close" onclick="cerrarModal()">✕</button>
       <div class="mp-logo">${logoHTML}</div>
     </div>
     <div class="mp-body">
       <div class="mp-nombre">${inm.nombre}</div>
-      ${inm.matricula_cmcpd ? `<div class="mp-matricula">🪪 Matrícula CMCPD ${inm.matricula_cmcpd} · ${inm.certificado_pinamar?'<span style="color:var(--turquesa)">✓ Verificada por Pinamar Propiedades</span>':''}</div>` : ''}
+      ${inm.matricula_numero ? `<div class="mp-matricula">🪪 Matrícula ${inm.matricula_numero}${inm.matricula_localidad ? ` (${inm.matricula_localidad})` : ''} · ${inm.certificado_pinamar?'<span style="color:var(--turquesa)">✓ Verificada por Pinamar Propiedades</span>':''}</div>` : ''}
 
       <div class="mp-stats">
-        ${inm.anios_mercado ? `<div class="mp-stat"><div class="mp-stat-n">${inm.anios_mercado}</div><div class="mp-stat-l">Años en el mercado</div></div>` : ''}
+        ${inm.anos_experiencia ? `<div class="mp-stat"><div class="mp-stat-n">${inm.anos_experiencia}</div><div class="mp-stat-l">Años en el mercado</div></div>` : ''}
         ${inm.propiedades_vendidas ? `<div class="mp-stat"><div class="mp-stat-n">${inm.propiedades_vendidas}</div><div class="mp-stat-l">Propiedades vendidas</div></div>` : ''}
         ${inm.props_activas !== undefined ? `<div class="mp-stat"><div class="mp-stat-n">${inm.props_activas||0}</div><div class="mp-stat-l">Propiedades activas</div></div>` : ''}
         ${inm.puntaje_promedio ? `<div class="mp-stat"><div class="mp-stat-n">${Number(inm.puntaje_promedio).toFixed(1)} ★</div><div class="mp-stat-l">${inm.total_resenas} reseñas</div></div>` : ''}
