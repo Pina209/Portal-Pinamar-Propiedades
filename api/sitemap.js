@@ -7,7 +7,7 @@
 
 const SUPABASE_URL = 'https://lyugffmltlvqirmmzhar.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_xeY8RDN-wYnxFHhEpGoeOw_qgZ8c3C_';
-const SITE_URL = 'https://portal-pinamar-propiedades.vercel.app';
+const SITE_URL = 'https://pinamarpropiedades.com.ar';
 
 const TABLAS_PROPIEDADES = [
   'propiedades_lotes', 'propiedades_deptos', 'propiedades_casas',
