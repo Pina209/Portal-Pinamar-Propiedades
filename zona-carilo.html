@@ -690,60 +690,65 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>`;
   }
 });
-// KPIs del hero — datos reales de "zonas" (Nexo Inteligente) + conteos en
-// vivo de las 10 tablas de propiedades y de inmobiliarias certificadas.
-// Precio, plusvalía y rentabilidad son datos de RELEVAMIENTO DE MERCADO
-// cargados a mano por el usuario en la tabla "zonas" — deliberadamente
-// independientes de lo que esté publicado en el portal.
+// KPIs del hero — el precio, la plusvalía y la rentabilidad salen de
+// "indicadores_zona" (la tabla REAL que usa el Home para el mapa —
+// confirmado el 17/07 que "zonas" nunca llegó a conectarse para esto).
+// "Propiedades activas" y "Matriculados" sí usan las tablas nuevas
+// (zonas.id como FK de las 10 tablas de propiedades, e inmobiliarias),
+// que son datos distintos y sí están conectados correctamente.
 document.addEventListener('DOMContentLoaded', async () => {
-  if (typeof db === 'undefined' || typeof Zonas === 'undefined') return;
+  if (typeof db === 'undefined') return;
   const elPrecio = document.getElementById('ck-precio');
   const elProps = document.getElementById('ck-props');
   const elPlusvalia = document.getElementById('ck-plusvalia');
   const elRentabilidad = document.getElementById('ck-rentabilidad');
   const elMatriculados = document.getElementById('ck-matriculados');
+
+  // Precio, plusvalía, rentabilidad — de indicadores_zona (zona = 'carilo')
   try {
-    const { data: zona } = await db.from('zonas')
-      .select('id,usd_m2_casa,usd_m2_lote,usd_m2_depto,usd_m2_emprendimiento,plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
-      .eq('nombre', 'Cariló').maybeSingle();
-    if (!zona) return;
-
-    // Precio prom. /m² — promedio de los valores cargados (si hay alguno)
-    const precios = [zona.usd_m2_casa, zona.usd_m2_lote, zona.usd_m2_depto, zona.usd_m2_emprendimiento].filter(v => v != null);
-    if (precios.length && elPrecio) {
-      const prom = precios.reduce((a, b) => a + Number(b), 0) / precios.length;
-      elPrecio.textContent = 'USD ' + Math.round(prom).toLocaleString('es-AR');
+    const { data: ind } = await db.from('indicadores_zona')
+      .select('precio_m2_lote_usd,plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
+      .eq('zona', 'carilo').maybeSingle();
+    if (ind) {
+      if (elPrecio && ind.precio_m2_lote_usd != null) {
+        elPrecio.textContent = 'USD ' + Number(ind.precio_m2_lote_usd).toLocaleString('es-AR');
+      }
+      if (elPlusvalia && ind.plusvalia_pozo_min_pct != null && ind.plusvalia_pozo_max_pct != null) {
+        elPlusvalia.textContent = `+${ind.plusvalia_pozo_min_pct}% a +${ind.plusvalia_pozo_max_pct}%`;
+      }
+      if (elRentabilidad && ind.rentabilidad_alquiler_anual_pct != null) {
+        elRentabilidad.textContent = `${ind.rentabilidad_alquiler_anual_pct}% anual`;
+      }
     }
+  } catch (e) { console.info('Indicadores Cariló: no se pudieron cargar', e.message); }
 
-    // Propiedades activas — conteo real en vivo de las 10 tablas para esta zona
-    if (elProps) {
-      const conteos = await Promise.all(TABLAS_PROPIEDADES.map(t =>
-        db.from(t).select('id', { count: 'exact', head: true }).eq('zona_id', zona.id).eq('estado', 'activa')
-          .then(r => r.count || 0).catch(() => 0)
-      ));
-      elProps.textContent = conteos.reduce((a, b) => a + b, 0);
-    }
+  // Propiedades activas — conteo real en vivo de las 10 tablas para esta zona
+  // (usa zonas.id como FK, tabla distinta de indicadores_zona)
+  if (typeof Zonas !== 'undefined' && elProps) {
+    try {
+      const { data: zona } = await db.from('zonas').select('id').eq('nombre', 'Cariló').maybeSingle();
+      if (zona) {
+        const conteos = await Promise.all(TABLAS_PROPIEDADES.map(t =>
+          db.from(t).select('id', { count: 'exact', head: true }).eq('zona_id', zona.id).eq('estado', 'activa')
+            .then(r => r.count || 0).catch(() => 0)
+        ));
+        elProps.textContent = conteos.reduce((a, b) => a + b, 0);
+      }
+    } catch (e) { console.info('Propiedades activas Cariló: no se pudieron cargar', e.message); }
+  }
 
-    // Plusvalía de pozo — rango cargado a mano (aplica sobre todo a Emprendimientos)
-    if (elPlusvalia && zona.plusvalia_pozo_min_pct != null && zona.plusvalia_pozo_max_pct != null) {
-      elPlusvalia.textContent = `+${zona.plusvalia_pozo_min_pct}% a +${zona.plusvalia_pozo_max_pct}%`;
-    }
-
-    // Rentabilidad por alquiler — % anual bruto cargado a mano
-    if (elRentabilidad && zona.rentabilidad_alquiler_anual_pct != null) {
-      elRentabilidad.textContent = `${zona.rentabilidad_alquiler_anual_pct}% anual`;
-    }
-
-    // Matriculados certificados — inmobiliarias reales certificadas que operan en Cariló
-    if (elMatriculados) {
+  // Matriculados certificados — inmobiliarias reales certificadas que operan en Cariló
+  if (elMatriculados) {
+    try {
       const { count } = await db.from('inmobiliarias')
         .select('id', { count: 'exact', head: true })
         .eq('certificado_pinamar', true)
         .contains('zonas_opera', ['carilo']);
       elMatriculados.textContent = count ?? 0;
-    }
-  } catch (e) { console.info('KPIs Cariló: no se pudieron cargar', e.message); }
+    } catch (e) { console.info('Matriculados Cariló: no se pudieron cargar', e.message); }
+  }
 });
+
 
 </script>
 </body>
