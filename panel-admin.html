@@ -1540,7 +1540,26 @@ function editarBarrio(id){
   if(b) abrirFormBarrio(b);
 }
 
-function toggleBarrio(id, activar){
+async function toggleBarrio(id, activar){
+  // Antes: buscaba el barrio SOLO en BARRIOS_DEMO — como los barrios
+  // reales de Supabase tienen otro id, la búsqueda nunca encontraba
+  // nada y el botón no hacía nada real (solo mostraba el toast de
+  // "éxito", mintiendo). Corregido para actualizar de verdad en la
+  // tabla "barrios" cuando hay conexión a Supabase.
+  if (typeof db !== 'undefined') {
+    try {
+      const { error } = await db.from('barrios').update({ activo: activar }).eq('id', id);
+      if (error) throw error;
+      if (typeof UI !== 'undefined') UI.toast(activar ? 'Barrio activado' : 'Barrio desactivado');
+      cargarBarrios();
+      return;
+    } catch (e) {
+      console.error('toggleBarrio', e);
+      if (typeof UI !== 'undefined') UI.toast('Error al actualizar el barrio: ' + e.message);
+      return;
+    }
+  }
+  // Sin conexión a Supabase: fallback al array demo (solo para desarrollo)
   const b = BARRIOS_DEMO.find(x=>x.id===id);
   if(b){ b.activo = activar; cargarBarrios(); }
   if(typeof UI !== 'undefined') UI.toast(activar?'Barrio activado':'Barrio desactivado');
