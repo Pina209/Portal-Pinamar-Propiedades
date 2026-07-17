@@ -269,6 +269,7 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
   <!-- Supabase JS v2 -->
   <script src="supabase-client.js"></script>
   <script src="supabase.js"></script>
+  <script src="nexo-inteligente.js"></script>
   
 </head>
 <body>
@@ -323,10 +324,11 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
     <h1 class="zona-h1">Cariló<br><em>El bosque junto al mar</em></h1>
     <p class="zona-desc">Invertir en Cariló, el destino residencial más exclusivo de la Costa Atlántica argentina: 600 hectáreas de pinos centenarios, lotes en barrios cerrados como Cariló Sur y Saint Thomas, arquitectura premium y playas exclusivas a minutos a pie.</p>
     <div class="zona-kpis">
-      <div class="zk"><strong>USD 5.500</strong><span>Precio prom. /m²</span></div>
-      <div class="zk"><strong>142</strong><span>Propiedades activas</span></div>
-      <div class="zk"><strong>+18%</strong><span>Valorización anual</span></div>
-      <div class="zk"><strong>14</strong><span>Matriculados certificados*</span></div>
+      <div class="zk"><strong id="ck-precio">—</strong><span>Precio prom. /m²</span></div>
+      <div class="zk"><strong id="ck-props">—</strong><span>Propiedades activas</span></div>
+      <div class="zk"><strong id="ck-plusvalia">—</strong><span>Plusvalía de pozo</span></div>
+      <div class="zk"><strong id="ck-rentabilidad">—</strong><span>Rentabilidad por alquiler</span></div>
+      <div class="zk"><strong id="ck-matriculados">—</strong><span>Matriculados certificados*</span></div>
     </div>
   </div>
 </div>
@@ -688,6 +690,61 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>`;
   }
 });
+// KPIs del hero — datos reales de "zonas" (Nexo Inteligente) + conteos en
+// vivo de las 10 tablas de propiedades y de inmobiliarias certificadas.
+// Precio, plusvalía y rentabilidad son datos de RELEVAMIENTO DE MERCADO
+// cargados a mano por el usuario en la tabla "zonas" — deliberadamente
+// independientes de lo que esté publicado en el portal.
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof db === 'undefined' || typeof Zonas === 'undefined') return;
+  const elPrecio = document.getElementById('ck-precio');
+  const elProps = document.getElementById('ck-props');
+  const elPlusvalia = document.getElementById('ck-plusvalia');
+  const elRentabilidad = document.getElementById('ck-rentabilidad');
+  const elMatriculados = document.getElementById('ck-matriculados');
+  try {
+    const { data: zona } = await db.from('zonas')
+      .select('id,usd_m2_casa,usd_m2_lote,usd_m2_depto,usd_m2_emprendimiento,plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
+      .eq('nombre', 'Cariló').maybeSingle();
+    if (!zona) return;
+
+    // Precio prom. /m² — promedio de los valores cargados (si hay alguno)
+    const precios = [zona.usd_m2_casa, zona.usd_m2_lote, zona.usd_m2_depto, zona.usd_m2_emprendimiento].filter(v => v != null);
+    if (precios.length && elPrecio) {
+      const prom = precios.reduce((a, b) => a + Number(b), 0) / precios.length;
+      elPrecio.textContent = 'USD ' + Math.round(prom).toLocaleString('es-AR');
+    }
+
+    // Propiedades activas — conteo real en vivo de las 10 tablas para esta zona
+    if (elProps) {
+      const conteos = await Promise.all(TABLAS_PROPIEDADES.map(t =>
+        db.from(t).select('id', { count: 'exact', head: true }).eq('zona_id', zona.id).eq('estado', 'activa')
+          .then(r => r.count || 0).catch(() => 0)
+      ));
+      elProps.textContent = conteos.reduce((a, b) => a + b, 0);
+    }
+
+    // Plusvalía de pozo — rango cargado a mano (aplica sobre todo a Emprendimientos)
+    if (elPlusvalia && zona.plusvalia_pozo_min_pct != null && zona.plusvalia_pozo_max_pct != null) {
+      elPlusvalia.textContent = `+${zona.plusvalia_pozo_min_pct}% a +${zona.plusvalia_pozo_max_pct}%`;
+    }
+
+    // Rentabilidad por alquiler — % anual bruto cargado a mano
+    if (elRentabilidad && zona.rentabilidad_alquiler_anual_pct != null) {
+      elRentabilidad.textContent = `${zona.rentabilidad_alquiler_anual_pct}% anual`;
+    }
+
+    // Matriculados certificados — inmobiliarias reales certificadas que operan en Cariló
+    if (elMatriculados) {
+      const { count } = await db.from('inmobiliarias')
+        .select('id', { count: 'exact', head: true })
+        .eq('certificado_pinamar', true)
+        .contains('zonas_opera', ['carilo']);
+      elMatriculados.textContent = count ?? 0;
+    }
+  } catch (e) { console.info('KPIs Cariló: no se pudieron cargar', e.message); }
+});
+
 </script>
 </body>
 </html>
