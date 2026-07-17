@@ -292,6 +292,20 @@ async function cerrarSesion() {
 </script>
 </head>
 <body>
+<!-- Modal + Nueva zona — fuera de cualquier panel para que funcione
+     sin importar cuál esté activo en pantalla -->
+<div id="modal-zona" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;padding:20px;overflow-y:auto">
+  <div style="max-width:420px;margin:60px auto 0;background:#fff;border-radius:16px;padding:26px;position:relative">
+    <button onclick="cerrarFormZona()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray)">✕</button>
+    <div style="font-size:17px;font-weight:700;color:var(--verde);margin-bottom:16px">📍 Nueva zona</div>
+    <label class="fl">Nombre *</label>
+    <input id="z-nombre" type="text" placeholder="Ej: Mar de las Pampas" class="fi" style="width:100%;margin-bottom:12px" oninput="document.getElementById('z-slug').value = this.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')">
+    <label class="fl">Slug (se genera solo, podés ajustarlo)</label>
+    <input id="z-slug" type="text" placeholder="mar-de-las-pampas" class="fi" style="width:100%;margin-bottom:16px">
+    <button onclick="crearZona()" style="width:100%;padding:11px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Crear zona</button>
+  </div>
+</div>
+
 
 <!-- SIDEBAR -->
 <div class="sidebar">
@@ -457,19 +471,6 @@ async function cerrarSesion() {
         <label class="fl" style="display:block;margin-bottom:8px">Fuente y metodología (aparece debajo de la tabla del Home)</label>
         <textarea id="mercado-nota-texto" rows="3" placeholder="Ej: Relevamiento propio realizado mensualmente sobre publicaciones activas en la zona, consultas a inmobiliarias certificadas y operaciones cerradas conocidas." style="width:100%;padding:10px;border:1.5px solid var(--beige2,#e5ddc8);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical"></textarea>
         <button onclick="guardarNotaMercado()" style="margin-top:10px;padding:9px 18px;background:var(--verde);color:#fff;border:none;border-radius:7px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12.5px">💾 Guardar nota</button>
-      </div>
-
-      <!-- Modal + Nueva zona -->
-      <div id="modal-zona" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;padding:20px;overflow-y:auto">
-        <div style="max-width:420px;margin:60px auto 0;background:#fff;border-radius:16px;padding:26px;position:relative">
-          <button onclick="cerrarFormZona()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray)">✕</button>
-          <div style="font-size:17px;font-weight:700;color:var(--verde);margin-bottom:16px">📍 Nueva zona</div>
-          <label class="fl">Nombre *</label>
-          <input id="z-nombre" type="text" placeholder="Ej: Mar de las Pampas" class="fi" style="width:100%;margin-bottom:12px" oninput="document.getElementById('z-slug').value = this.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')">
-          <label class="fl">Slug (se genera solo, podés ajustarlo)</label>
-          <input id="z-slug" type="text" placeholder="mar-de-las-pampas" class="fi" style="width:100%;margin-bottom:16px">
-          <button onclick="crearZona()" style="width:100%;padding:11px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Crear zona</button>
-        </div>
       </div>
     </div>
 
@@ -875,7 +876,10 @@ async function cerrarSesion() {
       <div style="font-size:18px;font-weight:700;color:var(--verde)">📍 Barrios del Partido de Pinamar</div>
       <div style="font-size:12px;color:var(--gray);margin-top:3px">Cargá y editá cada barrio con sus características, valores y restricciones COU</div>
     </div>
-    <button onclick="abrirFormBarrio()" style="padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">+ Nuevo barrio</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button onclick="abrirFormZona()" style="padding:10px 20px;background:#fff;color:var(--verde);border:1.5px solid var(--verde);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">+ Nueva zona</button>
+      <button onclick="abrirFormBarrio()" style="padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px">+ Nuevo barrio</button>
+    </div>
   </div>
 
   <!-- Filtro por zona -->
