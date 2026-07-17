@@ -517,13 +517,9 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
       src="https://www.openstreetmap.org/export/embed.html?bbox=-57.00%2C-37.17%2C-56.90%2C-37.11&layer=mapnik"
       title="Mapa Cariló">
     </iframe>
-    <div class="mapa-legend">
+    <div class="mapa-legend" id="mapa-legend-carilo">
       <h4>Precio por barrio</h4>
-      <div class="ml-item"><div class="ml-dot" style="background:#0D5B48"></div>Frente al mar: USD 9.000/m²</div>
-      <div class="ml-item"><div class="ml-dot" style="background:#16A39C"></div>Centro: USD 5.200/m²</div>
-      <div class="ml-item"><div class="ml-dot" style="background:#D69B2D"></div>Golf: USD 4.800/m²</div>
-      <div class="ml-item"><div class="ml-dot" style="background:#5ab08a"></div>Bosque interior: USD 4.200/m²</div>
-      <div class="ml-item"><div class="ml-dot" style="background:#8a7a3a"></div>Ingreso: USD 3.100/m²</div>
+      <div class="ml-item" style="color:var(--gray)">Cargando…</div>
     </div>
   </div>
 </div>
@@ -675,6 +671,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             <td style="font-size:11.5px;color:var(--gray)">${b.fecha_actualizacion_precios ? new Date(b.fecha_actualizacion_precios).toLocaleDateString('es-AR') : '—'}</td>
           </tr>
         `).join('');
+      }
+    }
+    // Leyenda de precios sobre el mapa — mismos datos reales de arriba
+    const leyendaMapa = document.getElementById('mapa-legend-carilo');
+    if (leyendaMapa) {
+      const conPrecio = barrios.filter(b => b.precio_m2_lote_usd != null);
+      if (conPrecio.length) {
+        leyendaMapa.innerHTML = '<h4>Precio por barrio</h4>' + conPrecio
+          .map((b, i) => `<div class="ml-item"><div class="ml-dot" style="background:${['#0D5B48','#16A39C','#D69B2D','#5ab08a','#8a7a3a','#5a90c0'][i % 6]}"></div>${b.nombre}: USD ${Number(b.precio_m2_lote_usd).toLocaleString('es-AR')}/m²</div>`)
+          .join('');
+      } else {
+        leyendaMapa.innerHTML = '<h4>Precio por barrio</h4><div class="ml-item" style="color:var(--gray)">Sin datos todavía</div>';
       }
     }
   } catch(e) {
