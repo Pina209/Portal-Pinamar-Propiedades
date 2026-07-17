@@ -462,21 +462,17 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
 <div id="precios" class="precios-wrap">
 <div class="precios-inner">
   <span class="sec-tag">Mercado inmobiliario</span>
-  <h2 class="sec-h2">Precio promedio por barrio<br>en <em>Cariló</em> — Abril 2026</h2>
+  <h2 class="sec-h2">Precio promedio por barrio<br>en <em>Cariló</em></h2>
   <div style="margin-top:36px">
     <table class="precios-table">
       <thead>
-        <tr><th>Barrio</th><th>USD/m² prom.</th><th>Rango</th><th>Lotes (m²)</th><th>Var. mensual</th><th>Var. anual</th></tr>
+        <tr><th>Barrio</th><th>USD/m² prom.</th><th>Rango</th><th>Superficie de lote</th><th>Actualizado</th></tr>
       </thead>
-      <tbody>
-        <tr><td><span class="barrio-nm"><span class="b-dot" style="background:#0D5B48"></span>Bosque frente al mar</span></td><td class="precio-val">USD 9.000</td><td>USD 6.000–12.000</td><td>600–1.200m²</td><td class="up">+4,1%</td><td class="up">+22,3%</td></tr>
-        <tr><td><span class="barrio-nm"><span class="b-dot" style="background:#16A39C"></span>Cariló Golf (country)</span></td><td class="precio-val">USD 4.800</td><td>USD 3.500–6.000</td><td>800–1.500m²</td><td class="up">+2,8%</td><td class="up">+18,7%</td></tr>
-        <tr><td><span class="barrio-nm"><span class="b-dot" style="background:#D69B2D"></span>Centro Cariló</span></td><td class="precio-val">USD 5.200</td><td>USD 4.500–7.000</td><td>400–900m²</td><td class="up">+3,2%</td><td class="up">+19,1%</td></tr>
-        <tr><td><span class="barrio-nm"><span class="b-dot" style="background:#5ab08a"></span>Bosque Interior</span></td><td class="precio-val">USD 4.200</td><td>USD 3.000–5.500</td><td>600–1.200m²</td><td class="up">+2,1%</td><td class="up">+15,4%</td></tr>
-        <tr><td><span class="barrio-nm"><span class="b-dot" style="background:#8a7a3a"></span>Ruta 11 — Ingreso</span></td><td class="precio-val">USD 3.100</td><td>USD 2.500–4.000</td><td>500–1.000m²</td><td class="up">+1,8%</td><td class="up">+12,8%</td></tr>
+      <tbody id="tabla-precios-barrio-body">
+        <tr><td colspan="5" style="text-align:center;color:var(--gray);padding:20px">Cargando…</td></tr>
       </tbody>
     </table>
-    <p style="font-size:11.5px;color:var(--gray);margin-top:12px">Fuente: relevamiento propio Pinamar Propiedades · Actualizado mensualmente · Última actualización: abril 2026</p>
+    <p style="font-size:11.5px;color:var(--gray);margin-top:12px">Fuente: relevamiento propio Pinamar Propiedades.</p>
   </div>
 </div>
 </div>
@@ -638,27 +634,54 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const { data: barrios } = await db
       .from('barrios')
-      .select('slug,nombre,descripcion_corta,precio_m2_lote_usd,total_propiedades,gas_natural,fibra_optica,asfalto,seguridad_privada')
+      .select('slug,nombre,descripcion_corta,precio_m2_lote_usd,precio_m2_lote_min,precio_m2_lote_max,cou_superficie_min_m2,fecha_actualizacion_precios,total_propiedades,gas_natural,fibra_optica,asfalto,seguridad_privada')
       .eq('zona','carilo')
       .eq('activo', true)
       .order('orden');
     if(!barrios || barrios.length === 0) return;
     const grid = document.querySelector('.barrios-grid, #barrios-carilo');
-    if(!grid) return;
-    grid.innerHTML = barrios.map(b => `
-      <a href="barrio.html?slug=${b.slug}" class="barrio-card">
-        <div class="bc-nombre">${b.nombre}</div>
-        <div class="bc-desc">${b.descripcion_corta||''}</div>
-        <div class="bc-precio">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m²</div>
-        <div class="bc-tags">
-          ${b.gas_natural?'<span>🔥 Gas</span>':''}
-          ${b.fibra_optica?'<span>📡 Fibra</span>':''}
-          ${b.asfalto?'<span>🛣️ Asfalto</span>':''}
-          ${b.seguridad_privada?'<span>🔒 Seg.</span>':''}
-        </div>
-        <div class="bc-props">${b.total_propiedades||0} propiedades</div>
-      </a>`).join('');
-  } catch(e) {}
+    if(grid) {
+      grid.innerHTML = barrios.map(b => `
+        <a href="barrio.html?slug=${b.slug}" class="barrio-card">
+          <div class="bc-nombre">${b.nombre}</div>
+          <div class="bc-desc">${b.descripcion_corta||''}</div>
+          <div class="bc-precio">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m²</div>
+          <div class="bc-tags">
+            ${b.gas_natural?'<span>🔥 Gas</span>':''}
+            ${b.fibra_optica?'<span>📡 Fibra</span>':''}
+            ${b.asfalto?'<span>🛣️ Asfalto</span>':''}
+            ${b.seguridad_privada?'<span>🔒 Seg.</span>':''}
+          </div>
+          <div class="bc-props">${b.total_propiedades||0} propiedades</div>
+        </a>`).join('');
+    }
+
+    // Tabla "Precio promedio por barrio" — con rango y fecha reales,
+    // sin ninguna variación mensual/anual inventada (no hay historial
+    // para calcularlas honestamente).
+    const tbody = document.getElementById('tabla-precios-barrio-body');
+    if (tbody) {
+      const conPrecio = barrios.filter(b => b.precio_m2_lote_usd != null);
+      if (!conPrecio.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:20px">Todavía no hay precios cargados por barrio.</td></tr>';
+      } else {
+        const COLORES_BARRIO = ['#0D5B48','#16A39C','#D69B2D','#5ab08a','#8a7a3a','#5a90c0'];
+        tbody.innerHTML = conPrecio.map((b, i) => `
+          <tr>
+            <td><span class="barrio-nm"><span class="b-dot" style="background:${COLORES_BARRIO[i % COLORES_BARRIO.length]}"></span>${b.nombre}</span></td>
+            <td class="precio-val">USD ${Number(b.precio_m2_lote_usd).toLocaleString('es-AR')}</td>
+            <td>${b.precio_m2_lote_min != null && b.precio_m2_lote_max != null ? `USD ${Number(b.precio_m2_lote_min).toLocaleString('es-AR')}–${Number(b.precio_m2_lote_max).toLocaleString('es-AR')}` : '<span style="color:var(--gray)">—</span>'}</td>
+            <td>${b.cou_superficie_min_m2 != null ? `desde ${Number(b.cou_superficie_min_m2).toLocaleString('es-AR')}m²` : '<span style="color:var(--gray)">—</span>'}</td>
+            <td style="font-size:11.5px;color:var(--gray)">${b.fecha_actualizacion_precios ? new Date(b.fecha_actualizacion_precios).toLocaleDateString('es-AR') : '—'}</td>
+          </tr>
+        `).join('');
+      }
+    }
+  } catch(e) {
+    console.info('Barrios Cariló: no se pudieron cargar', e.message);
+    const tbody = document.getElementById('tabla-precios-barrio-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:20px">No se pudieron cargar los precios.</td></tr>';
+  }
 });
 
 // Galería — barrio_imagenes (zona Cariló)
