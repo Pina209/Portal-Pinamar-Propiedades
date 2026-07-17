@@ -457,6 +457,7 @@ body{font-family:'Poppins',sans-serif;background:var(--beige);color:#1a1a1a;over
   margin-top:48px;border-radius:20px;overflow:hidden;
   box-shadow:0 8px 48px rgba(0,0,0,.13);position:relative;height:500px;
 }
+.mapa-visual{position:relative;width:100%;height:100%}
 .mapa-iframe{width:100%;height:100%;border:none}
 .mapa-panel{
   position:absolute;top:18px;left:18px;
@@ -472,6 +473,17 @@ body{font-family:'Poppins',sans-serif;background:var(--beige);color:#1a1a1a;over
   position:absolute;bottom:12px;right:12px;
   background:rgba(255,255,255,.9);font-size:10.5px;color:var(--gray);
   padding:4px 10px;border-radius:6px;
+}
+/* Pantallas angostas: el panel de precios deja de flotar encima del mapa
+   (donde puede llegar a taparlo casi por completo) y pasa a mostrarse
+   apilado debajo, con ancho completo. */
+@media(max-width:860px){
+  .mapa-box{height:auto;display:flex;flex-direction:column;border-radius:16px}
+  .mapa-visual{height:320px;flex-shrink:0}
+  .mapa-panel{
+    position:static;width:auto;min-width:0;max-height:none;
+    border-radius:0;box-shadow:none;border-top:1px solid var(--beige2);
+  }
 }
 
 /* ========== MERCADO ========== */
@@ -1088,10 +1100,13 @@ footer{background:var(--dark);padding:60px 48px 28px}
     <p class="sec-p">Visualizá todas las propiedades geolocalizadas, el precio promedio por zona y la zonificación COU del Partido de Pinamar.</p>
   </div>
   <div class="mapa-box">
-    <iframe class="mapa-iframe"
-      src="https://www.openstreetmap.org/export/embed.html?bbox=-57.10%2C-37.25%2C-56.75%2C-37.00&layer=mapnik&marker=-37.109%2C-56.866"
-      title="Mapa Partido de Pinamar — Cariló, Pinamar, Valeria del Mar, Ostende">
-    </iframe>
+    <div class="mapa-visual">
+      <iframe class="mapa-iframe"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-57.10%2C-37.25%2C-56.75%2C-37.00&layer=mapnik&marker=-37.109%2C-56.866"
+        title="Mapa Partido de Pinamar — Cariló, Pinamar, Valeria del Mar, Ostende">
+      </iframe>
+      <div class="mapa-fuente">© OpenStreetMap · Datos catastrales: ARBA / Municipalidad Pinamar</div>
+    </div>
     <div class="mapa-panel">
       <h4>Precio promedio por zona <span style="font-weight:400;color:var(--gray);font-size:11px">(USD/m² de lote)</span></h4>
       <div class="leg" id="mapa-leg-zonas">
@@ -1103,7 +1118,6 @@ footer{background:var(--dark);padding:60px 48px 28px}
         <div style="font-size:10px;color:var(--gray);margin-top:4px">📍 <a href="https://carto.arba.gov.ar" target="_blank" style="color:var(--turquesa)">CARTO ARBA</a></div>
       </div>
     </div>
-    <div class="mapa-fuente">© OpenStreetMap · Datos catastrales: ARBA / Municipalidad Pinamar</div>
   </div>
 </div>
 </div>
