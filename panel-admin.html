@@ -439,77 +439,37 @@ async function cerrarSesion() {
 
     <!-- ═══ MERCADO ═══ -->
     <div class="panel" id="panel-mercado">
-      <p style="font-size:13.5px;color:var(--gray);margin-bottom:20px;line-height:1.7">Actualizá los precios de referencia que se muestran en el portal, la tabla de mercado y los indicadores del home. Los cambios se publican de forma inmediata.</p>
-      <!-- Aviso sin Supabase -->
-      <div id="mercado-demo-notice" style="background:rgba(214,155,45,.1);border:1.5px solid rgba(214,155,45,.3);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:#92400e;line-height:1.6;display:none">
-        ⚠️ <strong>Modo demo:</strong> Los cambios se muestran visualmente pero no se guardan hasta que configures Supabase. Una vez configurado, los valores se publican en el portal de forma inmediata.
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+        <p style="font-size:13.5px;color:var(--gray);line-height:1.7;margin:0;max-width:640px">Precio real de mercado (relevamiento propio, cargado a mano) por zona y tipo de propiedad. Se muestra en el Home y en la página de cada zona con la fecha de tu último relevamiento — sin variaciones inventadas.</p>
+        <button onclick="abrirFormZona()" style="padding:10px 20px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;white-space:nowrap">+ Nueva zona</button>
       </div>
 
-      <div class="mercado-grid">
-        <!-- Cariló -->
-        <div class="mcard" data-zona="carilo">
-          <div class="mcard-header"><span class="mcard-title">🌲 Cariló — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-carilo-lote" placeholder="5500"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-carilo-constr" placeholder="7200"></div>
-          <div class="mrow"><label>Ticket promedio transacción</label><input type="number" id="m-carilo-ticket" placeholder="620000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-carilo-aprec" placeholder="18"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('carilo')">💾 Guardar Cariló</button>
-        </div>
-
-        <!-- Pinamar Centro -->
-        <div class="mcard" data-zona="pinamar-centro">
-          <div class="mcard-header"><span class="mcard-title">🌊 Pinamar Centro — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² departamento</label><input type="number" id="m-pinamar-centro-lote" placeholder="2200"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-pinamar-centro-constr" placeholder="2800"></div>
-          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-pinamar-centro-ticket" placeholder="110000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-pinamar-centro-aprec" placeholder="8"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('pinamar-centro')">💾 Guardar Pinamar Centro</button>
-        </div>
-
-        <!-- Pinamar Norte -->
-        <div class="mcard" data-zona="pinamar-norte">
-          <div class="mcard-header"><span class="mcard-title">⛳ Pinamar Norte — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-pinamar-norte-lote" placeholder="2800"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-pinamar-norte-constr" placeholder="3400"></div>
-          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-pinamar-norte-ticket" placeholder="390000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-pinamar-norte-aprec" placeholder="9"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('pinamar-norte')">💾 Guardar Pinamar Norte</button>
-        </div>
-
-        <!-- Valeria + Ostende -->
-        <div class="mcard" data-zona="valeria">
-          <div class="mcard-header"><span class="mcard-title">🌿 Valeria del Mar — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-valeria-lote" placeholder="1800"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-valeria-constr" placeholder="2600"></div>
-          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-valeria-ticket" placeholder="240000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-valeria-aprec" placeholder="14"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('valeria')">💾 Guardar Valeria</button>
-        </div>
-
-        <!-- Ostende -->
-        <div class="mcard" data-zona="ostende">
-          <div class="mcard-header"><span class="mcard-title">⚓ Ostende — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-ostende-lote" placeholder="1800"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-ostende-constr" placeholder="2600"></div>
-          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-ostende-ticket" placeholder="240000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-ostende-aprec" placeholder="14"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('ostende')">💾 Guardar Ostende</button>
-        </div>
-
-        <!-- Costa Esmeralda -->
-        <div class="mcard" data-zona="costa-esmeralda">
-          <div class="mcard-header"><span class="mcard-title">💎 Costa Esmeralda — Precios USD/m²</span></div>
-          <div class="mrow"><label>m² lote promedio</label><input type="number" id="m-costa-esmeralda-lote" placeholder="3200"></div>
-          <div class="mrow"><label>m² construcción</label><input type="number" id="m-costa-esmeralda-constr" placeholder="4800"></div>
-          <div class="mrow"><label>Ticket promedio</label><input type="number" id="m-costa-esmeralda-ticket" placeholder="320000"></div>
-          <div class="mrow"><label>Apreciación anual %</label><input type="number" step="0.1" id="m-costa-esmeralda-aprec" placeholder="11"></div>
-          <button class="btn-guardar-mercado" onclick="guardarPrecios('costa-esmeralda')">💾 Guardar Costa Esmeralda</button>
-        </div>
+      <div id="mercado-grid" class="mercado-grid">
+        <div style="color:var(--gray);font-size:13px;padding:20px">Cargando zonas…</div>
       </div>
 
-      <!-- Botón guardar todo -->
       <div style="text-align:right;margin-top:16px">
-        <button onclick="guardarTodosPrecios()" style="padding:12px 28px;background:var(--verde);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">💾 Guardar todos los precios</button>
+        <button onclick="guardarTodosPreciosZonas()" style="padding:12px 28px;background:var(--verde);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px">💾 Guardar todos los precios</button>
+      </div>
+
+      <!-- Nota de metodología/fuente, editable -->
+      <div style="margin-top:28px;background:var(--gray-light,#f8f6f2);border-radius:12px;padding:20px 24px">
+        <label class="fl" style="display:block;margin-bottom:8px">Fuente y metodología (aparece debajo de la tabla del Home)</label>
+        <textarea id="mercado-nota-texto" rows="3" placeholder="Ej: Relevamiento propio realizado mensualmente sobre publicaciones activas en la zona, consultas a inmobiliarias certificadas y operaciones cerradas conocidas." style="width:100%;padding:10px;border:1.5px solid var(--beige2,#e5ddc8);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical"></textarea>
+        <button onclick="guardarNotaMercado()" style="margin-top:10px;padding:9px 18px;background:var(--verde);color:#fff;border:none;border-radius:7px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12.5px">💾 Guardar nota</button>
+      </div>
+
+      <!-- Modal + Nueva zona -->
+      <div id="modal-zona" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;padding:20px;overflow-y:auto">
+        <div style="max-width:420px;margin:60px auto 0;background:#fff;border-radius:16px;padding:26px;position:relative">
+          <button onclick="cerrarFormZona()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray)">✕</button>
+          <div style="font-size:17px;font-weight:700;color:var(--verde);margin-bottom:16px">📍 Nueva zona</div>
+          <label class="fl">Nombre *</label>
+          <input id="z-nombre" type="text" placeholder="Ej: Mar de las Pampas" class="fi" style="width:100%;margin-bottom:12px" oninput="document.getElementById('z-slug').value = this.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')">
+          <label class="fl">Slug (se genera solo, podés ajustarlo)</label>
+          <input id="z-slug" type="text" placeholder="mar-de-las-pampas" class="fi" style="width:100%;margin-bottom:16px">
+          <button onclick="crearZona()" style="width:100%;padding:11px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Crear zona</button>
+        </div>
       </div>
     </div>
 
@@ -1774,95 +1734,124 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <script>
 // ══════════════════════════════════════════════════════
-// GUARDAR PRECIOS POR ZONA — conectado a Supabase
+// PRECIOS DE MERCADO POR ZONA × TIPO — conectado a Supabase (zonas)
 // ══════════════════════════════════════════════════════
 
-// Cargar precios actuales desde Supabase al abrir el panel
-async function cargarPreciosMercado(){
-  if(typeof db === 'undefined') return;
+const TIPOS_PRECIO = [
+  { key: 'lote', col: 'usd_m2_lote', label: 'Lote' },
+  { key: 'depto', col: 'usd_m2_depto', label: 'Depto' },
+  { key: 'casa', col: 'usd_m2_casa', label: 'Casa' },
+  { key: 'duplex_ph', col: 'usd_m2_duplex_ph', label: 'Duplex/PH' },
+  { key: 'emprendimiento', col: 'usd_m2_emprendimiento', label: 'Emprendimiento' },
+];
+
+async function cargarMercadoZonas(){
+  const cont = document.getElementById('mercado-grid');
+  if (typeof db === 'undefined') { cont.innerHTML = '<div style="color:var(--gray);font-size:13px">Sin conexión a Supabase.</div>'; return; }
   try {
-    const {data} = await db.from('indicadores_zona').select('*');
-    if(!data) return;
-    data.forEach(z => {
-      const pre = `m-${z.zona}`;
-      const lote   = document.getElementById(pre+'-lote');
-      const constr = document.getElementById(pre+'-constr');
-      const ticket = document.getElementById(pre+'-ticket');
-      const aprec  = document.getElementById(pre+'-aprec');
-      if(lote)   lote.value   = z.precio_m2_lote_usd    || '';
-      if(constr) constr.value = z.precio_m2_constr_usd  || '';
-      if(ticket) ticket.value = z.precio_ticket_prom_usd|| '';
-      if(aprec)  aprec.value  = z.apreciacion_pct_anual || '';
-    });
-    // Ocultar aviso demo si Supabase está configurado
-    const notice = document.getElementById('mercado-demo-notice');
-    if(notice) notice.style.display = 'none';
-  } catch(e) {}
+    const { data, error } = await db.from('zonas').select('*').order('nombre');
+    if (error) throw error;
+    renderMercadoGrid(data || []);
+  } catch (e) {
+    cont.innerHTML = `<div style="color:#c53030;font-size:13px">Error al cargar zonas: ${e.message}</div>`;
+  }
 }
 
-async function cargarPreciosAdmin(){
-  const notice = document.getElementById('mercado-demo-notice');
-  if(typeof db === 'undefined'){
-    if(notice) notice.style.display = 'block';
-    return;
-  }
-  if(notice) notice.style.display = 'none';
+function renderMercadoGrid(zonas){
+  const cont = document.getElementById('mercado-grid');
+  if (!zonas.length) { cont.innerHTML = '<div style="color:var(--gray);font-size:13px">Todavía no hay zonas cargadas.</div>'; return; }
+  cont.innerHTML = zonas.map(z => `
+    <div class="mcard" data-zona-id="${z.id}">
+      <div class="mcard-header" style="display:flex;align-items:center;justify-content:space-between">
+        <span class="mcard-title">📍 ${z.nombre} — Precios USD/m²</span>
+        <button onclick="toggleZonaActivo('${z.id}', ${!z.activo})" style="font-size:11px;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-weight:700;background:${z.activo ? '#fde8e8' : '#e6f4ea'};color:${z.activo ? '#c53030' : '#1a7a4a'}">${z.activo ? 'Desactivar' : 'Activar'}</button>
+      </div>
+      ${!z.activo ? '<div style="font-size:11px;color:var(--ocre,#D69B2D);font-weight:700;margin-bottom:8px">⏸ No visible en el sitio público</div>' : ''}
+      ${TIPOS_PRECIO.map(t => `
+        <div class="mrow"><label>m² ${t.label}</label><input type="number" id="mz-${z.id}-${t.key}" value="${z[t.col] ?? ''}" placeholder="Sin datos"></div>
+      `).join('')}
+      <div style="font-size:11px;color:var(--gray);margin:8px 0">${z.precios_fecha ? 'Última actualización: ' + new Date(z.precios_fecha).toLocaleDateString('es-AR') : 'Todavía sin actualizar'}</div>
+      <button class="btn-guardar-mercado" onclick="guardarPrecioZona('${z.id}')">💾 Guardar ${z.nombre}</button>
+    </div>
+  `).join('');
+}
 
-  const { data, error } = await db.from('indicadores_zona').select('*');
-  if(error || !data) return;
-
-  data.forEach(z => {
-    const pre = `m-${z.zona}`;
-    const setVal = (suf, val) => { const el = document.getElementById(`${pre}-${suf}`); if(el && val != null) el.value = val; };
-    setVal('lote',   z.precio_m2_lote_usd);
-    setVal('constr', z.precio_m2_constr_usd);
-    setVal('ticket', z.precio_ticket_prom_usd);
-    setVal('aprec',  z.apreciacion_pct_anual);
+async function guardarPrecioZona(zonaId){
+  const updates = { precios_fecha: new Date().toISOString().split('T')[0] };
+  TIPOS_PRECIO.forEach(t => {
+    const v = parseFloat(document.getElementById(`mz-${zonaId}-${t.key}`)?.value);
+    updates[t.col] = isNaN(v) ? null : v;
   });
-}
-
-async function guardarPrecios(zona){
-  const pre    = `m-${zona}`;
-  const lote   = parseFloat(document.getElementById(pre+'-lote')?.value)   || null;
-  const constr = parseFloat(document.getElementById(pre+'-constr')?.value) || null;
-  const ticket = parseFloat(document.getElementById(pre+'-ticket')?.value) || null;
-  const aprec  = parseFloat(document.getElementById(pre+'-aprec')?.value)  || null;
-
-  if(typeof db !== 'undefined'){
-    const {error} = await db.from('indicadores_zona').upsert({
-      zona,
-      precio_m2_lote_usd:      lote,
-      precio_m2_constr_usd:    constr,
-      precio_ticket_prom_usd:  ticket,
-      apreciacion_pct_anual:   aprec,
-      fecha_datos: new Date().toISOString().split('T')[0]
-    }, {onConflict:'zona'});
-    if(error){
-      if(typeof UI !== 'undefined') UI.toast('Error al guardar: ' + error.message, 'error');
-    } else {
-      if(typeof UI !== 'undefined') UI.toast(`✓ Precios de ${zona} actualizados — visibles en el portal`);
-    }
-  } else {
-    // Demo: mostrar confirmación visual
-    const btn = document.querySelector(`[data-zona="${zona}"] .btn-guardar-mercado`);
-    if(btn){
-      const orig = btn.textContent;
-      btn.textContent = '✓ Guardado (demo)';
-      btn.style.background = 'var(--turquesa)';
-      setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; }, 2000);
-    }
-    if(typeof UI !== 'undefined') UI.toast('Modo demo: configurá Supabase para guardar de verdad', 'warn');
+  try {
+    const { error } = await db.from('zonas').update(updates).eq('id', zonaId);
+    if (error) throw error;
+    if (typeof UI !== 'undefined') UI.toast('✓ Precios actualizados — visibles en el portal');
+    cargarMercadoZonas();
+  } catch (e) {
+    if (typeof UI !== 'undefined') UI.toast('Error al guardar: ' + e.message, 'error');
   }
 }
 
-async function guardarTodosPrecios(){
-  const zonas = ['carilo','pinamar-centro','pinamar-norte','valeria','ostende','costa-esmeralda'];
-  const btn = event.target;
-  btn.disabled = true; btn.textContent = 'Guardando...';
-  for(const zona of zonas) await guardarPrecios(zona);
-  btn.disabled = false; btn.textContent = '💾 Guardar todos los precios';
-  if(typeof UI !== 'undefined') UI.toast('✓ Todos los precios actualizados en el portal');
+async function guardarTodosPreciosZonas(){
+  const tarjetas = document.querySelectorAll('#mercado-grid .mcard[data-zona-id]');
+  for (const t of tarjetas) await guardarPrecioZona(t.dataset.zonaId);
+  if (typeof UI !== 'undefined') UI.toast('✓ Todos los precios actualizados');
 }
+
+async function toggleZonaActivo(id, activar){
+  try {
+    const { error } = await db.from('zonas').update({ activo: activar }).eq('id', id);
+    if (error) throw error;
+    if (typeof UI !== 'undefined') UI.toast(activar ? 'Zona activada' : 'Zona desactivada — ya no se muestra en el sitio público');
+    cargarMercadoZonas();
+  } catch (e) {
+    if (typeof UI !== 'undefined') UI.toast('Error: ' + e.message, 'error');
+  }
+}
+
+function abrirFormZona(){
+  document.getElementById('z-nombre').value = '';
+  document.getElementById('z-slug').value = '';
+  document.getElementById('modal-zona').style.display = 'block';
+}
+function cerrarFormZona(){ document.getElementById('modal-zona').style.display = 'none'; }
+
+async function crearZona(){
+  const nombre = document.getElementById('z-nombre').value.trim();
+  const slug = document.getElementById('z-slug').value.trim();
+  if (!nombre || !slug) { if (typeof UI !== 'undefined') UI.toast('Completá nombre y slug', 'warn'); return; }
+  try {
+    const { error } = await db.from('zonas').insert({ nombre, slug, activo: true });
+    if (error) throw error;
+    if (typeof UI !== 'undefined') UI.toast(`✓ Zona "${nombre}" creada`);
+    cerrarFormZona();
+    cargarMercadoZonas();
+  } catch (e) {
+    if (typeof UI !== 'undefined') UI.toast('Error al crear la zona: ' + e.message, 'error');
+  }
+}
+
+async function cargarNotaMercado(){
+  if (typeof db === 'undefined') return;
+  try {
+    const { data } = await db.from('precios_mercado_nota').select('texto').eq('id', 1).maybeSingle();
+    const el = document.getElementById('mercado-nota-texto');
+    if (el && data?.texto) el.value = data.texto;
+  } catch (e) { console.info('nota mercado', e.message); }
+}
+
+async function guardarNotaMercado(){
+  const texto = document.getElementById('mercado-nota-texto').value.trim();
+  try {
+    const { error } = await db.from('precios_mercado_nota').update({ texto }).eq('id', 1);
+    if (error) throw error;
+    if (typeof UI !== 'undefined') UI.toast('✓ Nota actualizada');
+  } catch (e) {
+    if (typeof UI !== 'undefined') UI.toast('Error al guardar la nota: ' + e.message, 'error');
+  }
+}
+
+
 
 async function guardarCAC(){
   const valor = parseFloat(document.getElementById('cac-valor')?.value) || null;
@@ -2116,7 +2105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('props-admin-body')) cargarPropsAdmin();
   if (document.getElementById('rep-tbody')) cargarReportesAdmin();
   if (document.getElementById('inm-permisos-body')) cargarPermisosInmobiliarias();
-  if (document.getElementById('mercado-demo-notice')) cargarPreciosAdmin();
+  if (document.getElementById('mercado-grid')) { cargarMercadoZonas(); cargarNotaMercado(); }
 });
 </script>
 
