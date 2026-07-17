@@ -1138,19 +1138,16 @@ footer{background:var(--dark);padding:60px 48px 28px}
   </div>
   <div class="ptable-wrap">
     <div class="ptable-hdr">
-      <h3>📍 Precio promedio por zona <span style="font-weight:400;color:var(--gray);font-size:13px">(USD/m² de lote)</span></h3>
-      <span>Relevamiento propio · Actualizado mensualmente</span>
+      <h3>📍 Precio promedio por zona <span style="font-weight:400;color:var(--gray);font-size:13px">(USD/m² por tipo de propiedad)</span></h3>
+      <span>Relevamiento propio</span>
     </div>
     <table>
-      <thead><tr><th>Zona</th><th>USD/m² prom.</th><th>Rango</th><th>Var. mensual</th><th>Var. anual</th><th>Propiedades</th></tr></thead>
-      <tbody>
-        <tr><td><span class="zdot"><span class="dot" style="background:#0D5B48"></span>Cariló</span></td><td class="p-cell">USD 5.500</td><td>USD 3.500 – 8.000</td><td class="vp">+3,2%</td><td class="vp">+18,4%</td><td>142</td></tr>
-        <tr><td><span class="zdot"><span class="dot" style="background:#D69B2D"></span>Pinamar Norte</span></td><td class="p-cell">USD 3.200</td><td>USD 2.000 – 5.500</td><td class="vp">+2,1%</td><td class="vp">+14,2%</td><td>208</td></tr>
-        <tr><td><span class="zdot"><span class="dot" style="background:#16A39C"></span>Pinamar Centro</span></td><td class="p-cell">USD 2.200</td><td>USD 1.800 – 4.500</td><td class="vp">+1,8%</td><td class="vp">+12,0%</td><td>583</td></tr>
-        <tr><td><span class="zdot"><span class="dot" style="background:#6aaa6a"></span>Valeria del Mar</span></td><td class="p-cell">USD 1.900</td><td>USD 1.500 – 3.200</td><td class="vn">-0,5%</td><td class="vp">+8,6%</td><td>198</td></tr>
-        <tr><td><span class="zdot"><span class="dot" style="background:#5a90c0"></span>Ostende</span></td><td class="p-cell">USD 1.500</td><td>USD 1.200 – 2.800</td><td class="vp">+1,2%</td><td class="vp">+9,8%</td><td>127</td></tr>
+      <thead><tr><th>Zona</th><th>Lote</th><th>Depto</th><th>Casa</th><th>Duplex/PH</th><th>Emprend.</th><th>Actualizado</th></tr></thead>
+      <tbody id="tabla-precios-zona-body">
+        <tr><td colspan="7" style="text-align:center;color:var(--gray);padding:24px">Cargando…</td></tr>
       </tbody>
     </table>
+    <div id="ptable-nota" style="padding:14px 20px;font-size:12px;color:var(--gray);line-height:1.6;border-top:1px solid var(--beige2);display:none"></div>
   </div>
 </div>
 </div>
@@ -1526,51 +1523,84 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 
 <script>
-// Actualizar precios de zona en la homepage desde Supabase
+// Precios de zona en la homepage — precio por tipo desde "zonas"
+// (relevamiento propio real), tendencia/apreciación desde
+// "indicadores_zona" (clima general de la zona, sin cambios).
 document.addEventListener('DOMContentLoaded', async () => {
   if(typeof db === 'undefined') return;
+  const COLORES = { carilo:'#0D5B48', 'pinamar-norte':'#D69B2D', 'pinamar-centro':'#16A39C', valeria:'#6aaa6a', ostende:'#5a90c0', 'costa-esmeralda':'#9b6dd6' };
   try {
-    const {data} = await db.from('indicadores_zona').select('zona,precio_m2_lote_usd,apreciacion_pct_anual,sentimiento_positivo_pct');
-    if(!data) return;
-    data.forEach(z => {
-      // Actualizar precio en zona cards de la homepage
-      document.querySelectorAll(`[data-zona-precio-home="${z.zona}"]`).forEach(el => {
-        el.textContent = 'USD ' + z.precio_m2_lote_usd?.toLocaleString('es-AR') + '/m²';
-      });
-    });
+    const [{ data: zonas }, { data: indicadores }, { data: nota }] = await Promise.all([
+      db.from('zonas').select('id,nombre,slug,activo,usd_m2_lote,usd_m2_depto,usd_m2_casa,usd_m2_duplex_ph,usd_m2_emprendimiento,muestra_lote,muestra_depto,muestra_casa,muestra_duplex_ph,muestra_emprendimiento,precios_fecha').eq('activo', true).order('nombre'),
+      db.from('indicadores_zona').select('zona,apreciacion_pct_anual'),
+      db.from('precios_mercado_nota').select('texto').eq('id', 1).maybeSingle(),
+    ]);
 
-    // Panel de precios sobre el mapa
+    // Panel de precios sobre el mapa (usa el precio de lote como referencia)
     const leg = document.getElementById('mapa-leg-zonas');
-    const colores = { carilo:'#0D5B48', 'pinamar-norte':'#D69B2D', 'pinamar-centro':'#16A39C', pinamar:'#16A39C', valeria:'#6aaa6a', 'valeria-del-mar':'#6aaa6a', ostende:'#5a90c0', 'costa-esmeralda':'#9b6dd6' };
-    const nombres = { carilo:'Cariló', 'pinamar-norte':'Pinamar Norte', 'pinamar-centro':'Pinamar Centro', pinamar:'Pinamar Centro', valeria:'Valeria del Mar', 'valeria-del-mar':'Valeria del Mar', ostende:'Ostende', 'costa-esmeralda':'Costa Esmeralda' };
     if (leg) {
-      const conPrecio = data.filter(z => z.precio_m2_lote_usd != null);
+      const conPrecio = (zonas||[]).filter(z => z.usd_m2_lote != null);
       if (conPrecio.length) {
         leg.innerHTML = conPrecio
-          .sort((a,b) => (b.precio_m2_lote_usd||0) - (a.precio_m2_lote_usd||0))
-          .map(z => `<div class="leg-item"><div class="leg-dot" style="background:${colores[z.zona]||'#888'}"></div>${nombres[z.zona]||z.zona} · USD ${z.precio_m2_lote_usd.toLocaleString('es-AR')}/m²</div>`)
+          .sort((a,b) => (b.usd_m2_lote||0) - (a.usd_m2_lote||0))
+          .map(z => `<div class="leg-item"><div class="leg-dot" style="background:${COLORES[z.slug]||'#888'}"></div>${z.nombre} · USD ${z.usd_m2_lote.toLocaleString('es-AR')}/m²</div>`)
           .join('');
       } else {
         leg.innerHTML = '<div class="leg-item" style="color:var(--gray)">Sin datos de precios todavía</div>';
       }
     }
 
-    // KPIs grandes de precio real (Cariló y Pinamar Centro)
-    const setKpi = (zonaKey, valId, trendId) => {
-      const z = data.find(d => d.zona === zonaKey);
+    // KPIs grandes de precio real (Cariló y Pinamar Centro) — precio de
+    // "zonas", tendencia de "indicadores_zona"
+    const setKpi = (slugZona, valId, trendId) => {
+      const z = (zonas||[]).find(d => d.slug === slugZona);
+      const ind = (indicadores||[]).find(d => d.zona === slugZona);
       const valEl = document.getElementById(valId);
       const trendEl = document.getElementById(trendId);
-      if (!z || z.precio_m2_lote_usd == null) { if (valEl) valEl.textContent = 'Sin datos'; return; }
-      if (valEl) valEl.textContent = 'USD ' + z.precio_m2_lote_usd.toLocaleString('es-AR');
-      if (trendEl && z.apreciacion_pct_anual != null) {
-        trendEl.textContent = `${z.apreciacion_pct_anual >= 0 ? '▲' : '▼'} ${Math.abs(z.apreciacion_pct_anual)}% anual`;
+      if (!z || z.usd_m2_lote == null) { if (valEl) valEl.textContent = 'Sin datos'; return; }
+      if (valEl) valEl.textContent = 'USD ' + z.usd_m2_lote.toLocaleString('es-AR');
+      if (trendEl && ind?.apreciacion_pct_anual != null) {
+        trendEl.textContent = `${ind.apreciacion_pct_anual >= 0 ? '▲' : '▼'} ${Math.abs(ind.apreciacion_pct_anual)}% anual`;
       }
     };
     setKpi('carilo', 'kpi-precio-carilo', 'kpi-trend-carilo');
     setKpi('pinamar-centro', 'kpi-precio-pinamar', 'kpi-trend-pinamar');
+
+    // Tabla completa por tipo de propiedad
+    const tbody = document.getElementById('tabla-precios-zona-body');
+    if (tbody) {
+      if (!zonas || !zonas.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:24px">Todavía no hay zonas cargadas.</td></tr>';
+      } else {
+        const celda = (v, n) => v != null
+          ? 'USD ' + Number(v).toLocaleString('es-AR') + (n != null ? `<div style="font-size:10px;color:var(--gray);font-weight:400">n=${n}</div>` : '')
+          : '<span style="color:var(--gray)">—</span>';
+        tbody.innerHTML = zonas.map(z => `
+          <tr>
+            <td><span class="zdot"><span class="dot" style="background:${COLORES[z.slug]||'#888'}"></span>${z.nombre}</span></td>
+            <td class="p-cell">${celda(z.usd_m2_lote, z.muestra_lote)}</td>
+            <td class="p-cell">${celda(z.usd_m2_depto, z.muestra_depto)}</td>
+            <td class="p-cell">${celda(z.usd_m2_casa, z.muestra_casa)}</td>
+            <td class="p-cell">${celda(z.usd_m2_duplex_ph, z.muestra_duplex_ph)}</td>
+            <td class="p-cell">${celda(z.usd_m2_emprendimiento, z.muestra_emprendimiento)}</td>
+            <td style="font-size:11.5px;color:var(--gray)">${z.precios_fecha ? new Date(z.precios_fecha).toLocaleDateString('es-AR') : '—'}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    // Nota de fuente/metodología (editable desde el panel admin)
+    const notaEl = document.getElementById('ptable-nota');
+    if (notaEl && nota?.texto) {
+      notaEl.textContent = nota.texto;
+      notaEl.style.display = 'block';
+    }
   } catch(e) {
+    console.info('Precios de zona: no se pudieron cargar', e.message);
     const leg = document.getElementById('mapa-leg-zonas');
     if (leg) leg.innerHTML = '<div class="leg-item" style="color:var(--gray)">No se pudieron cargar los precios</div>';
+    const tbody = document.getElementById('tabla-precios-zona-body');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--gray);padding:24px">No se pudieron cargar los precios.</td></tr>';
   }
 });
 </script>

@@ -1738,11 +1738,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // ══════════════════════════════════════════════════════
 
 const TIPOS_PRECIO = [
-  { key: 'lote', col: 'usd_m2_lote', label: 'Lote' },
-  { key: 'depto', col: 'usd_m2_depto', label: 'Depto' },
-  { key: 'casa', col: 'usd_m2_casa', label: 'Casa' },
-  { key: 'duplex_ph', col: 'usd_m2_duplex_ph', label: 'Duplex/PH' },
-  { key: 'emprendimiento', col: 'usd_m2_emprendimiento', label: 'Emprendimiento' },
+  { key: 'lote', col: 'usd_m2_lote', muestraCol: 'muestra_lote', label: 'Lote' },
+  { key: 'depto', col: 'usd_m2_depto', muestraCol: 'muestra_depto', label: 'Depto' },
+  { key: 'casa', col: 'usd_m2_casa', muestraCol: 'muestra_casa', label: 'Casa' },
+  { key: 'duplex_ph', col: 'usd_m2_duplex_ph', muestraCol: 'muestra_duplex_ph', label: 'Duplex/PH' },
+  { key: 'emprendimiento', col: 'usd_m2_emprendimiento', muestraCol: 'muestra_emprendimiento', label: 'Emprendimiento' },
 ];
 
 async function cargarMercadoZonas(){
@@ -1768,7 +1768,13 @@ function renderMercadoGrid(zonas){
       </div>
       ${!z.activo ? '<div style="font-size:11px;color:var(--ocre,#D69B2D);font-weight:700;margin-bottom:8px">⏸ No visible en el sitio público</div>' : ''}
       ${TIPOS_PRECIO.map(t => `
-        <div class="mrow"><label>m² ${t.label}</label><input type="number" id="mz-${z.id}-${t.key}" value="${z[t.col] ?? ''}" placeholder="Sin datos"></div>
+        <div class="mrow" style="align-items:flex-start">
+          <label>m² ${t.label}</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" id="mz-${z.id}-${t.key}" value="${z[t.col] ?? ''}" placeholder="Sin datos" style="width:100px">
+            <input type="number" id="mz-${z.id}-${t.key}-n" value="${z[t.muestraCol] ?? ''}" placeholder="n=" title="Cantidad de propiedades relevadas para este promedio" style="width:56px;font-size:11.5px">
+          </div>
+        </div>
       `).join('')}
       <div style="font-size:11px;color:var(--gray);margin:8px 0">${z.precios_fecha ? 'Última actualización: ' + new Date(z.precios_fecha).toLocaleDateString('es-AR') : 'Todavía sin actualizar'}</div>
       <button class="btn-guardar-mercado" onclick="guardarPrecioZona('${z.id}')">💾 Guardar ${z.nombre}</button>
@@ -1780,7 +1786,9 @@ async function guardarPrecioZona(zonaId){
   const updates = { precios_fecha: new Date().toISOString().split('T')[0] };
   TIPOS_PRECIO.forEach(t => {
     const v = parseFloat(document.getElementById(`mz-${zonaId}-${t.key}`)?.value);
+    const n = parseInt(document.getElementById(`mz-${zonaId}-${t.key}-n`)?.value);
     updates[t.col] = isNaN(v) ? null : v;
+    updates[t.muestraCol] = isNaN(n) ? null : n;
   });
   try {
     const { error } = await db.from('zonas').update(updates).eq('id', zonaId);

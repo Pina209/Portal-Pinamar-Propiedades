@@ -324,12 +324,12 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
     <h1 class="zona-h1">Cariló<br><em>El bosque junto al mar</em></h1>
     <p class="zona-desc">Invertir en Cariló, el destino residencial más exclusivo de la Costa Atlántica argentina: 600 hectáreas de pinos centenarios, lotes en barrios cerrados como Cariló Sur y Saint Thomas, arquitectura premium y playas exclusivas a minutos a pie.</p>
     <div class="zona-kpis">
-      <div class="zk"><strong id="ck-precio">—</strong><span>Precio prom. /m²</span></div>
       <div class="zk"><strong id="ck-props">—</strong><span>Propiedades activas</span></div>
       <div class="zk"><strong id="ck-plusvalia">—</strong><span>Plusvalía de pozo</span></div>
       <div class="zk"><strong id="ck-rentabilidad">—</strong><span>Rentabilidad por alquiler</span></div>
       <div class="zk"><strong id="ck-matriculados">—</strong><span>Matriculados certificados*</span></div>
     </div>
+    <div id="ck-precios-tipo" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:10px"></div>
   </div>
 </div>
 
@@ -698,21 +698,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 // que son datos distintos y sí están conectados correctamente.
 document.addEventListener('DOMContentLoaded', async () => {
   if (typeof db === 'undefined') return;
-  const elPrecio = document.getElementById('ck-precio');
   const elProps = document.getElementById('ck-props');
   const elPlusvalia = document.getElementById('ck-plusvalia');
   const elRentabilidad = document.getElementById('ck-rentabilidad');
   const elMatriculados = document.getElementById('ck-matriculados');
+  const elPreciosTipo = document.getElementById('ck-precios-tipo');
 
-  // Precio, plusvalía, rentabilidad — de indicadores_zona (zona = 'carilo')
+  // Plusvalía, rentabilidad — de indicadores_zona (clima general de la
+  // zona, sin cambios respecto de antes)
   try {
     const { data: ind } = await db.from('indicadores_zona')
-      .select('precio_m2_lote_usd,plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
+      .select('plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
       .eq('zona', 'carilo').maybeSingle();
     if (ind) {
-      if (elPrecio && ind.precio_m2_lote_usd != null) {
-        elPrecio.textContent = 'USD ' + Number(ind.precio_m2_lote_usd).toLocaleString('es-AR');
-      }
       if (elPlusvalia && ind.plusvalia_pozo_min_pct != null && ind.plusvalia_pozo_max_pct != null) {
         elPlusvalia.textContent = `+${ind.plusvalia_pozo_min_pct}% a +${ind.plusvalia_pozo_max_pct}%`;
       }
@@ -722,20 +720,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch (e) { console.info('Indicadores Cariló: no se pudieron cargar', e.message); }
 
-  // Propiedades activas — conteo real en vivo de las 10 tablas para esta zona
-  // (usa zonas.id como FK, tabla distinta de indicadores_zona)
-  if (typeof Zonas !== 'undefined' && elProps) {
-    try {
-      const { data: zona } = await db.from('zonas').select('id').eq('nombre', 'Cariló').maybeSingle();
-      if (zona) {
-        const conteos = await Promise.all(TABLAS_PROPIEDADES.map(t =>
-          db.from(t).select('id', { count: 'exact', head: true }).eq('zona_id', zona.id).eq('estado', 'activa')
-            .then(r => r.count || 0).catch(() => 0)
-        ));
-        elProps.textContent = conteos.reduce((a, b) => a + b, 0);
+  // Zona real (zonas): precio POR TIPO + conteo de propiedades activas
+  // (usa zonas.id como FK de las 10 tablas de propiedades)
+  try {
+    const { data: zona } = await db.from('zonas')
+      .select('id,usd_m2_lote,usd_m2_depto,usd_m2_casa,usd_m2_duplex_ph,usd_m2_emprendimiento,muestra_lote,muestra_depto,muestra_casa,muestra_duplex_ph,muestra_emprendimiento,precios_fecha')
+      .eq('nombre', 'Cariló').maybeSingle();
+
+    if (zona && elPreciosTipo) {
+      const tipos = [
+        { label: 'Lote', v: zona.usd_m2_lote, n: zona.muestra_lote },
+        { label: 'Depto', v: zona.usd_m2_depto, n: zona.muestra_depto },
+        { label: 'Casa', v: zona.usd_m2_casa, n: zona.muestra_casa },
+        { label: 'Duplex/PH', v: zona.usd_m2_duplex_ph, n: zona.muestra_duplex_ph },
+        { label: 'Emprendimiento', v: zona.usd_m2_emprendimiento, n: zona.muestra_emprendimiento },
+      ].filter(t => t.v != null);
+      if (tipos.length) {
+        elPreciosTipo.innerHTML = tipos.map(t => `
+          <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:10px 16px">
+            <div style="font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.05em">${t.label}</div>
+            <div style="font-size:18px;font-weight:800;color:#fff">USD ${Number(t.v).toLocaleString('es-AR')}<span style="font-size:11px;font-weight:400;color:rgba(255,255,255,.65)">/m²</span></div>
+            ${t.n != null ? `<div style="font-size:10px;color:rgba(255,255,255,.5)">n=${t.n} propiedades relevadas</div>` : ''}
+          </div>`).join('')
+          + (zona.precios_fecha ? `<div style="width:100%;font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">Relevamiento propio · Actualizado ${new Date(zona.precios_fecha).toLocaleDateString('es-AR')}</div>` : '');
+      } else {
+        elPreciosTipo.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,.6)">Todavía no hay precios cargados para esta zona.</div>';
       }
-    } catch (e) { console.info('Propiedades activas Cariló: no se pudieron cargar', e.message); }
-  }
+    }
+
+    if (zona && elProps) {
+      const conteos = await Promise.all(TABLAS_PROPIEDADES.map(t =>
+        db.from(t).select('id', { count: 'exact', head: true }).eq('zona_id', zona.id).eq('estado', 'activa')
+          .then(r => r.count || 0).catch(() => 0)
+      ));
+      elProps.textContent = conteos.reduce((a, b) => a + b, 0);
+    }
+  } catch (e) { console.info('Zona Cariló: no se pudieron cargar', e.message); }
 
   // Matriculados certificados — inmobiliarias reales certificadas que operan en Cariló
   if (elMatriculados) {
