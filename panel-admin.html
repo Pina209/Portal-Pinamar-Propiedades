@@ -883,14 +883,8 @@ async function cerrarSesion() {
   </div>
 
   <!-- Filtro por zona -->
-  <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap">
+  <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap" id="zona-tabs-wrap">
     <button class="tab-zona on" onclick="filtrarZona('todas',this)">Todas las zonas</button>
-    <button class="tab-zona" onclick="filtrarZona('carilo',this)">🌲 Cariló</button>
-    <button class="tab-zona" onclick="filtrarZona('pinamar-centro',this)">🌊 Pinamar Centro</button>
-    <button class="tab-zona" onclick="filtrarZona('pinamar-norte',this)">⛳ Pinamar Norte</button>
-    <button class="tab-zona" onclick="filtrarZona('valeria',this)">🌿 Valeria</button>
-    <button class="tab-zona" onclick="filtrarZona('ostende',this)">⚓ Ostende</button>
-    <button class="tab-zona" onclick="filtrarZona('costa-esmeralda',this)">💎 Costa Esmeralda</button>
   </div>
 
   <!-- Grid de barrios -->
@@ -922,14 +916,7 @@ async function cerrarSesion() {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
           <div><label class="fl">Zona *</label>
-            <select id="b-zona" class="fi">
-              <option value="carilo">🌲 Cariló</option>
-              <option value="pinamar-centro">🌊 Pinamar Centro</option>
-              <option value="pinamar-norte">⛳ Pinamar Norte</option>
-              <option value="valeria">🌿 Valeria del Mar</option>
-              <option value="ostende">⚓ Ostende</option>
-              <option value="costa-esmeralda">💎 Costa Esmeralda</option>
-            </select></div>
+            <select id="b-zona" class="fi"></select></div>
           <div><label class="fl">Perfil psicográfico</label>
             <select id="b-perfil" class="fi">
               <option value="refugio">Refugio Inmaculado</option>
@@ -1425,6 +1412,30 @@ function renderBarriosGrid(barrios) {
     </div>`).join('');
 }
 
+const ICONOS_ZONA_FALLBACK = { carilo:'🌲', 'pinamar-centro':'🌊', 'pinamar-norte':'⛳', valeria:'🌿', ostende:'⚓', 'costa-esmeralda':'💎' };
+
+async function cargarTabsZona(){
+  const wrap = document.getElementById('zona-tabs-wrap');
+  if (typeof db === 'undefined') return;
+  try {
+    const { data, error } = await db.from('zonas').select('nombre,slug').eq('activo', true).order('nombre');
+    if (error) throw error;
+
+    if (wrap) {
+      const activo = document.querySelector('.tab-zona.on')?.dataset.slug || 'todas';
+      wrap.innerHTML = '<button class="tab-zona' + (activo === 'todas' ? ' on' : '') + '" data-slug="todas" onclick="filtrarZona(\'todas\',this)">Todas las zonas</button>'
+        + (data || []).map(z => `<button class="tab-zona${activo === z.slug ? ' on' : ''}" data-slug="${z.slug}" onclick="filtrarZona('${z.slug}',this)">${ICONOS_ZONA_FALLBACK[z.slug] || '📍'} ${z.nombre}</button>`).join('');
+    }
+
+    const selectZona = document.getElementById('b-zona');
+    if (selectZona) {
+      const valorPrevio = selectZona.value;
+      selectZona.innerHTML = (data || []).map(z => `<option value="${z.slug}">${ICONOS_ZONA_FALLBACK[z.slug] || '📍'} ${z.nombre}</option>`).join('');
+      if (valorPrevio && (data || []).some(z => z.slug === valorPrevio)) selectZona.value = valorPrevio;
+    }
+  } catch (e) { console.info('Tabs/select de zona: no se pudieron cargar', e.message); }
+}
+
 function filtrarZona(zona, btn){
   _filtroZona = zona;
   document.querySelectorAll('.tab-zona').forEach(t=>{t.classList.remove('on')});
@@ -1816,6 +1827,7 @@ async function toggleZonaActivo(id, activar){
     if (error) throw error;
     if (typeof UI !== 'undefined') UI.toast(activar ? 'Zona activada' : 'Zona desactivada — ya no se muestra en el sitio público');
     cargarMercadoZonas();
+    cargarTabsZona();
   } catch (e) {
     if (typeof UI !== 'undefined') UI.toast('Error: ' + e.message, 'error');
   }
@@ -1838,6 +1850,7 @@ async function crearZona(){
     if (typeof UI !== 'undefined') UI.toast(`✓ Zona "${nombre}" creada`);
     cerrarFormZona();
     cargarMercadoZonas();
+    cargarTabsZona();
   } catch (e) {
     if (typeof UI !== 'undefined') UI.toast('Error al crear la zona: ' + e.message, 'error');
   }
@@ -2118,6 +2131,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('rep-tbody')) cargarReportesAdmin();
   if (document.getElementById('inm-permisos-body')) cargarPermisosInmobiliarias();
   if (document.getElementById('mercado-grid')) { cargarMercadoZonas(); cargarNotaMercado(); }
+  if (document.getElementById('zona-tabs-wrap') || document.getElementById('b-zona')) cargarTabsZona();
 });
 </script>
 
