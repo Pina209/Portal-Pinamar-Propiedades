@@ -938,15 +938,22 @@ async function cerrarSesion() {
 
       <!-- Tab: Precios -->
       <div class="ftab-content" id="ft-precios">
+        <div style="font-size:11.5px;color:var(--gray);margin-bottom:14px">Precio real de mercado por tipo de propiedad para este barrio en particular (relevamiento propio) — mismo criterio que "Precios por zona", más específico.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <div style="display:flex;gap:8px;align-items:center"><label class="fl" style="width:110px;margin:0">Lote</label><input id="b-p-lote" type="number" placeholder="Sin datos" class="fi" style="flex:1"><input id="b-p-lote-n" type="number" placeholder="n=" class="fi" style="width:64px"></div>
+          <div style="display:flex;gap:8px;align-items:center"><label class="fl" style="width:110px;margin:0">Depto</label><input id="b-p-depto" type="number" placeholder="Sin datos" class="fi" style="flex:1"><input id="b-p-depto-n" type="number" placeholder="n=" class="fi" style="width:64px"></div>
+          <div style="display:flex;gap:8px;align-items:center"><label class="fl" style="width:110px;margin:0">Casa</label><input id="b-p-casa" type="number" placeholder="Sin datos" class="fi" style="flex:1"><input id="b-p-casa-n" type="number" placeholder="n=" class="fi" style="width:64px"></div>
+          <div style="display:flex;gap:8px;align-items:center"><label class="fl" style="width:110px;margin:0">Duplex/PH</label><input id="b-p-duplex" type="number" placeholder="Sin datos" class="fi" style="flex:1"><input id="b-p-duplex-n" type="number" placeholder="n=" class="fi" style="width:64px"></div>
+          <div style="display:flex;gap:8px;align-items:center"><label class="fl" style="width:110px;margin:0">Emprendimiento</label><input id="b-p-emprend" type="number" placeholder="Sin datos" class="fi" style="flex:1"><input id="b-p-emprend-n" type="number" placeholder="n=" class="fi" style="width:64px"></div>
+        </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <div><label class="fl">Precio m² lote promedio (USD)</label><input id="b-p-lote" type="number" placeholder="5500" class="fi"></div>
           <div><label class="fl">Precio m² construcción (USD)</label><input id="b-p-constr" type="number" placeholder="7200" class="fi"></div>
+          <div><label class="fl">Fecha de actualización de precios</label><input id="b-fecha-precios" type="date" class="fi"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
           <div><label class="fl">Precio m² lote mínimo (USD)</label><input id="b-p-min" type="number" placeholder="4800" class="fi"></div>
           <div><label class="fl">Precio m² lote máximo (USD)</label><input id="b-p-max" type="number" placeholder="7200" class="fi"></div>
         </div>
-        <div><label class="fl">Fecha de actualización de precios</label><input id="b-fecha-precios" type="date" class="fi"></div>
         <div style="margin-top:14px;padding:12px 14px;background:var(--beige);border-radius:8px;font-size:12px;color:var(--gray);line-height:1.6">
           💡 Estos valores se muestran en la página del barrio y en el comparador. Se actualizan independientemente de los indicadores de zona.
         </div>
@@ -1404,7 +1411,10 @@ function renderBarriosGrid(barrios) {
         ${b.cloacas?'<span class="bac-tag ok">🚰 Cloacas</span>':'<span class="bac-tag">🚰 Sin cloacas</span>'}
       </div>
       ${b.cou_zonificacion?`<div style="font-size:11px;color:var(--gray);margin-bottom:8px">COU: ${b.cou_zonificacion} · FOS ${b.cou_fos||'—'} · FOT ${b.cou_fot||'—'} · Altura máx. ${b.cou_altura_max_m||'—'}m</div>`:''}
-      <div class="bac-precio">USD ${b.precio_m2_lote_usd?.toLocaleString()}/m² lote · USD ${b.precio_m2_constr_usd?.toLocaleString()}/m² construcción</div>
+      <div class="bac-precio">${(() => {
+        const tipos = [['Lote',b.precio_m2_lote_usd],['Depto',b.usd_m2_depto],['Casa',b.usd_m2_casa],['Duplex/PH',b.usd_m2_duplex_ph],['Emprend.',b.usd_m2_emprendimiento]].filter(t=>t[1]!=null);
+        return tipos.length ? tipos.map(t=>`${t[0]} USD ${Number(t[1]).toLocaleString()}`).join(' · ') : '<span style="color:var(--gray);font-weight:400">Sin precios cargados</span>';
+      })()}</div>
       <div style="font-size:12px;color:var(--gray);margin-bottom:12px;line-height:1.5">${b.descripcion_corta||''}</div>
       <div class="bac-actions">
         <button class="act act-view" onclick="editarBarrio('${b.id}')">✏️ Editar</button>
@@ -1460,6 +1470,10 @@ function abrirFormBarrio(barrio=null){
   document.getElementById('modal-barrio').style.display = 'block';
   document.body.style.overflow = 'hidden';
   document.getElementById('modal-barrio-title').textContent = barrio ? '✏️ Editar barrio' : '📍 Nuevo barrio';
+  if(!barrio && typeof _filtroZona !== 'undefined' && _filtroZona && _filtroZona !== 'todas') {
+    const selZona = document.getElementById('b-zona');
+    if (selZona) selZona.value = _filtroZona;
+  }
   if(barrio){
     document.getElementById('b-nombre').value = barrio.nombre||'';
     document.getElementById('b-slug').value = barrio.slug||'';
@@ -1471,9 +1485,19 @@ function abrirFormBarrio(barrio=null){
     document.getElementById('b-activo').checked = barrio.activo !== false;
     document.getElementById('b-destacado').checked = !!barrio.destacado;
     document.getElementById('b-p-lote').value = barrio.precio_m2_lote_usd||'';
+    document.getElementById('b-p-lote-n').value = barrio.muestra_lote||'';
+    document.getElementById('b-p-depto').value = barrio.usd_m2_depto||'';
+    document.getElementById('b-p-depto-n').value = barrio.muestra_depto||'';
+    document.getElementById('b-p-casa').value = barrio.usd_m2_casa||'';
+    document.getElementById('b-p-casa-n').value = barrio.muestra_casa||'';
+    document.getElementById('b-p-duplex').value = barrio.usd_m2_duplex_ph||'';
+    document.getElementById('b-p-duplex-n').value = barrio.muestra_duplex_ph||'';
+    document.getElementById('b-p-emprend').value = barrio.usd_m2_emprendimiento||'';
+    document.getElementById('b-p-emprend-n').value = barrio.muestra_emprendimiento||'';
     document.getElementById('b-p-constr').value = barrio.precio_m2_constr_usd||'';
     document.getElementById('b-p-min').value = barrio.precio_m2_lote_min||'';
     document.getElementById('b-p-max').value = barrio.precio_m2_lote_max||'';
+    document.getElementById('b-fecha-precios').value = barrio.fecha_actualizacion_precios||'';
     ['gas','agua','cloacas','fibra','asfalto','seguridad','alumbrado','residuos'].forEach(s=>{
       const k = s==='gas'?'gas_natural':s==='fibra'?'fibra_optica':s==='seguridad'?'seguridad_privada':
                 s==='alumbrado'?'alumbrado':s==='residuos'?'recoleccion_residuos':s;
@@ -1511,7 +1535,23 @@ function mostrarFTab(id, btn){
   btn?.classList.add('on');
 }
 
-function editarBarrio(id){
+async function editarBarrio(id){
+  // Mismo bug que tenía toggleBarrio: buscaba SOLO en BARRIOS_DEMO,
+  // así que para cualquier barrio real (id de Supabase) no encontraba
+  // nada y el botón "Editar" no hacía nada. Corregido para traer el
+  // barrio real por su id cuando hay conexión a Supabase.
+  if (typeof db !== 'undefined') {
+    try {
+      const { data: b, error } = await db.from('barrios').select('*').eq('id', id).maybeSingle();
+      if (error) throw error;
+      if (b) { abrirFormBarrio(b); return; }
+    } catch (e) {
+      console.error('editarBarrio', e);
+      if (typeof UI !== 'undefined') UI.toast('Error al cargar el barrio: ' + e.message);
+      return;
+    }
+  }
+  // Sin conexión a Supabase: fallback al array demo (solo para desarrollo)
   const b = BARRIOS_DEMO.find(x=>x.id===id);
   if(b) abrirFormBarrio(b);
 }
@@ -1555,6 +1595,15 @@ function recopilarDatosBarrio(){
     activo:         document.getElementById('b-activo').checked,
     destacado:      document.getElementById('b-destacado').checked,
     precio_m2_lote_usd:   parseFloat(document.getElementById('b-p-lote').value)||null,
+    muestra_lote:         parseInt(document.getElementById('b-p-lote-n').value)||null,
+    usd_m2_depto:         parseFloat(document.getElementById('b-p-depto').value)||null,
+    muestra_depto:        parseInt(document.getElementById('b-p-depto-n').value)||null,
+    usd_m2_casa:          parseFloat(document.getElementById('b-p-casa').value)||null,
+    muestra_casa:         parseInt(document.getElementById('b-p-casa-n').value)||null,
+    usd_m2_duplex_ph:     parseFloat(document.getElementById('b-p-duplex').value)||null,
+    muestra_duplex_ph:    parseInt(document.getElementById('b-p-duplex-n').value)||null,
+    usd_m2_emprendimiento: parseFloat(document.getElementById('b-p-emprend').value)||null,
+    muestra_emprendimiento: parseInt(document.getElementById('b-p-emprend-n').value)||null,
     precio_m2_constr_usd: parseFloat(document.getElementById('b-p-constr').value)||null,
     precio_m2_lote_min:   parseFloat(document.getElementById('b-p-min').value)||null,
     precio_m2_lote_max:   parseFloat(document.getElementById('b-p-max').value)||null,
