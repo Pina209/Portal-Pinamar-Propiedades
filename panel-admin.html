@@ -485,19 +485,20 @@ async function cerrarSesion() {
     <!-- ═══ USUARIOS ═══ -->
     <div class="panel" id="panel-usuarios">
       <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
-        <input type="text" placeholder="🔍 Buscar usuario..." style="flex:1;min-width:200px;padding:9px 13px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;outline:none">
-        <select style="padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;outline:none"><option>Todos los tipos</option><option>Propietarios</option><option>Inmobiliarias</option><option>Desarrolladores</option></select>
-        <select style="padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;outline:none"><option>Todos los estados</option><option>Activos</option><option>Suspendidos</option><option>Pendientes</option></select>
+        <input type="text" id="usr-buscar" placeholder="🔍 Buscar usuario..." style="flex:1;min-width:200px;padding:9px 13px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;outline:none" oninput="renderUsuariosTabla()">
+        <select id="usr-filtro-rol" style="padding:9px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;outline:none" onchange="renderUsuariosTabla()">
+          <option value="">Todos los roles</option>
+          <option value="comprador">Compradores</option>
+          <option value="inmobiliaria">Inmobiliarias</option>
+          <option value="admin">Admin</option>
+        </select>
       </div>
       <div class="card">
         <div class="card-b" style="padding:0">
           <table class="gt">
-            <thead><tr><th>Usuario</th><th>Tipo</th><th>Email</th><th>Publicaciones</th><th>Registro</th><th>Estado</th><th>Acciones</th></tr></thead>
-            <tbody>
-              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-inm" style="width:28px;height:28px;font-size:10px">RC</div><strong style="color:var(--verde)">Lucas Rodríguez</strong></div></td><td>Inmobiliaria</td><td>lucas@rc.com</td><td>24</td><td>12/01/2026</td><td><span class="badge b-ok">Activo</span></td><td><div class="act-row"><button class="act act-view">Ver</button><button class="act act-warn">Suspender</button></div></td></tr>
-              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-prop" style="width:28px;height:28px;font-size:10px">MG</div><strong style="color:var(--verde)">Martín García</strong></div></td><td>Propietario</td><td>martin@gmail.com</td><td>1</td><td>20/04/2026</td><td><span class="badge b-ok">Activo</span></td><td><div class="act-row"><button class="act act-view">Ver</button></div></td></tr>
-              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava u-dev" style="width:28px;height:28px;font-size:10px">DS</div><strong style="color:var(--verde)">Desarrollos Sur</strong></div></td><td>Desarrollador</td><td>info@dunasur.com</td><td>3</td><td>05/03/2026</td><td><span class="badge b-pend">Verificar</span></td><td><div class="act-row"><button class="act act-ok" onclick="approveItem(this)">✓ Verificar</button><button class="act act-del">✕</button></div></td></tr>
-              <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="user-ava" style="width:28px;height:28px;font-size:10px;background:#e0e0e0;color:var(--gray)">??</div><strong style="color:var(--gray)">Playas Inmo.</strong></div></td><td>Inmobiliaria</td><td>playas@inmo.com</td><td>8</td><td>10/10/2025</td><td><span class="badge b-red">Matrícula vencida</span></td><td><div class="act-row"><button class="act act-warn">Notificar</button><button class="act act-del">Suspender</button></div></td></tr>
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Email</th><th>Teléfono</th><th>Registro</th></tr></thead>
+            <tbody id="usuarios-admin-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:24px;color:var(--gray)">Cargando…</td></tr>
             </tbody>
           </table>
         </div>
@@ -1032,7 +1033,7 @@ async function cerrarSesion() {
     <div class="panel" id="panel-cac"><div class="card"><div class="card-h"><h3>🏗️ Actualizar índice CAC</h3></div><div class="card-b"><div style="max-width:400px"><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Índice CAC vigente</label><input type="number" id="cac-valor" value="1245.3" step="0.1" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;outline:none"></div><div style="margin-bottom:14px"><label style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">Mes de referencia</label><input type="month" id="cac-mes" value="2026-04" style="width:100%;padding:11px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Poppins',sans-serif;font-size:13.5px;outline:none"></div><button class="btn-guardar-mercado" onclick="guardarCAC()">💾 Actualizar índice CAC en todo el portal</button></div></div></div></div>
     <div class="panel" id="panel-indicadores">
   <div style="font-size:18px;font-weight:700;color:var(--verde);margin-bottom:6px">📉 Indicadores de mercado por zona</div>
-  <div style="font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6">Estos valores alimentan <strong>perfiles-zona.html</strong>, el <strong>comparador</strong> y el contexto de <strong>Pinamar AI</strong>. Actualizalos mensualmente.</div>
+  <div style="font-size:12px;color:var(--gray);margin-bottom:20px;line-height:1.6">Clima general de cada zona (no por tipo de propiedad) — apreciación esperada, tendencia y sentimiento del mercado. Alimenta <strong>perfiles-zona.html</strong>, el <strong>comparador</strong>, el contexto de <strong>Pinamar AI</strong>, y la flecha de tendencia del Home. Los precios por tipo de propiedad se cargan aparte, en "Precios por zona".</div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px" id="indicadores-grid">
   </div>
@@ -1651,14 +1652,14 @@ async function cargarIndicadores(){
       if(data) data.forEach(d => datos[d.zona] = d);
     }catch(e){}
   }
-  // Defaults de demo si no hay BD
+  // Defaults de demo si no hay BD (solo campos que sigue usando esta pantalla)
   const defaults = {
-    'carilo':           {precio_m2_lote_usd:5500,precio_m2_constr_usd:7200,precio_ticket_prom_usd:620000,apreciacion_pct_anual:18,tendencia:'sube',sentimiento_positivo_pct:91,sentimiento_negativo_pct:4,polarizacion:'baja'},
-    'pinamar-centro':   {precio_m2_lote_usd:2200,precio_m2_constr_usd:2800,precio_ticket_prom_usd:110000,apreciacion_pct_anual:8,tendencia:'sube',sentimiento_positivo_pct:78,sentimiento_negativo_pct:12,polarizacion:'media'},
-    'pinamar-norte':    {precio_m2_lote_usd:2800,precio_m2_constr_usd:3400,precio_ticket_prom_usd:390000,apreciacion_pct_anual:9,tendencia:'sube',sentimiento_positivo_pct:81,sentimiento_negativo_pct:11,polarizacion:'media'},
-    'valeria':          {precio_m2_lote_usd:1800,precio_m2_constr_usd:2600,precio_ticket_prom_usd:240000,apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
-    'ostende':          {precio_m2_lote_usd:1800,precio_m2_constr_usd:2600,precio_ticket_prom_usd:240000,apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
-    'costa-esmeralda':  {precio_m2_lote_usd:3200,precio_m2_constr_usd:4800,precio_ticket_prom_usd:320000,apreciacion_pct_anual:11,tendencia:'sube',sentimiento_positivo_pct:68,sentimiento_negativo_pct:24,polarizacion:'alta'},
+    'carilo':           {apreciacion_pct_anual:18,tendencia:'sube',sentimiento_positivo_pct:91,sentimiento_negativo_pct:4,polarizacion:'baja'},
+    'pinamar-centro':   {apreciacion_pct_anual:8,tendencia:'sube',sentimiento_positivo_pct:78,sentimiento_negativo_pct:12,polarizacion:'media'},
+    'pinamar-norte':    {apreciacion_pct_anual:9,tendencia:'sube',sentimiento_positivo_pct:81,sentimiento_negativo_pct:11,polarizacion:'media'},
+    'valeria':          {apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
+    'ostende':          {apreciacion_pct_anual:14,tendencia:'sube',sentimiento_positivo_pct:83,sentimiento_negativo_pct:8,polarizacion:'baja'},
+    'costa-esmeralda':  {apreciacion_pct_anual:11,tendencia:'sube',sentimiento_positivo_pct:68,sentimiento_negativo_pct:24,polarizacion:'alta'},
   };
 
   grid.innerHTML = ZONAS_CONFIG.map(z => {
@@ -1670,9 +1671,6 @@ async function cargarIndicadores(){
     <div class="ind-card" data-zona="${z.zona}">
       <div class="ind-zona">${z.emoji} ${z.label}</div>
       <div class="ind-grid">
-        <div class="ind-field"><label>m² Lote (USD)</label><input type="number" name="precio_m2_lote_usd" value="${d.precio_m2_lote_usd||''}" placeholder="5500"></div>
-        <div class="ind-field"><label>m² Construcción (USD)</label><input type="number" name="precio_m2_constr_usd" value="${d.precio_m2_constr_usd||''}" placeholder="7200"></div>
-        <div class="ind-field"><label>Ticket promedio (USD)</label><input type="number" name="precio_ticket_prom_usd" value="${d.precio_ticket_prom_usd||''}" placeholder="620000"></div>
         <div class="ind-field"><label>Apreciación anual %</label><input type="number" step="0.1" name="apreciacion_pct_anual" value="${d.apreciacion_pct_anual||''}" placeholder="18"></div>
         <div class="ind-field"><label>Tendencia</label>
           <select name="tendencia">
@@ -1734,15 +1732,71 @@ async function guardarTodosIndicadores(){
     if(error) errores++; else ok++;
   }
   if(typeof UI !== 'undefined'){
-    if(errores === 0) UI.toast(`✓ ${ok} zonas actualizadas — visible en el portal inmediatamente`);
+    if(errores === 0) UI.toast(`✓ ${ok} zonas actualizadas`);
     else UI.toast(`${ok} OK · ${errores} con error`, 'warn');
   }
 }
 
-// Inicializar al cargar el panel
+// ── Gestión de usuarios — conectado a datos reales de "perfiles" ──
+let _usuariosCache = [];
+
+async function cargarUsuariosAdmin(){
+  const tbody = document.getElementById('usuarios-admin-tbody');
+  if (!tbody || typeof db === 'undefined') return;
+  try {
+    const { data, error } = await db.from('perfiles')
+      .select('id,nombre,apellido,rol,email,telefono,creado_en')
+      .order('creado_en', { ascending: false });
+    if (error) throw error;
+    _usuariosCache = data || [];
+    renderUsuariosTabla();
+  } catch (e) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:24px;color:#c53030">Error al cargar: ${e.message}</td></tr>`;
+  }
+}
+
+function renderUsuariosTabla(){
+  const tbody = document.getElementById('usuarios-admin-tbody');
+  if (!tbody) return;
+  const busqueda = (document.getElementById('usr-buscar')?.value || '').trim().toLowerCase();
+  const filtroRol = document.getElementById('usr-filtro-rol')?.value || '';
+
+  let lista = _usuariosCache;
+  if (filtroRol) lista = lista.filter(u => u.rol === filtroRol);
+  if (busqueda) {
+    lista = lista.filter(u =>
+      `${u.nombre||''} ${u.apellido||''}`.toLowerCase().includes(busqueda) ||
+      (u.email||'').toLowerCase().includes(busqueda)
+    );
+  }
+
+  if (!lista.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--gray)">No hay usuarios que coincidan.</td></tr>';
+    return;
+  }
+
+  const coloresRol = { admin: 'var(--red,#c53030)', inmobiliaria: 'var(--ocre)', comprador: 'var(--verde)' };
+  tbody.innerHTML = lista.map(u => {
+    const nombreCompleto = `${u.nombre || ''} ${u.apellido || ''}`.trim() || '(sin nombre)';
+    const iniciales = (nombreCompleto[0] || '?').toUpperCase();
+    const fecha = u.creado_en ? new Date(u.creado_en).toLocaleDateString('es-AR') : '—';
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="user-ava" style="width:28px;height:28px;font-size:10px;background:${coloresRol[u.rol]||'var(--gray)'};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center">${iniciales}</div>
+        <strong style="color:var(--verde)">${nombreCompleto}</strong>
+      </div></td>
+      <td style="text-transform:capitalize">${(u.rol||'sin rol').replace('_',' ')}</td>
+      <td>${u.email || '—'}</td>
+      <td>${u.telefono || '—'}</td>
+      <td>${fecha}</td>
+    </tr>`;
+  }).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   cargarBarrios();
   cargarIndicadores();
+  if (document.getElementById('usuarios-admin-tbody')) cargarUsuariosAdmin();
 });
 </script>
 
