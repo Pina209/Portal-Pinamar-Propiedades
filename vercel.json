@@ -2,6 +2,26 @@
   "rewrites": [
     {
       "source": "/",
+      "has": [{ "type": "host", "value": "carilopropiedades.com.ar" }],
+      "destination": "/zona-carilo.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.carilopropiedades.com.ar" }],
+      "destination": "/zona-carilo.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "carilopropiedades.ar" }],
+      "destination": "/zona-carilo.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.carilopropiedades.ar" }],
+      "destination": "/zona-carilo.html"
+    },
+    {
+      "source": "/",
       "destination": "/pinamar-propiedades-v2.html"
     },
     {
