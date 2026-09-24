@@ -485,23 +485,21 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
     <h2 class="sec-h2">¿Por qué invertir<br>en <em>Cariló</em>?</h2>
     <p class="sec-p">Cariló ofrece la combinación más atractiva del mercado inmobiliario argentino: valorización constante en dólares, renta alta en temporada y activos tangibles en un entorno privilegiado.</p>
     <div class="inv-cards">
-      <div class="inv-card"><div class="inv-ico">📈</div><div><h4>Valorización sostenida en USD</h4><p>En los últimos 5 años Cariló promedió +14% anual de valorización en dólares, superando consistentemente la inflación.</p></div></div>
-      <div class="inv-card"><div class="inv-ico">🏖️</div><div><h4>Alta demanda en temporada</h4><p>Enero y febrero registran ocupación del 95-100%. Posibilidad de renta temporal de USD 3.000 a USD 12.000 por quincena según la propiedad.</p></div></div>
+      <div class="inv-card"><div class="inv-ico">📈</div><div><h4>Valorización sostenida en USD</h4><p id="inv-valorizacion-txt">Cariló muestra valorización sostenida en dólares en el tiempo, superando consistentemente la inflación.</p></div></div>
+      <div class="inv-card"><div class="inv-ico">🏖️</div><div><h4>Alta demanda en temporada</h4><p>Cariló concentra fuerte demanda de alquiler temporal durante enero y febrero, con potencial de renta adicional para el propietario según la propiedad y la temporada.</p></div></div>
       <div class="inv-card"><div class="inv-ico">🌲</div><div><h4>Bosque protegido por ordenanza</h4><p>El casco histórico de Cariló tiene construcción limitada por Código de Ordenamiento Urbano: altura máxima 7m, FOS 25%. La escasez en esa zona sostiene el valor.</p></div></div>
-      <div class="inv-card"><div class="inv-ico">🗺️</div><div><h4>Cariló Sur: la última gran reserva costera</h4><p>La expansión sur abre nuevos nodos de desarrollo: Saint Thomas (21 ha, lotes desde USD 100/m², 60% vendido en 6 meses) y Zorzal (desde USD 80/m², 100% de éxito en primera fase).</p></div></div>
+      <div class="inv-card"><div class="inv-ico">🗺️</div><div><h4>Cariló Sur: la última gran reserva costera</h4><p>La expansión sur abre nuevos nodos de desarrollo: Saint Thomas (21 ha, lotes desde USD 100/m²) y Zorzal (lotes desde USD 80/m²).</p></div></div>
       <div class="inv-card"><div class="inv-ico">🛡️</div><div><h4>Activo en dólares tangible</h4><p>Propiedad escriturada en pesos argentinos pero valuada y negociada en USD. Protección natural contra la devaluación.</p></div></div>
     </div>
   </div>
   <div class="inv-right">
-    <h3>📊 Simulación de rentabilidad</h3>
-    <div class="rent-item"><span class="rent-lbl">Casa de USD 500.000</span><span class="rent-val">Cariló Bosque</span></div>
-    <div class="rent-item"><span class="rent-lbl">Renta temporal enero</span><span class="rent-val good">USD 8.000/mes</span></div>
-    <div class="rent-item"><span class="rent-lbl">Renta temporal (5 meses)</span><span class="rent-val good">USD 28.000</span></div>
-    <div class="rent-item"><span class="rent-lbl">Renta bruta anual</span><span class="rent-val good">5,6%</span></div>
-    <div class="rent-item"><span class="rent-lbl">Valorización anual (prom.)</span><span class="rent-val good">+14%</span></div>
-    <div class="rent-item"><span class="rent-lbl">Retorno total estimado</span><span class="rent-val" style="font-size:20px;color:var(--ocre)">+19,6% / año</span></div>
+    <h3>📊 Valores de referencia</h3>
+    <div class="rent-item"><span class="rent-lbl">Precio m² lote</span><span class="rent-val good" id="inv-precio-lote">—</span></div>
+    <div class="rent-item"><span class="rent-lbl">Precio m² casa</span><span class="rent-val good" id="inv-precio-casa">—</span></div>
+    <div class="rent-item"><span class="rent-lbl">Precio m² depto</span><span class="rent-val good" id="inv-precio-depto">—</span></div>
+    <div class="rent-item"><span class="rent-lbl">Valorización anual (prom.)</span><span class="rent-val good" id="inv-valorizacion">—</span></div>
     <a href="login-registro.html" class="cta-invertir">Quiero invertir en Cariló →</a>
-    <p style="font-size:11px;color:var(--gray);text-align:center;margin-top:10px;line-height:1.5">* Valores estimados. La rentabilidad real puede variar. No constituye asesoramiento financiero.</p>
+    <p style="font-size:11px;color:var(--gray);text-align:center;margin-top:10px;line-height:1.5" id="inv-fuente">* Valores de referencia del mercado. No constituye asesoramiento financiero.</p>
   </div>
 </div>
 </div>
@@ -734,12 +732,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const elRentabilidad = document.getElementById('ck-rentabilidad');
   const elMatriculados = document.getElementById('ck-matriculados');
   const elPreciosTipo = document.getElementById('ck-precios-tipo');
+  const elInvValorizacion = document.getElementById('inv-valorizacion');
+  const elInvValorizacionTxt = document.getElementById('inv-valorizacion-txt');
+  const elInvLote = document.getElementById('inv-precio-lote');
+  const elInvCasa = document.getElementById('inv-precio-casa');
+  const elInvDepto = document.getElementById('inv-precio-depto');
+  const elInvFuente = document.getElementById('inv-fuente');
 
-  // Plusvalía, rentabilidad — de indicadores_zona (clima general de la
+  // Plusvalía, rentabilidad, apreciación anual — de indicadores_zona (clima general de la
   // zona, sin cambios respecto de antes)
   try {
     const { data: ind } = await db.from('indicadores_zona')
-      .select('plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct')
+      .select('plusvalia_pozo_min_pct,plusvalia_pozo_max_pct,rentabilidad_alquiler_anual_pct,apreciacion_pct_anual,fecha_datos')
       .eq('zona', 'carilo').maybeSingle();
     if (ind) {
       if (elPlusvalia && ind.plusvalia_pozo_min_pct != null && ind.plusvalia_pozo_max_pct != null) {
@@ -747,6 +751,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       if (elRentabilidad && ind.rentabilidad_alquiler_anual_pct != null) {
         elRentabilidad.textContent = `${ind.rentabilidad_alquiler_anual_pct}% anual`;
+      }
+      if (ind.apreciacion_pct_anual != null) {
+        if (elInvValorizacion) elInvValorizacion.textContent = `+${ind.apreciacion_pct_anual}% anual`;
+        if (elInvValorizacionTxt) elInvValorizacionTxt.textContent =
+          `Cariló promedió +${ind.apreciacion_pct_anual}% anual de valorización en dólares, superando consistentemente la inflación.`;
+      } else if (elInvValorizacion) {
+        elInvValorizacion.closest('.rent-item')?.remove();
+      }
+      if (elInvFuente && ind.fecha_datos) {
+        elInvFuente.textContent = `* Valores de referencia del mercado, actualizado ${new Date(ind.fecha_datos).toLocaleDateString('es-AR')}. No constituye asesoramiento financiero.`;
       }
     }
   } catch (e) { console.info('Indicadores Cariló: no se pudieron cargar', e.message); }
@@ -777,6 +791,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         elPreciosTipo.innerHTML = '<div style="font-size:12.5px;color:rgba(255,255,255,.6)">Todavía no hay precios cargados para esta zona.</div>';
       }
+      // Reutilizar los mismos valores en la caja "Valores de referencia" de la sección Invertir
+      if (elInvLote) { if (zona.usd_m2_lote != null) elInvLote.textContent = `USD ${Number(zona.usd_m2_lote).toLocaleString('es-AR')}`; else elInvLote.closest('.rent-item')?.remove(); }
+      if (elInvCasa) { if (zona.usd_m2_casa != null) elInvCasa.textContent = `USD ${Number(zona.usd_m2_casa).toLocaleString('es-AR')}`; else elInvCasa.closest('.rent-item')?.remove(); }
+      if (elInvDepto) { if (zona.usd_m2_depto != null) elInvDepto.textContent = `USD ${Number(zona.usd_m2_depto).toLocaleString('es-AR')}`; else elInvDepto.closest('.rent-item')?.remove(); }
     }
 
     if (zona && elProps) {
