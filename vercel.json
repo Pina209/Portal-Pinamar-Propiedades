@@ -5,6 +5,10 @@
       "destination": "/pinamar-propiedades-v2.html"
     },
     {
+      "source": "/carilo",
+      "destination": "/zona-carilo.html"
+    },
+    {
       "source": "/propiedad/:slug",
       "destination": "/ficha-propiedad.html?slug=:slug"
     },
