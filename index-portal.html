@@ -6,112 +6,188 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="shortcut icon" href="/favicon.ico">
-  <meta name="description" content="Todas las secciones del portal inmobiliario Pinamar Propiedades.">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Mapa del portal — Pinamar Propiedades">
-  <meta property="og:description" content="Todas las secciones del portal inmobiliario Pinamar Propiedades.">
-  <meta property="og:image" content="https://pinamarpropiedades.com.ar/og-image.jpg">
+  <meta name="description" content="Panel interno de estado del portal — solo para administradores.">
+  <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa del portal — Pinamar Propiedades</title>
+<title>Estado del portal — Panel interno</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--verde:#0D5B48;--turquesa:#16A39C;--beige:#F2E9D7;--ocre:#D69B2D;}
+:root{--verde:#0D5B48;--turquesa:#16A39C;--beige:#F2E9D7;--ocre:#D69B2D;--rojo:#c62828;}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Poppins',sans-serif;background:var(--beige);min-height:100vh;padding:40px}
-.header{text-align:center;margin-bottom:48px}
+.header{text-align:center;margin-bottom:28px;max-width:900px;margin-left:auto;margin-right:auto}
 .header-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
-.header h1{font-size:28px;font-weight:800;color:var(--verde)}
-.header p{font-size:14px;color:#6b7280;margin-top:6px}
+.header h1{font-size:26px;font-weight:800;color:var(--verde)}
+.header p{font-size:13px;color:#6b7280;margin-top:6px}
+.internal-banner{max-width:900px;margin:0 auto 28px;background:#fff;border:1.5px solid var(--ocre);border-radius:10px;padding:12px 18px;font-size:12.5px;color:#5a4a1e;display:flex;gap:10px;align-items:center}
+.legend{max-width:900px;margin:0 auto 32px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.leg-item{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:6px}
 .section-label{font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.12em;padding:10px 0 6px;border-bottom:2px solid #e8e8e8;margin-bottom:12px;grid-column:1/-1}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;max-width:1100px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;max-width:1100px;margin:0 auto}
 .card{background:#fff;border-radius:14px;padding:22px;border:2px solid #e8e8e8;transition:all .25s;text-decoration:none;display:block;position:relative}
 .card:hover{border-color:var(--turquesa);transform:translateY(-3px);box-shadow:0 10px 28px rgba(13,91,72,.12)}
-.card-new::after{content:'NUEVO';position:absolute;top:12px;right:12px;background:var(--ocre);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.06em}
-.card-ico{font-size:34px;margin-bottom:12px}
+.card-ico{font-size:30px;margin-bottom:10px}
 .card-title{font-size:15px;font-weight:700;color:var(--verde);margin-bottom:5px}
-.card-desc{font-size:12px;color:#6b7280;line-height:1.6}
-.card-tag{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.06em}
-.tag-pub{background:rgba(13,91,72,.1);color:var(--verde)}
-.tag-priv{background:rgba(214,155,45,.1);color:var(--ocre)}
-.tag-admin{background:rgba(229,57,53,.1);color:#c62828}
-.tag-new{background:rgba(22,163,156,.1);color:var(--turquesa)}
+.card-desc{font-size:12px;color:#6b7280;line-height:1.6;margin-bottom:10px}
+.status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:.04em}
+.st-ok{background:rgba(13,91,72,.1);color:var(--verde)}
+.st-warn{background:rgba(214,155,45,.12);color:var(--ocre)}
+.st-broken{background:rgba(198,40,40,.1);color:var(--rojo)}
+.st-review{background:rgba(22,163,156,.1);color:var(--turquesa)}
+.card-note{font-size:11px;color:#8a7a55;margin-top:8px;font-style:italic}
+.updated{text-align:center;max-width:900px;margin:32px auto 0;font-size:11px;color:#9a9a9a}
 </style>
 </head>
-<body>
+<body style="visibility:hidden" id="page-body">
 <div class="header">
   <div class="header-logo">
-    <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+    <svg width="44" height="44" viewBox="0 0 120 120" fill="none">
       <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
       <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
       <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
       <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
       <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
     </svg>
-    <h1>Pinamar Propiedades</h1>
+    <h1>Estado del Portal</h1>
   </div>
-  <p>Portal completo · 11 páginas desarrolladas · Proyecto listo para producción</p>
+  <p>Panel interno — mapa de todas las páginas con su estado real, para seguir el replanteo de estructura.</p>
+</div>
+
+<div class="internal-banner">
+  🔒 <span>Esta página es solo para uso interno (admin). No está enlazada desde el sitio público ni indexada por buscadores.</span>
+</div>
+
+<div class="legend">
+  <span class="leg-item st-ok">✅ Conectado y real</span>
+  <span class="leg-item st-warn">⚠️ Funcional, falta contenido/datos</span>
+  <span class="leg-item st-broken">🔧 Desconectado / mockup estático</span>
+  <span class="leg-item st-review">🧭 En revisión (replanteo de IA)</span>
 </div>
 
 <div class="grid">
 
-  <div class="section-label">🌐 Páginas públicas del portal</div>
+  <div class="section-label">🌐 Páginas públicas</div>
 
   <a href="pinamar-propiedades-v2.html" class="card">
     <div class="card-ico">🏠</div>
     <div class="card-title">Homepage</div>
-    <div class="card-desc">Hero con buscador, zonas, propiedades destacadas, ficha técnica, mapa, indicadores de mercado, calculadora, permuta y planes de publicación.</div>
-    <span class="card-tag tag-pub">Público</span>
+    <div class="card-desc">Hero, buscador, zonas, propiedades destacadas, ficha técnica, mapa, indicadores de mercado, calculadora, permuta y publicación.</div>
+    <span class="status st-warn">⚠️ Funcional, falta contenido</span>
+    <div class="card-note">Pendiente: sacar la calculadora hipotecaria del home (va en el flujo de búsqueda/ficha) y rediseñar el menú alrededor de las 2 unidades de negocio.</div>
+  </a>
+
+  <a href="quienes-somos.html" class="card">
+    <div class="card-ico">🤝</div>
+    <div class="card-title">Quiénes somos</div>
+    <div class="card-desc">Posicionamiento "Nexo Inteligente", los 4 actores, diferenciadores, evidencia de uso real para la oposición INPI.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
   </a>
 
   <a href="listado-propiedades.html" class="card">
     <div class="card-ico">🔍</div>
     <div class="card-title">Listado de propiedades</div>
-    <div class="card-desc">Grid con filtros laterales completos: zona, barrio, precio, tipo, dormitorios, distancia al mar, amenities, permuta, ficha técnica. Vista grilla / lista / mapa.</div>
-    <span class="card-tag tag-pub">Público</span>
+    <div class="card-desc">Grid con filtros por zona, barrio, precio, tipo, dormitorios, distancia al mar, amenities. Vista grilla / lista / mapa.</div>
+    <span class="status st-warn">⚠️ Funcional, sin propiedades reales</span>
+    <div class="card-note">Código y filtros OK. Las 10 tablas de propiedades están en 0 filas — necesita carga de inventario real.</div>
   </a>
 
-  <a href="comparador.html" class="card card-new">
+  <a href="comparador.html" class="card">
     <div class="card-ico">⚖️</div>
     <div class="card-title">Comparador de propiedades</div>
-    <div class="card-desc">Comparación lado a lado de hasta 4 propiedades. Precio, m², ficha técnica certificada, catastro ARBA, score automático y elección del ganador.</div>
-    <span class="card-tag tag-new">Diferencial único</span>
+    <div class="card-desc">Comparación lado a lado, score automático, consulta real a las 4 tablas comparables.</div>
+    <span class="status st-warn">⚠️ Funcional, sin propiedades reales</span>
+    <div class="card-note">Código verificado 25/09: consulta real a Supabase, muestra estado vacío honesto en vez de datos inventados. Solo le falta inventario cargado.</div>
   </a>
 
   <a href="ficha-propiedad.html" class="card">
     <div class="card-ico">📋</div>
     <div class="card-title">Ficha de propiedad</div>
-    <div class="card-desc">Galería, características completas, mapa, ficha técnica certificada con estado por ítem, costo de reparaciones CAC, datos catastrales ARBA y contacto.</div>
-    <span class="card-tag tag-pub">Público</span>
+    <div class="card-desc">Galería, características, ficha técnica certificada, datos catastrales ARBA y contacto.</div>
+    <span class="status st-broken">🔧 Desconectado / mockup</span>
+    <div class="card-note">Es la brecha más grande del proyecto (Unidad IV). Hoy es un mockup estático de una propiedad de ejemplo, no está integrada al flujo real de una propiedad cargada.</div>
   </a>
 
   <a href="zona-carilo.html" class="card">
     <div class="card-ico">🌲</div>
     <div class="card-title">Página de zona — Cariló</div>
-    <div class="card-desc">5 barrios con precios y características, tabla de mercado, guía de inversión, simulación de rentabilidad, mapa COU, servicios y FAQ.</div>
-    <span class="card-tag tag-pub">Público</span>
+    <div class="card-desc">Barrios, precios reales por m², servicios, mapa COU. También sirve como home de carilopropiedades.com.ar.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
+  </a>
+
+  <a href="perfiles-zona.html" class="card">
+    <div class="card-ico">🧭</div>
+    <div class="card-title">Perfiles psicográficos de zona</div>
+    <div class="card-desc">5 perfiles de inversión por zona, sentimiento, apreciación y rentabilidad conectados a indicadores_zona.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
   </a>
 
   <a href="guia-invertir.html" class="card">
     <div class="card-ico">💰</div>
     <div class="card-title">Guía para invertir</div>
-    <div class="card-desc">Por qué Pinamar, comparativa de zonas, rentabilidad, proceso de compra paso a paso, marco legal, impuestos, compradores extranjeros y glosario.</div>
-    <span class="card-tag tag-pub">Público</span>
-  </a>
-
-  <a href="proveedores-certificados.html" class="card card-new">
-    <div class="card-ico">🏅</div>
-    <div class="card-title">Proveedores Certificados</div>
-    <div class="card-desc">Formulario de inscripción al programa de certificación para técnicos y profesionales del Partido de Pinamar.</div>
-    <span class="card-tag tag-new">Nuevo</span>
+    <div class="card-desc">Por qué Pinamar, comparativa de zonas, rentabilidad, proceso de compra, marco legal, impuestos, extranjeros, glosario.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
+    <div class="card-note">Corregida 25/09: se sacaron los casos de rentabilidad inventados y se conectaron las cifras por zona a indicadores_zona.</div>
   </a>
 
   <a href="noticias.html" class="card">
     <div class="card-ico">📰</div>
     <div class="card-title">Noticias y Blog</div>
-    <div class="card-desc">Noticias del mercado inmobiliario por categoría, informes mensuales, indicadores en sidebar, newsletter e índice CAC.</div>
-    <span class="card-tag tag-pub">Público</span>
+    <div class="card-desc">Noticias del mercado por categoría, informes mensuales en PDF, indicadores en sidebar.</div>
+    <span class="status st-review">🧭 En revisión</span>
+    <div class="card-note">Contenido real (incluye los informes de matriculados y relevamiento de mercado). Pendiente: repensar el nombre/enfoque — "elaborado desde inteligencia de mercado", no noticias genéricas.</div>
+  </a>
+
+  <a href="barrio.html" class="card">
+    <div class="card-ico">📍</div>
+    <div class="card-title">Página de barrio</div>
+    <div class="card-desc">Ficha por barrio (41 barrios cargados), con jerarquía de sub-barrios.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
+  </a>
+
+  <a href="calculadora-hipoteca.html" class="card">
+    <div class="card-ico">🏦</div>
+    <div class="card-title">Calculadora hipotecaria</div>
+    <div class="card-desc">Simulador UVA y USD.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
+  </a>
+
+  <a href="pinamar-ai.html" class="card">
+    <div class="card-ico">🤖</div>
+    <div class="card-title">Pinamar AI</div>
+    <div class="card-desc">Buscador conversacional por perfil psicográfico.</div>
+    <span class="status st-broken">🔧 Desconectado / mockup</span>
+    <div class="card-note">Hoy responde en "modo demo" con datos de ejemplo etiquetados como tales. Pendiente decisión: desarrollarlo en serio o convertirlo en buscador segmentado hacia portales externos.</div>
+  </a>
+
+  <a href="proveedores-certificados.html" class="card">
+    <div class="card-ico">🏅</div>
+    <div class="card-title">Proveedores Certificados</div>
+    <div class="card-desc">Inscripción al programa de certificación de técnicos y profesionales.</div>
+    <span class="status st-warn">⚠️ Sin verificar</span>
+    <div class="card-note">Falta confirmar si el formulario está guardando en Supabase.</div>
+  </a>
+
+  <a href="inmobiliarias.html" class="card">
+    <div class="card-ico">🏢</div>
+    <div class="card-title">Inmobiliarias</div>
+    <div class="card-desc">Listado/directorio de inmobiliarias asociadas.</div>
+    <span class="status st-warn">⚠️ Sin verificar</span>
+  </a>
+
+  <a href="inmobiliarias-registro.html" class="card">
+    <div class="card-ico">📝</div>
+    <div class="card-title">Registro de inmobiliaria</div>
+    <div class="card-desc">Alta de inmobiliaria con matrícula CMCPD.</div>
+    <span class="status st-warn">⚠️ Sin verificar</span>
+  </a>
+
+  <a href="terminos.html" class="card">
+    <div class="card-ico">📜</div>
+    <div class="card-title">Términos y condiciones</div>
+    <div class="card-desc">Legales del portal.</div>
+    <span class="status st-ok">✅ OK</span>
   </a>
 
   <div class="section-label">🔐 Autenticación</div>
@@ -119,8 +195,9 @@ body{font-family:'Poppins',sans-serif;background:var(--beige);min-height:100vh;p
   <a href="login-registro.html" class="card">
     <div class="card-ico">🔐</div>
     <div class="card-title">Login y Registro</div>
-    <div class="card-desc">Split screen con login (Google + email), registro diferenciado por tipo de usuario (propietario, inmobiliaria con matrícula CMCPD, desarrollador) y recuperación.</div>
-    <span class="card-tag tag-priv">Auth</span>
+    <div class="card-desc">Login (Google + email), registro por tipo de usuario, recuperación.</div>
+    <span class="status st-review">🧭 En revisión</span>
+    <div class="card-note">Todos los CTAs del sitio (Inicio, Publicar, +publicar) terminan acá. Contenido "no dice nada" — pendiente de rediseño.</div>
   </a>
 
   <div class="section-label">⚙️ Paneles privados</div>
@@ -128,21 +205,55 @@ body{font-family:'Poppins',sans-serif;background:var(--beige);min-height:100vh;p
   <a href="panel-inmobiliaria.html" class="card">
     <div class="card-ico">🏢</div>
     <div class="card-title">Panel de Inmobiliaria</div>
-    <div class="card-desc">Dashboard con KPIs, gestión de propiedades, nueva propiedad en 5 pasos, carga masiva CSV/API, consultas, permutas recibidas y garantías.</div>
-    <span class="card-tag tag-priv">Privado</span>
+    <div class="card-desc">KPIs, gestión de propiedades, carga masiva, consultas, permutas, garantías.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
   </a>
 
   <a href="panel-admin.html" class="card">
     <div class="card-ico">⚙️</div>
     <div class="card-title">Panel de Administrador</div>
-    <div class="card-desc">Dashboard global, aprobación de propiedades e inmobiliarias (matrícula CMCPD), usuarios, editor de precios por zona, índice CAC y API & integraciones.</div>
-    <span class="card-tag tag-admin">Admin</span>
+    <div class="card-desc">Dashboard global, aprobaciones, usuarios, precios por zona, índice CAC, API e integraciones.</div>
+    <span class="status st-ok">✅ Conectado y real</span>
   </a>
 
 </div>
+
+<p class="updated">Última actualización: 25/09/2026 — mantener esta página al día cada vez que cambie el estado de una sección, sobre todo durante el replanteo de estructura.</p>
+
 <script src="supabase-client.js"></script>
-  <script src="supabase.js"></script>
-  
-  <script src="nav.js"></script>
+<script src="supabase.js"></script>
+<script src="nav.js"></script>
+<script>
+(function() {
+  document.getElementById('page-body').style.visibility = 'hidden';
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    if (typeof Auth === 'undefined' || typeof db === 'undefined') {
+      document.getElementById('page-body').style.visibility = 'visible';
+      const notice = document.createElement('div');
+      notice.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#D69B2D;color:#fff;padding:10px 20px;font-size:13px;font-weight:600;z-index:9999;text-align:center';
+      notice.innerHTML = '⚠️ Modo demo — Supabase no configurado. <a href="pinamar-propiedades-v2.html" style="color:#fff;font-weight:800">← Volver al portal</a>';
+      document.body.prepend(notice);
+      return;
+    }
+    try {
+      const user = await Auth.getUser();
+      if (!user) {
+        window.location.href = 'login-registro.html?redirect=index-portal';
+        return;
+      }
+      const { data: perfil } = await db.from('perfiles').select('rol').eq('id', user.id).single();
+      if (!perfil || perfil.rol !== 'admin') {
+        window.location.href = 'pinamar-propiedades-v2.html';
+        return;
+      }
+      document.getElementById('page-body').style.visibility = 'visible';
+    } catch (e) {
+      // Ante cualquier error de auth, no mostrar el panel — fail closed.
+      window.location.href = 'login-registro.html?redirect=index-portal';
+    }
+  });
+})();
+</script>
 </body>
 </html>
