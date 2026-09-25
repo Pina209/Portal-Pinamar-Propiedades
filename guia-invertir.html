@@ -219,11 +219,12 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
     <h1>Invertir en <em>Pinamar</em><br>con confianza</h1>
     <p class="hero-p">Todo lo que necesitás saber para tomar la mejor decisión inmobiliaria en el Partido de Pinamar: zonas, precios, rentabilidad, marco legal y proceso de compra paso a paso.</p>
     <div class="hero-stats">
-      <div class="hs"><strong>+18%</strong><span>Valorización anual Cariló</span></div>
-      <div class="hs"><strong>5–7%</strong><span>Renta bruta temporal</span></div>
-      <div class="hs"><strong>USD 5.500</strong><span>Precio prom. Cariló/m²</span></div>
-      <div class="hs"><strong>+22%</strong><span>Escrituraciones 2026</span></div>
+      <div class="hs"><strong data-zona-apreciacion="carilo">–</strong><span>Valorización anual Cariló</span></div>
+      <div class="hs"><strong data-zona-rentabilidad="carilo">–</strong><span>Renta bruta temporal est.</span></div>
+      <div class="hs"><strong data-zona-precio-lote="carilo">–</strong><span>Precio prom. Cariló/m² (lote)</span></div>
+      <div class="hs"><strong id="hs-matriculados">–</strong><span>Matriculados en el Partido</span></div>
     </div>
+    <div class="hero-fuente" style="margin-top:10px;font-size:11px;opacity:.75">Fuente: indicadores propios Pinamar Propiedades y COMADO. <span id="hs-fecha"></span></div>
   </div>
 </div>
 
@@ -256,14 +257,14 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
         <div class="icard"><div class="icard-ico">🌲</div><div class="icard-title">Oferta limitada por ley</div><div class="icard-p">El COU (Código de Ordenamiento Urbano) limita la altura y la ocupación del suelo en todo el partido, especialmente en Cariló.</div></div>
         <div class="icard"><div class="icard-ico">🏖️</div><div class="icard-title">Demanda turística premium</div><div class="icard-p">El perfil de visitante de Pinamar/Cariló es ABC1. Alta disposición a pagar por alquileres de calidad en temporada alta.</div></div>
         <div class="icard"><div class="icard-ico">💵</div><div class="icard-title">Activo en dólares</div><div class="icard-p">Las propiedades se valúan y se negocian en USD, funcionando como reserva de valor ante la inflación y devaluación.</div></div>
-        <div class="icard"><div class="icard-ico">📈</div><div class="icard-title">+14% anual en USD</div><div class="icard-p">Promedio de valorización de los últimos 5 años. Cariló lideró con +18% interanual en 2025–2026.</div></div>
+        <div class="icard"><div class="icard-ico">📈</div><div class="icard-title">Valorización sostenida en USD</div><div class="icard-p">Las zonas del partido muestran apreciación interanual positiva y sostenida en dólares, con Cariló a la cabeza. Ver cifras actualizadas por zona en la sección 2.</div></div>
         <div class="icard"><div class="icard-ico">🏗️</div><div class="icard-title">Infraestructura consolidada</div><div class="icard-p">Servicios completos (gas, cloacas, fibra óptica), acceso por ruta y aeropuerto a 45 minutos (Mar del Plata).</div></div>
         <div class="icard"><div class="icard-ico">⚖️</div><div class="icard-title">Marco legal sólido</div><div class="icard-p">Municipio con catastro actualizado, planos de mensura registrados y sistema de escrituración consolidado.</div></div>
       </div>
 
       <div class="highlight">
         <h4>💡 El dato clave</h4>
-        <p>En los últimos 10 años, una propiedad promedio en Cariló valorizada en USD 200.000 pasó a valer aproximadamente USD 480.000, incluyendo la renta temporal acumulada. Eso es más del doble de retorno en dólares, superando a buena parte de los activos financieros en el mismo período.</p>
+        <p>La combinación de oferta limitada por normativa y demanda turística premium sostiene precios en USD por encima de otros destinos de la costa. Los valores de referencia por zona, con fuente y fecha de relevamiento, están en la sección 2 de esta guía — no usamos proyecciones ni promesas de retorno, solo el dato de mercado disponible a la fecha.</p>
       </div>
     </div>
 
@@ -282,15 +283,16 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
       </div>
 
       <table class="comp-table">
-        <thead><tr><th>Zona</th><th>Precio prom.</th><th>Rent. temporal</th><th>Valoriz. anual</th><th>Perfil</th></tr></thead>
+        <thead><tr><th>Zona</th><th>Precio prom. (lote)</th><th>Rent. temporal</th><th>Valoriz. anual</th><th>Perfil</th></tr></thead>
         <tbody>
-          <tr><td class="zona">🌲 Cariló</td><td class="precio">USD 5.500/m²</td><td class="up">5–8% bruto</td><td class="up">+18%</td><td>Lujo / largo plazo</td></tr>
-          <tr><td class="zona">⛳ Pinamar Norte</td><td class="precio">USD 3.200/m²</td><td class="up">4–6% bruto</td><td class="up">+14%</td><td>Premium / country</td></tr>
-          <tr><td class="zona">🌊 Pinamar Centro</td><td class="precio">USD 2.200/m²</td><td class="up">5–7% bruto</td><td class="up">+12%</td><td>Uso mixto / renta</td></tr>
-          <tr><td class="zona">🌿 Valeria del Mar</td><td class="precio">USD 1.900/m²</td><td>3–5% bruto</td><td class="up">+9%</td><td>Tranquilo / familiar</td></tr>
-          <tr><td class="zona">⚓ Ostende</td><td class="precio">USD 1.500/m²</td><td>3–5% bruto</td><td class="up">+10%</td><td>Potencial / accesible</td></tr>
+          <tr><td class="zona">🌲 Cariló</td><td class="precio" data-zona-precio-lote="carilo">–</td><td class="up" data-zona-rentabilidad="carilo">–</td><td class="up" data-zona-apreciacion="carilo">–</td><td>Lujo / largo plazo</td></tr>
+          <tr><td class="zona">⛳ Pinamar Norte</td><td class="precio" data-zona-precio-lote="pinamar-norte">–</td><td class="up" data-zona-rentabilidad="pinamar-norte">–</td><td class="up" data-zona-apreciacion="pinamar-norte">–</td><td>Premium / country</td></tr>
+          <tr><td class="zona">🌊 Pinamar Centro</td><td class="precio" data-zona-precio-lote="pinamar-centro">–</td><td class="up" data-zona-rentabilidad="pinamar-centro">–</td><td class="up" data-zona-apreciacion="pinamar-centro">–</td><td>Uso mixto / renta</td></tr>
+          <tr><td class="zona">🌿 Valeria del Mar</td><td class="precio" data-zona-precio-lote="valeria">–</td><td data-zona-rentabilidad="valeria">–</td><td class="up" data-zona-apreciacion="valeria">–</td><td>Tranquilo / familiar</td></tr>
+          <tr><td class="zona">⚓ Ostende</td><td class="precio" data-zona-precio-lote="ostende">–</td><td data-zona-rentabilidad="ostende">–</td><td class="up" data-zona-apreciacion="ostende">–</td><td>Potencial / accesible</td></tr>
         </tbody>
       </table>
+      <p style="font-size:11.5px;color:var(--gray,#6b7280);margin-top:6px">Fuente: indicadores de zona propios de Pinamar Propiedades. <span id="tabla-zonas-fecha"></span></p>
 
       <div class="warn-box">
         <h4>⚠️ Importante</h4>
@@ -304,37 +306,11 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
       <h2 class="sec-h2">¿Cuánto rinde una propiedad<br>en <em>Pinamar</em>?</h2>
       <p class="sec-p">La rentabilidad de una propiedad en Pinamar tiene dos componentes: la <strong>renta temporal</strong> (alquiler turístico) y la <strong>valorización del capital</strong>. Ambas se expresan en USD y se complementan para generar un retorno total atractivo.</p>
 
-      <div class="cards-2">
-        <div class="icard">
-          <div class="icard-ico">🏖️</div>
-          <div class="icard-title">Casa Cariló — USD 500.000</div>
-          <div class="icard-p">4 dormitorios · Bosque · Piscina · 285m²</div>
-          <div style="margin-top:12px;font-size:12.5px;color:#444;line-height:1.7">
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Enero (quincena)</span><strong style="color:var(--verde)">USD 7.000</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Febrero (quincena)</span><strong style="color:var(--verde)">USD 6.000</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Temporada alta total</span><strong style="color:var(--verde)">USD 26.000</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Fines de semana (año)</span><strong style="color:var(--verde)">USD 8.000</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-weight:700">Renta bruta anual</span><strong style="color:var(--ocre);font-size:16px">USD 34.000 (6,8%)</strong></div>
-          </div>
-          <div class="icard-val">+ valorización +18% = retorno total ~25%</div>
-        </div>
-        <div class="icard">
-          <div class="icard-ico">🌊</div>
-          <div class="icard-title">Depto Pinamar Centro — USD 100.000</div>
-          <div class="icard-p">2 ambientes · A 3 cuadras del mar · 52m²</div>
-          <div style="margin-top:12px;font-size:12.5px;color:#444;line-height:1.7">
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Enero (quincena)</span><strong style="color:var(--verde)">USD 1.800</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Temporada alta total</span><strong style="color:var(--verde)">USD 7.200</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--beige2)"><span>Fines de semana (año)</span><strong style="color:var(--verde)">USD 3.000</strong></div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-weight:700">Renta bruta anual</span><strong style="color:var(--ocre);font-size:16px">USD 10.200 (10,2%)</strong></div>
-          </div>
-          <div class="icard-val">+ valorización +12% = retorno total ~22%</div>
-        </div>
-      </div>
+      <p class="sec-p">La renta bruta temporal y la valorización anual publicadas para cada zona (sección 2) surgen del relevamiento propio de Pinamar Propiedades, no de un caso puntual — porque hoy no tenemos propiedades operando en el portal para mostrar un caso real, y preferimos no inventar uno. Cuando tengamos casos reales con historial de alquiler, los vamos a publicar acá con nombre de la propiedad, período y fuente verificable.</p>
 
       <div class="highlight">
-        <h4>🔑 Claves para maximizar la rentabilidad</h4>
-        <p>1) Elegí propiedades con buena distancia al mar (menos de 500m) · 2) Piscina o quincho aumenta el valor de alquiler hasta un 40% · 3) La ficha técnica certificada genera mayor confianza y permite cobrar precios premium · 4) Gestioná el alquiler con una inmobiliaria especializada que maximice la ocupación.</p>
+        <h4>🔑 Qué mueve la rentabilidad de una propiedad en Pinamar</h4>
+        <p>1) La distancia al mar es el factor de mayor peso en el precio de alquiler temporal · 2) Piscina y quincho son los amenities que más valorizan un alquiler de temporada · 3) Una ficha técnica certificada da más confianza al comprador o inquilino y reduce el tiempo de negociación · 4) La gestión profesional del alquiler (una inmobiliaria matriculada o un administrador dedicado) impacta directamente en la ocupación real lograda.</p>
       </div>
     </div>
 
@@ -533,7 +509,7 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
       <h4>🔗 Herramientas útiles</h4>
       <a href="https://www.pinamar.gob.ar/cou" target="_blank" rel="noopener" class="sb-link">🗺️ Mapa COU Municipalidad Pinamar</a>
       <a href="login-registro.html?servicio=ficha" class="sb-link">📋 Solicitar ficha técnica</a>
-      <a href="noticias.html" class="sb-link">📊 Informe de mercado abril 2026</a>
+      <a href="noticias.html" class="sb-link">📊 Informe de mercado julio 2026</a>
       <a href="calculadora-hipoteca.html" class="sb-link">🏦 Calculadora hipotecaria (UVA y USD)</a>
       <a href="pinamar-propiedades-v2.html#calculadora" class="sb-link">🏗️ Calculadora costo de construcción</a>
       <a href="https://www.colegio-escribanos.org.ar" target="_blank" rel="noopener" class="sb-link">⚖️ Red de escribanos de Pinamar</a>
@@ -544,7 +520,7 @@ nav{position:sticky;top:0;z-index:99;height:68px;background:rgba(242,233,215,.97
       <h4>📍 Explorá las zonas</h4>
       <a href="zona-carilo.html" class="sb-link">🌲 Cariló — Guía completa</a>
       <a href="perfiles-zona.html" class="sb-link">📊 Perfiles psicográficos de zona</a>
-      <a href="zona-carilo.html" class="sb-link">🌊 Pinamar — Guía completa</a>
+      <a href="listado-propiedades.html?zona=pinamar-centro" class="sb-link">🌊 Pinamar Centro</a>
       <a href="listado-propiedades.html?zona=valeria" class="sb-link">🌿 Valeria del Mar</a>
       <a href="listado-propiedades.html?zona=ostende" class="sb-link">⚓ Ostende</a>
     </div>
@@ -685,6 +661,59 @@ function calcularGastos() {
 }
 
 document.addEventListener('DOMContentLoaded', cargarTasasGastos);
+
+// ══════════════════════════════════════════════════════════════
+// DATOS DE MERCADO REALES (indicadores_zona + config_brand)
+// Reemplaza todo lo que antes eran cifras fijas en el HTML.
+// Si Supabase no responde, los campos quedan en "–" (estado
+// honesto) en vez de mostrar un número inventado.
+// ══════════════════════════════════════════════════════════════
+async function cargarDatosMercadoGuia() {
+  if (typeof db === 'undefined') return;
+
+  try {
+    const { data: ind } = await db.from('indicadores_zona').select('*');
+    if (ind && ind.length) {
+      let fechaMasReciente = null;
+      ind.forEach(z => {
+        const zona = z.zona;
+        if (z.apreciacion_pct_anual != null) {
+          document.querySelectorAll(`[data-zona-apreciacion="${zona}"]`).forEach(el => {
+            el.textContent = '+' + z.apreciacion_pct_anual + '%';
+          });
+        }
+        if (z.rentabilidad_alquiler_anual_pct != null) {
+          document.querySelectorAll(`[data-zona-rentabilidad="${zona}"]`).forEach(el => {
+            el.textContent = z.rentabilidad_alquiler_anual_pct + '% bruto';
+          });
+        }
+        if (z.precio_m2_lote_usd != null) {
+          document.querySelectorAll(`[data-zona-precio-lote="${zona}"]`).forEach(el => {
+            el.textContent = 'USD ' + Number(z.precio_m2_lote_usd).toLocaleString('es-AR') + '/m²';
+          });
+        }
+        if (z.fecha_datos && (!fechaMasReciente || z.fecha_datos > fechaMasReciente)) {
+          fechaMasReciente = z.fecha_datos;
+        }
+      });
+      if (fechaMasReciente) {
+        const fechaFmt = new Date(fechaMasReciente + 'T00:00:00').toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit', year:'numeric' });
+        document.querySelectorAll('#hs-fecha').forEach(el => el.textContent = 'Datos al ' + fechaFmt + '.');
+        document.querySelectorAll('#tabla-zonas-fecha').forEach(el => el.textContent = 'Datos al ' + fechaFmt + '.');
+      }
+    }
+  } catch (e) { console.error('cargarDatosMercadoGuia (indicadores_zona)', e); }
+
+  try {
+    const { data: cfg } = await db.from('config_brand').select('clave,valor')
+      .in('clave', ['market_matriculados_total', 'market_matriculados_fuente']);
+    if (cfg) {
+      const total = cfg.find(c => c.clave === 'market_matriculados_total')?.valor;
+      if (total) document.getElementById('hs-matriculados').textContent = total;
+    }
+  } catch (e) { console.error('cargarDatosMercadoGuia (config_brand)', e); }
+}
+document.addEventListener('DOMContentLoaded', cargarDatosMercadoGuia);
 </script>
 
 </body>
