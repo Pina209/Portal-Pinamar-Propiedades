@@ -254,7 +254,7 @@ nav{
 
 /* VISTA MAPA full */
 .mapa-full{display:none}
-.mapa-full.on{display:block;height:calc(100vh - 200px);flex:1}
+.mapa-full.on{display:block;height:calc(100vh - 200px);flex:1;position:relative}
 .mapa-full iframe{width:100%;height:100%;border:none}
 
 @media(max-width:1024px){
@@ -525,6 +525,9 @@ nav{
     <!-- MAPA FULL (oculto por defecto) -->
     <div class="mapa-full" id="mapa-full">
       <div id="mapa-listado" style="width:100%;height:100%;min-height:500px"></div>
+      <div style="position:absolute;left:12px;bottom:12px;z-index:800;background:rgba(255,255,255,.95);border-radius:8px;padding:8px 12px;font-size:11.5px;box-shadow:0 2px 10px rgba(0,0,0,.15)">
+        <b style="color:#0D5B48">Mapas oficiales:</b> <a href="https://www.mapaspinamar.gob.ar" target="_blank" rel="noopener">🗺️ Mapa COU de Pinamar</a> · <a href="https://carto.arba.gov.ar" target="_blank" rel="noopener">📍 CARTO ARBA</a>
+      </div>
     </div>
 
     <!-- GRID -->
