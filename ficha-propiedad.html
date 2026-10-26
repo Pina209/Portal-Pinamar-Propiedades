@@ -57,7 +57,7 @@ nav{
 
 /* BREADCRUMB */
 .breadcrumb{
-  margin-top:68px;background:#fff;border-bottom:1px solid var(--beige2);
+  background:#fff;border-bottom:1px solid var(--beige2);
   padding:12px 40px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gray);
 }
 .breadcrumb a{color:var(--turquesa);text-decoration:none;font-weight:500}
@@ -501,24 +501,7 @@ nav{
 <body>
 
 <!-- NAV -->
-<nav>
-  <a class="logo-wrap" href="pinamar-propiedades-v2.html">
-    <svg class="logo-svg" viewBox="0 0 120 120" fill="none">
-      <circle cx="60" cy="52" r="46" fill="#F2E9D7" opacity=".9"/>
-      <circle cx="35" cy="28" r="7" fill="#D69B2D"/>
-      <ellipse cx="38" cy="64" rx="16" ry="10" fill="#D69B2D" opacity=".85"/>
-      <polygon points="60,14 68,32 64,32 72,48 66,48 74,64 46,64 54,48 48,48 56,32 52,32" fill="#0D5B48"/>
-      <path d="M18 72 Q28 62 38 72 Q48 82 58 72 Q68 62 78 72 Q88 82 102 72 L102 92 L18 92 Z" fill="#16A39C"/>
-      <path d="M96 66 Q106 58 108 68 Q110 76 100 74 Q96 72 96 66Z" fill="#16A39C"/>
-      <circle cx="60" cy="52" r="46" stroke="#0D5B48" stroke-width="2.5" fill="none" opacity=".15"/>
-    </svg>
-    <div class="logo-txt"><span class="lp">PINAMAR</span><span class="lpp">PROPIEDADES</span></div>
-  </a>
-  <div class="nav-r">
-    <a href="pinamar-propiedades-v2.html" class="btn-back">← Volver al listado</a>
-    <a href="login-registro.html" class="btn-pub-nav">+ Publicar</a>
-  </div>
-</nav>
+<script src="header.js"></script>
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
@@ -940,9 +923,6 @@ function toggleDesc(btn){
     m.style.display='none';btn.textContent='Leer más ↓'
   }
 }
-window.addEventListener('scroll',()=>{
-  document.querySelector('nav').style.boxShadow=window.scrollY>40?'0 4px 24px rgba(0,0,0,.1)':''
-})
 </script>
 
 <script>
@@ -958,6 +938,29 @@ function setMetaOG(prop, content) {
   el.setAttribute('content', content);
 }
 
+
+function fichaNoDisponible(){
+  var bc=document.querySelector('.breadcrumb'), mn=document.querySelector('.main');
+  if(bc) bc.style.display='none'; if(mn) mn.style.display='none';
+  if(document.getElementById('ficha-no-disp')) return;
+  var d=document.createElement('div'); d.id='ficha-no-disp';
+  d.style.cssText='max-width:560px;margin:80px auto;padding:0 20px;text-align:center;font-family:Poppins,sans-serif';
+  d.innerHTML='<div style="font-size:42px">🏡</div><h1 style="font-size:22px;color:#0D5B48;margin:12px 0 8px">No encontramos esta propiedad</h1><p style="font-size:14px;color:#6b7280;line-height:1.6">Puede que ya no esté publicada o que el enlace sea incorrecto. Explorá las propiedades disponibles en el Partido de Pinamar.</p><a href="listado-propiedades.html" style="display:inline-block;margin-top:20px;background:#0D5B48;color:#fff;padding:12px 26px;border-radius:9px;font-weight:700;font-size:13.5px;text-decoration:none">Ver propiedades</a>';
+  document.body.appendChild(d);
+}
+
+function agregarAccionesFicha(prop){
+  try{
+    var cb=document.querySelector('.contact-card .cc-buttons'); if(!cb||document.getElementById('ficha-acciones')||!prop) return;
+    var precio=prop.precio_usd?Number(prop.precio_usd):'';
+    var d=document.createElement('div'); d.id='ficha-acciones';
+    d.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:12px';
+    var st='flex:1;min-width:130px;text-align:center;padding:9px 10px;border:1.5px solid #0D5B48;color:#0D5B48;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none';
+    d.innerHTML='<a style="'+st+'" href="calculadora-hipoteca.html'+(precio?'?valor='+precio:'')+'">🏦 Simular crédito</a>'+
+                '<a style="'+st+'" href="comparador.html?props='+encodeURIComponent(prop.id)+'">⚖️ Comparar</a>';
+    cb.parentNode.insertBefore(d, cb.nextSibling);
+  }catch(e){console.info('acciones ficha:',e.message)}
+}
 async function cargarFichaNexo(slug, tabla) {
   let prop, error;
   if (tabla) {
@@ -967,8 +970,8 @@ async function cargarFichaNexo(slug, tabla) {
     const resultado = await PropiedadesNexo.obtenerPorSlugCualquierTabla(slug);
     prop = resultado.data; error = resultado.error; tabla = resultado.tabla_origen;
   }
-  if (error || !prop) { console.error('cargarFichaNexo', error); return; }
-  _propData = prop;
+  if (error || !prop) { console.error('cargarFichaNexo', error); fichaNoDisponible(); return; }
+  _propData = prop; agregarAccionesFicha(prop);
 
   const titleEl = document.querySelector('.ph-title, h1.prop-title');
   if (titleEl) titleEl.textContent = prop.titulo;
@@ -1071,11 +1074,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const id = new URLSearchParams(location.search).get('id');
-  if (!id || typeof Propiedades === 'undefined') return;
+  if (!id || typeof Propiedades === 'undefined') { fichaNoDisponible(); return; }
 
   try {
     const { data: prop, error } = await Propiedades.getById(id);
-    if (error || !prop) return;
+    if (error || !prop) { fichaNoDisponible(); return; }
 
     // Título y zona
     const titleEl = document.querySelector('.ph-title, h1.prop-title');
@@ -1089,7 +1092,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (precioEl) precioEl.textContent = 'USD ' + prop.precio_usd?.toLocaleString('es-AR');
 
     // Iniciar mapa Leaflet con coordenadas reales
-    _propData = prop;
+    _propData = prop; agregarAccionesFicha(prop);
     if (prop.lat && prop.lng) {
       setTimeout(() => {
         iniciarMapa(

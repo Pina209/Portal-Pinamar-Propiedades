@@ -182,12 +182,12 @@ body{font-family:'Poppins',sans-serif;min-height:100vh;display:flex;background:v
         <span class="lpp">PROPIEDADES</span>
       </div>
     </a>
-    <h1 class="left-h1">El portal<br>inmobiliario de<br><em>Pinamar</em></h1>
-    <p class="left-p">Publicá, buscá y gestioná propiedades en Pinamar, Cariló, Valeria del Mar y Ostende — con ficha técnica certificada y datos catastrales oficiales.</p>
+    <h1 class="left-h1">100% <em>Pinamar</em>,<br>datos y gestión<br>de activos</h1>
+    <p class="left-p">Un ecosistema colaborativo para inversores, inmobiliarias, propietarios, desarrolladores y profesionales matriculados del Partido de Pinamar: Cariló, Pinamar, Valeria del Mar y Ostende.</p>
   </div>
 
   <div class="left-diferenciales">
-    <div class="dif"><div class="dif-ico">📋</div><div class="dif-txt"><h4>Ficha técnica certificada</h4><p>Estado del inmueble relevado por profesional matriculado. Único en el país.</p></div></div>
+    <div class="dif"><div class="dif-ico">📋</div><div class="dif-txt"><h4>Ficha técnica certificada</h4><p>Estado del inmueble relevado por profesional matriculado.</p></div></div>
     <div class="dif"><div class="dif-ico">🗺️</div><div class="dif-txt"><h4>Datos catastrales integrados</h4><p>ARBA y Mapa COU de la Municipalidad de Pinamar en cada ficha.</p></div></div>
     <div class="dif"><div class="dif-ico">🔄</div><div class="dif-txt"><h4>Sistema de permutas</h4><p>Enviá y recibí propuestas de permuta directamente entre partes.</p></div></div>
     <div class="dif"><div class="dif-ico">📊</div><div class="dif-txt"><h4>Precio promedio por barrio</h4><p>Conocé el mercado real de Pinamar antes de comprar o vender.</p></div></div>
@@ -419,7 +419,8 @@ function setMode(mode, el){
   } else {
     // Activar tab correcto sin botón
     document.querySelectorAll('.mode-btn').forEach(b => {
-      if(b.getAttribute('onclick')?.includes(mode)) b.classList.add('on');
+      b.classList.remove('on');
+      if(b.getAttribute('onclick')?.includes("'"+mode+"'")) b.classList.add('on');
     });
   }
 }
@@ -669,6 +670,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btn) selectUT(btn, tipo);
   }
   if(p.get('servicio')) setMode('registro', null);
+  // ?tab=login | registro | recuperar  (links del header y footer)
+  const tab = p.get('tab');
+  if(tab === 'login' || tab === 'registro' || tab === 'recuperar') setMode(tab, null);
+  // ?accion=publicar → registro (el usuario elige si es propietario, inmobiliaria o desarrollador)
+  if(p.get('accion') === 'publicar' && !tipo) setMode('registro', null);
 });
 </script>
 <script src="nav.js"></script>
