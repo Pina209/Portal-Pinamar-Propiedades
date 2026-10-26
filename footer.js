@@ -3,9 +3,6 @@
    Para cambiar el footer en TODO el sitio, se edita solo este archivo. */
 (function () {
   var script = document.currentScript;
-  var WA = '5491122548913';
-  var WA_TXT = '+54 9 11 2254-8913';
-  if (window.CONFIG && window.CONFIG.whatsapp) { WA = String(window.CONFIG.whatsapp); }
 
   var css = '\
 .pp-ft{background:#0a4535;font-family:"Poppins",sans-serif;color:#fff}\
@@ -31,6 +28,16 @@
   st.textContent = css;
   document.head.appendChild(st);
 
+  function build(){
+  var C = window.CONFIG || {};
+  var EMAIL = C.email || 'pinamarpropiedades.ar@gmail.com';
+  var TEL = C.telefono || '542254489313';
+  var TEL_TXT = C.telefonoDisplay || '+54 2254 48-9313';
+  var soc = '';
+  if (C.instagram) soc += '<a href="'+C.instagram+'" target="_blank" rel="noopener" title="Instagram">📸</a>';
+  if (C.facebook) soc += '<a href="'+C.facebook+'" target="_blank" rel="noopener" title="Facebook">📘</a>';
+  if (C.whatsapp) soc += '<a href="https://wa.me/'+C.whatsapp+'" target="_blank" rel="noopener" title="WhatsApp">💬</a>';
+  soc += '<a href="mailto:'+EMAIL+'" title="Email">✉️</a>';
   var html = '<footer class="pp-ft"><div class="pp-ft-main"><div class="pp-ft-in">' +
     '<div class="pp-ft-brand">' +
       '<a href="pinamar-propiedades-v2.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:14px">' +
@@ -42,10 +49,7 @@
         '<div><div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:.06em">PINAMAR</div>' +
         '<div style="font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.2em;text-transform:uppercase">PROPIEDADES</div></div></a>' +
       '<p class="pp-ft-tag">100% Pinamar. Ecosistema de inteligencia de datos y gestión de activos del Partido de Pinamar.</p>' +
-      '<div class="pp-ft-soc">' +
-        '<a href="https://instagram.com/pinamarpropiedades" target="_blank" rel="noopener" title="Instagram">📸</a>' +
-        '<a href="https://wa.me/' + WA + '" target="_blank" rel="noopener" title="WhatsApp">💬</a>' +
-        '<a href="mailto:info@pinamarpropiedades.com.ar" title="Email">✉️</a></div>' +
+      '<div class="pp-ft-soc">' + soc + '</div>' +
     '</div>' +
     '<div><div class="pp-ft-t">🏠 Portal</div>' +
       '<a href="quienes-somos.html" class="pp-ft-l">Quiénes somos</a>' +
@@ -65,13 +69,18 @@
       '<a href="login-registro.html?tab=login" class="pp-ft-l">Iniciar sesión</a>' +
       '<a href="login-registro.html?tab=registro" class="pp-ft-l">Registrarme</a>' +
       '<div class="pp-ft-t" style="margin-top:18px">📞 Contacto</div>' +
-      '<a href="mailto:info@pinamarpropiedades.com.ar" class="pp-ft-l">info@pinamarpropiedades.com.ar</a>' +
-      '<a href="https://wa.me/' + WA + '" target="_blank" rel="noopener" class="pp-ft-l">' + WA_TXT + '</a></div>' +
+      '<a href="mailto:' + EMAIL + '" class="pp-ft-l">' + EMAIL + '</a>' +
+      '<a href="tel:+' + TEL + '" class="pp-ft-l">' + TEL_TXT + '</a></div>' +
   '</div></div>' +
   '<div class="pp-ft-legal"><div class="pp-ft-in">' +
     '<span>© 2026 Pinamar Propiedades. Todos los derechos reservados.</span>' +
     '<span style="display:flex;gap:16px"><a href="terminos.html">Términos</a><a href="terminos.html#privacidad">Privacidad</a><a href="quienes-somos.html">Quiénes somos</a></span>' +
   '</div></div></footer>';
 
-  script.insertAdjacentHTML('beforebegin', html);
+  return html;
+  }
+  var slot = document.createElement('div');
+  script.parentNode.insertBefore(slot, script);
+  function fill(){ slot.outerHTML = build(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fill); else fill();
 })();

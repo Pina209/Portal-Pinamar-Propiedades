@@ -827,8 +827,8 @@ nav{
         </div>
       </div>
       <div class="cc-buttons">
-        <a href="https://wa.me/5491125489313?text=Hola!%20Vi%20la%20propiedad%20en%20Pinamar%20Propiedades" class="btn-wsp-big" id="btn-wsp-main" target="_blank" rel="noopener">
-          💬 Consultar por WhatsApp
+        <a href="#" onclick="window.open(window.CONFIG.linkWhatsapp('Hola! Vi la propiedad en Pinamar Propiedades'),'_blank');return false" class="btn-wsp-big" id="btn-wsp-main" target="_blank" rel="noopener">
+          💬 Consultar
         </a>
         <button class="btn-tel" onclick="this.textContent='📞 (02254) 4XX-XXX'">
           📞 Ver teléfono
@@ -1138,7 +1138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else if (prop.operacion === 'permuta') {
         btnMain.innerHTML = '💬 Hablar de permuta';
       } else {
-        btnMain.innerHTML = '💬 Consultar por WhatsApp';
+        btnMain.innerHTML = '💬 Consultar';
       }
     }
 
