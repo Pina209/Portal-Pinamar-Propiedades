@@ -541,7 +541,7 @@ const UI = {
             <div class="pc-price">USD ${p.precio_usd?.toLocaleString('es-AR')}</div>
             <div class="pc-actions">
               <a href="${urlWA}" target="_blank" rel="noopener" class="btn-wsp" onclick="event.stopPropagation()">${textoBotonWA}</a>
-              <a href="comparador.html" class="btn-comp" onclick="event.stopPropagation()">⚖️</a>
+              <a href="comparador.html?props=${p.id}" class="btn-comp" title="Comparar esta propiedad" onclick="event.stopPropagation()">⚖️</a>
               <a href="ficha-propiedad.html?id=${p.id}" class="btn-ver">Ver ficha</a>
             </div>
           </div>
