@@ -673,6 +673,11 @@ function leerQueryParams(){
     if(target) target.checked = true;
   }
 
+  // ?vista=mapa → abre directamente la vista de mapa (link "Buscador y mapa" del menú)
+  if(p.get('vista') === 'mapa'){
+    setTimeout(()=>{ if(typeof setView === 'function') setView('map', document.querySelector('.view-btn[title="Mapa"]')); }, 0);
+  }
+
   // Ficha
   if(p.get('ficha') === '1'){
     const cb = document.getElementById('filtro-ficha');

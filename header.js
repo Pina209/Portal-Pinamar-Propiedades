@@ -68,7 +68,7 @@
     '<ul class="pp-menu">' +
       '<li><a class="pp-quienes" href="quienes-somos.html">Quiénes Somos</a></li>' +
       '<li><a href="listado-propiedades.html">Propiedades ▾</a><div class="pp-dd">' +
-        '<a href="listado-propiedades.html">🔍 Buscador y mapa</a>' +
+        '<a href="listado-propiedades.html?vista=mapa">🔍 Buscador y mapa</a>' +
         '<a href="comparador.html">⚖️ Comparador</a>' +
         '<a href="servicios-portal.html#ficha">📋 Ficha técnica certificada</a>' +
         '<a href="calculadora-hipoteca.html">🏦 Calculadora hipotecaria</a>' +
