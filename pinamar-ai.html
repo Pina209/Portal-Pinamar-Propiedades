@@ -6,28 +6,22 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="shortcut icon" href="/favicon.ico">
-  <meta name="description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://pinamarpropiedades.com.ar/pinamar-ai.html">
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website">
-  <meta property="og:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
-  <meta property="og:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
-  <meta property="og:url"         content="https://pinamarpropiedades.com.ar/pinamar-ai.html">
-  <meta property="og:image"       content="https://pinamarpropiedades.com.ar/og-image.jpg">
-  <meta property="og:site_name"   content="Pinamar Propiedades">
-  <meta property="og:locale"      content="es_AR">
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades">
-  <meta name="twitter:description" content="Describí lo que buscás en lenguaje natural y Pinamar AI cruza tu perfil con fichas técnicas certificadas y datos reales de mercado.">
-  <meta name="twitter:image"       content="https://pinamarpropiedades.com.ar/og-image.jpg">
-  <!-- Preconnect para performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<meta name="description" content="Pinamar AI: contanos para qué querés la propiedad y cómo es tu hogar, y te mostramos qué zonas del Partido de Pinamar encajan, con datos del portal y su fuente.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pinamarpropiedades.com.ar/pinamar-ai.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pinamar AI — Asesor de inversión | Pinamar Propiedades">
+<meta property="og:description" content="Contanos tu objetivo y tu hogar y te mostramos qué zonas del Partido de Pinamar encajan, con datos y fuente.">
+<meta property="og:url" content="https://pinamarpropiedades.com.ar/pinamar-ai.html">
+<meta property="og:image" content="https://pinamarpropiedades.com.ar/og-image.jpg">
+<meta property="og:site_name" content="Pinamar Propiedades">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pinamar AI — Buscador inteligente de propiedades | Pinamar Propiedades</title>
+<title>Pinamar AI — Asesor de inversión | Pinamar Propiedades</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -38,25 +32,6 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Poppins',sans-serif;background:var(--verde2);color:#fff;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-
-/* ── NAV ── */
-nav{
-  height:60px;background:rgba(10,69,53,.9);backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  flex-shrink:0;z-index:10;
-}
-.logo-wrap{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo-svg{width:34px;height:34px}
-.lp{font-size:14px;font-weight:800;color:#fff;letter-spacing:.06em}
-.lpp{font-size:8px;color:var(--turquesa);letter-spacing:.2em;text-transform:uppercase}
-.nav-r{display:flex;align-items:center;gap:8px}
-.btn-sm{text-decoration:none;font-size:12px;font-weight:600;color:rgba(255,255,255,.7);padding:6px 14px;border:1px solid rgba(255,255,255,.15);border-radius:6px;transition:all .2s}
-.btn-sm:hover{color:#fff;border-color:rgba(255,255,255,.4)}
-.btn-in{text-decoration:none;font-size:12px;font-weight:600;color:#fff;padding:6px 14px;border:1px solid rgba(255,255,255,.4);border-radius:6px;transition:all .2s}
-.btn-in:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.7)}
-.btn-props{text-decoration:none;font-size:12px;font-weight:700;color:#fff;padding:6px 14px;background:var(--turquesa);border-radius:6px;transition:background .2s}
-.btn-props:hover{background:var(--verde-light)}
 
 /* ── LAYOUT ── */
 .ai-layout{flex:1;display:grid;grid-template-columns:280px 1fr;overflow:hidden}
@@ -228,555 +203,332 @@ nav{
   .chat-messages{padding:16px}
   .prop-cards-inline{grid-template-columns:1fr}
 }
+
+/* ── Etapa 0: botones, tarjetas y resumen ── */
+.opts{display:flex;flex-wrap:wrap;gap:10px;padding:14px 24px 6px;border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.15);flex-shrink:0;min-height:70px;align-items:center}
+.opt{font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:22px;padding:10px 16px;cursor:pointer;transition:all .2s}
+.opt:hover{background:rgba(22,163,156,.28);border-color:var(--turquesa)}
+.opt.sec{background:none;border-style:dashed;color:rgba(255,255,255,.7)}
+.opts-foot{padding:6px 24px 14px;background:rgba(0,0,0,.15);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;flex-shrink:0}
+.restart{background:none;border:none;color:rgba(255,255,255,.55);font:600 12px 'Poppins',sans-serif;cursor:pointer;text-decoration:underline}
+.restart:hover{color:#fff}
+.zc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:14px 16px;margin:10px 0}
+.zc h4{font-size:15px;color:#fff;margin-bottom:2px}
+.zc .zc-sub{font-size:11px;color:var(--turquesa);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.zc ul{list-style:none;padding:0;margin:6px 0 0}
+.zc li{font-size:13px;line-height:1.55;padding-left:16px;position:relative;margin-bottom:4px;color:rgba(255,255,255,.88)}
+.zc li:before{content:"•";position:absolute;left:3px;color:var(--turquesa)}
+.zc li.warn:before{content:"!";color:var(--ocre);font-weight:800}
+.zc li.nodata{color:rgba(255,255,255,.5)}
+.sec-t{font-size:11px;font-weight:700;color:var(--ocre);text-transform:uppercase;letter-spacing:.1em;margin:14px 0 4px}
+.cta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.cta{display:inline-block;text-decoration:none;font-size:12.5px;font-weight:700;padding:9px 15px;border-radius:9px;background:var(--turquesa);color:#fff}
+.cta.alt{background:none;border:1.5px solid rgba(255,255,255,.35)}
+.cta:hover{filter:brightness(1.1)}
+.legal{font-size:11px;color:rgba(255,255,255,.4);margin-top:12px;line-height:1.5}
+.prof{display:flex;flex-direction:column;gap:7px}
+.prof-it{font-size:12px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 11px}
+.prof-it b{display:block;font-size:10px;color:var(--turquesa);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.src-list{font-size:11.5px;color:rgba(255,255,255,.55);line-height:1.6}
+@media(max-width:700px){.opts{padding:12px 14px 4px}.opts-foot{padding:4px 14px 12px}.msg-bubble{max-width:88%}}
 </style>
-  <!-- Supabase JS v2 -->
-  <script src="supabase-client.js"></script>
-  <script src="supabase.js"></script>
-  <script src="nexo-inteligente.js"></script>
-  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-client.js"></script>
 </head>
 <body>
-
-<!-- ── NAV ── -->
 <script src="header.js"></script>
 
-<!-- ── LAYOUT ── -->
 <div class="ai-layout">
-
-  <!-- SIDEBAR -->
   <aside class="ai-sidebar">
     <div class="sidebar-header">
-      <div class="ai-badge"><div class="dot"></div>IA · Claude API</div>
+      <div class="ai-badge"><div class="dot"></div>Asesor por perfil</div>
       <div class="sidebar-title">Pinamar AI</div>
-      <div class="sidebar-sub">Buscador por estilo de vida con validación técnica de fichas.</div>
+      <div class="sidebar-sub">Primero entendemos para qué querés la propiedad y cómo es tu hogar. Después, las zonas.</div>
     </div>
-
     <div class="sidebar-section">
-      <h4>Probá con estos ejemplos</h4>
-      <div class="example-chips">
-        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Quiero una casa en Cariló, bosque, para inversión, que no necesite muchas reparaciones y esté por debajo del m² de la zona"</div>
-        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Busco algo frente al mar para alquilar en verano, hasta USD 200.000, con cochera"</div>
-        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"¿Cuál es la diferencia entre comprar en Valeria del Mar y en Ostende?"</div>
-        <div class="ex-chip" onclick="enviarEjemplo(this.textContent.trim())">"Tengo USD 400K, ¿en qué zona del Partido me conviene más invertir a largo plazo?"</div>
-      </div>
+      <h4>Tu perfil</h4>
+      <div class="prof" id="prof"><div class="sidebar-empty" style="padding:8px 0;text-align:left">Se va completando a medida que respondés.</div></div>
     </div>
-
-    <div class="sidebar-section" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
-      <h4>Propiedades encontradas</h4>
-      <div class="found-list" id="found-list">
-        <div class="sidebar-empty">Las propiedades que el AI detecte como relevantes para tu búsqueda van a aparecer acá.</div>
-      </div>
+    <div class="sidebar-section">
+      <h4>Qué datos usa</h4>
+      <div class="src-list">Precios de lote por zona, apreciación anual y relevamiento propio de cada micro-zona del Partido. Cada dato se muestra con su fecha. Si falta uno, lo decimos.</div>
     </div>
   </aside>
 
-  <!-- CHAT -->
   <div class="ai-chat">
-    <div class="chat-messages" id="chat-messages">
-      <div class="welcome" id="welcome-msg">
-        <div class="welcome-ico">🏡</div>
-        <h2>¿Qué estilo de vida estás buscando?</h2>
-        <p>Describime en palabras naturales lo que querés: zona, uso, presupuesto, estado de la propiedad. Voy a cruzar eso con los datos técnicos de las fichas certificadas y los perfiles psicográficos del Partido.</p>
-
-        <!-- Quiz opcional (secundario) — nunca reemplaza la conversación libre -->
-        <div id="ni-quiz-opcional" style="margin-top:18px;font-size:12.5px">
-          <button onclick="niToggleQuiz()" style="background:none;border:1px solid #ccc;border-radius:20px;padding:6px 14px;cursor:pointer;font-family:inherit;color:inherit">¿Preferís elegir con botones en vez de escribir? →</button>
-          <div id="ni-quiz-body" style="display:none;margin-top:14px;text-align:left">
-            <p style="font-weight:700;margin-bottom:6px">¿Para qué estás buscando?</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-              <button onclick="niQuizResponder('uso','inversion_renta')" class="ni-quiz-btn">📈 Invertir</button>
-              <button onclick="niQuizResponder('uso','vivienda_principal')" class="ni-quiz-btn">🏡 Vivienda</button>
-              <button onclick="niQuizResponder('uso','turismo')" class="ni-quiz-btn">🏖️ Turismo</button>
-            </div>
-            <p style="font-weight:700;margin-bottom:6px">¿Preferís privacidad o vida social?</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button onclick="niQuizResponder('estilo_vida',10)" class="ni-quiz-btn">🌲 Privacidad (Refugio)</button>
-              <button onclick="niQuizResponder('estilo_vida',50)" class="ni-quiz-btn">⚖️ Un poco de ambos</button>
-              <button onclick="niQuizResponder('estilo_vida',90)" class="ni-quiz-btn">✨ Vida social (Vidriera)</button>
-            </div>
-            <p id="ni-quiz-msg" style="margin-top:10px;color:var(--verde,#0D5B48);font-weight:600"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-input-area">
-      <div class="chat-input-row">
-        <textarea
-          class="chat-textarea"
-          id="chat-input"
-          placeholder="Ej: Busco casa en Cariló para inversión a largo plazo, bosque, no quiero hacer obras grandes..."
-          rows="1"
-        ></textarea>
-        <button class="send-btn" id="send-btn" onclick="enviar()" title="Enviar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-      <div class="input-hint">Pinamar AI usa Claude (Anthropic) · Los datos de fichas son orientativos hasta que el backend esté conectado</div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="opts" id="opts"></div>
+    <div class="opts-foot">
+      <button class="restart" id="restart" type="button">↺ Empezar de nuevo</button>
+      <span class="input-hint" style="margin:0">Información de mercado con fuente y fecha. No es una oferta ni una recomendación de compra.</span>
     </div>
   </div>
-
 </div>
 
 <script>
-// ── Configuración Supabase (leer de supabase.js si está cargado) ─────────
-// URL del proyecto (no es secreta — es pública por diseño de Supabase)
-const PINAMAR_AI_SUPABASE_URL      = typeof window._SUPABASE_URL !== 'undefined' ? window._SUPABASE_URL : 'https://TU-PROYECTO.supabase.co';
-// La anon key se lee desde el cliente de Supabase ya inicializado
-const PINAMAR_AI_ANON_KEY = typeof db !== 'undefined' ? db.supabaseKey : '';
+(function(){
+'use strict';
 
-// ── Estado del chat ───────────────────────────────────────────────────────
-const history = [];
-let isTyping = false;
+/* ───────── Preguntas (botones) ───────── */
+var Q = {
+  rol: { t:'¡Hola! Soy Pinamar AI. Para orientarte con datos del Partido de Pinamar, primero contame: ¿qué querés hacer?',
+    o:[['invertir','📈 Comprar para invertir'],['uso','🏡 Comprar para uso propio'],['propietario','🔑 Tengo una propiedad y quiero rentabilizarla o venderla'],['alquilar','🏖️ Quiero alquilar']] },
+  objetivo: { t:'¿Cuál es el objetivo principal de la inversión?',
+    o:[['renta_temporaria','Renta de alquiler temporario'],['renta_anual','Renta de alquiler anual'],['patrimonio','Resguardo de capital'],['plusvalia','Plusvalía y reventa'],['mixto','Uso propio y alquilarla cuando no la uso']] },
+  alquilarUso: { t:'¿Pensás alquilarla cuando no la uses?',
+    o:[['mixto','Sí, alquilarla'],['uso_propio','No, solo uso propio']] },
+  hogar: { t:'¿Quiénes van a usar la propiedad?',
+    o:[['solo','Yo solo'],['pareja','En pareja'],['hijos_chicos','Familia con hijos pequeños'],['hijos_grandes','Familia con hijos adolescentes o grandes'],['mayores','Con adultos mayores']] },
+  estilo: { t:'¿Qué ambiente buscás?',
+    o:[['silencio','🌲 Silencio y bosque'],['pueblo','🏘️ Pueblo con servicios y comercios'],['social','🍸 Vida social y buena gastronomía']] },
+  vehiculos: { t:'¿Tenés vehículos todo terreno, cuatriciclos o trailers para guardar?',
+    o:[['no','No'],['si','Sí']] },
+  presupuesto: { t:'¿Qué tope de presupuesto manejás? (solo lo usamos para orientarte, no se guarda)',
+    o:[['100000','Hasta USD 100.000'],['250000','USD 100.000 a 250.000'],['500000','USD 250.000 a 500.000'],['0','Más de USD 500.000'],['na','Prefiero no decirlo']] },
+  prop_obj: { t:'¿Qué querés hacer con tu propiedad?',
+    o:[['alquiler_temporario','Alquilarla en temporada'],['alquiler_anual','Alquilarla todo el año'],['venta','Venderla']] },
+  periodo: { t:'¿Para qué período buscás alquilar?',
+    o:[['verano','Temporada de verano'],['todo_anio','Todo el año'],['fines','Fines de semana y feriados']] }
+};
+var LABEL = {
+  rol:{invertir:'Comprar para invertir',uso:'Comprar para uso propio',propietario:'Propietario',alquilar:'Quiere alquilar'},
+  objetivo:{renta_temporaria:'Renta temporaria',renta_anual:'Renta anual',patrimonio:'Resguardo de capital',plusvalia:'Plusvalía y reventa',mixto:'Uso propio y alquiler',uso_propio:'Uso propio'},
+  hogar:{solo:'Solo',pareja:'Pareja',hijos_chicos:'Familia con hijos pequeños',hijos_grandes:'Familia con hijos adolescentes o grandes',mayores:'Con adultos mayores'},
+  estilo:{silencio:'Silencio y bosque',pueblo:'Pueblo con servicios',social:'Vida social y gastronomía'},
+  vehiculos:{no:'Sin vehículos para guardar',si:'Vehículos todo terreno / trailers'},
+  prop_obj:{alquiler_temporario:'Alquiler temporario',alquiler_anual:'Alquiler anual',venta:'Venta'},
+  periodo:{verano:'Temporada de verano',todo_anio:'Todo el año',fines:'Fines de semana y feriados'}
+};
+var ARQ = {refugio:'Refugio (bosque, silencio y baja densidad)',vidriera:'Vidriera (vida social, gastronomía y estilo)',accion:'Pueblo con servicios (centralidad y comercios)'};
+var ESTILO_ARQ = {silencio:'refugio',pueblo:'accion',social:'vidriera'};
 
-// ── Base de propiedades mock (se reemplaza con Supabase) ──────────────────
-const PROPIEDADES = [
-  {
-    id:'p001', zona:'carilo', zonaLabel:'Cariló — Bosque', perfil:'Refugio Inmaculado',
-    tipo:'casa', titulo:'Chalet en pino · 4 amb', precio:620000, dist:650, ficha:true,
-    permuta:true, piscina:true, cochera:false, cerrado:false, kyc:true,
-    estado:'bueno', cac:18000,
-    desc:'Casa en excelente estado estructural. Semáforo: ✅ estructura ✅ eléctr. ⚠️ sanitaria',
-    ico:'🌲'
-  },
-  {
-    id:'p002', zona:'pinamar-centro', zonaLabel:'Pinamar Centro', perfil:'El Pueblo del Mar',
-    tipo:'departamento', titulo:'Depto 2 amb · frente al mar', precio:98000, dist:300, ficha:false,
-    permuta:false, piscina:true, cochera:false, cerrado:false,
-    estado:'regular', cac:42000,
-    desc:'Sin ficha técnica certificada aún. Buena ubicación y alta demanda de alquiler.',
-    ico:'🌊'
-  },
-  {
-    id:'p003', zona:'pinamar-norte', zonaLabel:'Pinamar Norte — B. Golf', perfil:'El Club Silvestre',
-    tipo:'casa', titulo:'Casa en barrio cerrado · golf', precio:890000, dist:2000, ficha:true,
-    permuta:false, piscina:false, cochera:true, cerrado:true, kyc:true,
-    estado:'excelente', cac:0,
-    desc:'Sin reparaciones significativas según ficha. Estructura e instalaciones en estado óptimo.',
-    ico:'⛳'
-  },
-  {
-    id:'p004', zona:'ostende', zonaLabel:'Ostende — Frente al mar', perfil:'El Horizonte Tranquilo',
-    tipo:'casa', titulo:'Casa frente al mar · permuta', precio:480000, dist:0, ficha:false,
-    permuta:true, piscina:false, cochera:false, cerrado:false,
-    estado:'bueno', cac:28000,
-    desc:'Acepta permuta. Sin ficha certificada aún. Vista al mar directa, terreno 900 m².',
-    ico:'🌅'
-  },
-  {
-    id:'p005', zona:'valeria', zonaLabel:'Valeria del Mar', perfil:'El Horizonte Tranquilo',
-    tipo:'casa', titulo:'Casa · 3 amb · lote 800m²', precio:290000, dist:800, ficha:true,
-    permuta:false, piscina:false, cochera:false, cerrado:false,
-    estado:'bueno', cac:15000,
-    desc:'Ficha certificada. Semáforo: ✅ estructura ✅ instalaciones. Requiere pintura general.',
-    ico:'🌿'
-  },
-  {
-    id:'p006', zona:'carilo', zonaLabel:'Cariló — Bosque', perfil:'Refugio Inmaculado',
-    tipo:'terreno', titulo:'Lote 900 m² · bosque', precio:750000, dist:1200, ficha:false,
-    permuta:false, piscina:false, cochera:false, cerrado:false,
-    estado:'n/a', cac:0,
-    desc:'Lote en pleno bosque, zonificación residencial baja densidad. Proyecto en etapa de diseño.',
-    ico:'🌳'
-  },
-];
+var perfil = {};
+var DATA = {mz:[],fx:{},zonas:{},ind:{},hayInventario:null,cargado:false,error:false};
 
-// ── Perfiles psicográficos (fallback mock — se reemplaza por datos
-// reales de la tabla `zonas` en tiempo de ejecución, ver cargarZonasContext) ──
-const PERFILES_CONTEXT_MOCK = `
-PERFILES PSICOGRÁFICOS DEL PARTIDO DE PINAMAR:
-1. "Refugio Inmaculado" (Cariló): Bosque, privacidad, escasez cuidada. Inversor UHNW, largo plazo. USD/m² lote: 5.500. Negatividad: 4%. Polarización baja.
-2. "La Vidriera" (Costa Esmeralda): Barrios cerrados, estatus, náutica y golf. Alta polarización (24% negatividad). Oportunidad de revalorización. USD/m² lote: 3.200.
-3. "El Pueblo del Mar" (Pinamar Centro): Alta liquidez, alquiler temporal, acceso a servicios. Negatividad 12%, mercado maduro. USD/m² depto: 2.200.
-4. "El Horizonte Tranquilo" (Valeria del Mar / Ostende): Tranquilidad, horizonte abierto, revalorización. Negatividad 8%. USD/m² lote: 1.800.
-5. "El Club Silvestre" (Pinamar Norte): Barrios golf, lote grande, familia activa. Negatividad 11%. USD/m² lote: 2.800.
-`;
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fecha(d){ if(!d) return ''; var m=String(d).match(/^(\d{4})-(\d{2})-(\d{2})/); return m? m[3]+'/'+m[2]+'/'+m[1] : ''; }
+function fmtN(n){ return Number(n).toLocaleString('es-AR'); }
 
-// ── NEXO INTELIGENTE: los 3 bloques de contexto reales ────────────────────
-// Corrige un bug real que había en esta página: se usaba una variable
-// PROPIEDADES_CONTEXT que nunca estaba definida en ningún lado, lo que
-// hacía que el chat fallara silenciosamente en cada mensaje (caía siempre
-// al catch de "Hubo un problema al conectar con el servidor").
-
-async function armarZonasContext() {
-  if (typeof Zonas === 'undefined') return PERFILES_CONTEXT_MOCK;
-  try {
-    const zonas = await Zonas.listar();
-    if (!zonas.length) return PERFILES_CONTEXT_MOCK;
-    const lineas = zonas.map(z => {
-      const partes = [`"${z.nombre_perfil_psicografico || z.nombre}" (${z.nombre})`];
-      if (z.descripcion_estilo_vida) partes.push(z.descripcion_estilo_vida);
-      if (z.usd_m2_lote) partes.push(`USD/m² lote: ${z.usd_m2_lote}`);
-      if (z.usd_m2_casa) partes.push(`USD/m² casa: ${z.usd_m2_casa}`);
-      if (z.usd_m2_depto) partes.push(`USD/m² depto: ${z.usd_m2_depto}`);
-      if (z.sentimiento_negatividad_pct != null) partes.push(`Negatividad: ${z.sentimiento_negatividad_pct}%`);
-      if (z.liquidez_dias_promedio_venta) partes.push(`Liquidez: ${z.liquidez_dias_promedio_venta} días prom. de venta`);
-      return '- ' + partes.join(' | ');
-    });
-    return `PERFILES PSICOGRÁFICOS DEL PARTIDO DE PINAMAR (datos reales de la tabla zonas):\n${lineas.join('\n')}`;
-  } catch (e) {
-    console.info('ZONAS_CONTEXT: no se pudo cargar, uso mock', e.message);
-    return PERFILES_CONTEXT_MOCK;
-  }
-}
-
-async function armarPropiedadesContext(perfil) {
-  if (typeof PropiedadesNexo === 'undefined') return armarPropiedadesContextMock();
-  try {
-    // Filtro SQL determinístico previo (Sección 5/6 de la arquitectura):
-    // acota el pool ANTES de la llamada a la IA, sin una segunda llamada.
-    const candidatas = await PropiedadesNexo.filtrarParaIA(perfil);
-    if (!candidatas.length) return armarPropiedadesContextMock();
-    const lineas = candidatas.map(p =>
-      `- [${p.id}] ${p.titulo} (${p.tabla_origen.replace('propiedades_','')}) | USD ${p.precio_usd?.toLocaleString() || 's/d'} | Dist. mar: ${p.dist_mar_m ?? 's/d'}m | Operación: ${p.operacion}`
-    );
-    return `PROPIEDADES DISPONIBLES (datos reales, ya filtradas — ${candidatas.length} candidatas):\n${lineas.join('\n')}`;
-  } catch (e) {
-    console.info('PROPIEDADES_CONTEXT: no se pudo cargar de la BD real, uso mock', e.message);
-    return armarPropiedadesContextMock();
-  }
-}
-
-function armarPropiedadesContextMock() {
-  return `PROPIEDADES DISPONIBLES (datos simplificados, modo demo):\n${PROPIEDADES.map(p => `- [${p.id}] ${p.titulo} en ${p.zonaLabel} | USD ${p.precio.toLocaleString()} | Dist mar: ${p.dist}m | Ficha: ${p.ficha?'SÍ':'NO'} | KYC: ${p.kyc?'SÍ':'NO'} | Estado: ${p.estado} | CAC estimado: USD ${p.cac.toLocaleString()} | Acepta permuta: ${p.permuta?'SÍ':'NO'}`).join('\n')}\n\nÍNDICE CAC (Cámara Argentina de la Construcción) 2026: USD 1.200/m² construcción media. Una reparación mayor (sanitaria completa) ronda USD 15.000–35.000.`;
-}
-
-async function armarPerfilUsuarioContext() {
-  if (typeof PerfilBusqueda === 'undefined') return '';
-  try {
-    const perfil = await PerfilBusqueda.ultimoDeLaSesion();
-    if (!perfil) return '';
-    const partes = [];
-    if (perfil.uso) partes.push(`Uso buscado: ${perfil.uso}`);
-    if (perfil.composicion_hogar) partes.push(`Composición del hogar: ${perfil.composicion_hogar}`);
-    if (perfil.estilo_vida != null) partes.push(`Estilo de vida (0=Refugio, 100=Vidriera): ${perfil.estilo_vida}`);
-    if (perfil.uso_temporal) partes.push(`Uso temporal: ${perfil.uso_temporal}`);
-    if (perfil.tolerancia_riesgo_legal) partes.push(`Tolerancia a riesgo legal: ${perfil.tolerancia_riesgo_legal}`);
-    if (perfil.sensibilidad_financiamiento) partes.push(`Sensibilidad a financiamiento: ${perfil.sensibilidad_financiamiento}`);
-    if (!partes.length) return '';
-    return `PERFIL DEL COMPRADOR ACTUAL (ya registrado en esta sesión, cruzalo con las propiedades):\n${partes.map(p => '- ' + p).join('\n')}`;
-  } catch (e) {
-    console.info('PERFIL_USUARIO_CONTEXT: no se pudo cargar', e.message);
-    return '';
-  }
-}
-
-// ── Respuesta simulada (modo demo, sin Edge Function desplegada) ──────────
-// Aviso honesto: la primera vez que se cae a este modo en la sesión del
-// usuario, se muestra un mensaje aparte explicando que todavía no hay
-// datos reales conectados — nunca se presenta una respuesta simulada
-// como si fuera una recomendación real basada en el inventario actual.
-let _avisoModoDemoMostrado = false;
-async function respuestaDemo(history) {
-  await new Promise(r => setTimeout(r, 1200));
-
-  if (!_avisoModoDemoMostrado) {
-    _avisoModoDemoMostrado = true;
-    agregarMensajeAI('⚠️ **Por ahora estoy respondiendo en modo demostración.** Todavía no tengo conectados los datos reales del inventario ni el motor de IA — las próximas respuestas son de ejemplo, con cifras y propiedades ilustrativas, no recomendaciones reales. Para información certera sobre una propiedad puntual, contactá directamente a Pinamar Propiedades.');
-    await new Promise(r => setTimeout(r, 500));
-  }
-
-  const PREFIJO_DEMO = '_(Respuesta de ejemplo — modo demo)_\n\n';
-  const ultimo = history[history.length - 1]?.content?.toLowerCase() ?? '';
-  if (ultimo.includes('cariló') || ultimo.includes('carilo') || ultimo.includes('bosque')) {
-    return PREFIJO_DEMO + 'Para el perfil **"Refugio Inmaculado"** (Cariló), el mercado premia la privacidad y el bosque sobre cualquier otra variable. Las propiedades con ficha técnica se venden 3,4× más rápido que sin ficha *(cifra de ejemplo)*.\n\nTe recomiendo estas propiedades que coinciden con tu búsqueda: [p001] [p006]\n\n¿Querés que compare estas dos opciones en el comparador técnico?';
-  } else if (ultimo.includes('mar') || ultimo.includes('playa') || ultimo.includes('frente')) {
-    return PREFIJO_DEMO + 'Para una propiedad frente al mar con perfil de alquiler temporal, Pinamar Centro y Ostende son las mejores opciones por liquidez y demanda en temporada.\n\nTe recomiendo: [p002] [p004]\n\n¿Querés filtrar por precio o por si tienen ficha técnica certificada?';
-  } else if (ultimo.includes('inversion') || ultimo.includes('inversión') || ultimo.includes('largo plazo')) {
-    return PREFIJO_DEMO + 'Para inversión a largo plazo, los datos de ejemplo muestran que **Cariló tendría la mayor apreciación** (+18% en 2023–2025 *(cifra de ejemplo, no verificada)*) y el menor índice de negatividad del Partido (4%).\n\nValeria del Mar sería la segunda mejor opción con +14% y alta demanda en crecimiento *(cifras de ejemplo)*.\n\n¿Tenés un presupuesto en mente para mostrarte las opciones disponibles?';
-  } else {
-    return PREFIJO_DEMO + 'Contame un poco más: ¿buscás para uso propio o inversión? ¿Tenés una zona del Partido en mente, o arrancamos comparando perfiles?\n\nPor ejemplo, podés decirme "quiero algo en el bosque, sin obras, hasta USD 500.000" y cruzamos eso con las fichas técnicas disponibles.';
-  }
-}
-
-// ── Prompt de sistema ─────────────────────────────────────────────────────
-// Marcadores para inyección dinámica de contexto de BD
-const SYSTEM_PROMPT = `{{ZONAS_CONTEXT}}
-
-Sos el asistente de búsqueda inmobiliaria de Pinamar Propiedades. Te llamás "Pinamar AI".
-
-Tu objetivo es ayudar al usuario a encontrar la propiedad ideal en el Partido de Pinamar cruzando 3 cosas:
-1. Su perfil de comprador (uso buscado, estilo de vida, tolerancia a riesgo legal, financiamiento) — ver {{PERFIL_USUARIO_CONTEXT}} más abajo, si ya está disponible.
-2. Su perfil psicográfico de zona (estilo de vida deseado, zona emocional).
-3. Datos técnicos duros (precio/m², estado según ficha, costo de reparaciones CAC, distancia al mar).
-
-{{PERFIL_USUARIO_CONTEXT}}
-
-{{PROPIEDADES_CONTEXT}}
-
-INSTRUCCIONES:
-- Respondé siempre en español rioplatense (voseo).
-- Si hay un PERFIL DEL COMPRADOR ACTUAL disponible, usalo como primer filtro antes de recomendar — no le vuelvas a preguntar algo que ya está ahí.
-- Cuando el usuario describa lo que busca, identificá el perfil psicográfico de zona que mejor encaja y explicá brevemente por qué.
-- Recomendá entre 2 y 4 propiedades de la lista que mejor matcheen con su búsqueda. Para cada una, explicá el nivel de match y cualquier dato técnico relevante (estado, CAC, distancia al mar).
-- Si mencionan un presupuesto, filtrá las propiedades dentro de ese rango.
-- Si preguntan por diferencias entre zonas, usá los datos de sentimiento y precios para responder con precisión.
-- Cuando recomendés propiedades, incluí sus IDs entre corchetes así: [p001], [p002] — esto permite que el sistema las muestre como cards.
-- Si el usuario tiene dudas sobre si conviene una zona u otra, compará los índices de negatividad, polarización y precio/m².
-- Sé conciso pero preciso. Máximo 3 párrafos de texto + recomendaciones.
-- Nunca inventés datos que no están en el contexto. Si no sabés algo, decilo.
-- Al final de cada respuesta con propiedades recomendadas, preguntá si quiere ver la ficha técnica completa o comparar alguna de ellas.`;
-
-// ── Enviar mensaje ────────────────────────────────────────────────────────
-async function enviar(){
-  const input = document.getElementById('chat-input');
-  const texto = input.value.trim();
-  if(!texto || isTyping) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-
-  // Ocultar bienvenida
-  const welcome = document.getElementById('welcome-msg');
-  if(welcome) welcome.style.display = 'none';
-
-  // Agregar mensaje del usuario
-  agregarMensaje('user', texto);
-  history.push({role:'user', content:texto});
-
-  // Mostrar typing
-  isTyping = true;
-  document.getElementById('send-btn').disabled = true;
-  const typingEl = mostrarTyping();
-
-  try {
-    // Armar los 3 bloques de contexto reales (Sección 6 de la arquitectura
-    // Nexo Inteligente): zonas, propiedades ya filtradas por SQL, y perfil
-    // del comprador de esta sesión — con fallback a mock si algo falla.
-    let perfilActual = null;
-    try {
-      if (typeof PerfilBusqueda !== 'undefined') perfilActual = await PerfilBusqueda.ultimoDeLaSesion();
-    } catch (e) { /* sigue sin perfil */ }
-
-    const [zonasContext, propsContext, perfilContext] = await Promise.all([
-      armarZonasContext(),
-      armarPropiedadesContext(perfilActual),
-      armarPerfilUsuarioContext()
+/* ───────── Carga de datos (Supabase) ───────── */
+async function cargar(){
+  if(typeof db==='undefined'){ DATA.error=true; return; }
+  try{
+    var r=await Promise.all([
+      db.from('microzonas').select('*').eq('activo',true).order('orden'),
+      db.from('factores_microzona').select('microzona_id,factor,valor,nota,fecha,fuente'),
+      db.from('zonas').select('slug,usd_m2_lote,precios_fecha,rentabilidad_alquiler_anual_pct').eq('activo',true),
+      db.from('indicadores_zona').select('zona,apreciacion_pct_anual,rentabilidad_alquiler_anual_pct,fecha_datos'),
+      db.from('barrios').select('total_propiedades')
     ]);
+    DATA.mz=(r[0].data||[]);
+    (r[1].data||[]).forEach(function(f){ (DATA.fx[f.microzona_id]=DATA.fx[f.microzona_id]||{})[f.factor]=f; });
+    (r[2].data||[]).forEach(function(z){ DATA.zonas[z.slug]=z; });
+    (r[3].data||[]).forEach(function(i){ DATA.ind[i.zona]=i; });
+    if(r[4].data){ DATA.hayInventario = r[4].data.reduce(function(a,b){return a+(Number(b.total_propiedades)||0);},0) > 0; }
+    DATA.error = !!(r[0].error);
+  }catch(e){ console.info('Pinamar AI: no se pudieron cargar datos', e&&e.message); DATA.error=true; }
+  DATA.cargado=true;
+}
 
-    // Inyección limpia de contexto — marcadores {{...}} en lugar de regex frágil
-    const systemPromptFinal = SYSTEM_PROMPT
-      .replace('{{ZONAS_CONTEXT}}', zonasContext)
-      .replace('{{PERFIL_USUARIO_CONTEXT}}', perfilContext)
-      .replace('{{PROPIEDADES_CONTEXT}}', propsContext);
+/* ───────── Motor de reglas (determinista) ───────── */
+function fx(mzId,name){ var f=(DATA.fx[mzId]||{})[name]; return f? f : null; }
+function hayFactores(){ return Object.keys(DATA.fx).length>0; }
 
-    // ── Llamar a la Edge Function (proxy seguro) ──────────────────────────
-    // La API key de Anthropic vive en el servidor, nunca en el navegador.
-    // En modo demo (sin Supabase, o si la Edge Function todavía no está
-    // desplegada), usa respuestaDemo() para respuestas simuladas.
-    const EDGE_URL = typeof db !== 'undefined'
-      ? `${PINAMAR_AI_SUPABASE_URL}/functions/v1/ai-search`
-      : null;
-
-    let respuesta = '';
-
-    if (EDGE_URL) {
-      try {
-        const response = await fetch(EDGE_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(typeof db !== 'undefined' && db.supabaseKey ? {'apikey': db.supabaseKey} : {}),
-          },
-          body: JSON.stringify({
-            messages: history,
-            filtros: Propiedades?.filtrosDesdeURL?.() ?? {},
-          })
-        });
-
-        if (!response.ok) throw new Error(`Edge Function respondió ${response.status}`);
-        const data = await response.json();
-        if (data.error) throw new Error(data.error);
-        respuesta = data.respuesta || 'No pude procesar la respuesta.';
-      } catch (edgeErr) {
-        // La Edge Function todavía no está desplegada (pendiente anotado) —
-        // en vez de mostrar un error al usuario, caemos al modo demo.
-        console.info('Edge Function no disponible, uso modo demo:', edgeErr.message);
-        respuesta = await respuestaDemo(history);
+function evaluar(p){
+  var arq = ESTILO_ARQ[p.estilo];
+  var quiet = (p.estilo==='silencio') || p.hogar==='hijos_chicos' || p.hogar==='mayores';
+  var res=[], excl=[];
+  DATA.mz.filter(function(m){return m.tipo==='residencial';}).forEach(function(m){
+    var s=0, why=[], warn=[], ex=null;
+    if(arq){ if(m.arquetipo===arq){ s+=3; why.push('Coincide con el ambiente que elegiste: '+ARQ[arq].split(' (')[0].toLowerCase()+'.'); } else if(!m.arquetipo){ s+=1; } }
+    var ruido=fx(m.id,'ruido_nocturno');
+    if(ruido){
+      var rv=ruido.valor, ff=' (relevamiento propio, '+fecha(ruido.fecha)+')';
+      if(quiet && rv==='alto'){ ex='Tiene actividad nocturna intensa en temporada, algo que no encaja con lo que buscás'+ff+'.'; }
+      else if(quiet && rv==='moderado'){ s-=1; warn.push('Hay actividad social al atardecer en algunos sectores'+ff+'.'); }
+      else if(quiet && (rv==='bajo'||rv==='nulo')){ s+=2; why.push('Ambiente nocturno '+(rv==='nulo'?'muy tranquilo':'tranquilo')+ff+'.'); }
+      else if(p.estilo==='social' && (rv==='alto'||rv==='moderado')){ s+=1; why.push('Tiene actividad nocturna y social en temporada'+ff+'.'); }
+      if(ruido.nota && !ex && (rv==='alto'||rv==='moderado')) warn.push(ruido.nota);
+    }
+    if(p.vehiculos==='si'){
+      var tt=fx(m.id,'acceso_vehiculos_todo_terreno');
+      if(tt){
+        if(tt.valor==='frecuente'){ s+=2; why.push('Zona de uso frecuente de vehículos todo terreno.'); }
+        else if(tt.valor==='restringido'){ warn.push('El acceso de vehículos todo terreno a la playa está restringido en esta zona.'); }
+        else if(tt.valor==='no'){ warn.push('No se permite el acceso de vehículos todo terreno a la playa.'); }
       }
-    } else {
-      respuesta = await respuestaDemo(history);
     }
-
-    typingEl.remove();
-    agregarMensajeAI(respuesta);
-    history.push({role:'assistant', content:respuesta});
-    // Persistir conversación
-    if (typeof AIConversaciones !== 'undefined') {
-      const propIds = [...respuesta.matchAll(/\[p[a-zA-Z0-9-]{3,36}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
-      await AIConversaciones.guardar(history, propIds).catch(() => {});
+    if(p.objetivo==='renta_anual'||p.objetivo==='mixto'){
+      var v=fx(m.id,'vida_todo_el_ano');
+      if(v && v.valor==='si'){ s+=2; why.push('Tiene vida y demanda de alquiler fuera de temporada ('+fecha(v.fecha)+').'); }
     }
-
-    // Extraer IDs de propiedades mencionadas
-    const ids = [...respuesta.matchAll(/\[p\d{3}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
-    if(ids.length > 0) actualizarFoundList(ids);
-
-  } catch(err){
-    typingEl.remove();
-    agregarMensajeAI('Hubo un problema al conectar con el servidor. Por favor intentá de nuevo en un momento.');
-    console.error('API error:', err);
-  }
-
-  isTyping = false;
-  document.getElementById('send-btn').disabled = false;
-}
-
-// ── Agregar mensaje usuario ───────────────────────────────────────────────
-function agregarMensaje(rol, texto){
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = `msg ${rol}`;
-  div.innerHTML = `
-    <div class="msg-avatar">${rol === 'user' ? '👤' : '🏡'}</div>
-    <div class="msg-bubble">${escapeHtml(texto).replace(/\n/g,'<br>')}</div>
-  `;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-// ── Agregar respuesta AI (con prop cards si aplica) ───────────────────────
-function agregarMensajeAI(texto){
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-
-  // Extraer IDs de props mencionados
-  const ids = [...texto.matchAll(/\[p\d{3}\]/g)].map(m => m[0].replace(/[\[\]]/g,''));
-
-  // Limpiar IDs del texto para mostrar
-  let textoLimpio = texto.replace(/\[p\d{3}\]/g, '').replace(/\s+/g,' ').trim();
-
-  // Formatear texto: negrita para **texto**
-  textoLimpio = textoLimpio.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  // Saltos de línea
-  textoLimpio = textoLimpio.replace(/\n/g,'<br>');
-
-  let cardsHtml = '';
-  if(ids.length > 0){
-    const props = ids.map(id => PROPIEDADES.find(p => p.id === id)).filter(Boolean);
-    cardsHtml = `<div class="prop-cards-inline">${props.map(p => `
-      <a href="ficha-propiedad.html?id=${p.id}" class="pci">
-        <div class="pci-ico">${p.ico}</div>
-        <div class="pci-zona">${p.perfil}</div>
-        <div class="pci-title">${p.titulo}</div>
-        <div class="pci-price">USD ${p.precio.toLocaleString()}</div>
-        <div class="pci-badges">
-          ${p.kyc ? '<span class="pci-badge">🛡️ KYC</span>' : ''}${p.ficha ? '<span class="pci-badge">📋 Ficha</span>' : ''}
-          ${p.permuta ? '<span class="pci-badge">🔄 Permuta</span>' : ''}
-          ${p.cerrado ? '<span class="pci-badge">🔒 B. Cerrado</span>' : ''}
-          ${p.dist === 0 ? '<span class="pci-badge">🌊 Frente al mar</span>' : p.dist <= 300 ? '<span class="pci-badge">🌊 < 300m</span>' : ''}
-        </div>
-        <div class="pci-match"><div class="match-bar"></div> Alta compatibilidad</div>
-      </a>`).join('')}</div>`;
-  }
-
-  // Análisis de zona si menciona una zona específica
-  let zonaHtml = '';
-  const zonaTexto = texto.toLowerCase();
-  let zonaData = null;
-  if(zonaTexto.includes('cariló') || zonaTexto.includes('carilo')){
-    zonaData = {zona:'Cariló', pos:91, neg:4, pol:'Baja', precio:'USD 5.500/m²'};
-  } else if(zonaTexto.includes('costa esmeralda')){
-    zonaData = {zona:'Costa Esmeralda', pos:68, neg:24, pol:'Alta', precio:'USD 3.200/m²'};
-  } else if(zonaTexto.includes('valeria')){
-    zonaData = {zona:'Valeria del Mar', pos:83, neg:8, pol:'Baja', precio:'USD 1.800/m²'};
-  }
-  if(zonaData && ids.length === 0){
-    zonaHtml = `<div class="zona-analysis">
-      <div class="za-title">📊 Análisis de sentimiento · ${zonaData.zona}</div>
-      <div class="za-row"><span class="za-label">Positividad</span><div class="za-bar-wrap"><div class="za-bar" style="width:${zonaData.pos}%"></div></div><span class="za-pct">${zonaData.pos}%</span></div>
-      <div class="za-row"><span class="za-label">Negatividad</span><div class="za-bar-wrap"><div class="za-bar" style="width:${zonaData.neg}%;background:#e05555"></div></div><span class="za-pct">${zonaData.neg}%</span></div>
-      <div class="za-row"><span class="za-label">Polarización</span><span style="font-size:12px;color:rgba(255,255,255,.7)">${zonaData.pol}</span></div>
-      <div class="za-row"><span class="za-label">Precio referencia</span><span style="font-size:12px;font-weight:700;color:var(--ocre)">${zonaData.precio}</span></div>
-    </div>`;
-  }
-
-  div.innerHTML = `
-    <div class="msg-avatar">🏡</div>
-    <div class="msg-bubble">
-      ${textoLimpio}
-      ${cardsHtml}
-      ${zonaHtml}
-    </div>
-  `;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-// ── Typing indicator ──────────────────────────────────────────────────────
-function mostrarTyping(){
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.innerHTML = `
-    <div class="msg-avatar">🏡</div>
-    <div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>
-  `;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
-}
-
-// ── Actualizar sidebar con propiedades encontradas ────────────────────────
-function actualizarFoundList(ids){
-  const list = document.getElementById('found-list');
-  const props = ids.map(id => PROPIEDADES.find(p => p.id === id)).filter(Boolean);
-  if(props.length === 0) return;
-
-  list.innerHTML = props.map(p => `
-    <a href="ficha-propiedad.html?id=${p.id}" class="found-card">
-      <div class="fc-zona">${p.perfil}</div>
-      <div class="fc-title">${p.ico} ${p.titulo}</div>
-      <div class="fc-price">USD ${p.precio.toLocaleString()}</div>
-      <div class="fc-match">${p.ficha ? '📋 Con ficha · ' : ''}${p.dist === 0 ? '🌊 Frente al mar' : p.dist + 'm del mar'}</div>
-    </a>
-  `).join('');
-}
-
-// ── Ejemplos rápidos ──────────────────────────────────────────────────────
-function enviarEjemplo(texto){
-  document.getElementById('chat-input').value = texto;
-  enviar();
-}
-
-// ── Teclas: Enter envía, Shift+Enter nueva línea ──────────────────────────
-document.getElementById('chat-input').addEventListener('keydown', e => {
-  if(e.key === 'Enter' && !e.shiftKey){
-    e.preventDefault();
-    enviar();
-  }
-});
-
-// Auto-resize textarea
-document.getElementById('chat-input').addEventListener('input', function(){
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-});
-
-// ── Helper ────────────────────────────────────────────────────────────────
-function escapeHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-// ── NEXO INTELIGENTE — quiz opcional (secundario a la conversación libre) ──
-const _quizRespuestas = {};
-
-function niToggleQuiz() {
-  const body = document.getElementById('ni-quiz-body');
-  body.style.display = body.style.display === 'none' ? 'block' : 'none';
-}
-
-async function niQuizResponder(campo, valor) {
-  _quizRespuestas[campo] = valor;
-  const msg = document.getElementById('ni-quiz-msg');
-  try {
-    if (typeof PerfilBusqueda !== 'undefined') {
-      await PerfilBusqueda.registrarDesdeChat(_quizRespuestas);
+    if(p.objetivo==='plusvalia'||p.objetivo==='patrimonio'){
+      var ind=DATA.ind[m.indicador_slug];
+      if(ind && ind.apreciacion_pct_anual!=null){ s+=Math.min(3, Number(ind.apreciacion_pct_anual)/5); }
     }
-    msg.textContent = '✓ Guardado — esto ya lo voy a tener en cuenta cuando te recomiende propiedades.';
-  } catch (e) {
-    console.info('Quiz: no se pudo guardar el perfil', e.message);
-  }
+    var an=fx(m.id,'anegamiento');
+    if(an && (an.valor==='alto'||an.valor==='medio')){ s-=1; warn.push('Hay sectores con antecedentes de anegamiento ('+esc(an.valor)+') — dato propio, '+fecha(an.fecha)+'.'); }
+    ['gas_natural','asfalto','cloacas'].forEach(function(k){
+      var f=fx(m.id,k); if(f && (f.valor==='no'||f.valor==='parcial')){ warn.push('Servicio '+k.replace('_',' ')+': '+(f.valor==='no'?'no disponible':'parcial')+' en algunos sectores ('+fecha(f.fecha)+').'); }
+    });
+    if(ex) excl.push({m:m,why:ex}); else res.push({m:m,s:s,why:why,warn:warn});
+  });
+  res.sort(function(a,b){ return b.s-a.s || a.m.orden-b.m.orden; });
+  return {top:res.slice(0,2), excl:excl};
 }
+
+/* ───────── Datos de mercado de una micro-zona ───────── */
+function datosMercado(m, p){
+  var out=[];
+  var z=DATA.zonas[m.zona_slug], ind=DATA.ind[m.indicador_slug];
+  if(z && z.usd_m2_lote!=null){
+    out.push('<li>Precio de lote relevado: <b>USD '+fmtN(z.usd_m2_lote)+'/m²</b> ('+fecha(z.precios_fecha)+', referencia de la localidad).</li>');
+    var tope=Number(p.presupuesto);
+    if(tope>0){ out.push('<li>Con un tope de USD '+fmtN(tope)+', ese valor alcanzaría para unos <b>'+fmtN(Math.floor(tope/Number(z.usd_m2_lote)))+' m²</b> de terreno, sin construcción ni gastos de escrituración.</li>'); }
+  } else out.push('<li class="nodata">Precio de lote: todavía no tenemos este dato.</li>');
+  if(ind && ind.apreciacion_pct_anual!=null) out.push('<li>Apreciación anual relevada: <b>'+Number(ind.apreciacion_pct_anual)+'%</b> ('+fecha(ind.fecha_datos)+').</li>');
+  else out.push('<li class="nodata">Apreciación anual: todavía no tenemos este dato.</li>');
+  var rent = (ind && ind.rentabilidad_alquiler_anual_pct!=null)? ind.rentabilidad_alquiler_anual_pct : (z && z.rentabilidad_alquiler_anual_pct!=null? z.rentabilidad_alquiler_anual_pct : null);
+  if(rent!=null) out.push('<li>Rentabilidad de alquiler relevada: <b>'+Number(rent)+'%</b> anual ('+fecha(ind&&ind.fecha_datos)+'). Es un dato histórico, no una proyección.</li>');
+  else if(p.objetivo==='renta_temporaria'||p.objetivo==='renta_anual'||p.objetivo==='mixto') out.push('<li class="nodata">Rentabilidad de alquiler: todavía no tenemos este dato relevado.</li>');
+  return out.join('');
+}
+
+/* ───────── UI ───────── */
+function addMsg(rol, html){
+  var d=document.createElement('div'); d.className='msg '+rol;
+  d.innerHTML='<div class="msg-avatar">'+(rol==='user'?'👤':'🏡')+'</div><div class="msg-bubble">'+html+'</div>';
+  $('chat-messages').appendChild(d); var c=$('chat-messages'); c.scrollTop=c.scrollHeight;
+}
+function setOpts(list, key){
+  var box=$('opts'); box.innerHTML='';
+  list.forEach(function(o){
+    var b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=o[1];
+    b.addEventListener('click',function(){ responder(key,o[0],o[1]); });
+    box.appendChild(b);
+  });
+}
+function pintarPerfil(){
+  var rows=[['Qué busca','rol'],['Objetivo','objetivo'],['Hogar','hogar'],['Ambiente','estilo'],['Vehículos','vehiculos'],['Período','periodo']];
+  var h='';
+  rows.forEach(function(r){ var v=perfil[r[1]]; if(v) h+='<div class="prof-it"><b>'+r[0]+'</b>'+esc((LABEL[r[1]]||{})[v]||v)+'</div>'; });
+  if(perfil.prop_obj) h+='<div class="prof-it"><b>Quiere</b>'+esc(LABEL.prop_obj[perfil.prop_obj])+'</div>';
+  if(perfil.presupuesto && perfil.presupuesto!=='na') h+='<div class="prof-it"><b>Presupuesto</b>'+(perfil.presupuesto==='0'?'Más de USD 500.000':'Hasta USD '+fmtN(perfil.presupuesto))+'</div>';
+  $('prof').innerHTML = h || '<div class="sidebar-empty" style="padding:8px 0;text-align:left">Se va completando a medida que respondés.</div>';
+}
+
+/* flujo: devuelve la próxima pregunta o null si terminó */
+function proxima(){
+  var p=perfil;
+  if(!p.rol) return 'rol';
+  if(p.rol==='propietario') return p.prop_obj? null : 'prop_obj';
+  if(p.rol==='invertir' && !p.objetivo) return 'objetivo';
+  if(p.rol==='uso' && !p.objetivo) return 'alquilarUso';
+  if(p.rol==='alquilar' && !p.periodo) return 'periodo';
+  if(!p.hogar) return 'hogar';
+  if(!p.estilo) return 'estilo';
+  if(!p.vehiculos) return 'vehiculos';
+  if(p.rol!=='alquilar' && !p.presupuesto) return 'presupuesto';
+  return null;
+}
+function responder(key,val,label){
+  if(key==='alquilarUso'){ perfil.objetivo=val; key='objetivo'; } else perfil[key]=val;
+  addMsg('user', esc(label)); pintarPerfil(); siguiente();
+}
+function siguiente(){
+  var k=proxima();
+  if(k){ $('opts').innerHTML=''; setTimeout(function(){ addMsg('ai', esc(Q[k].t)); setOpts(Q[k].o, k); },250); }
+  else { $('opts').innerHTML=''; setTimeout(resultado,300); }
+}
+
+/* ───────── Resultado ───────── */
+function resumenTexto(){
+  var p=perfil, parts=[];
+  if(p.rol) parts.push(LABEL.rol[p.rol]);
+  if(p.objetivo) parts.push('objetivo: '+LABEL.objetivo[p.objetivo]);
+  if(p.prop_obj) parts.push('quiere: '+LABEL.prop_obj[p.prop_obj]);
+  if(p.periodo) parts.push('período: '+LABEL.periodo[p.periodo]);
+  if(p.hogar) parts.push('hogar: '+LABEL.hogar[p.hogar]);
+  if(p.estilo) parts.push('ambiente: '+LABEL.estilo[p.estilo]);
+  if(p.vehiculos==='si') parts.push('necesita guardar vehículos todo terreno');
+  if(p.presupuesto && p.presupuesto!=='na') parts.push('presupuesto: '+(p.presupuesto==='0'?'más de USD 500.000':'hasta USD '+fmtN(p.presupuesto)));
+  return parts.join(' · ');
+}
+function ctas(extra){
+  var C=window.CONFIG||{}; var res=resumenTexto();
+  var msg='Hola, usé Pinamar AI y este es mi perfil: '+res+'. Me gustaría hablar con una persona del equipo.';
+  var mail = C.linkWhatsapp ? C.linkWhatsapp(msg) : 'mailto:pinamarpropiedades.ar@gmail.com';
+  var tel = '+'+(C.telefono||'542254489313'), telTxt=C.telefonoDisplay||'+54 2254 48-9313';
+  var h='<div class="cta-row">'+(extra||'')+
+    '<a class="cta" href="'+esc(mail)+'" '+(mail.indexOf('wa.me')>-1?'target="_blank" rel="noopener"':'')+'>✉️ Hablar con una persona</a>'+
+    '<a class="cta alt" href="tel:'+esc(tel)+'">📞 '+esc(telTxt)+'</a></div>';
+  return h;
+}
+function sinInventario(){
+  if(DATA.hayInventario===false) return '<p style="margin-top:10px">Hoy no hay propiedades publicadas en el portal que coincidan con tu perfil. Te muestro lo que sí sabemos del mercado y te conecto con una persona del equipo.</p>';
+  return '';
+}
+
+function resultado(){
+  var p=perfil, h='';
+  if(p.rol==='propietario'){
+    h+='<p><b>Comprendido:</b> tenés una propiedad en el Partido de Pinamar y querés '+esc(LABEL.prop_obj[p.prop_obj].toLowerCase())+'.</p>';
+    h+='<div class="sec-t">Qué podemos hacer</div><div class="zc"><ul>'+
+      '<li><b>Asesoramiento de inversión:</b> análisis con los datos de mercado del portal.</li>'+
+      '<li><b>Mantenimiento 360 y gestión técnica:</b> estado de la propiedad y presupuesto de obra.</li>'+
+      '<li><b>Gestión de alquileres:</b> administración de contratos temporarios o permanentes y seguimiento de ingresos y gastos.</li></ul></div>';
+    h+='<p class="legal">Los resultados de un alquiler o una venta dependen de cada propiedad y del mercado; no se pueden asegurar de antemano.</p>';
+    h+=ctas('<a class="cta alt" href="servicios.html">Ver servicios</a>');
+    addMsg('ai',h); $('opts').innerHTML=''; return;
+  }
+  var r=evaluar(p);
+  h+='<p><b>Comprendido:</b> '+esc(resumenTexto())+'.</p>';
+  if(!hayFactores()) h+='<p class="legal" style="margin-top:6px">Todavía no cargamos datos confirmados de entorno por micro-zona, así que esta orientación se apoya solo en el ambiente que elegiste.</p>';
+  if(!r.top.length){
+    h+='<p style="margin-top:10px">Con los datos que tenemos hoy no podemos orientarte con precisión. Una persona del equipo puede ayudarte.</p>';
+  } else {
+    h+='<div class="sec-t">Zonas que encajan con tu perfil</div>';
+    r.top.forEach(function(x,i){
+      h+='<div class="zc"><div class="zc-sub">Opción '+String.fromCharCode(65+i)+'</div><h4>'+esc(x.m.nombre)+'</h4><div style="font-size:12.5px;color:rgba(255,255,255,.65)">'+esc(x.m.descripcion||'')+'</div><ul>';
+      x.why.forEach(function(w){ h+='<li>'+esc(w)+'</li>'; });
+      h+=datosMercado(x.m,p);
+      x.warn.forEach(function(w){ h+='<li class="warn">'+esc(w)+'</li>'; });
+      h+='</ul></div>';
+    });
+  }
+  if(r.excl.length){
+    h+='<div class="sec-t">Zonas que dejamos afuera y por qué</div><div class="zc"><ul>';
+    r.excl.forEach(function(e){ h+='<li><b>'+esc(e.m.nombre)+':</b> '+esc(e.why)+'</li>'; });
+    h+='</ul></div>';
+  }
+  if(p.vehiculos==='si'){
+    var g=DATA.mz.filter(function(m){return m.tipo==='logistica';})[0];
+    if(g){ var rg=fx(g.id,'ruido_operativo');
+      h+='<div class="sec-t">Para tus vehículos</div><div class="zc"><ul><li>En el Partido hay una zona de guarderías de vehículos todo terreno y náuticos ('+esc(g.descripcion||'')+'). Permite guardar los vehículos fuera de la propiedad.</li>'+
+        (rg&&rg.valor==='alto'?'<li class="warn">Es un entorno de talleres y movimiento de camionetas con trailers, con mayor nivel de ruido operativo.</li>':'')+'</ul></div>'; }
+  }
+  h+='<div class="sec-t">Transparencia</div><div class="zc"><ul>'+
+    '<li>Los precios y la apreciación son valores relevados por el portal, con su fecha.</li>'+
+    '<li>Lo que figura como "todavía no tenemos este dato" no se estima.</li></ul></div>';
+  h+=sinInventario();
+  h+='<div class="sec-t">Próximo paso</div>';
+  var calc = (p.presupuesto && p.presupuesto!=='na')? '<a class="cta alt" href="calculadora-hipoteca.html">🏦 Simular un crédito</a>' : '';
+  var zl = r.top[0] && r.top[0].m.id==='carilo' ? '<a class="cta alt" href="zona-carilo.html">Ver Cariló</a>' : (r.top[0] && /^pinamar-centro/.test(r.top[0].m.id) ? '<a class="cta alt" href="zona-pinamar-centro.html">Ver Pinamar Centro</a>' : '<a class="cta alt" href="perfiles-zona.html">Ver análisis de zonas</a>');
+  h+=ctas(zl+calc);
+  h+='<p class="legal">Orientación basada en reglas del portal y en datos con fuente y fecha. No es una oferta ni una recomendación de compra.</p>';
+  addMsg('ai',h);
+}
+
+function reiniciar(){
+  perfil={}; $('chat-messages').innerHTML=''; pintarPerfil();
+  addMsg('ai', esc(Q.rol.t)); setOpts(Q.rol.o,'rol');
+}
+$('restart').addEventListener('click',reiniciar);
+pintarPerfil();
+addMsg('ai','Un momento, cargo los datos del portal…');
+cargar().then(function(){ reiniciar(); });
+})();
 </script>
 <script src="nav.js"></script>
 </body>
